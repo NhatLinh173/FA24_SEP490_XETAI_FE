@@ -3508,3 +3508,21 @@ textarea {
 /* =============================
        Sign in Page End
 ============================== */
+
+.form-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .form-tabs .btn {
+    border: none;
+    background-color: transparent;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .form-tabs .btn.active {
+    color: orange;
+    border-bottom: 2px solid orange;
+  }
