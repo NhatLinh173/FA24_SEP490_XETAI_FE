@@ -31,7 +31,8 @@ import Error from "./page/Error";
 import Contact from "./page/Contact";
 import PricingContent from "./page/Pricing";
 import RequestQuote from "./page/RequestQuote";
-
+import Profile from "./page/Profile";
+import ChangePassWord from "./component/Profile/User/ChangePassWord";
 // Import ScrollToTop Components
 import ScrollToTop from "./component/ScrollToTop";
 
@@ -67,6 +68,9 @@ const App = () => {
               <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
               <Route path="/terms" exact component={TermsCondition} />
               <Route path="/contact" exact component={Contact} />
+              <Route path="/profile" exact component={Profile} />
+              <Route path="/changePassword" exact component={ChangePassWord} />
+
               <Route exact component={Error} />
             </Switch>
             <Footer />
