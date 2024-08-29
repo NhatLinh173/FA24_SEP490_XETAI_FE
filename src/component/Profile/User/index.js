@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import ProfileUser from "./ProfileUser";
-import Tab from "./Tab";
-import ChangePassWord from "./ChangePassWord";
+import React, { useState } from "react"
+import ProfileUser from "./ProfileUser"
+import Tab from "./Tab"
+import ChangePassWord from "./ChangePassWord"
+import { TripHistory } from "./TripHistory"
 
 const DashboardProfile = () => {
-  const [tab, setTab] = useState("profile");
+  const [tab, setTab] = useState("profile")
   return (
     <div className="wrapper">
       <div className="container">
@@ -15,11 +16,12 @@ const DashboardProfile = () => {
           <div className="col-9">
             {tab === "profile" && <ProfileUser />}
             {tab === "changePassword" && <ChangePassWord />}
+            {tab === "tripHistory" && <TripHistory />}
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DashboardProfile;
+export default DashboardProfile

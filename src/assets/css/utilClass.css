@@ -1,0 +1,29 @@
+/* FONT SIZE */
+.fs-12 {
+  font-size: 12px;
+}
+
+.fs-14 {
+  font-size: 14px;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+/*  */
+
+/* ROUNDED */
+.rounded-12 {
+  border-radius: 12px;
+}
+/*  */
+
+/* CURSOR */
+.cursor-pointer {
+  cursor: pointer;
+}
+/*  */

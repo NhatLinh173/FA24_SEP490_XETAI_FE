@@ -44,6 +44,14 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Mật khẩu</span>
             </button>
           </li>
+          <li className="my-3">
+            <button
+              className={`btn-tab ${tab1 === "tripHistory" ? "active" : ""}`}
+              onClick={() => setTab1("tripHistory")}
+            >
+              <span className="px-2">Lịch sử chuyến</span>
+            </button>
+          </li>
         </ul>
       </div>
       <div className="w-75 d-flex mt-auto pb-3">

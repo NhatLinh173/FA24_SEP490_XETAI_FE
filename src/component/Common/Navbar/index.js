@@ -44,10 +44,18 @@ const Navbar = ({ openModal }) => {
     setClick(!click)
   }
 
-  const handleSearchOpen = () => {
-    document
-      .querySelector(".search-overlay")
-      .classList.toggle("search-overlay-active")
+  const handleSearchOpen = (event) => {
+    event.preventDefault()
+
+    const searchInputElement = document.getElementById("home-search-input")
+    const scheduleSection = document.getElementById("schedule_one")
+
+    searchInputElement.focus()
+
+    window.scroll({
+      top: scheduleSection.getBoundingClientRect().top + window.scrollY,
+      behavior: "smooth",
+    })
   }
 
   return (
