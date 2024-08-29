@@ -1,5 +1,5 @@
-import React from "react";
-import { CiCamera } from "react-icons/ci";
+import React from "react"
+// import { CiCamera } from "react-icons/ci";
 
 const ProfileUser = () => {
   return (
@@ -17,7 +17,7 @@ const ProfileUser = () => {
                 alt="avatar"
               />
 
-              <CiCamera className="icon-avt rounded-circle p-1" />
+              {/* <CiCamera className="icon-avt rounded-circle p-1" /> */}
             </div>
           </div>
           <div className="row g-3 align-item-center">
@@ -113,7 +113,7 @@ const ProfileUser = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileUser;
+export default ProfileUser

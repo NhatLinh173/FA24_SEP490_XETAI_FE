@@ -1,54 +1,54 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import logo from "../../../assets/img/logo.png";
-import TopHeader from "../TopHeader";
-import { getMenuData } from "./MenuData";
-import MenuItems from "./MenuItems";
-import SearchForm from "../SearchForm";
-import { HiMenuAlt3 } from "react-icons/hi";
-import { AiOutlineClose } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
-import { FaArrowRightFromBracket } from "react-icons/fa6";
+import React, { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import logo from "../../../assets/img/logo.png"
+import TopHeader from "../TopHeader"
+import { getMenuData } from "./MenuData"
+import MenuItems from "./MenuItems"
+import SearchForm from "../SearchForm"
+import { HiMenuAlt3 } from "react-icons/hi"
+import { AiOutlineClose } from "react-icons/ai"
+import { CgProfile } from "react-icons/cg"
+// import { FaArrowRightFromBracket } from "react-icons/fa6";
 
 const Navbar = ({ openModal }) => {
-  const menuData = getMenuData();
+  const menuData = getMenuData()
   // Sticky Menu Area
   useEffect(() => {
-    window.addEventListener("scroll", isSticky);
+    window.addEventListener("scroll", isSticky)
     return () => {
-      window.removeEventListener("scroll", isSticky);
-    };
-  });
+      window.removeEventListener("scroll", isSticky)
+    }
+  })
 
   const isSticky = (e) => {
-    const header = document.querySelector(".navbar-area");
-    const scrollTop = window.scrollY;
+    const header = document.querySelector(".navbar-area")
+    const scrollTop = window.scrollY
     scrollTop >= 250
       ? header.classList.add("is-sticky")
-      : header.classList.remove("is-sticky");
-  };
+      : header.classList.remove("is-sticky")
+  }
 
   // Responsive Menu Area
-  const [click, setClick] = useState(false);
+  const [click, setClick] = useState(false)
 
   const handleClick = () => {
     if (click) {
       document
         .querySelector("#navbarSupportedContent")
-        .classList.remove("navber-colpes");
+        .classList.remove("navber-colpes")
     } else {
       document
         .querySelector("#navbarSupportedContent")
-        .classList.add("navber-colpes");
+        .classList.add("navber-colpes")
     }
-    setClick(!click);
-  };
+    setClick(!click)
+  }
 
   const handleSearchOpen = () => {
     document
       .querySelector(".search-overlay")
-      .classList.toggle("search-overlay-active");
-  };
+      .classList.toggle("search-overlay-active")
+  }
 
   return (
     <>
@@ -104,7 +104,7 @@ const Navbar = ({ openModal }) => {
                               href="aaaa"
                               className="d-flex align-items-center nav-text"
                             >
-                              <FaArrowRightFromBracket />
+                              {/* <FaArrowRightFromBracket /> */}
                               <span className="pl-2">Log out</span>
                             </a>
                           </div>
@@ -127,7 +127,7 @@ const Navbar = ({ openModal }) => {
       </header>
       <SearchForm />
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
