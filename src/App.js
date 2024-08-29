@@ -31,6 +31,7 @@ import Contact from "./page/Contact";
 import PricingContent from "./page/Pricing";
 import RequestQuote from "./page/RequestQuote";
 import AccountTypes from "./page/AccountTypes";
+import Profile from "./page/Profile";
 import CustomModal from "./component/modal-popup/CustomModal";
 import ScrollToTop from "./component/ScrollToTop";
 import useModal from "./hooks/useModal";
@@ -70,6 +71,7 @@ const App = () => {
               <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
               <Route path="/terms" exact component={TermsCondition} />
               <Route path="/contact" exact component={Contact} />
+              <Route path="/profile" exact component={Profile} />
               <Route path="/accountType" exact component={AccountTypes} />
               <Route
                 path="/signUp-customer"
