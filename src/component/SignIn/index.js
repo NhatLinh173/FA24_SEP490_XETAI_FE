@@ -1,95 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FormInput from "../Common/FormInput";
 import CustomModal from "../modal-popup/CustomModal";
 import axios from "axios";
-import { auth, provider, signInWithPopup } from "../../config/firebaseConfig";
 import { toast } from "react-toastify";
-
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:3005/",
-});
-
-const getAccessToken = () => {
-  return sessionStorage.getItem("accessToken");
-};
-
-const saveAccessToken = (token) => {
-  sessionStorage.setItem("accessToken", token);
-};
-
-// const refreshAccessToken = async () => {
-//   try {
-//     const result = await signInWithPopup(auth, provider);
-//     const token = await result.user.getIdToken();
-//     const response = await axiosInstance.post("auth/google", { token });
-//     if (response === 200) {
-//       const newAccessToken = response.data.accessToken;
-//       saveAccessToken(response.data.accessToken);
-//       sessionStorage.setItem(" refreshToken", response.data.refreshToken);
-//       return newAccessToken;
-//     } else {
-//       console.error("Google Login Failed");
-//     }
-//   } catch (error) {
-//     console.error("Failed to refresh token", error);
-//   }
-// };
-
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error.config;
-
-//     if (
-//       error.response &&
-//       error.response.status === 401 &&
-//       !originalRequest._retry
-//     ) {
-//       originalRequest._retry = true;
-
-//       try {
-//         const newAccessToken = await refreshAccessToken();
-//         if (newAccessToken) {
-//           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-//           return axiosInstance(originalRequest);
-//         }
-//       } catch (err) {
-//         console.error("Error during token refresh: ", err);
-//       }
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
-
-// const handleLoginWithGoogle = async () => {
-//   try {
-//     const result = await signInWithPopup(auth, provider);
-//     const token = await result.user.getIdToken();
-
-//     axiosInstance
-//       .post("auth/google", { token })
-//       .then((response) => {
-//         if (response.status === 200) {
-//           saveAccessToken(response.data.accessToken);
-//           sessionStorage.setItem("refreshToken", response.data.refreshToken);
-//         } else {
-//           console.error("Google Login Failed");
-//         }
-//       })
-//       .catch((error) => {
-//         console.error("Google login error:", error);
-//       });
-//   } catch (error) {
-//     console.error("Google login failed", error);
-//   }
-// };
+import useAuth from "../../hooks/useAuth";
 
 const SignInForm = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { handleLogin } = useAuth();
   const history = useHistory();
   const openModal = () => {
     setModalIsOpen(true);
@@ -98,30 +19,27 @@ const SignInForm = (props) => {
   const closeModal = () => {
     setModalIsOpen(false);
   };
-  const handleLogin = async (e) => {
-    e.preventDefault();
 
-    const payload = {
-      email: email,
-      password: password,
-    };
-    try {
-      const response = await axiosInstance.post("auth/login", payload);
-      if (response.status === 200) {
-        toast.success("Đăng Nhập Thành Công");
-        console.log(response.data);
-        localStorage.setItem("token", response.data.accessToken);
-        localStorage.setItem("role", response.data.role);
-        history.push("/");
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        toast.error("Sai Tài Khoản Hoặc Mật Khẩu");
-      } else {
-        toast.error("Đăng Nhập Thất Bại");
-      }
-      console.error("Login error:", error);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const loginSuccess = await handleLogin(email, password);
+    if (loginSuccess) {
+      toast.success("Đăng Nhập Thành Công");
+      history.push("/");
     }
+  };
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const token = query.get("token");
+
+    if (token) {
+      localStorage.setItem("token", token);
+      history.push("/");
+    }
+  }, [history]);
+
+  const handleGoogleLogin = () => {
+    window.open("http://localhost:3005/auth/google", "_self");
   };
 
   return (
@@ -133,7 +51,7 @@ const SignInForm = (props) => {
               <div className="user_area_wrapper">
                 <h2>{props.heading}</h2>
                 <div className="user_area_form ">
-                  <form id="form_signIn" onSubmit={handleLogin}>
+                  <form id="form_signIn" onSubmit={handleSubmit}>
                     <div className="row">
                       <div className="col-lg-12">
                         <FormInput
@@ -202,7 +120,7 @@ const SignInForm = (props) => {
                             borderRadius: "5px",
                             cursor: "pointer",
                           }}
-                          // onClick={handleLoginWithGoogle}
+                          onClick={handleGoogleLogin}
                         >
                           Đăng nhập với Google
                         </button>
