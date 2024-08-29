@@ -1,0 +1,12 @@
+.card-img-top {
+    max-width: 60px; /* Adjust icon size */
+  }
+  
+  .btn-primary {
+    background-color: #007bff; /* Adjust button color if needed */
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3; /* Darker shade for hover effect */
+  }

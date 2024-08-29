@@ -8,7 +8,7 @@ const CommonBanner = (props) => {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <div className="inner_banner_text ">
+              <div className="inner_banner_text">
                 <h2>{props.heading}</h2>
                 <ul>
                   <li>

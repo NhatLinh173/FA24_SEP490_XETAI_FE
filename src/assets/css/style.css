@@ -4026,115 +4026,24 @@ textarea {
   color: var(--main-theme-color);
 }
 
-.wrapper {
-  margin-top: 145px;
-}
-/*  */
-/* .tab-item:hover {
-  background-color: #f7f7f7;
-} */
+/* =============================
+       Sign in Page End
+============================== */
 
-.avatar img {
-  width: 100px;
-  height: 100px;
-}
-.avt-img {
-  position: relative;
-  width: 100px;
-  height: 100px;
-}
-.icon-avt {
-  position: absolute;
-  bottom: 0%;
-  right: 5%;
-  background-color: white;
-  width: 24px;
-  height: 24px;
-}
-.icon-avt:hover {
-  color: red;
-  -webkit-transition: all 0.3s ease-in-out 0.1s;
-  -o-transition: all 0.3s ease-in-out 0.1s;
-  transition: all 0.3s ease-in-out 0.1s;
-  outline: 0 !important;
-  cursor: pointer;
-}
-.nav-avatar img {
-  width: 40px;
-  height: 40px;
-}
-.nav-avatar {
-  position: relative;
-  padding: 12px 0;
-}
-.nav-avatar:hover .nav-avatar-item {
-  display: block;
-}
-.nav-avatar-item {
-  position: absolute;
-  width: 200px;
-  height: 120px;
-  background-color: white;
-  top: 90%;
-  left: -50%;
-  display: none;
-  border-radius: 4px;
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
-}
-.nav-text {
-  color: #301d44;
-  font-weight: 500;
-  line-height: 24px;
-  padding: 6px 20px;
-}
-.btn-tab {
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  cursor: pointer;
-}
-.btn-tab:hover {
-  -webkit-transition: all 0.3s ease-in-out 0.1s;
-  -o-transition: all 0.3s ease-in-out 0.1s;
-  transition: all 0.3s ease-in-out 0.1s;
-  outline: 0 !important;
-  color: var(--main-theme-color);
-}
-.active {
-  color: var(--main-theme-color);
-}
-.text-input {
-  margin: 0;
-}
-.btn-change {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-.btn-change:hover {
-  color: var(--main-theme-color);
-  -webkit-transition: all 0.3s ease-in-out 0.1s;
-  -o-transition: all 0.3s ease-in-out 0.1s;
-  transition: all 0.3s ease-in-out 0.1s;
-}
-.input-group-text {
-  background: var(--main-theme-color);
-  -webkit-transition: all 0.3s ease-in-out 0.1s;
-  -o-transition: all 0.3s ease-in-out 0.1s;
-  transition: all 0.3s ease-in-out 0.1s;
-  color: #fff;
-}
-.input-group-text:hover {
-  background: var(--heading-color);
-  -webkit-transition: all 0.3s ease-in-out 0.1s;
-  -o-transition: all 0.3s ease-in-out 0.1s;
-  transition: all 0.3s ease-in-out 0.1s;
-  color: #fff;
-}
-.h-custom {
-  height: 100% !important;
-}
-/* transparent ăn theo màu thằng cha  */
-/* .form-control:focus {
-  border-color: #de0004 !important;
-} */
+.form-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .form-tabs .btn {
+    border: none;
+    background-color: transparent;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .form-tabs .btn.active {
+    color: orange;
+    border-bottom: 2px solid orange;
+  }

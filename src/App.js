@@ -31,18 +31,23 @@ import Error from "./page/Error";
 import Contact from "./page/Contact";
 import PricingContent from "./page/Pricing";
 import RequestQuote from "./page/RequestQuote";
-import Profile from "./page/Profile";
-import ChangePassWord from "./component/Profile/User/ChangePassWord";
-// Import ScrollToTop Components
+import AccountTypes from "./page/AccountTypes";
+import ModalPopup from "./page/Modal";
+import CustomModal from "./component/modal-popup/CustomModal";
 import ScrollToTop from "./component/ScrollToTop";
-
+import useModal from "./hooks/useModal";
+import SignUpCustomerPage from "./page/SignUpCustomerPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const App = () => {
+  const { isOpen, openModal, closeModal } = useModal();
   return (
     <>
       <BrowserRouter>
         <Router>
           <ScrollToTop>
-            <Navbar />
+            <Navbar openModal={openModal} />
+            <ToastContainer />
             <Switch>
               <Route path="/" exact component={Home_One} />
               <Route path="/home_two" exact component={Home_Two} />
@@ -68,13 +73,17 @@ const App = () => {
               <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
               <Route path="/terms" exact component={TermsCondition} />
               <Route path="/contact" exact component={Contact} />
-              <Route path="/profile" exact component={Profile} />
-              <Route path="/changePassword" exact component={ChangePassWord} />
-
+              <Route path="/accountType" exact component={AccountTypes} />
+              <Route
+                path="/signUp-customer"
+                exact
+                component={SignUpCustomerPage}
+              />
               <Route exact component={Error} />
             </Switch>
             <Footer />
             <CopyRight />
+            <CustomModal isOpen={isOpen} closeModal={closeModal} />
           </ScrollToTop>
         </Router>
       </BrowserRouter>
