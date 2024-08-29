@@ -9,8 +9,6 @@
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
-    "ajv": "^8.17.1",
-    "ajv-keywords": "^5.1.0",
     "axios": "^1.7.4",
     "bootstrap": "^5.0.0-beta1",
     "firebase": "^10.13.0",
