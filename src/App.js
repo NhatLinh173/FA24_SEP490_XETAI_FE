@@ -10,8 +10,7 @@ import Navbar from "./component/Common/Navbar";
 import Footer from "./component/Common/Footer";
 import CopyRight from "./component/Common/CopyRight";
 // Import All Components
-import Home_One from "./page/index";
-import Home_Two from "./page/index2";
+import Home_One from "./page/indexPage";
 import About from "./page/About";
 import Service from "./page/Service";
 import ServiceDetails from "./page/ServiceDetails";
@@ -32,7 +31,6 @@ import Contact from "./page/Contact";
 import PricingContent from "./page/Pricing";
 import RequestQuote from "./page/RequestQuote";
 import AccountTypes from "./page/AccountTypes";
-import ModalPopup from "./page/Modal";
 import CustomModal from "./component/modal-popup/CustomModal";
 import ScrollToTop from "./component/ScrollToTop";
 import useModal from "./hooks/useModal";
@@ -50,7 +48,6 @@ const App = () => {
             <ToastContainer />
             <Switch>
               <Route path="/" exact component={Home_One} />
-              <Route path="/home_two" exact component={Home_Two} />
               <Route path="/about" exact component={About} />
               <Route path="/service" exact component={Service} />
               <Route path="/service_details" exact component={ServiceDetails} />
@@ -79,7 +76,7 @@ const App = () => {
                 exact
                 component={SignUpCustomerPage}
               />
-              <Route exact component={Error} />
+              <Route path="/error" exact component={Error} />
             </Switch>
             <Footer />
             <CopyRight />
