@@ -49,14 +49,20 @@ export const TripHistory = () => {
       status_time: "07:35, 30/06/2024",
     },
   ]
+
   return (
     <div className="delivery-history-list">
       {dummyData.map((item) => (
         <div key={item.id} className="my-4 border rounded-12">
-          <div className="status-container px-3 py-2 d-flex justify-content-between fs-12 cursor-pointer">
+          <a
+            className="status-container px-3 py-2 d-flex justify-content-between fs-12 cursor-pointer"
+            href={`/trip/detail/${item.id}`}
+            target="_blank"
+            rel="noreferrer"
+          >
             <div className="text-danger">{item.status}</div>
             <div>{item.status_time}</div>
-          </div>
+          </a>
 
           <div className="p-3 border-top d-flex">
             <a

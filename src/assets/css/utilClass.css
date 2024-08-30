@@ -7,12 +7,23 @@
   font-size: 14px;
 }
 
+.fs-16 {
+  font-size: 16px;
+  line-height: 24px;
+}
+
 .fs-18 {
   font-size: 18px;
 }
 
 .fs-20 {
   font-size: 20px;
+}
+/*  */
+
+/* FONT WEIGHT */
+.fw-600 {
+  font-weight: 600;
 }
 /*  */
 
@@ -25,5 +36,30 @@
 /* CURSOR */
 .cursor-pointer {
   cursor: pointer;
+}
+/*  */
+
+/* BADGE */
+.badge-info {
+  background-color: #eef7ff;
+  color: black;
+  width: fit-content;
+  border-radius: 100px;
+  padding: 4px 8px;
+}
+/*  */
+
+/* SIZING */
+.w-full {
+  width: 100%;
+}
+/*  */
+
+/* QUOTE */
+.quote-error {
+  background-color: rgba(255, 208, 205, 0.2);
+  border-left: 8px solid #ffd0cd;
+  border-radius: 8px;
+  padding: 16px 24px;
 }
 /*  */

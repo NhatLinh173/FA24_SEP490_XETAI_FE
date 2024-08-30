@@ -339,6 +339,7 @@ const GetSchedule = () => {
                 <div className="search-overlay-form">
                   <form>
                     <input
+                      id="home-search-input"
                       type="text"
                       className="input-search"
                       placeholder="Search here..."
