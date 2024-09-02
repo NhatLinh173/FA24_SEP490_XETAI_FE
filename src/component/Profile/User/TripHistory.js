@@ -2,7 +2,7 @@ export const TripHistory = () => {
   const dummyData = [
     {
       id: 251,
-      name: "Mazda 2 2023",
+      name: "Đà Nẵng - Hải Phòng",
       start_time: "08:30 - Chủ nhật, 30/06/2024",
       end_time: "20:00 - Chủ nhật, 30/06/2024",
       renter: "Nellie Thompson",
@@ -14,7 +14,7 @@ export const TripHistory = () => {
     },
     {
       id: 261,
-      name: "Mazda 2 2023",
+      name: "Đà Nẵng - Hải Phòng",
       start_time: "08:30 - Chủ nhật, 30/06/2024",
       end_time: "20:00 - Chủ nhật, 30/06/2024",
       renter: "Douglas Murray",
@@ -26,7 +26,7 @@ export const TripHistory = () => {
     },
     {
       id: 241,
-      name: "Mazda 2 2023",
+      name: "Đà Nẵng - Hải Phòng",
       start_time: "08:30 - Chủ nhật, 30/06/2024",
       end_time: "20:00 - Chủ nhật, 30/06/2024",
       renter: "Mae Marshall",
@@ -38,7 +38,7 @@ export const TripHistory = () => {
     },
     {
       id: 51,
-      name: "Mazda 2 2023",
+      name: "Đà Nẵng - Hải Phòng",
       start_time: "08:30 - Chủ nhật, 30/06/2024",
       end_time: "20:00 - Chủ nhật, 30/06/2024",
       renter: "Ida Benson",
@@ -52,19 +52,11 @@ export const TripHistory = () => {
 
   return (
     <div className="delivery-history-list">
+      <h2 className="mb-4">Lịch sử chuyến</h2>
+
       {dummyData.map((item) => (
         <div key={item.id} className="my-4 border rounded-12">
-          <a
-            className="status-container px-3 py-2 d-flex justify-content-between fs-12 cursor-pointer"
-            href={`/trip/detail/${item.id}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <div className="text-danger">{item.status}</div>
-            <div>{item.status_time}</div>
-          </a>
-
-          <div className="p-3 border-top d-flex">
+          <div className="p-3 d-flex">
             <a
               href={`/trip/detail/${item.id}`}
               target="_blank"
@@ -88,10 +80,12 @@ export const TripHistory = () => {
                 Kết thúc: {item.end_time}
               </div>
 
-              <div className="mb-4 text-secondary">{item.renter}</div>
+              <div className="mb-4 text-secondary">
+                Nhân viên giao hàng: {item.renter}
+              </div>
 
               <div className="fs-18 font-weight-bold">
-                Tổng tiền: {item.total_money}đ
+                Tổng tiền: {item.total_money.toLocaleString()} vnd
               </div>
             </div>
           </div>

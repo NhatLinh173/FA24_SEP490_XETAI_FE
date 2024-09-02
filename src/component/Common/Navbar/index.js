@@ -8,7 +8,7 @@ import SearchForm from "../SearchForm"
 import { HiMenuAlt3 } from "react-icons/hi"
 import { AiOutlineClose } from "react-icons/ai"
 import { CgProfile } from "react-icons/cg"
-// import { FaArrowRightFromBracket } from "react-icons/fa6";
+import { FaArrowRightFromBracket } from "react-icons/fa6"
 
 const Navbar = ({ openModal }) => {
   const menuData = getMenuData()
@@ -112,7 +112,7 @@ const Navbar = ({ openModal }) => {
                               href="aaaa"
                               className="d-flex align-items-center nav-text"
                             >
-                              {/* <FaArrowRightFromBracket /> */}
+                              <FaArrowRightFromBracket />
                               <span className="pl-2">Log out</span>
                             </a>
                           </div>

@@ -41,7 +41,15 @@
 
 /* BADGE */
 .badge-info {
-  background-color: #eef7ff;
+  background-color: #cff4fc;
+  color: black;
+  width: fit-content;
+  border-radius: 100px;
+  padding: 4px 8px;
+}
+
+.badge-warning {
+  background-color: #fff3cd;
   color: black;
   width: fit-content;
   border-radius: 100px;

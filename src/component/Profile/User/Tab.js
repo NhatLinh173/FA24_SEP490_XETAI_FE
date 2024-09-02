@@ -1,8 +1,8 @@
 import React from "react"
-// import { FaArrowRightFromBracket } from "react-icons/fa6";
+import { FaArrowRightFromBracket } from "react-icons/fa6"
 import { CgProfile } from "react-icons/cg"
-// import { LuPackage } from "react-icons/lu"
-// import { MdOutlineSettings } from "react-icons/md"
+import { LuPackage } from "react-icons/lu"
+import { MdOutlineSettings } from "react-icons/md"
 import { RiLockPasswordLine } from "react-icons/ri"
 
 const Tab = ({ tab1, setTab1 }) => {
@@ -24,14 +24,14 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li className="my-3">
             <a className="d-flex align-items-center" href="#order">
-              {/* <LuPackage /> */}
+              <LuPackage />
               <span className="px-2">Đơn hàng</span>
             </a>
           </li>
 
           <li className="my-3">
             <a className="d-flex align-items-center" href="#settings">
-              {/* <MdOutlineSettings /> */}
+              <MdOutlineSettings />
               <span className="px-2">Cài đặt</span>
             </a>
           </li>
@@ -59,7 +59,7 @@ const Tab = ({ tab1, setTab1 }) => {
           href="#fff"
           className="btn btn-theme btn-lg d-flex align-items-center "
         >
-          {/* <FaArrowRightFromBracket /> */}
+          <FaArrowRightFromBracket />
           <span className="px-1">Đăng xuất</span>
         </a>
       </div>

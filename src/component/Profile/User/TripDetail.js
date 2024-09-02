@@ -4,13 +4,35 @@ export const TripDetail = () => {
   const { id } = useParams()
   console.log(id)
 
-  return (
-    <div className="wrapper container">
-      <div className="mb-4 quote-error">
-        <div>Khách thuê đã huỷ.</div>
-        <div className="fs-12">Lý do: Thời gian chờ đợi lâu</div>
-      </div>
+  const DUMMY_DATA = {
+    trip_name: "Đà Nẵng - Hải Phòng",
+    status: 0,
+    address: "Quận Thanh Khuê - Đà Nẵng",
+    estimate_start_time: "08:30 - 30/06/2024",
+    estimate_end_time: "08:30 - 30/06/2024",
+    category: "Hàng cồng kềnh",
+    amount: 400000,
+    receive_address: "Đà Nẵng",
+    delivery_address: "Hải Phòng",
+    total_weight: 300,
+    description: "Đây là mô tả",
+    customer_name: "Nguyen Van A",
+    email: "vana@gmail.com",
+    phone_number: "098765432",
+  }
 
+  const STATUS = {
+    0: "Chưa bắt đầu",
+    1: "Đang giao",
+  }
+
+  const STATUS_BADGE_CLASS = {
+    0: "badge-warning",
+    1: "badge-info",
+  }
+
+  return (
+    <div className="wrapper container pb-5">
       <div className="row">
         <div className="col-8 pr-2">
           <div className="border rounded-12 p-3">
@@ -24,70 +46,76 @@ export const TripDetail = () => {
 
               <div className="ml-4 d-flex flex-column justify-content-center">
                 <div className="mb-2">
-                  <span className="font-weight-bold">Mazda 2023</span> - xe tự
-                  lái
+                  <span className="font-weight-bold">
+                    {DUMMY_DATA.trip_name}
+                  </span>
                 </div>
 
-                <div className="mb-3 fs-12 badge-info">Số tự động</div>
+                <div
+                  className={`mb-3 fs-12 ${
+                    STATUS_BADGE_CLASS[DUMMY_DATA.status]
+                  }`}
+                >
+                  {STATUS[DUMMY_DATA.status]}
+                </div>
 
                 <div className="fs-12 text-secondary">
-                  Địa chỉ: Quận Thanh Khuê, Đà Nẵng
+                  Địa chỉ nhận hàng: {DUMMY_DATA.address}
                 </div>
               </div>
             </div>
 
             <div className="pt-3">
-              <div className="mb-3 font-weight-bold">Thời gian thuê xe</div>
+              <div className="mb-3 font-weight-bold">Thời gian giao hàng</div>
 
               <div className="d-flex">
                 <div>
-                  <div className="fw-600">Bắt đầu thuê xe</div>
-                  <div className="fs-20">08:30 - 30/06/2024</div>
+                  <div className="fw-600">Dự kiến khởi hành</div>
+                  <div className="fs-20">{DUMMY_DATA.estimate_start_time}</div>
                 </div>
 
                 <div className="ml-5">
-                  <div className="fw-600">Kết thúc thuê xe</div>
-                  <div className="fs-20">08:30 - 30/06/2024</div>
+                  <div className="fw-600">Dự kiến kết thúc</div>
+                  <div className="fs-20">{DUMMY_DATA.estimate_end_time}</div>
                 </div>
               </div>
             </div>
 
-            <div className="pt-3">
+            <div className="pt-3 mb-3">
               <div className="mb-3 font-weight-bold">Đơn hàng</div>
 
               <form>
-                <div className="mb-3">
-                  <input
-                    id="file-upload"
-                    className="mr-3 border p-2 rounded"
-                    type="file"
-                  />
-
-                  <button className="btn btn-theme fs-16 p-2 lh-1">
-                    Tải ảnh
-                  </button>
-                </div>
-
                 <div className="row">
                   <div className="col">
                     <label htmlFor="category">Loại hàng</label>
                     <input
                       id="category"
+                      defaultValue={DUMMY_DATA.category}
                       type="text"
                       className="form-control"
                       placeholder="Loại hàng"
+                      readOnly
                     />
                   </div>
 
                   <div className="col">
-                    <label htmlFor="car">Loại xe</label>
+                    {/* <label htmlFor="car">Loại xe</label>
 
                     <div>
                       <select id="car" className="form-select rounded w-full">
                         <option value="1">Mazda</option>
                         <option value="1">Wave</option>
                       </select>
-                    </div>
+                    </div> */}
+                    <label htmlFor="deliver_address">Giá tiền</label>
+                    <input
+                      id="deliver_address"
+                      defaultValue={`${DUMMY_DATA.amount.toLocaleString()} vnd`}
+                      type="text"
+                      className="form-control"
+                      placeholder="Giá tiền"
+                      readOnly
+                    />
                   </div>
                 </div>
 
@@ -96,9 +124,11 @@ export const TripDetail = () => {
                     <label htmlFor="address">Địa chỉ nhận hàng</label>
                     <input
                       id="address"
+                      defaultValue={DUMMY_DATA.receive_address}
                       type="text"
                       className="form-control"
                       placeholder="Địa chỉ nhận hàng"
+                      readOnly
                     />
                   </div>
 
@@ -106,9 +136,11 @@ export const TripDetail = () => {
                     <label htmlFor="deliver_address">Địa chỉ giao hàng</label>
                     <input
                       id="deliver_address"
+                      defaultValue={DUMMY_DATA.delivery_address}
                       type="text"
                       className="form-control"
                       placeholder="Địa chỉ giao hàng"
+                      readOnly
                     />
                   </div>
                 </div>
@@ -118,21 +150,15 @@ export const TripDetail = () => {
                     <label htmlFor="address">Tổng trọng lượng (KG)</label>
                     <input
                       id="address"
+                      defaultValue={DUMMY_DATA.total_weight}
                       type="number"
                       className="form-control"
                       placeholder="Tổng trọng lượng (KG)"
+                      readOnly
                     />
                   </div>
 
-                  <div className="col">
-                    <label htmlFor="deliver_address">Giá tiền</label>
-                    <input
-                      id="deliver_address"
-                      type="text"
-                      className="form-control"
-                      placeholder="Giá tiền"
-                    />
-                  </div>
+                  <div className="col"></div>
                 </div>
 
                 <div className="row mt-3">
@@ -140,10 +166,11 @@ export const TripDetail = () => {
                     <label htmlFor="description">Mô tả đơn hàng</label>
                     <div style={{ height: "300px" }}>
                       <textarea
-                        className="w-full form-control"
-                        name=""
                         id="description"
+                        defaultValue={DUMMY_DATA.description}
+                        className="w-full form-control"
                         placeholder="Mô tả đơn hàng"
+                        readOnly
                       ></textarea>
                     </div>
                   </div>
@@ -160,9 +187,11 @@ export const TripDetail = () => {
                     <label htmlFor="customer-name">Họ và tên</label>
                     <input
                       id="customer-name"
+                      defaultValue={DUMMY_DATA.customer_name}
                       type="text"
                       className="form-control"
                       placeholder="Họ và tên"
+                      readOnly
                     />
                   </div>
 
@@ -171,9 +200,11 @@ export const TripDetail = () => {
 
                     <input
                       id="email"
+                      defaultValue={DUMMY_DATA.email}
                       type="email"
                       className="form-control"
                       placeholder="Email"
+                      readOnly
                     />
                   </div>
                 </div>
@@ -183,19 +214,17 @@ export const TripDetail = () => {
                     <label htmlFor="phone-number">Số điện thoại</label>
                     <input
                       id="phone-number"
+                      defaultValue={DUMMY_DATA.phone_number}
                       type="tel"
                       className="form-control"
                       placeholder="Số điện thoại"
+                      readOnly
                     />
                   </div>
 
                   <div className="col"></div>
                 </div>
               </form>
-            </div>
-
-            <div className="mt-5 d-flex justify-content-center">
-              <button className="btn btn-theme">Send messages</button>
             </div>
           </div>
         </div>
