@@ -230,7 +230,62 @@ export const TripDetail = () => {
         </div>
 
         <div className="col-4 pl-2">
-          <div className="border rounded-12 p-3">123</div>
+          <div className="border rounded-12 p-3">
+            <div>
+              <div className="d-flex align-items-center border-bottom pt-2 pb-3">
+                <img
+                  src="https://noticias.coches.com/wp-content/uploads/2024/05/Rolls-Royce-Cullinan-Black-Badge-UK-2025-3.jpeg"
+                  className="border rounded-circle mr-3"
+                  style={{
+                    width: "118px",
+                    height: "118px",
+                    objectFit: "cover",
+                  }}
+                  alt="avatar"
+                />
+
+                <div>
+                  <div className="fs-14 text-secondaryv">Tài xế</div>
+                  <div className="fw-600">Nguyễn Xuân Tùng</div>
+                  <tel className="fs-14 text-secondary">0987654321</tel>
+                </div>
+              </div>
+
+              <div className="pt-3">
+                <div className="pb-3 fw-600">Bảng tính giá</div>
+
+                <div className="mb-3 d-flex justify-content-between">
+                  <span>Đơn giá hàng</span>
+                  <span className="fw-600">803,600 vnd</span>
+                </div>
+
+                <div className="mb-3 d-flex justify-content-between">
+                  <span>Tên người nhận hàng</span>
+                  <span className="fw-600">Nguyen Van A</span>
+                </div>
+
+                <div className="mb-3 d-flex justify-content-between">
+                  <span>SĐT người nhận</span>
+                  <span className="fw-600">0987654321</span>
+                </div>
+
+                <div className="mb-3 d-flex justify-content-between">
+                  <span>Loại hàng</span>
+                  <span className="fw-600">Điện tử</span>
+                </div>
+
+                <div className="mb-3 d-flex justify-content-between">
+                  <span>Giá trị hàng</span>
+                  <span className="fw-600">1,200,000 vnd</span>
+                </div>
+
+                <div className="d-flex justify-content-between">
+                  <span>Cho kiểm hàng</span>
+                  <span className="fw-600">Có</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

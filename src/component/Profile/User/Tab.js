@@ -4,6 +4,7 @@ import { CgProfile } from "react-icons/cg"
 import { LuPackage } from "react-icons/lu"
 import { MdOutlineSettings } from "react-icons/md"
 import { RiLockPasswordLine } from "react-icons/ri"
+import { AiOutlineFieldTime } from "react-icons/ai"
 
 const Tab = ({ tab1, setTab1 }) => {
   return (
@@ -46,9 +47,12 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li className="my-3">
             <button
-              className={`btn-tab ${tab1 === "tripHistory" ? "active" : ""}`}
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "tripHistory" ? "active" : ""
+              }`}
               onClick={() => setTab1("tripHistory")}
             >
+              <AiOutlineFieldTime />
               <span className="px-2">Lịch sử chuyến</span>
             </button>
           </li>
