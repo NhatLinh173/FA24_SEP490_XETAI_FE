@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProfileUser from "./ProfileUser";
 import useInstanceData from "../../../config/useInstanceData";
 import Tab from "./Tab";
 import ChangePassWord from "./ChangePassWord";
 import Wallet from "./Wallet";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+
 const DashboardProfile = () => {
   const [tab, setTab] = useState("profile");
   const userId = localStorage.getItem("userId");
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
   );
-  console.log(data);
 
   return (
     <div className="wrapper">

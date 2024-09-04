@@ -5,8 +5,13 @@ import { LuPackage } from "react-icons/lu";
 import { MdOutlineSettings } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { IoWalletOutline } from "react-icons/io5";
+import useAuth from "../../../hooks/useAuth";
 
 const Tab = ({ tab1, setTab1 }) => {
+  const { handleLogout } = useAuth();
+  const handleLogoutClick = async () => {
+    await handleLogout();
+  };
   return (
     <div className="d-flex flex-column h-100">
       <h2>Tài Khoản</h2>
@@ -57,13 +62,13 @@ const Tab = ({ tab1, setTab1 }) => {
         </ul>
       </div>
       <div className="w-75 d-flex mt-auto pb-3">
-        <a
-          href="#fff"
-          className="btn btn-theme btn-lg d-flex align-items-center "
+        <button
+          className="btn btn-theme btn-lg d-flex align-items-center"
+          onClick={handleLogoutClick}
         >
           <FaArrowRightFromBracket />
           <span className="px-1">Đăng xuất</span>
-        </a>
+        </button>
       </div>
     </div>
   );
