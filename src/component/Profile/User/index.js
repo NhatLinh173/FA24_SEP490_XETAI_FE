@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProfileUser from "./ProfileUser";
 import Tab from "./Tab";
 import ChangePassWord from "./ChangePassWord";
-
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 const DashboardProfile = () => {
   const [tab, setTab] = useState("profile");
+
   return (
     <div className="wrapper">
       <div className="container">

@@ -9,11 +9,10 @@ const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fullName, setFulltName] = useState("");
+  const [address, setAddress] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nameCompany, setNameCompany] = useState("");
-  const [workEmail, setWorkEmail] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const location = useLocation();
   const history = useHistory();
@@ -44,29 +43,28 @@ const SignUpForm = () => {
   const handleRegisterDriver = async () => {
     const role = activeTab === "personal" ? "personal" : "business";
 
-    if (!validateField("firstName", firstName)) return;
-    if (!validateField("lastName", lastName)) return;
-    if (!validateField("email", email)) return;
-    if (!validateField("password", password)) return;
-    if (!validateField("phone", phone)) return;
-    if (!validateField("Name Company", nameCompany)) return;
-    if (!validateField("Work Email", workEmail)) return;
+    // if (!validateField("fullName", fullName)) return;
+    // if (!validateField("address", address)) return;
+    // if (!validateField("email", email)) return;
+    // if (!validateField("password", password)) return;
+    // if (!validateField("phone", phone)) return;
+    // if (!validateField("Name Company", nameCompany)) return;
+    // if (!validateField("Work Email", workEmail)) return;
+
     const payloadPersonnal = {
       email,
       password,
       phone,
-      firstName,
-      lastName,
+      fullName,
       role: role,
     };
 
     const payloadBusiness = {
       password,
       phone,
-      firstName,
-      lastName,
       companyName: nameCompany,
-      workEmail,
+      email,
+      fullName,
       role: role,
     };
 
@@ -84,7 +82,6 @@ const SignUpForm = () => {
       toast.warn("Passwords do not match");
       return;
     }
-
     if (role === "personal") {
       try {
         const response = await axiosInstance.post(
@@ -93,7 +90,9 @@ const SignUpForm = () => {
         );
         if (response.status === 201) {
           toast.success("Đăng ký thành công");
-          history.push("/");
+          setTimeout(() => {
+            history.push("/");
+          }, 200);
         } else {
           toast.error("Đăng ký thất bại");
           return;
@@ -101,7 +100,7 @@ const SignUpForm = () => {
       } catch (error) {
         console.error("Register error:", error);
       }
-    } else {
+    } else if (role === "business") {
       try {
         const response = await axiosInstance.post(
           "/auth/register",
@@ -118,6 +117,13 @@ const SignUpForm = () => {
         console.error("Register error:", error);
       }
     }
+  };
+
+  const handleGoogleLogin = () => {
+    const role = activeTab === "personal" ? "personal" : "business";
+    const url = `http://localhost:3005/auth/google?state=${role}`;
+    console.log("Redirecting to:", url);
+    window.open(url, "_self");
   };
 
   return (
@@ -149,7 +155,6 @@ const SignUpForm = () => {
               </div>
               <div className="user_area_form">
                 <form
-                  // action="#!"
                   id="form_signIn"
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -159,27 +164,15 @@ const SignUpForm = () => {
                   <div className="row">
                     {activeTab === "personal" ? (
                       <>
-                        <div className="col-lg-6">
-                          <FormInput
-                            tag={"input"}
-                            type={"text"}
-                            name={"lastName"}
-                            classes={"form-control"}
-                            placeholder={"Họ"}
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            required
-                          />
-                        </div>
-                        <div className="col-lg-6">
+                        <div className="col-lg-12">
                           <FormInput
                             tag={"input"}
                             type={"text"}
                             name={"firstName"}
                             classes={"form-control"}
-                            placeholder={"Tên"}
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
+                            placeholder={"Họ và Tên"}
+                            value={fullName}
+                            onChange={(e) => setFulltName(e.target.value)}
                             required
                           />
                         </div>
@@ -233,7 +226,6 @@ const SignUpForm = () => {
                       </>
                     ) : (
                       <>
-                        {/* Các trường thông tin doanh nghiệp */}
                         <div className="col-lg-12">
                           <FormInput
                             tag={"input"}
@@ -250,11 +242,35 @@ const SignUpForm = () => {
                           <FormInput
                             tag={"input"}
                             type={"text"}
+                            name={"firstName"}
+                            classes={"form-control"}
+                            placeholder={"Họ và Tên"}
+                            value={fullName}
+                            onChange={(e) => setFulltName(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="col-lg-12">
+                          <FormInput
+                            tag={"input"}
+                            type={"text"}
+                            name={"lastName"}
+                            classes={"form-control"}
+                            placeholder={"Địa Chỉ"}
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="col-lg-12">
+                          <FormInput
+                            tag={"input"}
+                            type={"text"}
                             name={"work_email"}
                             classes={"form-control"}
                             placeholder={"Email Công Việc"}
-                            value={workEmail}
-                            onChange={(e) => setWorkEmail(e.target.value)}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                           />
                         </div>
@@ -336,6 +352,7 @@ const SignUpForm = () => {
                           border: "none",
                           borderRadius: "5px",
                         }}
+                        onClick={handleGoogleLogin}
                       >
                         Đăng nhập với Google
                       </button>

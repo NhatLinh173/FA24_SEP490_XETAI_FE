@@ -9,10 +9,24 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
-
+import useAuth from "../../../hooks/useAuth";
 const Navbar = ({ openModal }) => {
+  const { handleLogout } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkToken = localStorage.getItem("token");
+    if (checkToken) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogoutClick = async () => {
+    await handleLogout();
+  };
+
   const menuData = getMenuData();
-  // Sticky Menu Area
+
   useEffect(() => {
     window.addEventListener("scroll", isSticky);
     return () => {
@@ -80,37 +94,40 @@ const Navbar = ({ openModal }) => {
                         <i className="fas fa-search" id="search-btn"></i>
                       </a>
                     </li>
-                    <div className="nav-avatar rounded-circle ml-4">
-                      <a href="#ff">
-                        <img
-                          className="rounded-circle"
-                          src="https://mcdn.coolmate.me/image/August2023/luu-ngay-20-meme-tinh-tam-moi-nhat-2023-2383_391.jpg"
-                          alt="avatar"
-                        />
-                      </a>
-                      <div className="nav-avatar-item">
-                        <div className="p-3 ">
-                          <div>
-                            <Link
-                              to="/profile"
-                              className="d-flex align-items-center nav-text"
-                            >
-                              <CgProfile />
-                              <span className="pl-2">View Profile</span>
-                            </Link>
-                          </div>
-                          <div className="py-2">
-                            <a
-                              href="aaaa"
-                              className="d-flex align-items-center nav-text"
-                            >
-                              <FaArrowRightFromBracket />
-                              <span className="pl-2">Log out</span>
-                            </a>
+                    {isLoggedIn && (
+                      <div className="nav-avatar rounded-circle ml-4">
+                        <a href="#ff">
+                          <img
+                            className="rounded-circle"
+                            src="https://mcdn.coolmate.me/image/August2023/luu-ngay-20-meme-tinh-tam-moi-nhat-2023-2383_391.jpg"
+                            alt="avatar"
+                          />
+                        </a>
+                        <div className="nav-avatar-item">
+                          <div className="p-3 ">
+                            <div>
+                              <Link
+                                to="/profile"
+                                className="d-flex align-items-center nav-text"
+                              >
+                                <CgProfile />
+                                <span className="pl-2">View Profile</span>
+                              </Link>
+                            </div>
+                            <div className="py-2">
+                              <a
+                                href="#"
+                                className="d-flex align-items-center nav-text"
+                                onClick={handleLogoutClick}
+                              >
+                                <FaArrowRightFromBracket />
+                                <span className="pl-2">Log out</span>
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                   </ul>
                 </div>
               </nav>
