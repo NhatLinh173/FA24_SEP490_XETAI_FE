@@ -43,13 +43,12 @@ const SignUpForm = () => {
   const handleRegisterDriver = async () => {
     const role = activeTab === "personal" ? "personal" : "business";
 
-    // if (!validateField("fullName", fullName)) return;
+    if (!validateField("fullName", fullName)) return;
     // if (!validateField("address", address)) return;
-    // if (!validateField("email", email)) return;
-    // if (!validateField("password", password)) return;
-    // if (!validateField("phone", phone)) return;
-    // if (!validateField("Name Company", nameCompany)) return;
-    // if (!validateField("Work Email", workEmail)) return;
+    if (!validateField("email", email)) return;
+    if (!validateField("password", password)) return;
+    if (!validateField("phone", phone)) return;
+    if (!validateField("Name Company", nameCompany)) return;
 
     const payloadPersonnal = {
       email,
