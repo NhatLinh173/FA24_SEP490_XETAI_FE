@@ -29,6 +29,7 @@ const useAuth = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("userId");
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     Cookies.remove("token");
