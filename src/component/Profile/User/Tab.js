@@ -4,6 +4,7 @@ import { CgProfile } from "react-icons/cg";
 import { LuPackage } from "react-icons/lu";
 import { MdOutlineSettings } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { IoWalletOutline } from "react-icons/io5";
 
 const Tab = ({ tab1, setTab1 }) => {
   return (
@@ -35,13 +36,22 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Cài đặt</span>
             </a>
           </li>
-          <li>
+          <li className="my-3">
             <button
               className={`btn-tab ${tab1 === "changePassword" ? "active" : ""}`}
               onClick={() => setTab1("changePassword")}
             >
               <RiLockPasswordLine />
               <span className="px-2">Mật khẩu</span>
+            </button>
+          </li>
+          <li>
+            <button
+              className={`btn-tab ${tab1 === "wallet" ? "active" : ""}`}
+              onClick={() => setTab1("wallet")}
+            >
+              <IoWalletOutline />
+              <span className="px-2">Ví của bạn</span>
             </button>
           </li>
         </ul>

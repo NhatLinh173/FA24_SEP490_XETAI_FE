@@ -13,6 +13,7 @@ const useAuth = () => {
       const response = await axiosInstance.post("auth/login", payload);
       if (response.status === 200) {
         console.log(response.data);
+        localStorage.setItem("userId", response.data._id);
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("role", response.data.role);
         setIsAuthenticated(true);
