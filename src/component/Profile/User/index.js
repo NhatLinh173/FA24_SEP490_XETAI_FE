@@ -13,7 +13,6 @@ const DashboardProfile = () => {
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
   );
-  console.log(data);
 
   return (
     <div className="wrapper">
@@ -23,7 +22,7 @@ const DashboardProfile = () => {
             <Tab tab1={tab} setTab1={setTab} />
           </div>
           <div className="col-9">
-            {tab === "profile" && <ProfileUser />}
+            {tab === "profile" && <ProfileUser data={data} />}
             {tab === "changePassword" && <ChangePassWord />}
             {tab === "wallet" && <Wallet />}
           </div>

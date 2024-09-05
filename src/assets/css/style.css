@@ -4139,6 +4139,17 @@ textarea {
   -o-transition: all 0.3s ease-in-out 0.1s;
   transition: all 0.3s ease-in-out 0.1s;
 }
+.btn-cancel {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.btn-cancel:hover {
+  color: var(--main-theme-color);
+  -webkit-transition: all 0.3s ease-in-out 0.1s;
+  -o-transition: all 0.3s ease-in-out 0.1s;
+  transition: all 0.3s ease-in-out 0.1s;
+}
 .input-group-text {
   background: var(--main-theme-color);
   -webkit-transition: all 0.3s ease-in-out 0.1s;
