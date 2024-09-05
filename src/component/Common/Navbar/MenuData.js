@@ -31,11 +31,13 @@ export const getMenuData = () => {
       href: isLoggedIn ? "/profile" : "/signIn",
       has_children: false,
     },
-    {
+  ];
+  if (!isLoggedIn) {
+    MenuData.push({
       name: "Đăng Ký",
       href: "#",
       has_children: false,
-    },
-  ];
+    });
+  }
   return MenuData;
 };

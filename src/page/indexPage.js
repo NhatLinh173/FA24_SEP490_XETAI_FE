@@ -19,7 +19,8 @@ const IndexPage = () => {
 
     if (token) {
       localStorage.setItem("token", token);
-      history.push("/");
+      history.replace("/");
+      window.location.reload();
     }
   }, [history]);
 
