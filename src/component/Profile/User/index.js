@@ -3,6 +3,8 @@ import ProfileUser from "./ProfileUser";
 import useInstanceData from "../../../config/useInstanceData";
 import Tab from "./Tab";
 import ChangePassWord from "./ChangePassWord";
+import FavoriteDriver from "./FavoriteDriver";
+
 import Wallet from "./Wallet";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
@@ -24,6 +26,8 @@ const DashboardProfile = () => {
           <div className="col-9">
             {tab === "profile" && <ProfileUser data={data} />}
             {tab === "changePassword" && <ChangePassWord />}
+            {tab === "favoriteDriver" && <FavoriteDriver />}
+
             {tab === "wallet" && <Wallet />}
           </div>
         </div>

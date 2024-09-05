@@ -9,6 +9,7 @@ import {
 import Navbar from "./component/Common/Navbar";
 import Footer from "./component/Common/Footer";
 import CopyRight from "./component/Common/CopyRight";
+
 // Import All Components
 import Home_One from "./page/indexPage";
 import About from "./page/About";
@@ -38,6 +39,9 @@ import useModal from "./hooks/useModal";
 import SignUpCustomerPage from "./page/SignUpCustomerPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FavoriteDrivers from './page/FavoriteDrivers';
+import DriverDetail from './component/Profile/User/DriverDetail';
+
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
   return (
@@ -79,6 +83,8 @@ const App = () => {
                 component={SignUpCustomerPage}
               />
               <Route path="/error" exact component={Error} />
+              <Route path="/favorite-drivers" component={FavoriteDrivers} />
+              <Route path="/driver/:id" component={DriverDetail} />
             </Switch>
             <Footer />
             <CopyRight />
