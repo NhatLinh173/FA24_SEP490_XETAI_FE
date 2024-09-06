@@ -4,10 +4,7 @@ import useInstanceData from "../../../config/useInstanceData";
 import Tab from "./Tab";
 import ChangePassWord from "./ChangePassWord";
 import FavoriteDriver from "./FavoriteDriver";
-
 import Wallet from "./Wallet";
-import { jwtDecode } from "jwt-decode";
-import axios from "axios";
 
 const DashboardProfile = () => {
   const [tab, setTab] = useState("profile");
@@ -24,7 +21,7 @@ const DashboardProfile = () => {
             <Tab tab1={tab} setTab1={setTab} />
           </div>
           <div className="col-9">
-            {tab === "profile" && <ProfileUser data={data} />}
+            {tab === "profile" && <ProfileUser data={data} refetch={refetch} />}
             {tab === "changePassword" && <ChangePassWord />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
 
