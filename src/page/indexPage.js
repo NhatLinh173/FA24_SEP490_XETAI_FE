@@ -19,8 +19,7 @@ const IndexPage = () => {
 
     if (token) {
       localStorage.setItem("token", token);
-      history.replace("/");
-      window.location.reload();
+      history.push("/");
     }
   }, [history]);
 

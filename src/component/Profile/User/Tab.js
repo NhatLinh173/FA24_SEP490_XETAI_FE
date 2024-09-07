@@ -1,17 +1,12 @@
-import React from "react";
-import { FaArrowRightFromBracket } from "react-icons/fa6";
-import { CgProfile } from "react-icons/cg";
-import { LuPackage } from "react-icons/lu";
-import { MdOutlineSettings } from "react-icons/md";
-import { RiLockPasswordLine } from "react-icons/ri";
-import { IoWalletOutline } from "react-icons/io5";
-import useAuth from "../../../hooks/useAuth";
+import React from "react"
+import { FaArrowRightFromBracket } from "react-icons/fa6"
+import { CgProfile } from "react-icons/cg"
+import { LuPackage } from "react-icons/lu"
+import { MdOutlineSettings } from "react-icons/md"
+import { RiLockPasswordLine } from "react-icons/ri"
+import { AiOutlineFieldTime } from "react-icons/ai"
 
 const Tab = ({ tab1, setTab1 }) => {
-  const { handleLogout } = useAuth();
-  const handleLogoutClick = async () => {
-    await handleLogout();
-  };
   return (
     <div className="d-flex flex-column h-100">
       <h2>Tài Khoản</h2>
@@ -41,7 +36,7 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Cài đặt</span>
             </a>
           </li>
-          <li className="my-3">
+          <li>
             <button
               className={`btn-tab ${tab1 === "changePassword" ? "active" : ""}`}
               onClick={() => setTab1("changePassword")}
@@ -50,28 +45,30 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Mật khẩu</span>
             </button>
           </li>
-          <li>
+          <li className="my-3">
             <button
-              className={`btn-tab ${tab1 === "wallet" ? "active" : ""}`}
-              onClick={() => setTab1("wallet")}
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "tripHistory" ? "active" : ""
+              }`}
+              onClick={() => setTab1("tripHistory")}
             >
-              <IoWalletOutline />
-              <span className="px-2">Ví của bạn</span>
+              <AiOutlineFieldTime />
+              <span className="px-2">Lịch sử chuyến</span>
             </button>
           </li>
         </ul>
       </div>
       <div className="w-75 d-flex mt-auto pb-3">
-        <button
-          className="btn btn-theme btn-lg d-flex align-items-center"
-          onClick={handleLogoutClick}
+        <a
+          href="#fff"
+          className="btn btn-theme btn-lg d-flex align-items-center "
         >
           <FaArrowRightFromBracket />
           <span className="px-1">Đăng xuất</span>
-        </button>
+        </a>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Tab;
+export default Tab

@@ -1,5 +1,5 @@
-import React from "react";
-import { CiCamera } from "react-icons/ci";
+import React from "react"
+import { CiCamera } from "react-icons/ci"
 
 const ProfileUser = () => {
   return (
@@ -99,11 +99,6 @@ const ProfileUser = () => {
               <br />
             </div>
           </div>
-          {/* <div className="d-flex justify-content-center mb-3 ">
-            <button class="btn btn-primary w-25" type="submit">
-              Update
-            </button>
-          </div> */}
 
           <div className="w-70 d-flex justify-content-center mb-3">
             <a href="#fff" className="btn btn-primary btn-lg w-25 ">
@@ -113,7 +108,7 @@ const ProfileUser = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileUser;
+export default ProfileUser
