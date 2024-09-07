@@ -36,13 +36,13 @@ const Wallet = () => {
             <tr>
               <td>2</td>
               <td>Mua sản phẩm</td>
-              <td>-10,000 đ</td>
+              <td>10,000 đ</td>
               <td>21/03/2021</td>
             </tr>
             <tr>
               <td>2</td>
               <td>Mua sản phẩm</td>
-              <td>-10,000 đ</td>
+              <td>10,000 đ</td>
               <td>21/03/2021</td>
             </tr>
           </tbody>

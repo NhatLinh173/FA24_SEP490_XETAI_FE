@@ -47,6 +47,7 @@ developed by: Hadayet Ali
 @import url("https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,700i|Work+Sans:300,400,500,700,800,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
 html,
 body {
   height: 100%;
@@ -554,6 +555,7 @@ Search Overlay CSS
   background: #ffffff;
   padding: 15px 0;
 }
+
 .is-stick .transTics-nav {
   box-shadow: 0 0px 7px -2px #0000002b;
 }
@@ -1213,6 +1215,7 @@ Search Overlay CSS
   a {
   color: var(--main-theme-color);
 }
+
 .transTics-nav
   .navbar
   .navbar-nav
@@ -2351,6 +2354,7 @@ Search Overlay CSS
 #home_pricing_area {
   padding: 120px 0;
 }
+
 .price-table {
   position: relative;
   display: block;
@@ -2364,10 +2368,12 @@ Search Overlay CSS
   transition: all 300ms ease-out 0s;
   margin-top: 40px;
 }
+
 .price-table .table-header {
   position: relative;
   display: block;
 }
+
 .price-table .table-header .pricing-plan-name {
   position: relative;
   display: block;
@@ -2379,6 +2385,7 @@ Search Overlay CSS
   background: var(--main-theme-color);
   border-radius: 8px 8px 0 0;
 }
+
 .price-table .table-header .price {
   font-size: 64px;
   line-height: 64px;
@@ -2388,49 +2395,61 @@ Search Overlay CSS
   padding: 45px 0 20px;
   border: 1px solid #edf1f9;
 }
+
 .price-table .table-header .price .price-currency {
   font-size: 36px;
   margin-right: 10px;
   vertical-align: text-bottom;
   font-weight: 600;
 }
+
 .price-table .table-header .price .price-duration {
   font-size: 15px;
   letter-spacing: 0.3px;
   font-weight: 500;
 }
+
 .price-table .table-content {
   position: relative;
   display: block;
   padding: 45px;
 }
+
 .price-table .table-content .list-items li {
   padding: 8px 0;
 }
+
 .list-items li i {
   padding-right: 10px;
   color: var(--main-theme-color);
 }
+
 /*--Pricing_Area End--*/
 
 /*--Request Quote Area Start--*/
 #request_quote_form_area {
   padding: 120px 0;
 }
+
 #request_form {
 }
+
 #request_form .form-group {
   margin-bottom: 30px;
 }
+
 #request_form label {
   padding-bottom: 5px;
 }
+
 #request_form .arae_top {
   padding-top: 30px;
 }
+
 #request_form .quote_submit_button {
   margin-top: 20px;
 }
+
 .heading_quote {
   padding-bottom: 30px;
 }
@@ -3471,9 +3490,11 @@ textarea {
   font-weight: 500;
   margin-bottom: 10px;
 }
+
 .partner_slider_wrapper .owl-carousel {
   z-index: inherit;
 }
+
 /* =============================
   Track Your Shipment Page End
 ============================== */
@@ -3776,6 +3797,7 @@ textarea {
   height: 500px;
   border: none;
 }
+
 /* =============================
    Contact Page End
 ============================== */
@@ -3893,6 +3915,7 @@ textarea {
 .wrapper {
   margin-top: 145px;
 }
+
 /*  */
 /* .tab-item:hover {
     background-color: #f7f7f7;
@@ -3902,11 +3925,13 @@ textarea {
   width: 100px;
   height: 100px;
 }
+
 .avt-img {
   position: relative;
   width: 100px;
   height: 100px;
 }
+
 .icon-avt {
   position: absolute;
   bottom: 0%;
@@ -3915,6 +3940,7 @@ textarea {
   width: 24px;
   height: 24px;
 }
+
 .icon-avt:hover {
   color: red;
   -webkit-transition: all 0.3s ease-in-out 0.1s;
@@ -3923,17 +3949,21 @@ textarea {
   outline: 0 !important;
   cursor: pointer;
 }
+
 .nav-avatar img {
   width: 40px;
   height: 40px;
 }
+
 .nav-avatar {
   position: relative;
   padding: 12px 0;
 }
+
 .nav-avatar:hover .nav-avatar-item {
   display: block;
 }
+
 .nav-avatar-item {
   position: absolute;
   width: 200px;
@@ -3945,18 +3975,21 @@ textarea {
   border-radius: 4px;
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
 }
+
 .nav-text {
   color: #301d44;
   font-weight: 500;
   line-height: 24px;
   padding: 6px 20px;
 }
+
 .btn-tab {
   border: none;
   background-color: transparent;
   padding: 0;
   cursor: pointer;
 }
+
 .btn-tab:hover {
   -webkit-transition: all 0.3s ease-in-out 0.1s;
   -o-transition: all 0.3s ease-in-out 0.1s;
@@ -3964,18 +3997,34 @@ textarea {
   outline: 0 !important;
   color: var(--main-theme-color);
 }
+
 .active {
   color: var(--main-theme-color);
 }
+
 .text-input {
   margin: 0;
 }
+
 .btn-change {
   border: none;
   background-color: transparent;
   cursor: pointer;
 }
+
 .btn-change:hover {
+  color: var(--main-theme-color);
+  -webkit-transition: all 0.3s ease-in-out 0.1s;
+  -o-transition: all 0.3s ease-in-out 0.1s;
+  transition: all 0.3s ease-in-out 0.1s;
+}
+
+.btn-cancel {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.btn-cancel:hover {
   color: var(--main-theme-color);
   -webkit-transition: all 0.3s ease-in-out 0.1s;
   -o-transition: all 0.3s ease-in-out 0.1s;
@@ -3988,6 +4037,7 @@ textarea {
   transition: all 0.3s ease-in-out 0.1s;
   color: #fff;
 }
+
 .input-group-text:hover {
   background: var(--heading-color);
   -webkit-transition: all 0.3s ease-in-out 0.1s;
@@ -3995,6 +4045,451 @@ textarea {
   transition: all 0.3s ease-in-out 0.1s;
   color: #fff;
 }
+
 .h-custom {
   height: 100% !important;
 }
+
+/* =============================
+       FavoriteDriver Page Start
+============================== */
+.driver-card {
+  border: 1px solid #e0e0e0;
+  /* Thêm viền cho card */
+  border-radius: 8px;
+  /* Bo tròn các góc của card */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Thêm shadow để card nổi bật hơn */
+  margin-top: 20px;
+}
+
+.driver-card img {
+  width: 150px;
+  /* Điều chỉnh kích thước ảnh */
+  height: 150px;
+  object-fit: cover;
+  /* Đảm bảo ảnh luôn giữ tỉ lệ khi resize */
+  border-radius: 8px;
+  /* Bo tròn các góc của card */
+  margin: 1px;
+}
+
+.driver-card .card-title {
+  font-size: 18px;
+  /* Kích thước font cho tên tài xế */
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.driver-card .card-text {
+  font-size: 14px;
+  /* Kích thước font cho rating và số chuyến */
+  color: #555;
+  /* Màu chữ nhạt hơn cho nội dung phụ */
+  margin-top: 20px;
+}
+
+.driver-card .btn-theme {
+  display: flex;
+  justify-content: center;
+  /* Căn giữa nội dung nút */
+  align-items: center;
+  width: 100%;
+  /* Đảm bảo nút chiếm toàn bộ chiều rộng */
+  color: #fff;
+  background: var(--main-theme-color);
+  -webkit-transition: all 0.3s ease-in-out 0.1s;
+  -o-transition: all 0.3s ease-in-out 0.1s;
+  transition: all 0.3s ease-in-out 0.1s;
+}
+
+.driver-card .btn-theme:hover {
+  background: var(--heading-color);
+  -webkit-transition: all 0.3s ease-in-out 0.1s;
+  -o-transition: all 0.3s ease-in-out 0.1s;
+  transition: all 0.3s ease-in-out 0.1s;
+  color: #fff;
+}
+
+.driver-card .btn-link {
+  color: #000000;
+  /* Màu chữ của nút */
+  font-weight: bold;
+  /* Đảm bảo chữ rõ ràng hơn */
+  text-decoration: none;
+  /* Loại bỏ gạch chân nếu có */
+  background-color: transparent;
+  /* Đảm bảo nền trong suốt nếu không muốn nền màu */
+  border: none;
+  /* Loại bỏ viền nếu có */
+  padding: 0;
+  /* Loại bỏ padding nếu có */
+  font-size: 14px;
+  /* Điều chỉnh kích thước font nếu cần */
+}
+
+.vertical-line {
+  position: absolute;
+  right: 60%;
+  /* Đặt đường kẻ ở bên trái của cột */
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  /* Độ rộng của đường kẻ */
+  background-color: rgba(0, 0, 0, 0.2);
+  /* Màu đường kẻ với độ mờ */
+  z-index: 1;
+  margin-right: 10px;
+  /* Khoảng cách giữa đường kẻ và nút */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* =============================
+       FavoriteDriver Page End
+============================== */
+
+/* =============================
+       Phan trang FavoriteDriver Start
+============================== */
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  justify-content: center;
+  /* Căn giữa các nút phân trang */
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  display: block;
+  padding: 8px 16px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #007bff;
+  font-size: 14px;
+  text-align: center;
+}
+
+.page-link:hover {
+  background-color: #e9ecef;
+}
+
+.active .page-link {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+}
+
+/* src/component/DriverCard.css */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  /* Nền trắng mờ để che phủ nội dung */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  /* Đặt z-index để overlay nằm trên các phần tử khác */
+}
+
+.driver-card {
+  position: relative;
+  /* Để overlay được đặt đúng vị trí */
+}
+
+/* =============================
+       Phan trang FavoriteDriver End
+============================== */
+/* =============================
+       Rating Start 
+============================== */
+.star-filled {
+  color: gold;
+  font-size: 1rem;
+  /* Kích thước ngôi sao */
+}
+
+.star-empty {
+  color: #ddd;
+  font-size: 1rem;
+  /* Kích thước ngôi sao */
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* =============================
+       Rating End 
+============================== */
+
+/* =============================
+       DriverDetail Start
+============================== */
+/* Driver and Vehicle Info Styles */
+/* Driver Info Styles */
+.driver-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.driver-info img {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 150px;
+  height: 150px;
+}
+
+.driver-info h4 {
+  margin-bottom: 0.5rem;
+}
+
+.driver-info .stars i {
+  font-size: 1.2em;
+  color: #ffc107;
+  /* Set the star color */
+}
+
+.driver-info .vehicle-image {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+/* Vehicle Info Styles */
+.vehicle-info {
+  margin-top: 2rem;
+}
+
+.vehicle-info .vehicle-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 15px;
+  border: 1px solid #e9ecef;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+}
+
+.vehicle-info img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  margin-right: 15px;
+}
+
+.vehicle-info .vehicle-details p {
+  margin: 0.25rem 0;
+}
+
+/* Modal Styles */
+.modal-body-custom {
+  padding-top: 10px;
+  /* Điều chỉnh khoảng cách phía trên body */
+}
+
+.vehicle-details {
+  margin-top: 20px;
+  /* Điều chỉnh khoảng cách giữa tiêu đề và nội dung */
+}
+
+.vehicle-details img {
+  margin-bottom: 15px;
+  /* Điều chỉnh khoảng cách giữa ảnh và nội dung phía dưới */
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  /* Đảm bảo modal luôn được căn giữa theo chiều dọc */
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Form Styles */
+.form-control {
+  border-radius: 0.25rem;
+}
+
+.form-control[readonly] {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+/* Additional Info Styles */
+.additional-info img {
+  border-radius: 50%;
+}
+
+.list-group-item {
+  border: none;
+  padding: 15px 20px;
+  background-color: #ffffff;
+}
+
+.list-group-item:nth-child(odd) {
+  background-color: #f8f9fa;
+}
+
+.list-group-item span {
+  font-size: 0.9em;
+}
+
+.list-group-item .font-weight-bold {
+  font-weight: 600;
+}
+
+.text-muted {
+  color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .driver-info img,
+  .additional-info img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .form-control {
+    font-size: 0.9em;
+  }
+
+  .vehicle-info img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Container for the statistics section */
+.statistics-section {
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  padding: 15px;
+  background-color: #f9f9f9;
+  margin-top: 15px;
+}
+
+/* Header for the statistics section */
+.statistics-section h6 {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Individual statistic item */
+.statistics-item {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.statistics-item:last-child {
+  border-bottom: none;
+}
+
+/* Label and value styling */
+.statistics-item p {
+  margin: 0;
+  font-size: 0.9em;
+}
+
+.statistics-item .stat-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.statistics-item .stat-value {
+  font-weight: normal;
+  color: #333;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+/* =============================
+       DriverDetail End
+============================== */
+/* =============================
+       LoadingCircle Start
+============================== */
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  /* Nền trắng mờ để che phủ nội dung */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  /* Đặt z-index để overlay nằm trên các phần tử khác */
+}
+
+.driver-card {
+  position: relative;
+  /* Để overlay được đặt đúng vị trí */
+}
+
+.loading-circle {
+  border: 8px solid #f3f3f3;
+  /* Màu nền của vòng tròn loading */
+  border-top: 8px solid #3498db;
+  /* Màu của vòng tròn loading */
+  border-radius: 50%;
+  width: 50px;
+  /* Kích thước của vòng tròn loading */
+  height: 50px;
+  animation: spin 1s linear infinite;
+  /* Hiệu ứng quay */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* =============================
+       LoadingCircle End
+============================== */

@@ -3,9 +3,17 @@ import ProfileUser from "./ProfileUser"
 import Tab from "./Tab"
 import ChangePassWord from "./ChangePassWord"
 import { TripHistory } from "./TripHistory"
+import FavoriteDriver from "./FavoriteDriver"
+import useInstanceData from "../../../config/useInstanceData"
+import Wallet from "./Wallet"
 
 const DashboardProfile = () => {
   const [tab, setTab] = useState("profile")
+  const userId = localStorage.getItem("userId")
+  const { data, loading, error, refetch } = useInstanceData(
+    `/auth/user/${userId}`
+  )
+
   return (
     <div className="wrapper">
       <div className="container">
@@ -14,9 +22,12 @@ const DashboardProfile = () => {
             <Tab tab1={tab} setTab1={setTab} />
           </div>
           <div className="col-9">
-            {tab === "profile" && <ProfileUser />}
+            {tab === "profile" && <ProfileUser data={data} refetch={refetch} />}
             {tab === "changePassword" && <ChangePassWord />}
             {tab === "tripHistory" && <TripHistory />}
+            {tab === "favoriteDriver" && <FavoriteDriver />}
+
+            {tab === "wallet" && <Wallet />}
           </div>
         </div>
       </div>
