@@ -12,6 +12,7 @@ const DashboardProfile = () => {
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
   );
+  console.log(refetch);
 
   return (
     <div className="wrapper">

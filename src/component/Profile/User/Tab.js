@@ -2,10 +2,8 @@ import React from "react";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { LuPackage } from "react-icons/lu";
-import { MdOutlineSettings } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
-
 
 import { IoWalletOutline } from "react-icons/io5";
 import useAuth from "../../../hooks/useAuth";
@@ -22,8 +20,9 @@ const Tab = ({ tab1, setTab1 }) => {
         <ul>
           <li className="tab-item">
             <button
-              className={`btn-tab d-flex align-items-center ${tab1 === "profile" ? "active" : ""
-                }`}
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "profile" ? "active" : ""
+              }`}
               onClick={() => setTab1("profile")}
             >
               <CgProfile />
@@ -39,8 +38,9 @@ const Tab = ({ tab1, setTab1 }) => {
 
           <li className="tab-item">
             <button
-              className={`btn-tab d-flex align-items-center ${tab1 === "favoriteDriver" ? "active" : ""
-                }`}
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "favoriteDriver" ? "active" : ""
+              }`}
               onClick={() => setTab1("favoriteDriver")}
             >
               <FaRegHeart />
@@ -48,12 +48,6 @@ const Tab = ({ tab1, setTab1 }) => {
             </button>
           </li>
 
-          <li className="my-3">
-            <a className="d-flex align-items-center" href="#settings">
-              <MdOutlineSettings />
-              <span className="px-2">Cài đặt</span>
-            </a>
-          </li>
           <li className="my-3">
             <button
               className={`btn-tab ${tab1 === "changePassword" ? "active" : ""}`}
