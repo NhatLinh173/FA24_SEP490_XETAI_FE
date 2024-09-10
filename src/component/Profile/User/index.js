@@ -6,7 +6,6 @@ import ChangePassWord from "./ChangePassWord";
 import FavoriteDriver from "./FavoriteDriver";
 
 import Wallet from "./Wallet";
-import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 const DashboardProfile = () => {

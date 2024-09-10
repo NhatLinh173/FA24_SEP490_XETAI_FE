@@ -3646,12 +3646,14 @@ textarea {
   background-color: transparent;
   cursor: pointer;
 }
+
 .btn-cancel:hover {
   color: var(--main-theme-color);
   -webkit-transition: all 0.3s ease-in-out 0.1s;
   -o-transition: all 0.3s ease-in-out 0.1s;
   transition: all 0.3s ease-in-out 0.1s;
 }
+
 .input-group-text {
   background: var(--main-theme-color);
   -webkit-transition: all 0.3s ease-in-out 0.1s;
@@ -3985,6 +3987,8 @@ textarea {
   border-bottom: 1px solid #dee2e6;
   display: flex;
 
+  /* Đảm bảo modal luôn được căn giữa theo chiều dọc */
+
   /* Đường viền dưới cho header và footer */
 }
 
@@ -4120,28 +4124,15 @@ textarea {
        LoadingCircle Start
 ============================== */
 
-/* Overlay toàn trang khi loading */
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
 /* Hiệu ứng vòng tròn loading */
 .spinner {
   border: 8px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
+  height: 50px;
   border-top: 8px solid white;
   width: 60px;
   height: 60px;
   animation: spin 1s linear infinite;
+  /* Hiệu ứng quay */
 }
 
 @keyframes spin {
