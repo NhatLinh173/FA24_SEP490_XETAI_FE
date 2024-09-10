@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import LoadingCircle from "./../../LoadingAnimation/LoadingCircle.js";
+import { LoadingContext } from "./../../LoadingAnimation/LoadingContext"; // Import LoadingContext
+
 const DriverCard = ({
   driverImage,
   driverName,
@@ -9,8 +10,14 @@ const DriverCard = ({
   id,
 }) => {
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
-
+  const { setLoading } = useContext(LoadingContext); // Lấy hàm setLoading từ context
+  const handleViewDetails = () => {
+    setLoading(true); // Kích hoạt loading toàn hệ thống
+    setTimeout(() => {
+      history.push(`/driver/${id}`);
+      setLoading(false); // Tắt loading sau khi chuyển trang
+    }, 1000); // Giả lập thời gian tải, có thể thay bằng API call thực
+  };
   const getStars = (rating) => {
     const stars = [];
     const roundedRating = Math.round(rating); // Làm tròn rating để tính số lượng ngôi sao
@@ -23,23 +30,8 @@ const DriverCard = ({
     }
     return stars;
   };
-
-  const handleViewDetails = () => {
-    setLoading(true);
-    // Giả lập thời gian tải dữ liệu hoặc API call
-    setTimeout(() => {
-      history.push(`/driver/${id}`);
-      setLoading(false);
-    }, 1000); // Thay đổi thời gian nếu cần
-  };
-
   return (
     <div className="card mb-4 driver-card">
-      {loading && (
-        <div className="loading-overlay">
-          <LoadingCircle />
-        </div>
-      )}
       <div className="row g-0">
         {/* Cột 1: Ảnh tài xế */}
         <div className="col-md-3 d-flex align-items-center">

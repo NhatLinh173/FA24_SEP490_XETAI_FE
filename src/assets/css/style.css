@@ -4182,12 +4182,14 @@ textarea {
   background-color: transparent;
   cursor: pointer;
 }
+
 .btn-cancel:hover {
   color: var(--main-theme-color);
   -webkit-transition: all 0.3s ease-in-out 0.1s;
   -o-transition: all 0.3s ease-in-out 0.1s;
   transition: all 0.3s ease-in-out 0.1s;
 }
+
 .input-group-text {
   background: var(--main-theme-color);
   -webkit-transition: all 0.3s ease-in-out 0.1s;
@@ -4478,23 +4480,74 @@ textarea {
   /* Điều chỉnh khoảng cách giữa ảnh và nội dung phía dưới */
 }
 
+/* Modal Custom Styles */
+.modal-dialog {
+  max-width: 90%;
+  /* Chiều rộng tối đa của modal */
+  margin: 30px auto;
+  /* Căn giữa modal theo chiều dọc và ngang */
+}
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.modal-dialog {
+.modal-content {
+  max-height: 80vh;
+  /* Giới hạn chiều cao của Modal */
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-body-custom {
+  overflow-y: auto;
+  /* Quản lý nội dung khi cần thiết */
+  max-height: 100%;
+  /* Đảm bảo nội dung không tràn ra ngoài */
+}
+
+.modal-body-custom img {
+  max-width: 100%;
+  height: auto;
+}
+
+.modal-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+  justify-content: space-between;
+}
+
+.modal-footer {
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+
   /* Đảm bảo modal luôn được căn giữa theo chiều dọc */
+
+  /* Đường viền dưới cho header và footer */
 }
 
 .modal-title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  flex: 1;
+  /* Chiếm không gian còn lại để căn giữa tiêu đề */
+  text-align: left;
+  /* Căn giữa tiêu đề */
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  /* Đường viền trên cho footer */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-footer .btn {
+  margin-left: 0.5rem;
+  /* Khoảng cách giữa các nút trong footer */
+}
+
+.modal-header .btn-close {
+  margin: 0;
 }
 
 /* Form Styles */
@@ -4605,35 +4658,13 @@ input[type="number"]::-webkit-inner-spin-button {
        LoadingCircle Start
 ============================== */
 
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  /* Nền trắng mờ để che phủ nội dung */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  /* Đặt z-index để overlay nằm trên các phần tử khác */
-}
-
-.driver-card {
-  position: relative;
-  /* Để overlay được đặt đúng vị trí */
-}
-
-.loading-circle {
-  border: 8px solid #f3f3f3;
-  /* Màu nền của vòng tròn loading */
-  border-top: 8px solid #3498db;
-  /* Màu của vòng tròn loading */
-  border-radius: 50%;
-  width: 50px;
-  /* Kích thước của vòng tròn loading */
+/* Hiệu ứng vòng tròn loading */
+.spinner {
+  border: 8px solid rgba(255, 255, 255, 0.3);
   height: 50px;
+  border-top: 8px solid white;
+  width: 60px;
+  height: 60px;
   animation: spin 1s linear infinite;
   /* Hiệu ứng quay */
 }
