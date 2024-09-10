@@ -8,8 +8,8 @@ const SignUpCustomer = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fullName, setFulltName] = useState("");
+  const [address, setAddress] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const handleRegister = async () => {
@@ -18,7 +18,7 @@ const SignUpCustomer = () => {
       return;
     }
 
-    if (!email || !password || !phone || !firstName || !lastName) {
+    if (!email || !password || !phone || !fullName) {
       toast.warn("Thông tin chưa đầy đủ vui lòng nhập đầy đủ thông tin!!!");
       return;
     }
@@ -32,16 +32,16 @@ const SignUpCustomer = () => {
       const response = await axios.post("http://localhost:3005/auth/register", {
         email,
         password,
-        firstName,
-        lastName,
+        fullName,
         phone,
         role: "customer",
       });
 
       if (response.status === 201) {
         toast.success("Đăng Ký Thành Công");
-        localStorage.setItem("token", response.data);
-        window.location.href = "/";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 200);
       } else {
         toast.error("Đăng Ký Thất Bại");
       }
@@ -53,6 +53,12 @@ const SignUpCustomer = () => {
         toast.error("Có lỗi xảy ra trong quá trình đăng ký.");
       }
     }
+  };
+  const handleGoogleLogin = () => {
+    const role = "customer";
+    const url = `http://localhost:3005/auth/google?state=${role}`;
+    console.log("Redirecting to:", url);
+    window.open(url, "_self");
   };
 
   return (
@@ -72,27 +78,15 @@ const SignUpCustomer = () => {
                   }}
                 >
                   <div className="row">
-                    <div className="col-lg-6">
-                      <FormInput
-                        tag={"input"}
-                        type={"text"}
-                        name={"lastName"}
-                        classes={"form-control"}
-                        placeholder={"Họ"}
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="col-lg-6">
+                    <div className="col-lg-12">
                       <FormInput
                         tag={"input"}
                         type={"text"}
                         name={"firstName"}
                         classes={"form-control"}
-                        placeholder={"Tên"}
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        placeholder={"Họ và Tên"}
+                        value={fullName}
+                        onChange={(e) => setFulltName(e.target.value)}
                         required
                       />
                     </div>
@@ -186,6 +180,7 @@ const SignUpCustomer = () => {
                           border: "none",
                           borderRadius: "5px",
                         }}
+                        onClick={handleGoogleLogin}
                       >
                         Đăng Nhập Với Google
                       </button>

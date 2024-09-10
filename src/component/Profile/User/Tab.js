@@ -7,7 +7,14 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
 
 
+import { IoWalletOutline } from "react-icons/io5";
+import useAuth from "../../../hooks/useAuth";
+
 const Tab = ({ tab1, setTab1 }) => {
+  const { handleLogout } = useAuth();
+  const handleLogoutClick = async () => {
+    await handleLogout();
+  };
   return (
     <div className="d-flex flex-column h-100">
       <h2>Tài Khoản</h2>
@@ -47,7 +54,7 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Cài đặt</span>
             </a>
           </li>
-          <li>
+          <li className="my-3">
             <button
               className={`btn-tab ${tab1 === "changePassword" ? "active" : ""}`}
               onClick={() => setTab1("changePassword")}
@@ -56,16 +63,25 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Mật khẩu</span>
             </button>
           </li>
+          <li>
+            <button
+              className={`btn-tab ${tab1 === "wallet" ? "active" : ""}`}
+              onClick={() => setTab1("wallet")}
+            >
+              <IoWalletOutline />
+              <span className="px-2">Ví của bạn</span>
+            </button>
+          </li>
         </ul>
       </div>
       <div className="w-75 d-flex mt-auto pb-3">
-        <a
-          href="#fff"
-          className="btn btn-theme btn-lg d-flex align-items-center "
+        <button
+          className="btn btn-theme btn-lg d-flex align-items-center"
+          onClick={handleLogoutClick}
         >
           <FaArrowRightFromBracket />
           <span className="px-1">Đăng xuất</span>
-        </a>
+        </button>
       </div>
     </div>
   );
