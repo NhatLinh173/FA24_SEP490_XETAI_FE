@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axiosInstance from "../config/axiosConfig";
 import Cookies from "js-cookie";
+
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -10,11 +11,12 @@ const useAuth = () => {
       password,
     };
     try {
-      const response = await axiosInstance.post("auth/login", payload);
+      const response = await axiosInstance.post("/auth/login", payload);
       if (response.status === 200) {
         localStorage.setItem("userId", response.data._id);
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("role", response.data.role);
+        Cookies.set("token", response.data.accessToken);
         setIsAuthenticated(true);
         return response;
       }
@@ -39,5 +41,4 @@ const useAuth = () => {
 
   return { handleLogin, handleLogout, isAuthenticated };
 };
-
 export default useAuth;
