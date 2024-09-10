@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import LoadingCircle from '/Users/macbook/Desktop/FA24_SEP490_Xe Tai/FA24_SEP490_XETAI_FE/src/component/LoadingAnimation/LoadingCircle.js'; // Đảm bảo đường dẫn chính xác
+import { LoadingContext } from './../../LoadingAnimation/LoadingContext'; // Import LoadingContext
 
 const DriverCard = ({ driverImage, driverName, rating, tripsCompleted, id }) => {
     const history = useHistory();
-    const [loading, setLoading] = useState(false);
+    const { setLoading } = useContext(LoadingContext); // Lấy hàm setLoading từ context
 
     const getStars = (rating) => {
         const stars = [];
@@ -20,21 +20,15 @@ const DriverCard = ({ driverImage, driverName, rating, tripsCompleted, id }) => 
     };
 
     const handleViewDetails = () => {
-        setLoading(true);
-        // Giả lập thời gian tải dữ liệu hoặc API call
+        setLoading(true); // Kích hoạt loading toàn hệ thống
         setTimeout(() => {
             history.push(`/driver/${id}`);
-            setLoading(false);
-        }, 1000); // Thay đổi thời gian nếu cần
+            setLoading(false); // Tắt loading sau khi chuyển trang
+        }, 1000); // Giả lập thời gian tải, có thể thay bằng API call thực
     };
 
     return (
         <div className="card mb-4 driver-card">
-            {loading && (
-                <div className="loading-overlay">
-                    <LoadingCircle />
-                </div>
-            )}
             <div className="row g-0">
                 {/* Cột 1: Ảnh tài xế */}
                 <div className="col-md-3 d-flex align-items-center">
