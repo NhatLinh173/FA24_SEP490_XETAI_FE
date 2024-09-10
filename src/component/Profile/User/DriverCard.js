@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import { LoadingContext } from "./../../LoadingAnimation/LoadingContext"; // Import LoadingContext
 
 const DriverCard = ({
   driverImage,
@@ -10,14 +9,11 @@ const DriverCard = ({
   id,
 }) => {
   const history = useHistory();
-  const { setLoading } = useContext(LoadingContext); // Lấy hàm setLoading từ context
+
   const handleViewDetails = () => {
-    setLoading(true); // Kích hoạt loading toàn hệ thống
-    setTimeout(() => {
-      history.push(`/driver/${id}`);
-      setLoading(false); // Tắt loading sau khi chuyển trang
-    }, 1000); // Giả lập thời gian tải, có thể thay bằng API call thực
+    history.push(`/driver/${id}`);
   };
+
   const getStars = (rating) => {
     const stars = [];
     const roundedRating = Math.round(rating); // Làm tròn rating để tính số lượng ngôi sao
@@ -30,6 +26,7 @@ const DriverCard = ({
     }
     return stars;
   };
+
   return (
     <div className="card mb-4 driver-card">
       <div className="row g-0">

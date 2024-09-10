@@ -31,62 +31,48 @@ import useModal from "./hooks/useModal";
 import SignUpCustomerPage from "./page/SignUpCustomerPage";
 import FavoriteDrivers from "./page/FavoriteDrivers";
 import DriverDetail from "./component/Profile/User/DriverDetail";
-import { LoadingProvider } from "./component/LoadingAnimation/LoadingContext"; // Import LoadingContext Provider
-import LoadingOverlay from "./component/LoadingAnimation/LoadingOverlay"; // Import component LoadingOverlay
 import { ToastContainer } from "react-toastify"; // Import ToastContainer
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
 
   return (
-    <LoadingProvider>
-      <Router>
-        <ScrollToTop>
-          <Navbar openModal={openModal} />
-          <ToastContainer /> {/* Thêm ToastContainer vào đây */}
-          <Switch>
-            <Route path="/" exact component={Home_One} />
-            <Route path="/about" exact component={About} />
-            <Route path="/service" exact component={Service} />
-            <Route path="/service_details" exact component={ServiceDetails} />
-            <Route path="/blog_grid" exact component={BlogGrid} />
-            <Route
-              path="/blog_with_sidebar"
-              exact
-              component={BlogWithSidebar}
-            />
-            <Route path="/blog_details" exact component={BlogDetails} />
-            <Route path="/our_team" exact component={OurTeamArea} />
-            <Route path="/testimonials" exact component={Testimonials} />
-            <Route path="/gallery" exact component={Gallery} />
-            <Route path="/faqs" exact component={Faqs} />
-            <Route path="/track_ship" exact component={TrackYourShip} />
-            <Route path="/pricing" exact component={PricingContent} />
-            <Route path="/request_quote" exact component={RequestQuote} />
-            <Route path="/signup" exact component={SignUp} />
-            <Route path="/signIn" exact component={SignIn} />
-            <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
-            <Route path="/terms" exact component={TermsCondition} />
-            <Route path="/contact" exact component={Contact} />
-            <Route path="/profile" exact component={Profile} />
-            <Route path="/accountType" exact component={AccountTypes} />
-            <Route
-              path="/signUp-customer"
-              exact
-              component={SignUpCustomerPage}
-            />
-            <Route path="/error" exact component={Error} />
-            <Route path="/favorite-drivers" component={FavoriteDrivers} />
-            <Route path="/driver/:id" component={DriverDetail} />
-          </Switch>
-          <Footer />
-          <CopyRight />
-          <CustomModal isOpen={isOpen} closeModal={closeModal} />
-        </ScrollToTop>
-      </Router>
-      <LoadingOverlay />{" "}
-      {/* Đặt LoadingOverlay ở bên ngoài Router để nó hiển thị toàn hệ thống */}
-    </LoadingProvider>
+    <Router>
+      <ScrollToTop>
+        <Navbar openModal={openModal} />
+        <ToastContainer /> {/* Thêm ToastContainer vào đây */}
+        <Switch>
+          <Route path="/" exact component={Home_One} />
+          <Route path="/about" exact component={About} />
+          <Route path="/service" exact component={Service} />
+          <Route path="/service_details" exact component={ServiceDetails} />
+          <Route path="/blog_grid" exact component={BlogGrid} />
+          <Route path="/blog_with_sidebar" exact component={BlogWithSidebar} />
+          <Route path="/blog_details" exact component={BlogDetails} />
+          <Route path="/our_team" exact component={OurTeamArea} />
+          <Route path="/testimonials" exact component={Testimonials} />
+          <Route path="/gallery" exact component={Gallery} />
+          <Route path="/faqs" exact component={Faqs} />
+          <Route path="/track_ship" exact component={TrackYourShip} />
+          <Route path="/pricing" exact component={PricingContent} />
+          <Route path="/request_quote" exact component={RequestQuote} />
+          <Route path="/signup" exact component={SignUp} />
+          <Route path="/signIn" exact component={SignIn} />
+          <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
+          <Route path="/terms" exact component={TermsCondition} />
+          <Route path="/contact" exact component={Contact} />
+          <Route path="/profile" exact component={Profile} />
+          <Route path="/accountType" exact component={AccountTypes} />
+          <Route path="/signUp-customer" exact component={SignUpCustomerPage} />
+          <Route path="/error" exact component={Error} />
+          <Route path="/favorite-drivers" component={FavoriteDrivers} />
+          <Route path="/driver/:id" component={DriverDetail} />
+        </Switch>
+        <Footer />
+        <CopyRight />
+        <CustomModal isOpen={isOpen} closeModal={closeModal} />
+      </ScrollToTop>
+    </Router>
   );
 };
 
