@@ -1,18 +1,20 @@
-import React from "react";
-import { FaArrowRightFromBracket } from "react-icons/fa6";
-import { CgProfile } from "react-icons/cg";
-import { LuPackage } from "react-icons/lu";
-import { RiLockPasswordLine } from "react-icons/ri";
-import { FaRegHeart } from "react-icons/fa";
+import React from "react"
+import { AiOutlineFieldTime } from "react-icons/ai"
+import { CgProfile } from "react-icons/cg"
+import { FaRegHeart } from "react-icons/fa"
+import { FaArrowRightFromBracket } from "react-icons/fa6"
+import { LuPackage } from "react-icons/lu"
+import { RiLockPasswordLine } from "react-icons/ri"
 
-import { IoWalletOutline } from "react-icons/io5";
-import useAuth from "../../../hooks/useAuth";
+import { IoWalletOutline } from "react-icons/io5"
+import useAuth from "../../../hooks/useAuth"
 
 const Tab = ({ tab1, setTab1 }) => {
-  const { handleLogout } = useAuth();
+  const { handleLogout } = useAuth()
   const handleLogoutClick = async () => {
-    await handleLogout();
-  };
+    await handleLogout()
+  }
+
   return (
     <div className="d-flex flex-column h-100">
       <h2>Tài Khoản</h2>
@@ -57,6 +59,17 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Mật khẩu</span>
             </button>
           </li>
+          <li className="my-3">
+            <button
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "tripHistory" ? "active" : ""
+              }`}
+              onClick={() => setTab1("tripHistory")}
+            >
+              <AiOutlineFieldTime />
+              <span className="px-2">Lịch sử chuyến</span>
+            </button>
+          </li>
           <li>
             <button
               className={`btn-tab ${tab1 === "wallet" ? "active" : ""}`}
@@ -78,7 +91,7 @@ const Tab = ({ tab1, setTab1 }) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Tab;
+export default Tab

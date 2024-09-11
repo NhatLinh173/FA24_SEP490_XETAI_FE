@@ -1,83 +1,83 @@
-import React, { useState, useEffect } from "react";
-import { CiCamera } from "react-icons/ci";
-import axios from "../../../config/axiosConfig";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from "react"
+import { CiCamera } from "react-icons/ci"
+import axios from "../../../config/axiosConfig"
+import { toast } from "react-toastify"
 
 const ProfileUser = ({ data, refetch }) => {
-  const { email, fullName, phone, address, _id } = data;
-  const [isName, setIsName] = useState(true);
-  const [isPhone, setIsPhone] = useState(true);
-  const [isEmail, setIsEmail] = useState(true);
-  const [isAddress, setIsAddress] = useState(true);
+  const { email, fullName, phone, address, _id } = data
+  const [isName, setIsName] = useState(true)
+  const [isPhone, setIsPhone] = useState(true)
+  const [isEmail, setIsEmail] = useState(true)
+  const [isAddress, setIsAddress] = useState(true)
   //////
-  const [newName, setNewName] = useState("");
-  const [newPhone, setNewPhone] = useState(0);
-  const [newEmail, setNewEmail] = useState("");
-  const [newAddress, setNewAddress] = useState("");
+  const [newName, setNewName] = useState("")
+  const [newPhone, setNewPhone] = useState(0)
+  const [newEmail, setNewEmail] = useState("")
+  const [newAddress, setNewAddress] = useState("")
   // set lại ô input
   const inputName = (e) => {
-    e.preventDefault();
-    setIsName(false);
-  };
+    e.preventDefault()
+    setIsName(false)
+  }
   const inputPhone = (e) => {
-    e.preventDefault();
-    setIsPhone(false);
-  };
+    e.preventDefault()
+    setIsPhone(false)
+  }
   const inputEmail = (e) => {
-    e.preventDefault();
-    setIsEmail(false);
-  };
+    e.preventDefault()
+    setIsEmail(false)
+  }
   const inputAddress = (e) => {
-    e.preventDefault();
-    setIsAddress(false);
-  };
+    e.preventDefault()
+    setIsAddress(false)
+  }
   // dùng để giữ lại giá trị của ô input
   useEffect(() => {
-    setNewName(fullName);
-    setNewPhone(phone);
-    setNewEmail(email);
-    setNewAddress(address);
-  }, [fullName, phone, email, address]);
+    setNewName(fullName)
+    setNewPhone(phone)
+    setNewEmail(email)
+    setNewAddress(address)
+  }, [fullName, phone, email, address])
   // dùng để sửa lại giá trị trong ô input
   const handlenewAddress = (e) => {
-    setNewAddress(e.target.value);
-  };
+    setNewAddress(e.target.value)
+  }
   const handleNameChange = (e) => {
-    setNewName(e.target.value);
-  };
+    setNewName(e.target.value)
+  }
   const handlePhoneChange = (e) => {
-    setNewPhone(e.target.value);
-  };
+    setNewPhone(e.target.value)
+  }
   const handleEmailChange = (e) => {
-    setNewEmail(e.target.value);
-  };
+    setNewEmail(e.target.value)
+  }
   /////////////////////
   const cancelChangeName = (e) => {
-    e.preventDefault();
-    setIsName(true);
-  };
+    e.preventDefault()
+    setIsName(true)
+  }
   const cancelChangePhone = (e) => {
-    e.preventDefault();
-    setIsPhone(true);
-  };
+    e.preventDefault()
+    setIsPhone(true)
+  }
   const cancelChangeEmail = (e) => {
-    e.preventDefault();
-    setIsEmail(true);
-  };
+    e.preventDefault()
+    setIsEmail(true)
+  }
   const cancelChangeAddress = (e) => {
-    e.preventDefault();
-    setIsAddress(true);
-  };
+    e.preventDefault()
+    setIsAddress(true)
+  }
   const handleSubmitForm = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (
       newName == fullName &&
       email == newEmail &&
       address == newAddress &&
       phone == newPhone
     ) {
-      toast.error("Không có thay đổi nào để cập nhật");
-      return;
+      toast.error("Không có thay đổi nào để cập nhật")
+      return
     } else {
       try {
         const res = await axios.put(`/auth/update-user/${_id}`, {
@@ -85,21 +85,21 @@ const ProfileUser = ({ data, refetch }) => {
           phone: newPhone,
           email: newEmail,
           address: newAddress,
-        });
-        console.log(res);
+        })
+        console.log(res)
         if (res.status === 200) {
-          toast.success("Cập nhập thông tin thành công!");
+          toast.success("Cập nhập thông tin thành công!")
         }
-        setIsName(true);
-        setIsPhone(true);
-        setIsEmail(true);
-        setIsAddress(true);
-        refetch();
+        setIsName(true)
+        setIsPhone(true)
+        setIsEmail(true)
+        setIsAddress(true)
+        refetch()
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
-  };
+  }
   return (
     <div>
       <div>
@@ -264,7 +264,7 @@ const ProfileUser = ({ data, refetch }) => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileUser;
+export default ProfileUser
