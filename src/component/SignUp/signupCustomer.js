@@ -8,8 +8,7 @@ const SignUpCustomer = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const handleRegister = async () => {
@@ -18,7 +17,7 @@ const SignUpCustomer = () => {
       return;
     }
 
-    if (!email || !password || !phone || !firstName || !lastName) {
+    if (!email || !password || !phone || !fullName) {
       toast.warn("Thông tin chưa đầy đủ vui lòng nhập đầy đủ thông tin!!!");
       return;
     }
@@ -32,8 +31,7 @@ const SignUpCustomer = () => {
       const response = await axios.post("http://localhost:3005/auth/register", {
         email,
         password,
-        firstName,
-        lastName,
+        fullName,
         phone,
         role: "customer",
       });
@@ -79,27 +77,15 @@ const SignUpCustomer = () => {
                   }}
                 >
                   <div className="row">
-                    <div className="col-lg-6">
+                    <div className="col-lg-12">
                       <FormInput
                         tag={"input"}
                         type={"text"}
                         name={"lastName"}
                         classes={"form-control"}
                         placeholder={"Họ"}
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="col-lg-6">
-                      <FormInput
-                        tag={"input"}
-                        type={"text"}
-                        name={"firstName"}
-                        classes={"form-control"}
-                        placeholder={"Tên"}
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
                         required
                       />
                     </div>

@@ -1,27 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3005/",
 });
-let isRefreshing = false;
-let failedQueue = [];
-let logoutCallback = null;
-
-const processQueue = (error, token = null) => {
-  failedQueue.forEach((prom) => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
-  });
-
-  failedQueue = [];
-};
-
-export const setLogoutCallback = (callback) => {
-  logoutCallback = callback;
-};
 
 let isRefreshing = false;
 let failedQueue = [];
@@ -60,12 +42,10 @@ axiosInstance.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-
             originalRequest.headers["Authorization"] = "Bearer " + token;
             return axiosInstance(originalRequest);
           })
           .catch((err) => {
-
             return Promise.reject(err);
           });
       }
@@ -73,7 +53,6 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-
         const refreshToken = Cookies.get("freshToken");
         console.log("Refreshing token with:", refreshToken);
 
@@ -95,7 +74,6 @@ axiosInstance.interceptors.response.use(
           return axiosInstance(originalRequest);
         }
       } catch (err) {
-
         processQueue(err, null);
         if (logoutCallback) logoutCallback();
         return Promise.reject(err);
@@ -107,4 +85,5 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 export default axiosInstance;
