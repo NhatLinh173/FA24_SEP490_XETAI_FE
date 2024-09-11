@@ -1,11 +1,10 @@
 import React from "react"
-import { FaArrowRightFromBracket } from "react-icons/fa6"
-import { CgProfile } from "react-icons/cg"
-import { LuPackage } from "react-icons/lu"
-import { MdOutlineSettings } from "react-icons/md"
-import { RiLockPasswordLine } from "react-icons/ri"
-import { FaRegHeart } from "react-icons/fa"
 import { AiOutlineFieldTime } from "react-icons/ai"
+import { CgProfile } from "react-icons/cg"
+import { FaRegHeart } from "react-icons/fa"
+import { FaArrowRightFromBracket } from "react-icons/fa6"
+import { LuPackage } from "react-icons/lu"
+import { RiLockPasswordLine } from "react-icons/ri"
 
 import { IoWalletOutline } from "react-icons/io5"
 import useAuth from "../../../hooks/useAuth"
@@ -52,12 +51,6 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
 
           <li className="my-3">
-            <a className="d-flex align-items-center" href="#settings">
-              <MdOutlineSettings />
-              <span className="px-2">Cài đặt</span>
-            </a>
-          </li>
-          <li>
             <button
               className={`btn-tab ${tab1 === "changePassword" ? "active" : ""}`}
               onClick={() => setTab1("changePassword")}

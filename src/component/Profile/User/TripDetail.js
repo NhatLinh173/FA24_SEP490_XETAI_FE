@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 
-export const TripDetail = () => {
+const TripDetail = () => {
   const { id } = useParams()
   console.log(id)
 
@@ -283,7 +283,6 @@ export const TripDetail = () => {
                   <span>Đơn giá hàng</span>
                   <span className="fw-600">803,600 vnd</span>
                 </div>
-                
               </div>
             </div>
           </div>
@@ -292,3 +291,5 @@ export const TripDetail = () => {
     </div>
   )
 }
+
+export default TripDetail

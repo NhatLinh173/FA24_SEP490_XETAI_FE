@@ -1,11 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import ProfileUser from "./ProfileUser"
+import useInstanceData from "../../../config/useInstanceData"
 import Tab from "./Tab"
 import ChangePassWord from "./ChangePassWord"
-import { TripHistory } from "./TripHistory"
 import FavoriteDriver from "./FavoriteDriver"
-import useInstanceData from "../../../config/useInstanceData"
 import Wallet from "./Wallet"
+import { TripHistory } from "./TripHistory"
 
 const DashboardProfile = () => {
   const [tab, setTab] = useState("profile")

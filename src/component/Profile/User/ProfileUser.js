@@ -51,7 +51,7 @@ const ProfileUser = ({ data, refetch }) => {
   const handleEmailChange = (e) => {
     setNewEmail(e.target.value)
   }
-
+  /////////////////////
   const cancelChangeName = (e) => {
     e.preventDefault()
     setIsName(true)
@@ -82,7 +82,7 @@ const ProfileUser = ({ data, refetch }) => {
       try {
         const res = await axios.put(`/auth/update-user/${_id}`, {
           fullName: newName,
-          phone1: newPhone,
+          phone: newPhone,
           email: newEmail,
           address: newAddress,
         })
@@ -158,15 +158,6 @@ const ProfileUser = ({ data, refetch }) => {
               </label>
             </div>
             <div className="col-9">
-              {/* <input
-                type="text"
-                id="phone"
-                placeholder="Nhập Số Điện Thoại"
-                name="phone"
-                className="form-control w-50 border"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                required
-              /> */}
               {phone && isPhone ? (
                 <div className="d-flex align-items-center justify-content-between ">
                   <p className="text-input">{phone}</p>

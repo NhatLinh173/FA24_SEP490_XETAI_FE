@@ -271,8 +271,7 @@ const DriverDetail = () => {
                                     src={selectedVehicle.vehicleImage}
                                     alt="vehicle"
                                     className="img-fluid rounded mb-3"
-                                    style={{ width: "100%", height: "auto", objectFit: "cover" }}
-                                />
+                                    style={{ maxWidth: "100%", height: "auto", objectFit: "cover" }} />
                                 <p><strong>Loại xe:</strong> {selectedVehicle.vehicleType}</p>
                                 <p><strong>Tên xe:</strong> {selectedVehicle.vehicleName}</p>
                                 <p><strong>Biển số:</strong> {selectedVehicle.vehicleRegistration}</p>
@@ -291,13 +290,14 @@ const DriverDetail = () => {
                             </div>
                         )}
                     </Modal.Body>
-
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseModal}>
                             Đóng
                         </Button>
                     </Modal.Footer>
                 </Modal>
+
+
 
 
 
@@ -308,7 +308,7 @@ const DriverDetail = () => {
                             <img
                                 src={driver.driverImage}
                                 className="border rounded mr-3"
-                                style={{ width: "120px", height: "120px", objectFit: "cover" }}
+                                style={{ width: "120px", height: "120px", objectFit: "cover", }}
                                 alt="driver avatar"
                             />
                             <div>
