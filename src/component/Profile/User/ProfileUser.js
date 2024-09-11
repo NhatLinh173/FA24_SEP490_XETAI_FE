@@ -1,57 +1,105 @@
-import React, { useState, useEffect } from "react";
-import { CiCamera } from "react-icons/ci";
+import React, { useState, useEffect } from "react"
+import { CiCamera } from "react-icons/ci"
+import axios from "../../../config/axiosConfig"
+import { toast } from "react-toastify"
 
-const ProfileUser = ({ data }) => {
-  const { email, fullName, phone, address } = data;
-  const [isName, setIsName] = useState(true);
-  const [isPhone, setIsPhone] = useState(true);
-  const [isEmail, setIsEmail] = useState(true);
+const ProfileUser = ({ data, refetch }) => {
+  const { email, fullName, phone, address, _id } = data
+  const [isName, setIsName] = useState(true)
+  const [isPhone, setIsPhone] = useState(true)
+  const [isEmail, setIsEmail] = useState(true)
+  const [isAddress, setIsAddress] = useState(true)
   //////
-  const [newName, setNewName] = useState("");
-  const [newPhone, setNewPhone] = useState(0);
-  const [newEmail, setNewEmail] = useState("");
+  const [newName, setNewName] = useState("")
+  const [newPhone, setNewPhone] = useState(0)
+  const [newEmail, setNewEmail] = useState("")
+  const [newAddress, setNewAddress] = useState("")
   // set lại ô input
   const inputName = (e) => {
-    e.preventDefault();
-    setIsName(false);
-  };
+    e.preventDefault()
+    setIsName(false)
+  }
   const inputPhone = (e) => {
-    e.preventDefault();
-    setIsPhone(false);
-  };
+    e.preventDefault()
+    setIsPhone(false)
+  }
   const inputEmail = (e) => {
-    e.preventDefault();
-    setIsEmail(false);
-  };
+    e.preventDefault()
+    setIsEmail(false)
+  }
+  const inputAddress = (e) => {
+    e.preventDefault()
+    setIsAddress(false)
+  }
   // dùng để giữ lại giá trị của ô input
   useEffect(() => {
-    setNewName(fullName);
-    setNewPhone(phone);
-    setNewEmail(email);
-  }, [fullName, phone, email]);
+    setNewName(fullName)
+    setNewPhone(phone)
+    setNewEmail(email)
+    setNewAddress(address)
+  }, [fullName, phone, email, address])
   // dùng để sửa lại giá trị trong ô input
+  const handlenewAddress = (e) => {
+    setNewAddress(e.target.value)
+  }
   const handleNameChange = (e) => {
-    setNewName(e.target.value);
-  };
+    setNewName(e.target.value)
+  }
   const handlePhoneChange = (e) => {
-    setNewPhone(e.target.value);
-  };
+    setNewPhone(e.target.value)
+  }
   const handleEmailChange = (e) => {
-    setNewEmail(e.target.value);
-  };
-
+    setNewEmail(e.target.value)
+  }
+  /////////////////////
   const cancelChangeName = (e) => {
-    e.preventDefault();
-    setIsName(true);
-  };
+    e.preventDefault()
+    setIsName(true)
+  }
   const cancelChangePhone = (e) => {
-    e.preventDefault();
-    setIsPhone(true);
-  };
+    e.preventDefault()
+    setIsPhone(true)
+  }
   const cancelChangeEmail = (e) => {
-    e.preventDefault();
-    setIsEmail(true);
-  };
+    e.preventDefault()
+    setIsEmail(true)
+  }
+  const cancelChangeAddress = (e) => {
+    e.preventDefault()
+    setIsAddress(true)
+  }
+  const handleSubmitForm = async (e) => {
+    e.preventDefault()
+    if (
+      newName == fullName &&
+      email == newEmail &&
+      address == newAddress &&
+      phone == newPhone
+    ) {
+      toast.error("Không có thay đổi nào để cập nhật")
+      return
+    } else {
+      try {
+        const res = await axios.put(`/auth/update-user/${_id}`, {
+          fullName: newName,
+          phone: newPhone,
+          email: newEmail,
+          address: newAddress,
+        })
+        console.log(res)
+        if (res.status === 200) {
+          toast.success("Cập nhập thông tin thành công!")
+        }
+        setIsName(true)
+        setIsPhone(true)
+        setIsEmail(true)
+        setIsAddress(true)
+        refetch()
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
   return (
     <div>
       <div>
@@ -110,15 +158,6 @@ const ProfileUser = ({ data }) => {
               </label>
             </div>
             <div className="col-9">
-              {/* <input
-                type="text"
-                id="phone"
-                placeholder="Nhập Số Điện Thoại"
-                name="phone"
-                className="form-control w-50 border"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                required
-              /> */}
               {phone && isPhone ? (
                 <div className="d-flex align-items-center justify-content-between ">
                   <p className="text-input">{phone}</p>
@@ -185,41 +224,47 @@ const ProfileUser = ({ data }) => {
               <label for="pwd">Địa chỉ:</label>
             </div>
             <div className="col-9">
-              {address ? (
+              {address && isAddress ? (
                 <div className="d-flex align-items-center justify-content-between ">
                   <p className="text-input">{address}</p>
-                  <button className="btn-change">
+                  <button className="btn-change" onClick={inputAddress}>
                     <i className="fas fa-pencil-alt"></i> Thay đổi
                   </button>
                 </div>
               ) : (
-                <input
-                  type="adress"
-                  placeholder="Nhập Địa Chỉ"
-                  id="pwd"
-                  name="pwd"
-                  className="form-control w-50 border "
-                />
+                <div className="d-flex align-items-center justify-content-between">
+                  <input
+                    type="adress"
+                    placeholder="Nhập Địa Chỉ"
+                    id="pwd"
+                    value={newAddress}
+                    onChange={handlenewAddress}
+                    name="pwd"
+                    className="form-control w-50 border "
+                  />
+                  <button className="btn-cancel " onClick={cancelChangeAddress}>
+                    <i className="fas fa-times p-1"></i>Hủy
+                  </button>
+                </div>
               )}
 
               <br />
             </div>
           </div>
-          {/* <div className="d-flex justify-content-center mb-3 ">
-            <button class="btn btn-primary w-25" type="submit">
-              Update
-            </button>
-          </div> */}
 
           <div className="w-70 d-flex justify-content-center mb-3">
-            <a href="#fff" className="btn btn-primary btn-lg w-25 ">
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg w-25 "
+              onClick={handleSubmitForm}
+            >
               <span>Cập nhật</span>
-            </a>
+            </button>
           </div>
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileUser;
+export default ProfileUser

@@ -1,6 +1,6 @@
 const regexPattern = {
-  fullName: /^[a-zA-Z]{2,30}$/,
-  address: /^[a-zA-Z]{2,30}$/,
+  firstName: /^[a-zA-Z]{2,30}$/,
+  lastName: /^[a-zA-Z]{2,30}$/,
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
   phone: /^\d{10,11}$/,
