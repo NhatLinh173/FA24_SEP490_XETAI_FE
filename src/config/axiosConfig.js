@@ -1,8 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3005/",
 });
+
 let isRefreshing = false;
 let failedQueue = [];
 let logoutCallback = null;
@@ -51,14 +53,18 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = Cookies.get("token");
+        const refreshToken = Cookies.get("freshToken");
+        console.log("Refreshing token with:", refreshToken);
+
         const response = await axiosInstance.post("/auth/refresh-token", {
           refreshToken,
         });
 
         if (response.status === 200) {
           const newToken = response.data.accessToken;
-          localStorage.setItem("token", newToken);
+
+          localStorage.setItem("accessToken", newToken);
+
           Cookies.set("token", newToken);
           axiosInstance.defaults.headers.common[
             "Authorization"
@@ -79,4 +85,5 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 export default axiosInstance;

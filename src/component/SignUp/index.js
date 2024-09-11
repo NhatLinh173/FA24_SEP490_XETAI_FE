@@ -9,8 +9,7 @@ const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nameCompany, setNameCompany] = useState("");
   const [workEmail, setWorkEmail] = useState("");
@@ -44,27 +43,24 @@ const SignUpForm = () => {
   const handleRegisterDriver = async () => {
     const role = activeTab === "personal" ? "personal" : "business";
 
-    if (!validateField("firstName", firstName)) return;
-    if (!validateField("lastName", lastName)) return;
-    if (!validateField("email", email)) return;
-    if (!validateField("password", password)) return;
-    if (!validateField("phone", phone)) return;
-    if (!validateField("Name Company", nameCompany)) return;
-    if (!validateField("Work Email", workEmail)) return;
+    // if (!validateField("fullName", fullName)) return;
+    // if (!validateField("email", email)) return;
+    // if (!validateField("password", password)) return;
+    // if (!validateField("phone", phone)) return;
+    // if (!validateField("Name Company", nameCompany)) return;
+
     const payloadPersonnal = {
       email,
       password,
       phone,
-      firstName,
-      lastName,
+      fullName,
       role: role,
     };
 
     const payloadBusiness = {
       password,
       phone,
-      firstName,
-      lastName,
+      fullName,
       companyName: nameCompany,
       workEmail,
       role: role,
@@ -120,6 +116,20 @@ const SignUpForm = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    const role = activeTab === "personal" ? "personal" : "business";
+    const url = `http://localhost:3005/auth/google?state=${role}`;
+    console.log("Redirecting to:", url);
+    window.open(url, "_self");
+  };
+
+  const handleFacebookLogin = () => {
+    const role = "customer";
+    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+
+    window.open(url, "_self");
+  };
+
   return (
     <section id="signIn_area">
       <div className="container">
@@ -159,27 +169,15 @@ const SignUpForm = () => {
                   <div className="row">
                     {activeTab === "personal" ? (
                       <>
-                        <div className="col-lg-6">
+                        <div className="col-lg-12">
                           <FormInput
                             tag={"input"}
                             type={"text"}
                             name={"lastName"}
                             classes={"form-control"}
                             placeholder={"Họ"}
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            required
-                          />
-                        </div>
-                        <div className="col-lg-6">
-                          <FormInput
-                            tag={"input"}
-                            type={"text"}
-                            name={"firstName"}
-                            classes={"form-control"}
-                            placeholder={"Tên"}
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
                             required
                           />
                         </div>
@@ -351,6 +349,7 @@ const SignUpForm = () => {
                           border: "none",
                           borderRadius: "5px",
                         }}
+                        onClick={handleFacebookLogin}
                       >
                         Đăng nhập với Facebook
                       </button>

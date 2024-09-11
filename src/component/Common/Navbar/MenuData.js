@@ -1,5 +1,5 @@
 export const getMenuData = () => {
-  const isLoggedIn = !!localStorage.getItem("token");
+  const isLoggedIn = !!localStorage.getItem("accessToken");
   const MenuData = [
     // {
     //   name: "Home",
@@ -31,11 +31,11 @@ export const getMenuData = () => {
       href: isLoggedIn ? "/profile" : "/signIn",
       has_children: false,
     },
-    {
+    ...(!isLoggedIn ? [{
       name: "Đăng Ký",
       href: "#",
       has_children: false,
-    },
+    }] : [])
   ];
   return MenuData;
 };

@@ -22,10 +22,19 @@ const SignInForm = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const loginSuccess = await handleLogin(email, password);
-    if (loginSuccess) {
-      toast.success("Đăng Nhập Thành Công");
-      history.push("/");
+
+    try {
+      const response = await handleLogin(email, password);
+      if (response) {
+        const token = response.data.accessToken;
+
+        toast.success("Đăng Nhập Thành Công");
+        history.push("/");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      toast.error("Đăng Nhập Thất Bại");
     }
   };
   useEffect(() => {
@@ -40,6 +49,14 @@ const SignInForm = (props) => {
 
   const handleGoogleLogin = () => {
     window.open("http://localhost:3005/auth/google", "_self");
+  };
+
+
+  const handleFacebookLogin = () => {
+    const role = "customer";
+    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+
+    window.open(url, "_self");
   };
 
   return (

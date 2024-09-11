@@ -24,10 +24,12 @@ const DashboardProfile = () => {
           <div className="col-9">
             {tab === "profile" && <ProfileUser data={data} refetch={refetch} />}
             {tab === "changePassword" && <ChangePassWord />}
+
+            {tab === "wallet" && <Wallet data={data} />}
+
             {tab === "tripHistory" && <TripHistory />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
 
-            {tab === "wallet" && <Wallet />}
           </div>
         </div>
       </div>
