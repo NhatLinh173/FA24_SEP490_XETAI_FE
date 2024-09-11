@@ -24,7 +24,7 @@ const DashboardProfile = () => {
           <div className="col-9">
             {tab === "profile" && <ProfileUser data={data} />}
             {tab === "changePassword" && <ChangePassWord />}
-            {tab === "wallet" && <Wallet />}
+            {tab === "wallet" && <Wallet data={data} />}
           </div>
         </div>
       </div>

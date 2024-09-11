@@ -15,7 +15,7 @@ const Navbar = ({ openModal }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const checkToken = localStorage.getItem("token");
+    const checkToken = localStorage.getItem("accessToken");
     if (checkToken) {
       setIsLoggedIn(true);
     }

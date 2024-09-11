@@ -43,12 +43,11 @@ const SignUpForm = () => {
   const handleRegisterDriver = async () => {
     const role = activeTab === "personal" ? "personal" : "business";
 
-    if (!validateField("fullName", fullName)) return;
-    // if (!validateField("address", address)) return;
-    if (!validateField("email", email)) return;
-    if (!validateField("password", password)) return;
-    if (!validateField("phone", phone)) return;
-    if (!validateField("Name Company", nameCompany)) return;
+    // if (!validateField("fullName", fullName)) return;
+    // if (!validateField("email", email)) return;
+    // if (!validateField("password", password)) return;
+    // if (!validateField("phone", phone)) return;
+    // if (!validateField("Name Company", nameCompany)) return;
 
     const payloadPersonnal = {
       email,
@@ -122,6 +121,13 @@ const SignUpForm = () => {
     const role = activeTab === "personal" ? "personal" : "business";
     const url = `http://localhost:3005/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
+    window.open(url, "_self");
+  };
+
+  const handleFacebookLogin = () => {
+    const role = "customer";
+    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+
     window.open(url, "_self");
   };
 
@@ -367,6 +373,7 @@ const SignUpForm = () => {
                           border: "none",
                           borderRadius: "5px",
                         }}
+                        onClick={handleFacebookLogin}
                       >
                         Đăng nhập với Facebook
                       </button>

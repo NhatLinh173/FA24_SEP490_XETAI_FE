@@ -28,12 +28,6 @@ const SignInForm = (props) => {
       if (response) {
         const token = response.data.accessToken;
 
-        if (rememberMe) {
-          Cookies.set("token", token, { expires: 7 });
-        } else {
-          localStorage.setItem("token", token);
-        }
-
         toast.success("Đăng Nhập Thành Công");
         history.push("/");
         window.location.reload();
@@ -52,7 +46,10 @@ const SignInForm = (props) => {
   };
 
   const handleFacebookLogin = () => {
-    window.open("http://localhost:3005/auth/facebook", "_self");
+    const role = "customer";
+    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+
+    window.open(url, "_self");
   };
   return (
     <>
