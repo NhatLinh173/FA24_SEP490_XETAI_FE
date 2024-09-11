@@ -1,5 +1,5 @@
 export const getMenuData = () => {
-  const isLoggedIn = !!localStorage.getItem("token");
+  const isLoggedIn = !!localStorage.getItem("accessToken");
   const MenuData = [
     // {
     //   name: "Home",

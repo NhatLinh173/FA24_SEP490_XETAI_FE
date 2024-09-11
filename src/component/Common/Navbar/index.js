@@ -1,14 +1,33 @@
-import React, { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
-import logo from "../../../assets/img/logo.png"
-import TopHeader from "../TopHeader"
-import { getMenuData } from "./MenuData"
-import MenuItems from "./MenuItems"
-import SearchForm from "../SearchForm"
-import { HiMenuAlt3 } from "react-icons/hi"
-import { AiOutlineClose } from "react-icons/ai"
-import { CgProfile } from "react-icons/cg"
-import { FaArrowRightFromBracket } from "react-icons/fa6"
+
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import logo from "../../../assets/img/logo.png";
+import TopHeader from "../TopHeader";
+import { getMenuData } from "./MenuData";
+import MenuItems from "./MenuItems";
+import SearchForm from "../SearchForm";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { AiOutlineClose } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
+import { FaArrowRightFromBracket } from "react-icons/fa6";
+import useAuth from "../../../hooks/useAuth";
+const Navbar = ({ openModal }) => {
+  const { handleLogout } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkToken = localStorage.getItem("accessToken");
+    if (checkToken) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogoutClick = async () => {
+    await handleLogout();
+  };
+
+  const menuData = getMenuData();
+
 
 const Navbar = ({ openModal }) => {
   const menuData = getMenuData()

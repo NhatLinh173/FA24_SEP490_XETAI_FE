@@ -55,6 +55,13 @@ const SignUpCustomer = () => {
     }
   };
 
+  const handleFacebookLogin = () => {
+    const role = "customer";
+    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+
+    window.open(url, "_self");
+  };
+
   return (
     <section id="signIn_area">
       <div className="container">
@@ -201,6 +208,7 @@ const SignUpCustomer = () => {
                           border: "none",
                           borderRadius: "5px",
                         }}
+                        onClick={handleFacebookLogin}
                       >
                         Đăng Nhập Với Facebook
                       </button>

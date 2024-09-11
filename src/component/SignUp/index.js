@@ -44,13 +44,13 @@ const SignUpForm = () => {
   const handleRegisterDriver = async () => {
     const role = activeTab === "personal" ? "personal" : "business";
 
-    if (!validateField("firstName", firstName)) return;
-    if (!validateField("lastName", lastName)) return;
-    if (!validateField("email", email)) return;
-    if (!validateField("password", password)) return;
-    if (!validateField("phone", phone)) return;
-    if (!validateField("Name Company", nameCompany)) return;
-    if (!validateField("Work Email", workEmail)) return;
+    // if (!validateField("fullName", fullName)) return;
+    // if (!validateField("email", email)) return;
+    // if (!validateField("password", password)) return;
+    // if (!validateField("phone", phone)) return;
+    // if (!validateField("Name Company", nameCompany)) return;
+
+
     const payloadPersonnal = {
       email,
       password,
@@ -118,6 +118,21 @@ const SignUpForm = () => {
         console.error("Register error:", error);
       }
     }
+  };
+
+
+  const handleGoogleLogin = () => {
+    const role = activeTab === "personal" ? "personal" : "business";
+    const url = `http://localhost:3005/auth/google?state=${role}`;
+    console.log("Redirecting to:", url);
+    window.open(url, "_self");
+  };
+
+  const handleFacebookLogin = () => {
+    const role = "customer";
+    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+
+    window.open(url, "_self");
   };
 
   return (
@@ -351,6 +366,7 @@ const SignUpForm = () => {
                           border: "none",
                           borderRadius: "5px",
                         }}
+                        onClick={handleFacebookLogin}
                       >
                         Đăng nhập với Facebook
                       </button>

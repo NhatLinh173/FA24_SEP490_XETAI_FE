@@ -23,6 +23,26 @@ export const setLogoutCallback = (callback) => {
   logoutCallback = callback;
 };
 
+let isRefreshing = false;
+let failedQueue = [];
+let logoutCallback = null;
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
+export const setLogoutCallback = (callback) => {
+  logoutCallback = callback;
+};
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -40,10 +60,12 @@ axiosInstance.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
+
             originalRequest.headers["Authorization"] = "Bearer " + token;
             return axiosInstance(originalRequest);
           })
           .catch((err) => {
+
             return Promise.reject(err);
           });
       }
@@ -51,14 +73,19 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = Cookies.get("token");
+
+        const refreshToken = Cookies.get("freshToken");
+        console.log("Refreshing token with:", refreshToken);
+
         const response = await axiosInstance.post("/auth/refresh-token", {
           refreshToken,
         });
 
         if (response.status === 200) {
           const newToken = response.data.accessToken;
-          localStorage.setItem("token", newToken);
+
+          localStorage.setItem("accessToken", newToken);
+
           Cookies.set("token", newToken);
           axiosInstance.defaults.headers.common[
             "Authorization"
@@ -68,6 +95,7 @@ axiosInstance.interceptors.response.use(
           return axiosInstance(originalRequest);
         }
       } catch (err) {
+
         processQueue(err, null);
         if (logoutCallback) logoutCallback();
         return Promise.reject(err);
