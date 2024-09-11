@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
-import ProfileUser from "./ProfileUser";
-import useInstanceData from "../../../config/useInstanceData";
-import Tab from "./Tab";
-import ChangePassWord from "./ChangePassWord";
-import FavoriteDriver from "./FavoriteDriver";
-import Wallet from "./Wallet";
-
+import React, { useState, useEffect } from "react"
+import ProfileUser from "./ProfileUser"
+import useInstanceData from "../../../config/useInstanceData"
+import Tab from "./Tab"
+import ChangePassWord from "./ChangePassWord"
+import FavoriteDriver from "./FavoriteDriver"
+import Wallet from "./Wallet"
+import { TripHistory } from "./TripHistory"
 
 const DashboardProfile = () => {
-  const [tab, setTab] = useState("profile");
-  const userId = localStorage.getItem("userId");
+  const [tab, setTab] = useState("profile")
+  const userId = localStorage.getItem("userId")
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
-  );
-  console.log(refetch);
+  )
 
   return (
     <div className="wrapper">
@@ -25,6 +24,7 @@ const DashboardProfile = () => {
           <div className="col-9">
             {tab === "profile" && <ProfileUser data={data} refetch={refetch} />}
             {tab === "changePassword" && <ChangePassWord />}
+            {tab === "tripHistory" && <TripHistory />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
 
             {tab === "wallet" && <Wallet />}
@@ -32,7 +32,7 @@ const DashboardProfile = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DashboardProfile;
+export default DashboardProfile

@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import FormInput from "../Common/FormInput";
 import CustomModal from "../modal-popup/CustomModal";
+import axios from "axios";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
-import Cookies from "js-cookie";
 
 const SignInForm = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const { handleLogin } = useAuth();
   const history = useHistory();
   const openModal = () => {
@@ -23,37 +22,26 @@ const SignInForm = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await handleLogin(email, password);
-      if (response) {
-        const token = response.data.accessToken;
-
-        if (rememberMe) {
-          Cookies.set("token", token, { expires: 7 });
-        } else {
-          localStorage.setItem("token", token);
-        }
-
-        toast.success("Đăng Nhập Thành Công");
-        history.push("/");
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error("Login failed:", error);
-      toast.error("Đăng Nhập Thất Bại");
+    const loginSuccess = await handleLogin(email, password);
+    if (loginSuccess) {
+      toast.success("Đăng Nhập Thành Công");
+      history.push("/");
     }
   };
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const token = query.get("token");
+
+    if (token) {
+      localStorage.setItem("token", token);
+      history.push("/");
+    }
+  }, [history]);
 
   const handleGoogleLogin = () => {
-    const role = "customer";
-    const url = `http://localhost:3005/auth/google?state=${role}`;
-    console.log("Redirecting to:", url);
-    window.open(url, "_self");
+    window.open("http://localhost:3005/auth/google", "_self");
   };
 
-  const handleFacebookLogin = () => {
-    window.open("http://localhost:3005/auth/facebook", "_self");
-  };
   return (
     <>
       <section id="signIn_area">
@@ -95,7 +83,6 @@ const SignInForm = (props) => {
                             type="checkbox"
                             className="form-check-input"
                             id="exampleCheck1"
-                            onChange={(e) => setRememberMe(e.target.checked)}
                           />
                           <label
                             className="form-check-label"
@@ -150,7 +137,6 @@ const SignInForm = (props) => {
                             borderRadius: "5px",
                             cursor: "pointer",
                           }}
-                          onClick={handleFacebookLogin}
                         >
                           Đăng nhập với Facebook
                         </button>
