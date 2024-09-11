@@ -48,7 +48,7 @@ export const TripHistory = () => {
       status: "Khách thuê đã huỷ",
       status_time: "07:35, 30/06/2024",
     },
-  ]
+  ];
 
   return (
     <div className="delivery-history-list">
@@ -57,11 +57,7 @@ export const TripHistory = () => {
       {dummyData.map((item) => (
         <div key={item.id} className="my-4 border rounded-12">
           <div className="p-3 d-flex">
-            <a
-              href={`/trip/detail/${item.id}`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={`/trip/detail/${item.id}`} rel="noreferrer">
               <img
                 src={item.image}
                 alt={item.name}
@@ -92,5 +88,5 @@ export const TripHistory = () => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
