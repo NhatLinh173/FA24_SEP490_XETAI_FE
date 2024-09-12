@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FormInput from "../Common/FormInput";
 import useInstanceData from "../../config/useInstanceData";
+import axiosInstance from "../../config/axiosConfig";
 
 const RequestQuoteForm = () => {
   const userId = localStorage.getItem("userId");
@@ -18,14 +19,14 @@ const RequestQuoteForm = () => {
   const [addressTo, setNewAddressTo] = useState("");
   const [totalWeight, setNewTotalWeight] = useState("");
   const [cost, setNewCost] = useState("");
-  const [oderDescription, setNewoderDescription] = useState("");
+  const [orderDescription, setNewoderDescription] = useState("");
+  const { data: trucks } = useInstanceData("/categories");
 
   useEffect(() => {
     setNewEmail(email);
     setNewPhone(phone);
     setNewFullName(fullName);
   }, [email, phone, fullName]);
-  console.log(email);
 
   const handleOrderTypeChange = (e) => {
     setNewOrderType(e.target.value);
@@ -59,28 +60,32 @@ const RequestQuoteForm = () => {
     setNewFullName(e.target.value);
   };
 
-  let options2 = [
-    {
-      text: "Loại xe",
-      value: "",
-    },
-    {
-      text: "Van 750kg",
-      value: "",
-    },
-    {
-      text: "Van 1000kg",
-      value: "",
-    },
-    {
-      text: "Truck 500kg",
-      value: "",
-    },
-    {
-      text: "Truck 1000kg",
-      value: "",
-    },
-  ];
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("/posts", {
+        creator: userId,
+        email: newEmail,
+        phone: newPhone,
+        fullname: newFullName,
+        title: orderType,
+        category: vehicle,
+        startPoint: addressFrom,
+        destination: addressTo,
+        load: totalWeight,
+        price: cost,
+        detail: orderDescription,
+      });
+      console.log(response);
+      if (response.status === 200) {
+        console.log("Form submitted successfully");
+      }
+      refetch();
+    } catch (error) {
+      console.error("Error submitting form:", error.message);
+    }
+  };
+
   return (
     <>
       <section id="request_quote_form_area">
@@ -124,16 +129,19 @@ const RequestQuoteForm = () => {
                     />
                   </div>
                   <div className="col-lg-6">
-                    <FormInput
-                      tag="select"
-                      id="car"
-                      name="car"
-                      classes="form-control"
-                      options={options2}
-                      label="Loại Xe"
-                      value={vehicle}
-                      onChange={handleVehicleChange}
-                    />
+                    <div className="form-group">
+                      <label>Loai xe</label>
+                      <select
+                        className="form-control first_null"
+                        onChange={handleVehicleChange}
+                      >
+                        {trucks.map((truck) => (
+                          <option key={truck.slug} value={truck._id}>
+                            {truck.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                   <div className="col-lg-6">
                     <FormInput
@@ -195,7 +203,7 @@ const RequestQuoteForm = () => {
                       classes={"form-control"}
                       placeholder={"Mô Tả Đơn Hàng"}
                       label="Mô Tả Đơn Hàng  Chọn)"
-                      value={oderDescription}
+                      value={orderDescription}
                       onChange={handleOrderDescriptionChange}
                     />
                   </div>
@@ -244,7 +252,9 @@ const RequestQuoteForm = () => {
 
                   <div className="col-lg-12">
                     <div className="quote_submit_button d-flex justify-content-center">
-                      <button className="btn btn-theme">Send Messages</button>
+                      <button className="btn btn-theme" onClick={handleSubmit}>
+                        Send Messages
+                      </button>
                     </div>
                   </div>
                 </div>
