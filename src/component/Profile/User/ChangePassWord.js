@@ -32,9 +32,9 @@ const ChangePassWord = () => {
           },
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
-          } 
+          }
         );
         if (res.status === 200) {
           toast.success("Đổi mật khẩu thành công !");

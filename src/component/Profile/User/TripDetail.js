@@ -1,9 +1,28 @@
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
-
+import { useState } from "react";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { FaStar } from "react-icons/fa";
+import { CiStar } from "react-icons/ci";
 const TripDetail = () => {
-  const { id } = useParams()
-  console.log(id)
+  const { id } = useParams();
+  console.log(id);
 
+  const [rating, setRating] = useState(0); // Lưu trạng thái số sao được chọn
+  const [hover, setHover] = useState(null); // Trạng thái sao khi người dùng hover
+  const [feedback, setfeedback] = useState("");
+
+  const handleRatingClick = (value) => {
+    setRating(value);
+  };
+  const [isShowModal, setIsShowModal] = useState(false);
+  const handleOpenModal = () => {
+    setIsShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setIsShowModal(false);
+  };
+  const handleFeedback = (e) => {
+    setfeedback(e.target.value);
+  };
   const DUMMY_DATA = {
     trip_name: "Đà Nẵng - Hải Phòng",
     status: 1,
@@ -19,17 +38,17 @@ const TripDetail = () => {
     customer_name: "Nguyen Van A",
     email: "vana@gmail.com",
     phone_number: "098765432",
-  }
+  };
 
   const STATUS = {
     0: "Đã Huỷ ",
     1: "Đã giao",
-  }
+  };
 
   const STATUS_BADGE_CLASS = {
     0: "badge-warning",
     1: "badge-info",
-  }
+  };
 
   return (
     <div className="wrapper container pb-5">
@@ -61,6 +80,17 @@ const TripDetail = () => {
 
                 <div className="fs-12 text-secondary">
                   Địa chỉ nhận hàng: {DUMMY_DATA.address}
+                </div>
+                <div className="mt-2">
+                  <button
+                    type="button"
+                    class="btn btn-theme "
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    onClick={handleOpenModal}
+                  >
+                    Đánh giá
+                  </button>
                 </div>
               </div>
             </div>
@@ -226,6 +256,75 @@ const TripDetail = () => {
                 </div>
               </form>
             </div>
+            {isShowModal && (
+              <div
+                class="modal fade show"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content ">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Đánh giá chuyến hàng
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body flex-column">
+                      <div className="">
+                        <div className="d-flex justify-content-center mb-3">
+                          {[...Array(5)].map((star, index) => {
+                            const value = index + 1;
+                            return (
+                              <div
+                                key={index}
+                                className="cursor-pointer"
+                                onClick={() => handleRatingClick(value)}
+                                onMouseEnter={() => setHover(value)}
+                                onMouseLeave={() => setHover(null)}
+                              >
+                                {value <= (hover || rating) ? (
+                                  <FaStar size={30} color="yellow" /> // Ngôi sao màu trắng trên nền vàng
+                                ) : (
+                                  <CiStar size={30} color="#000" /> // Ngôi sao rỗng màu đen
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <textarea
+                        className="form-control"
+                        placeholder="Đánh giá"
+                        rows="4"
+                        value={feedback}
+                        onChange={handleFeedback}
+                      />
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                        onClick={handleCloseModal}
+                      >
+                        Đóng
+                      </button>
+                      <button type="button" class="btn btn-primary">
+                        Gủi
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -289,7 +388,7 @@ const TripDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TripDetail
+export default TripDetail;
