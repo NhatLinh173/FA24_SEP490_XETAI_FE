@@ -1,38 +1,48 @@
 import { useState } from "react";
 import axiosInstance from "../config/axiosConfig";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import { refresh } from "@cloudinary/url-gen/qualifiers/artisticFilter";
 
 const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("accessToken")
+  );
+
+  const history = useHistory();
 
   const handleLogin = async (email, password) => {
-    const payload = {
-      email,
-      password,
-    };
     try {
-      const response = await axiosInstance.post("/auth/login", payload);
-      if (response.status === 200) {
-        localStorage.setItem("userId", response.data._id);
-        localStorage.setItem("accessToken", response.data.accessToken);
-        Cookies.set("freshToken", response.data.accessToken);
+      const { data } = await axiosInstance.post("/auth/login", {
+        email,
+        password,
+      });
+
+      if (data) {
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("userId", data._id);
+        Cookies.set("refreshToken", data.refreshToken);
         setIsAuthenticated(true);
-        return response;
+        history.push("/");
+        window.location.reload();
+
+        return data;
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.error("Sai Tài Khoản Hoặc Mật Khẩu");
+      if (error.response?.status === 401) {
+        toast.warn("Sai Tài Khoản Hoặc Mật Khẩu");
       } else {
-        console.error("Đăng Nhập Thất Bại");
+        toast.error("Đăng Nhập Thất Bại");
       }
-      console.error("Login error:", error);
     }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("accessToken");
-    Cookies.remove("freshToken");
+    localStorage.removeItem("avatar");
+    Cookies.remove("refreshToken");
     setIsAuthenticated(false);
     window.location.href = "/";
   };

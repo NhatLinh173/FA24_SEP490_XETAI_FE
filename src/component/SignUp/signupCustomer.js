@@ -53,6 +53,14 @@ const SignUpCustomer = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    console.log("Redirecting to:");
+    const role = "customer";
+    const url = `http://localhost:3005/auth/google?state=${role}`;
+    console.log("Redirecting to:", url);
+    window.open(url, "_self");
+  };
+
   const handleFacebookLogin = () => {
     const role = "customer";
     const url = `http://localhost:3005/auth/facebook?state=${role}`;
@@ -179,6 +187,7 @@ const SignUpCustomer = () => {
                           border: "none",
                           borderRadius: "5px",
                         }}
+                        onClick={handleGoogleLogin}
                       >
                         Đăng Nhập Với Google
                       </button>

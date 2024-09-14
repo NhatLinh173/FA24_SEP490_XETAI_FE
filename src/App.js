@@ -42,9 +42,9 @@ const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { handleLogout } = useAuth();
 
-  useEffect(() => {
-    setLogoutCallback(handleLogout);
-  }, [handleLogout]);
+  // useEffect(() => {
+  //   setLogoutCallback(handleLogout);
+  // }, [handleLogout]);
 
   return (
     <Router>
