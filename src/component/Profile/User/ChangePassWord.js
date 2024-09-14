@@ -18,7 +18,6 @@ const ChangePassWord = () => {
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
   };
-  // xử lý khi người dùng click vào nút thay đoi mật khẩu
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,9 +31,9 @@ const ChangePassWord = () => {
           },
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
-          } 
+          }
         );
         if (res.status === 200) {
           toast.success("Đổi mật khẩu thành công !");
