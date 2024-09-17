@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { FaStar } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
+import axiosInstance from "../../../config/axiosConfig";
 const TripDetail = () => {
-  const { id } = useParams();
-  console.log(id);
+  // const reviewerId = localStorage.getItem("userId");
 
   const [rating, setRating] = useState(0); // Lưu trạng thái số sao được chọn
   const [hover, setHover] = useState(null); // Trạng thái sao khi người dùng hover
@@ -23,6 +23,20 @@ const TripDetail = () => {
   const handleFeedback = (e) => {
     setfeedback(e.target.value);
   };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axiosInstance.post("/rating", {
+  //       userId: 12312321,
+  //       rating: rating,
+  //       reviewerId: reviewerId,
+  //       comment: feedback,
+  //     });
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const DUMMY_DATA = {
     trip_name: "Đà Nẵng - Hải Phòng",
     status: 1,

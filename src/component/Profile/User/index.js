@@ -5,6 +5,7 @@ import Tab from "./Tab";
 import ChangePassWord from "./ChangePassWord";
 import FavoriteDriver from "./FavoriteDriver";
 import Wallet from "./Wallet";
+import HistoryPost from "./HistoryPost";
 import { TripHistory } from "./TripHistory";
 
 const DashboardProfile = () => {
@@ -28,6 +29,7 @@ const DashboardProfile = () => {
 
             {tab === "tripHistory" && <TripHistory />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
+            {tab === "historyPost" && <HistoryPost />}
           </div>
         </div>
       </div>

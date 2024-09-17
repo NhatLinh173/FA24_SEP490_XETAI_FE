@@ -52,7 +52,7 @@ const ProfileUser = ({ data, refetch }) => {
     if (avatar) {
       setNewAvatar(null);
     }
-  }, [fullName, phone, email, address]);
+  }, [fullName, phone, email, address, avatar]);
   // dùng để sửa lại giá trị trong ô input
   const handlenewAddress = (e) => {
     setNewAddress(e.target.value);
@@ -83,7 +83,6 @@ const ProfileUser = ({ data, refetch }) => {
     e.preventDefault();
     setIsAddress(true);
   };
-
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     if (
@@ -173,8 +172,8 @@ const ProfileUser = ({ data, refetch }) => {
           </div>
 
           <div className="row g-3 align-item-center">
-            <div className="col-3">
-              <label for="name" className="col-form-label">
+            <div className="col-3 ">
+              <label for="name " className="col-form-label font-weight-bold  ">
                 Họ và Tên:
               </label>
             </div>
@@ -206,7 +205,7 @@ const ProfileUser = ({ data, refetch }) => {
           <br />
           <div className="row g-3 align-items-center ">
             <div className="col-3">
-              <label for="phone" className="col-form-label">
+              <label for="phone" className="col-form-label font-weight-bold">
                 Số Điện Thoại:
               </label>
             </div>
@@ -241,7 +240,7 @@ const ProfileUser = ({ data, refetch }) => {
           <br />
           <div className="row g-3 align-items-center">
             <div className="col-3">
-              <label for="email" className="col-form-label">
+              <label for="email" className="col-form-label font-weight-bold">
                 Email:
               </label>
             </div>
@@ -273,7 +272,7 @@ const ProfileUser = ({ data, refetch }) => {
           </div>
           <br />
           <div className="row g-3 align-items-center">
-            <div className="col-3">
+            <div className="col-3 font-weight-bold">
               <label for="pwd">Địa chỉ:</label>
             </div>
             <div className="col-9">
