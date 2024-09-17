@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../../../assets/css/wallet.css";
 import { jwtDecode } from "jwt-decode";
+import axiosInstance from "../../../config/axiosConfig";
 const Wallet = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
   const [depositAmount, setDepositAmount] = useState("");
@@ -27,7 +28,7 @@ const Wallet = ({ data }) => {
     } else {
       setError("");
       try {
-        const response = await axios.post(
+        const response = await axiosInstance.post(
           "http://localhost:3005/payment/create",
           {
             description: "Payment for order",
@@ -63,7 +64,7 @@ const Wallet = ({ data }) => {
         setUserId(decodedToken.id);
         console.log(decodedToken);
 
-        const responseUserId = await axios.get(
+        const responseUserId = await axiosInstance.get(
           `http://localhost:3005/payment/get-userId/${decodedToken.id}`,
           {
             headers: {
@@ -100,7 +101,7 @@ const Wallet = ({ data }) => {
           }
 
           if (fetchedOrderCode) {
-            await axios.get(
+            await axiosInstance.get(
               `http://localhost:3005/payment/payment-info/${fetchedOrderCode}`,
               {
                 headers: {
@@ -230,7 +231,7 @@ const Wallet = ({ data }) => {
                     <h5>Link thanh toán:</h5>
                     <a
                       href={checkoutUrl}
-                      target="_blank"
+                      target="_self"
                       rel="noopener noreferrer"
                     >
                       Thanh toán tại đây

@@ -26,11 +26,11 @@ const SignInForm = (props) => {
     try {
       const response = await handleLogin(email, password);
       if (response) {
-        const token = response.data.accessToken;
-
-        toast.success("Đăng Nhập Thành Công");
-        history.push("/");
-        window.location.reload();
+        if (response.status === 200) {
+          toast.success("Đăng Nhập Thành Công");
+          history.push("/");
+          window.location.reload();
+        }
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -50,7 +50,6 @@ const SignInForm = (props) => {
   const handleGoogleLogin = () => {
     window.open("http://localhost:3005/auth/google", "_self");
   };
-
 
   const handleFacebookLogin = () => {
     const role = "customer";
@@ -179,7 +178,6 @@ const SignInForm = (props) => {
           </div>
         </div>
       </section>
-
       <CustomModal isOpen={modalIsOpen} closeModal={closeModal} />
     </>
   );

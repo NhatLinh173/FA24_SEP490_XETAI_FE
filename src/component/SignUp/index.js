@@ -334,6 +334,7 @@ const SignUpForm = () => {
                           border: "none",
                           borderRadius: "5px",
                         }}
+                        onClick={handleGoogleLogin}
                       >
                         Đăng nhập với Google
                       </button>

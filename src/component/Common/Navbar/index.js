@@ -68,7 +68,7 @@ const Navbar = ({ openModal }) => {
   };
 
   const menuData = getMenuData();
-
+  const avatar = localStorage.getItem("avatar");
   return (
     <>
       <header className="header-area">
@@ -101,10 +101,10 @@ const Navbar = ({ openModal }) => {
                     </li>
                     {isLoggedIn && (
                       <div className="nav-avatar rounded-circle ml-4">
-                        <a href="#ff">
+                        <a href="/profile">
                           <img
                             className="rounded-circle"
-                            src="https://mcdn.coolmate.me/image/August2023/luu-ngay-20-meme-tinh-tam-moi-nhat-2023-2383_391.jpg"
+                            src={avatar}
                             alt="avatar"
                           />
                         </a>

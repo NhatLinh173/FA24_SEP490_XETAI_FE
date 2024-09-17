@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import { CiCamera } from "react-icons/ci";
 import axios from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
+import axiosInstance from "../../../config/axiosConfig";
 
 const ProfileUser = ({ data, refetch }) => {
-  const { email, fullName, phone, address, _id } = data;
+  const { email, fullName, phone, address, _id, avatar } = data;
   const [isName, setIsName] = useState(true);
   const [isPhone, setIsPhone] = useState(true);
   const [isEmail, setIsEmail] = useState(true);
   const [isAddress, setIsAddress] = useState(true);
-  //////
+  const [isAvatar, setIsAvatar] = useState(true);
+
+  const [newAvatar, setNewAvatar] = useState(null);
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState(0);
   const [newEmail, setNewEmail] = useState("");
@@ -31,13 +34,25 @@ const ProfileUser = ({ data, refetch }) => {
     e.preventDefault();
     setIsAddress(false);
   };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewAvatar(file);
+      console.log("Avatar changed", file);
+    }
+  };
+
   // dùng để giữ lại giá trị của ô input
   useEffect(() => {
     setNewName(fullName);
     setNewPhone(phone);
     setNewEmail(email);
     setNewAddress(address);
-  }, [fullName, phone, email, address]);
+    if (avatar) {
+      setNewAvatar(null);
+    }
+  }, [fullName, phone, email, address, avatar]);
   // dùng để sửa lại giá trị trong ô input
   const handlenewAddress = (e) => {
     setNewAddress(e.target.value);
@@ -74,27 +89,53 @@ const ProfileUser = ({ data, refetch }) => {
       newName == fullName &&
       email == newEmail &&
       address == newAddress &&
-      phone == newPhone
+      phone == newPhone &&
+      !newAvatar
     ) {
       toast.error("Không có thay đổi nào để cập nhật");
       return;
     } else {
       try {
-        const res = await axios.put(`/auth/update-user/${_id}`, {
+        let avatarUrl = avatar;
+
+        if (newAvatar) {
+          const formData = new FormData();
+          formData.append("file", newAvatar);
+          formData.append("upload_preset", "Transaction");
+
+          try {
+            const cloudinaryRes = await axiosInstance.post(
+              "https://api.cloudinary.com/v1_1/dqzsoudfk/image/upload",
+              formData
+            );
+            if (cloudinaryRes.data.secure_url) {
+              avatarUrl = cloudinaryRes.data.secure_url;
+            } else {
+              throw new Error("Cloudinary did not return a URL");
+            }
+          } catch (error) {
+            console.error("Error uploading to Cloudinary:", error);
+            toast.error("Lỗi tải ảnh lên Cloudinary");
+            return;
+          }
+        }
+        const res = await axiosInstance.put(`/auth/update-user/${_id}`, {
           fullName: newName,
           phone: newPhone,
           email: newEmail,
           address: newAddress,
+          avatar: avatarUrl,
         });
-        console.log(res);
+
         if (res.status === 200) {
           toast.success("Cập nhập thông tin thành công!");
+          localStorage.setItem("avatar", avatar);
+          refetch();
         }
         setIsName(true);
         setIsPhone(true);
         setIsEmail(true);
         setIsAddress(true);
-        refetch();
       } catch (error) {
         console.log(error);
       }
@@ -110,12 +151,23 @@ const ProfileUser = ({ data, refetch }) => {
           <div className="avatar ">
             <div className="avt-img">
               <img
-                className="rounded-circle "
-                src="https://mcdn.coolmate.me/image/August2023/luu-ngay-20-meme-tinh-tam-moi-nhat-2023-2383_391.jpg"
+                className="rounded-circle"
+                src={newAvatar ? URL.createObjectURL(newAvatar) : avatar}
                 alt="avatar"
+                style={{ width: "100px", height: "100px" }}
               />
-
-              <CiCamera className="icon-avt rounded-circle p-1" />
+              <label
+                htmlFor="avatar-upload"
+                className="icon-avt rounded-circle p-1"
+              >
+                <CiCamera />
+              </label>
+              <input
+                type="file"
+                id="avatar-upload"
+                style={{ display: "none" }}
+                onChange={handleAvatarChange}
+              />
             </div>
           </div>
 

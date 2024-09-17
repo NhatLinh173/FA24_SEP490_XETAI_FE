@@ -18,7 +18,6 @@ const ChangePassWord = () => {
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
   };
-  // xử lý khi người dùng click vào nút thay đoi mật khẩu
 
   const handleSubmit = async (e) => {
     e.preventDefault();

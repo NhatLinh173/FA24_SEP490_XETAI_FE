@@ -18,16 +18,16 @@ const IndexPage = () => {
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const token = query.get("token");
-
+    console.log(token);
     if (token) {
-      localStorage.setItem("token", token);
+      localStorage.setItem("accessToken", token);
       history.push("/");
+      window.location.reload();
     }
   }, [history]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-
     const status = queryParams.get("status");
     const orderCode = queryParams.get("orderCode");
     if (orderCode) {
