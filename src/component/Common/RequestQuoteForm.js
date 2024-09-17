@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import FormInput from "../Common/FormInput";
 import useInstanceData from "../../config/useInstanceData";
 import axiosInstance from "../../config/axiosConfig";
+import { toast } from "react-toastify";
 
 const RequestQuoteForm = () => {
   const userId = localStorage.getItem("userId");
@@ -62,6 +63,7 @@ const RequestQuoteForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     try {
       const response = await axiosInstance.post("/posts", {
         creator: userId,
@@ -78,11 +80,13 @@ const RequestQuoteForm = () => {
       });
       console.log(response);
       if (response.status === 200) {
-        console.log("Form submitted successfully");
+        toast.success("Đăng Bài thành công");
       }
       refetch();
     } catch (error) {
-      console.error("Error submitting form:", error.message);
+      if (error.response.status === 400) {
+        toast.error("Vui lòng điền đầy đủ thông tin");
+      }
     }
   };
 
@@ -95,8 +99,8 @@ const RequestQuoteForm = () => {
               <form id="request_form">
                 <div className="row">
                   <div className="col-lg-12">
-                    <div className="heading_quote">
-                      <h3>Đơn Hàng</h3>
+                    <div className="heading_quote ">
+                      <h2>Đơn Hàng</h2>
                     </div>
                   </div>
                   <div className="w-100 d-flex justify-content-center">
@@ -107,7 +111,7 @@ const RequestQuoteForm = () => {
                         id="inputGroupFile02"
                       />
                       <label
-                        class="input-group-text bg-dark-subtle"
+                        class="input-group-text bg-dark-subtle "
                         for="inputGroupFile02"
                       >
                         Tải Ảnh
@@ -130,7 +134,7 @@ const RequestQuoteForm = () => {
                   </div>
                   <div className="col-lg-6">
                     <div className="form-group">
-                      <label>Loai xe</label>
+                      <label className="font-weight-bold">Loai xe</label>
                       <select
                         className="form-control first_null"
                         onChange={handleVehicleChange}
@@ -153,6 +157,7 @@ const RequestQuoteForm = () => {
                       placeholder={"Địa Chỉ Nhận Hàng"}
                       label="Địa Chỉ Nhận Hàng"
                       value={addressFrom}
+                      
                       onChange={handleAddressFromChange}
                     />
                   </div>

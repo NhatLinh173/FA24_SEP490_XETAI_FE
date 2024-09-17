@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react"
-import ProfileUser from "./ProfileUser"
-import useInstanceData from "../../../config/useInstanceData"
-import Tab from "./Tab"
-import ChangePassWord from "./ChangePassWord"
-import FavoriteDriver from "./FavoriteDriver"
-import Wallet from "./Wallet"
-import { TripHistory } from "./TripHistory"
+import React, { useState, useEffect } from "react";
+import ProfileUser from "./ProfileUser";
+import useInstanceData from "../../../config/useInstanceData";
+import Tab from "./Tab";
+import ChangePassWord from "./ChangePassWord";
+import FavoriteDriver from "./FavoriteDriver";
+import Wallet from "./Wallet";
+import HistoryPost from "./HistoryPost";
+import { TripHistory } from "./TripHistory";
 
 const DashboardProfile = () => {
-  const [tab, setTab] = useState("profile")
-  const userId = localStorage.getItem("userId")
+  const [tab, setTab] = useState("profile");
+  const userId = localStorage.getItem("userId");
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
-  )
+  );
 
   return (
     <div className="wrapper">
@@ -29,12 +30,12 @@ const DashboardProfile = () => {
 
             {tab === "tripHistory" && <TripHistory />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
-
+            {tab === "historyPost" && <HistoryPost />}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardProfile
+export default DashboardProfile;
