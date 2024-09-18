@@ -17,6 +17,7 @@ const ProfileUser = ({ data, refetch }) => {
   const [newPhone, setNewPhone] = useState(0);
   const [newEmail, setNewEmail] = useState("");
   const [newAddress, setNewAddress] = useState("");
+
   // set lại ô input
   const inputName = (e) => {
     e.preventDefault();

@@ -1,52 +1,29 @@
-import React from "react";
-import { MdFmdGood } from "react-icons/md";
-import { FaBoxArchive } from "react-icons/fa6";
+import React, { useState } from "react";
+import { FaBoxArchive, FaCheck, FaHourglassHalf } from "react-icons/fa6";
 import { FaWeightHanging } from "react-icons/fa";
-import { FiDollarSign } from "react-icons/fi";
+import { FaMapLocation } from "react-icons/fa6";
+import useInstanceData from "../../../config/useInstanceData";
+import ReactPaginate from "react-paginate";
 
 const HistoryPost = () => {
-  const Data = [
-    {
-      id: 251,
-      address: "Đà Nẵng - Hải Phòng",
-      orderType: "Điện tử",
-      total_weight: "1000kg",
-      total_money: 755700,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9z-qJ-FVhXjO-l_6t7xTqbnkfF8g27-kh8No9VD1xc1SXaoj7jxlQsk97IIOiZdcccq8&usqp=CAU",
-    },
-    {
-      id: 261,
-      address: "Hà Nội - Huế",
-      orderType: "Điện tử",
-      total_weight: "1000kg",
-      total_money: 755700,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBVh7U9OjBSzqif-Q7wRhrUyP-1-KEknCfsx7DQcR6dM596sB3w0_wLbcaSr3SaQvzqYU&usqp=CAU",
-    },
-    {
-      id: 241,
-      address: "Sài Gòn - Cần Thơ",
-      orderType: "Điện tử",
-      total_weight: "1000kg",
-      total_money: 755700,
-      image:
-        "https://thutucxuatnhapkhau.com/wp-content/uploads/2023/06/untitled-design-13-1200x720.png",
-    },
-    {
-      id: 51,
-      address: "Bình Dương - Phú Yên",
-      orderType: "Điện tử",
-      total_weight: "1000kg",
-      total_money: 755700,
-      image:
-        "https://batdongsanban24h.com.vn/upload/sanpham/hinhanhdep52359146461.jpg",
-    },
-  ];
+  const userId = localStorage.getItem("userId");
+  const { data, loading, error, refetch } = useInstanceData(
+    `/posts/${userId}/users`
+  );
+  const [currentPage, setCurrentPage] = useState(0);
+  const postsPerPage = 3;
+  const offset = currentPage * postsPerPage;
+  console.log(offset);
+  const currentPosts = data?.salePosts?.slice(offset, offset + postsPerPage);
+  const handlePageClick = (event) => {
+    const selectedPage = event.selected;
+    setCurrentPage(selectedPage);
+    console.log(event);
+  };
   return (
     <div>
       <h2>Bài đăng</h2>
-      {Data.map((item) => (
+      {currentPosts?.map((item) => (
         <a
           href={`${item.id}`}
           rel="noreferrer"
@@ -56,8 +33,8 @@ const HistoryPost = () => {
             <div className="p-3 d-flex">
               <div className="image-container">
                 <img
-                  src={item.image}
-                  alt={item.address}
+                  src="https://lawnet.vn/uploads/image/2023/06/09/043314645.jpg"
+                  alt="anh hang hoa"
                   className="rounded-12 cursor-pointer zoom-image"
                   style={{
                     width: "360px",
@@ -68,26 +45,59 @@ const HistoryPost = () => {
               </div>
 
               <div className="ml-3">
-                <div className="mb-4 fs-18 font-weight-bold ">
-                  {item.address}
+                <div className="mb-2 text-secondary  d-flex align-items-center">
+                  <FaMapLocation className="mr-2" />
+                  <div className="font-weight-bold text-nowrap">Điểm đi:</div>
+                  <div className="w-75 ml-2 text-truncate">
+                    {item.startPoint}
+                  </div>
                 </div>
-                <div className="mb-2 text-secondary">
-                  <FaBoxArchive className="mr-2" />
-                  {item.orderType}
+                <div className="mb-2 text-secondary  d-flex align-items-center">
+                  <FaMapLocation className="mr-2" />
+                  <div className="font-weight-bold text-nowrap">Điểm đến:</div>
+                  <div className="w-75 ml-2 text-truncate">
+                    {item.destination}
+                  </div>
+                </div>
+                <div className="mb-2 text-secondary  d-flex align-items-center">
+                  <FaBoxArchive className="mr-2 " />
+                  <div className="font-weight-bold mr-2">Loại hàng:</div>
+                  {item.title}
                 </div>
 
-                <div className="mb-4 text-secondary">
+                <div className="mb-4 text-secondary  d-flex align-items-center">
                   <FaWeightHanging className="mr-2" />
-                  {item.total_weight}
+                  <div className="font-weight-bold mr-2">Khối lượng:</div>
+                  {item.load}
                 </div>
                 <div className="fs-18 font-weight-bold">
-                  Tổng tiền: {item.total_money.toLocaleString()} vnd
+                  Tổng tiền: {item.price.toLocaleString()} vnd
                 </div>
+                <button className="btn-sm  btn-success mt-3  border-0    ">
+                  <FaCheck className="mr-2" />
+                  Tài xế đã nhận đơn
+                </button>
               </div>
             </div>
           </div>
         </a>
       ))}
+      <ReactPaginate
+        pageCount={Math.ceil(data?.salePosts?.length / 3)}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        pageClassName={"page-item"}
+        pageLinkClassName={"page-link"}
+        previousClassName={"page-item"}
+        previousLinkClassName={"page-link"}
+        nextClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        breakClassName={"page-item"}
+        breakLinkClassName={"page-link"}
+        activeClassName={"active"}
+        previousLabel={"<<"}
+        nextLabel={">>"}
+      />
     </div>
   );
 };

@@ -4514,3 +4514,13 @@ input[type="number"]::-webkit-inner-spin-button {
 /* =============================
        DriverDetail End
 ============================== */
+.address-custom {
+  margin-left: 10px;
+  margin-bottom: -22px;
+}
+/* .addressTo-custom {
+  margin-left: 10px;
+} */
+.order-custom {
+  margin-top: 22px;
+}
