@@ -690,634 +690,142 @@ Search Overlay CSS
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 250px;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 100%;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 250px;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 100%;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 250px;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
@@ -1326,13 +834,7 @@ Search Overlay CSS
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
   margin-top: 0;
@@ -1447,41 +949,23 @@ Search Overlay CSS
     position: relative;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav {
     margin-top: 75px;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav
-    ul {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav ul {
     font-size: 15px;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav
-    ul
-    li
-    a.active {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav ul li a.active {
     color: var(--main-theme-color);
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav
-    ul
-    li
-    li
-    a {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav ul li li a {
     font-size: 14.5px;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .navbar-nav {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .navbar-nav {
     overflow-y: scroll;
     height: 357px;
     -webkit-box-shadow: 0 7px 13px 0 rgba(0, 0, 0, 0.1);
@@ -1591,18 +1075,11 @@ Search Overlay CSS
     width: 30%;
   }
 
-  .navbar-color-white
-    .transtics-responsive-nav
-    .mean-container
-    a.meanmenu-reveal {
+  .navbar-color-white .transtics-responsive-nav .mean-container a.meanmenu-reveal {
     color: #ffffff;
   }
 
-  .navbar-color-white
-    .transtics-responsive-nav
-    .mean-container
-    a.meanmenu-reveal
-    span {
+  .navbar-color-white .transtics-responsive-nav .mean-container a.meanmenu-reveal span {
     background: #ffffff;
   }
 
@@ -1660,7 +1137,7 @@ Search Overlay CSS
   background-color: #0c2f5317;
 }
 
-#homeOne_banner .owl-theme .owl-nav.disabled + .owl-dots {
+#homeOne_banner .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 0;
   position: absolute;
   left: 0;
@@ -2211,7 +1688,7 @@ Search Overlay CSS
   border: 1px solid #fff;
 }
 
-#our_advantages_area .owl-theme .owl-nav.disabled + .owl-dots {
+#our_advantages_area .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 55px;
 }
 
@@ -2431,8 +1908,7 @@ Search Overlay CSS
   padding: 120px 0;
 }
 
-#request_form {
-}
+#request_form {}
 
 #request_form .form-group {
   margin-bottom: 30px;
@@ -2816,7 +2292,7 @@ Search Overlay CSS
   padding-bottom: 40px;
 }
 
-#home_two_service .owl-theme .owl-nav.disabled + .owl-dots {
+#home_two_service .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 30px;
 }
 
@@ -2966,7 +2442,7 @@ Search Overlay CSS
   padding: 15px 20px;
 }
 
-#team_area .owl-theme .owl-nav.disabled + .owl-dots {
+#team_area .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 30px;
 }
 
@@ -3050,7 +2526,7 @@ Search Overlay CSS
   margin: 0 auto;
 }
 
-#testimonial_homeTwo .owl-theme .owl-nav.disabled + .owl-dots {
+#testimonial_homeTwo .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 30px;
 }
 
@@ -3080,37 +2556,478 @@ Search Overlay CSS
 ============================== */
 
 /* -- Services Page Area Start -- */
-#services_page {
-  padding: 120px 0;
-  background-color: #f6f5fa;
-}
-
-.service-card {
-  margin-bottom: 30px;
+.search_bar {
   text-align: center;
+  padding: 20px 0;
 }
 
-.service-card img {
-  border-radius: 4px;
+.search_bar h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+  /* Thêm màu sắc cho tiêu đề */
 }
 
-.service-card .service-caption {
-  padding: 30px 20px;
-  background: #ffffff;
+.search_inputs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  /* Tăng khoảng cách giữa các trường nhập liệu */
+  flex-wrap: wrap;
+  /* Cho phép các trường nhập liệu xuống hàng nếu không đủ không gian */
 }
 
-.service-card .service-caption h3 {
-  font-size: 22px;
-  font-weight: 600;
+.search_input_container {
+  position: relative;
+  width: 300px;
+  /* Đặt chiều rộng cố định cho các trường nhập liệu */
   margin-bottom: 15px;
 }
 
-.service-card .service-caption p {
+.search_input {
+  width: 100%;
+  padding: 12px;
+  /* Tăng padding để cải thiện không gian bên trong trường nhập liệu */
+  border: 1px solid #ddd;
+  /* Thay đổi màu sắc đường viền để nhẹ nhàng hơn */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Thêm bóng nhẹ cho trường nhập liệu */
+  font-size: 16px;
+  /* Cải thiện kích thước font cho dễ đọc */
+}
+
+.suggestions_list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  /* Thay đổi màu sắc đường viền cho thống nhất */
+  border-top: none;
+  border-radius: 4px;
+  max-height: 200px;
+  /* Tăng chiều cao tối đa để hiển thị nhiều gợi ý hơn */
+  overflow-y: auto;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestions_list li {
+  padding: 12px;
+  /* Tăng padding cho các mục gợi ý */
+  cursor: pointer;
+  font-size: 16px;
+  /* Đảm bảo kích thước font thống nhất với trường nhập liệu */
+}
+
+.suggestions_list li:hover {
+  background-color: #f5f5f5;
+  /* Sử dụng màu nền nhẹ nhàng hơn khi hover */
+}
+
+.search_inputs button {
+  height: 50px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  /* Màu nền cho nút tìm kiếm */
+  color: white;
+  font-size: 16px;
+  /* Đảm bảo kích thước font đồng nhất */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /* Thêm hiệu ứng chuyển màu nền khi hover */
+}
+
+.search_inputs button:hover {
+  background-color: #0056b3;
+  /* Màu nền khi hover */
+}
+
+
+
+/* Container chung cho phần ServicesCard */
+#services_page {
+  padding: 20px 0;
+  /* Khoảng cách trên và dưới của phần tử */
+}
+
+.container {
+  max-width: 1140px;
+  /* Đảm bảo container không quá rộng */
+  margin: 0 auto;
+  /* Căn giữa container */
+}
+
+/* Wrapper chứa các card dịch vụ */
+.service_wrapper_top {
+  margin-top: 20px;
+  /* Khoảng cách giữa SectionHeading và các card */
+}
+
+/* Điều chỉnh độ rộng của các card dịch vụ */
+.service-card {
+  margin-bottom: 20px;
+  /* Khoảng cách giữa các card */
+}
+
+/* Responsive cho các cột dịch vụ */
+@media (max-width: 992px) {
+
+  /* Các màn hình từ 768px đến 991px */
+  .col-lg-4 {
+    flex: 0 0 50%;
+    /* Chiếm 50% chiều rộng */
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* Các màn hình từ 576px đến 767px */
+  .col-lg-4 {
+    flex: 0 0 100%;
+    /* Chiếm toàn bộ chiều rộng */
+    max-width: 100%;
+  }
+}
+
+/* Điều chỉnh các nút phân trang */
+.pagination-controls-services {
+  margin-top: 20px;
+  /* Khoảng cách giữa danh sách dịch vụ và phân trang */
+}
+
+.pagination-controls-services .pagination-btn {
+  margin: 0 5px;
+  /* Khoảng cách giữa các nút */
+}
+
+/* Responsive cho nút phân trang */
+@media (max-width: 576px) {
+  .pagination-controls-services .pagination-info {
+    display: block;
+    /* Đảm bảo thông tin trang nằm trên một dòng */
+    margin-bottom: 10px;
+    /* Khoảng cách giữa thông tin trang và nút */
+  }
+}
+
+
+
+/* CSS cho ServiceCard */
+.service-card {
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
-.service_wrapper_top {
-  padding-top: 40px;
+.service-card-image {
+  width: 100%;
+  height: 200px;
+  display: block;
+  object-fit: cover;
+}
+
+.read_more_btn {
+  display: inline-block;
+  /* Khoảng cách giữa các phần tử trên cùng */
+  padding: 10px 20px;
+  /* Padding cho nút */
+  color: #fff;
+  /* Màu chữ */
+  background-color: #007bff;
+  /* Màu nền của nút */
+  border: none;
+  /* Không có đường viền */
+  border-radius: 5px;
+  /* Bo tròn góc nút */
+  text-align: center;
+  /* Căn giữa văn bản */
+  text-decoration: none;
+  /* Không có gạch chân */
+  font-size: 14px;
+  /* Kích thước chữ */
+  cursor: pointer;
+  /* Con trỏ chuột khi di chuột lên nút */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  /* Hiệu ứng chuyển tiếp */
+}
+
+.read_more_btn:hover {
+  background-color: #0056b3;
+  /* Màu nền khi di chuột lên nút */
+  transform: translateY(-2px);
+  /* Hiệu ứng di chuyển nhẹ lên khi di chuột */
+}
+
+.read_more_btn:active {
+  background-color: #004080;
+  /* Màu nền khi nút bị nhấn */
+  transform: translateY(0);
+  /* Đưa nút về vị trí bình thường khi nhấn */
+}
+
+
+.service-details {
+  padding: 15px;
+  /* Padding giống với service-caption */
+  background-color: #f8f9fa;
+  /* Màu nền nhẹ */
+  border-top: 1px solid #ddd;
+  /* Đường viền trên để phân tách */
+}
+
+.service-details p {
+  margin: 5px 0;
+  /* Khoảng cách giữa các mục */
+  font-size: 14px;
+  /* Kích thước chữ giống như trong service-caption */
+}
+
+.service-details p strong {
+  font-weight: bold;
+  /* Làm đậm nhãn của các mục */
+}
+
+/* Giữ nguyên kiểu hiện tại và thêm một số tùy chỉnh */
+
+.wrapper {
+  padding-bottom: 5rem;
+}
+
+.border {
+  border: 1px solid #ddd;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.p-3 {
+  padding: 1rem;
+}
+
+.shadow-sm {
+  box-shadow: 0 0 0.125rem rgba(0, 0, 0, 0.075);
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.font-weight-bold {
+  font-weight: bold;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #ddd;
+}
+
+.pb-3 {
+  padding-bottom: 1rem;
+}
+
+.ml-3 {
+  margin-left: 1rem;
+}
+
+.mr-3 {
+  margin-right: 1rem;
+}
+
+.text-muted {
+  color: #6c757d;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.col-md-8,
+.col-md-4 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@media (min-width: 768px) {
+  .col-md-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+
+  .col-md-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+
+@media (max-width: 768px) {
+  .img-fluid {
+    width: 100%;
+  }
+}
+
+/* CSS thêm vào để chỉnh sửa phần contact info */
+/* CSS cho phần thông tin liên hệ */
+.contact-info {
+  text-align: center;
+  /* Căn giữa nội dung của phần liên hệ */
+}
+
+.contact-avatar-wrapper {
+  margin-bottom: 1rem;
+  /* Khoảng cách giữa ảnh và thông tin */
+}
+
+.contact-avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  margin: 0 auto;
+  /* Căn giữa ảnh */
+}
+
+.contact-details {
+  margin-top: 1rem;
+  /* Khoảng cách giữa ảnh và thông tin */
+}
+
+.contact-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.contact-name {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.contact-phone,
+.contact-email {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+/* CSS cho các nút */
+.btn-accept-order {
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn-accept-order:hover {
+  background-color: #0056b3;
+}
+
+.btn-close-order {
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  background-color: #dc0a0a;
+  color: #fff;
+}
+
+.btn-close-order:hover {
+  background-color: #04192f;
+}
+
+
+.toastify-toast {
+  background-color: #28a745;
+  /* Green color */
+  color: #fff;
+}
+
+
+
+.service-card-modal-close {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.service-card-modal-close:hover {
+  background: #0056b3;
+}
+
+
+
+/* Lớp CSS cho phần phân trang của ServicesCard */
+.pagination-controls-services {
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  margin: 0 10px;
+}
+
+.pagination-info {
+  margin: 0 15px;
+  font-weight: bold;
 }
 
 /* --Counter Area-- */
@@ -4432,6 +4349,7 @@ textarea {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
   .driver-info img,
   .additional-info img {
     width: 100px;
