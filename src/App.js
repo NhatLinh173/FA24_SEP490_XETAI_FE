@@ -7,6 +7,7 @@ import CopyRight from "./component/Common/CopyRight";
 import Home_One from "./page/indexPage";
 import About from "./page/About";
 import Service from "./page/Service";
+import ServiceDetail from "./component/Common/Service/ServiceDetail";
 import ServiceDetails from "./page/ServiceDetails";
 import BlogGrid from "./page/BlogGrid";
 import BlogWithSidebar from "./page/BlogWithSidebar";
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/" exact component={Home_One} />
           <Route path="/about" exact component={About} />
           <Route path="/service" exact component={Service} />
+          <Route path="/service/:id" extract component={ServiceDetail} />
           <Route path="/service_details" exact component={ServiceDetails} />
           <Route path="/blog_grid" exact component={BlogGrid} />
           <Route path="/blog_with_sidebar" exact component={BlogWithSidebar} />
