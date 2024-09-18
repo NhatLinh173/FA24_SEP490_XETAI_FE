@@ -3,7 +3,6 @@ import axiosInstance from "../config/axiosConfig";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import { refresh } from "@cloudinary/url-gen/qualifiers/artisticFilter";
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
