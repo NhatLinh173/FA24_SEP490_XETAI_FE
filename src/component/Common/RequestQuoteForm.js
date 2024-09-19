@@ -63,7 +63,7 @@ const RequestQuoteForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await axiosInstance.post("/posts", {
         creator: userId,
@@ -157,7 +157,6 @@ const RequestQuoteForm = () => {
                       placeholder={"Địa Chỉ Nhận Hàng"}
                       label="Địa Chỉ Nhận Hàng"
                       value={addressFrom}
-                      
                       onChange={handleAddressFromChange}
                     />
                   </div>
