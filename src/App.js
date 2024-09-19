@@ -38,6 +38,7 @@ import { setLogoutCallback } from "../src/config/axiosConfig";
 import FavoriteDrivers from "./page/FavoriteDrivers";
 import DriverDetail from "./component/Profile/User/DriverDetail";
 import TripDetail from "./component/Profile/User/TripDetail";
+import HistoryPostDetail from "./component/Profile/User/HistoryPostDetail";
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/about" exact component={About} />
           <Route path="/service" exact component={Service} />
           <Route path="/service/:id" extract component={ServiceDetail} />
+          <Route path="/history-post/:id" extract component={HistoryPostDetail} />
           <Route path="/service_details" exact component={ServiceDetails} />
           <Route path="/blog_grid" exact component={BlogGrid} />
           <Route path="/blog_with_sidebar" exact component={BlogWithSidebar} />

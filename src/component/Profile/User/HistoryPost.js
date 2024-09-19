@@ -4,17 +4,20 @@ import { FaWeightHanging } from "react-icons/fa";
 import { FaMapLocation } from "react-icons/fa6";
 import useInstanceData from "../../../config/useInstanceData";
 import ReactPaginate from "react-paginate";
-
+import { Link } from "react-router-dom";
 const HistoryPost = () => {
   const userId = localStorage.getItem("userId");
   const { data, loading, error, refetch } = useInstanceData(
     `/posts/${userId}/users`
   );
+  console.log("data:", data);
+
   const [currentPage, setCurrentPage] = useState(0);
   const postsPerPage = 3;
   const offset = currentPage * postsPerPage;
   console.log(offset);
   const currentPosts = data?.salePosts?.slice(offset, offset + postsPerPage);
+
   const handlePageClick = (event) => {
     const selectedPage = event.selected;
     setCurrentPage(selectedPage);
@@ -24,8 +27,8 @@ const HistoryPost = () => {
     <div>
       <h2>Bài đăng</h2>
       {currentPosts?.map((item) => (
-        <a
-          href={`${item.id}`}
+        <Link
+          to={`/history-post/${item._id}`}
           rel="noreferrer"
           className="text-decoration-none"
         >
@@ -80,7 +83,7 @@ const HistoryPost = () => {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       ))}
       <ReactPaginate
         pageCount={Math.ceil(data?.salePosts?.length / 3)}
