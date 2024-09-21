@@ -24,7 +24,7 @@ const useInstanceData = (url) => {
     fetchData();
   }, [url, key]);
   const refetch = () => {
-    setKey((prevKey) => prevKey + 1); // Tăng key để gọi lại useEffect
+    setKey((prevKey) => prevKey + 1);
   };
   return { data, loading, error, refetch };
 };

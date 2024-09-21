@@ -5,6 +5,7 @@ import CustomModal from "../modal-popup/CustomModal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
+import axiosInstance from "../../config/axiosConfig";
 
 const SignInForm = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -37,24 +38,17 @@ const SignInForm = (props) => {
       toast.error("Đăng Nhập Thất Bại");
     }
   };
-  useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const token = query.get("token");
-
-    if (token) {
-      localStorage.setItem("token", token);
-      history.push("/");
-    }
-  }, [history]);
 
   const handleGoogleLogin = () => {
-    window.open("http://localhost:3005/auth/google", "_self");
+    const role = "customer";
+    const url = `http://localhost:3005/auth/google?state=${role}`;
+    console.log("Redirecting to:", url);
+    window.open(url, "_self");
   };
 
   const handleFacebookLogin = () => {
     const role = "customer";
     const url = `http://localhost:3005/auth/facebook?state=${role}`;
-
     window.open(url, "_self");
   };
 
@@ -125,6 +119,7 @@ const SignInForm = (props) => {
                       </div>
                       <div className="col-lg-12">
                         <button
+                          type="button"
                           style={{
                             height: "50px",
                             width: "450px",
@@ -143,6 +138,7 @@ const SignInForm = (props) => {
                       </div>
                       <div className="col-lg-12">
                         <button
+                          type="button"
                           style={{
                             height: "50px",
                             width: "450px",
@@ -153,6 +149,7 @@ const SignInForm = (props) => {
                             borderRadius: "5px",
                             cursor: "pointer",
                           }}
+                          onClick={handleFacebookLogin}
                         >
                           Đăng nhập với Facebook
                         </button>

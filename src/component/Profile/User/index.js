@@ -13,6 +13,18 @@ const DashboardProfile = () => {
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
   );
+
+  useEffect(() => {
+    if (data && data.avatar) {
+      localStorage.setItem("avatar", data.avatar);
+    }
+  }, [data]);
+
+  if (error) {
+    console.error("Error fetching data:", error);
+    return <div>Error loading data</div>;
+  }
+
   return (
     <div className="wrapper">
       <div className="container">
@@ -23,9 +35,7 @@ const DashboardProfile = () => {
           <div className="col-9">
             {tab === "profile" && <ProfileUser data={data} refetch={refetch} />}
             {tab === "changePassword" && <ChangePassWord />}
-
             {tab === "wallet" && <Wallet data={data} />}
-
             {tab === "tripHistory" && <TripHistory />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
           </div>

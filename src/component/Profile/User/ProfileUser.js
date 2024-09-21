@@ -17,6 +17,20 @@ const ProfileUser = ({ data, refetch }) => {
   const [newPhone, setNewPhone] = useState(0);
   const [newEmail, setNewEmail] = useState("");
   const [newAddress, setNewAddress] = useState("");
+
+  useEffect(() => {
+    let objectUrl;
+    if (newAvatar instanceof File) {
+      objectUrl = URL.createObjectURL(newAvatar);
+    }
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [newAvatar]);
+
   // set lại ô input
   const inputName = (e) => {
     e.preventDefault();
@@ -53,6 +67,22 @@ const ProfileUser = ({ data, refetch }) => {
       setNewAvatar(null);
     }
   }, [fullName, phone, email, address]);
+
+  useEffect(() => {
+    const handleAvatarUpdate = () => {
+      const avatarFromLocalStorage = localStorage.getItem("avatar");
+      setNewAvatar(avatarFromLocalStorage);
+    };
+
+    window.addEventListener("avatarUpdated", handleAvatarUpdate);
+
+    handleAvatarUpdate();
+
+    return () => {
+      window.removeEventListener("avatarUpdated", handleAvatarUpdate);
+    };
+  }, []);
+
   // dùng để sửa lại giá trị trong ô input
   const handlenewAddress = (e) => {
     setNewAddress(e.target.value);
@@ -130,13 +160,17 @@ const ProfileUser = ({ data, refetch }) => {
 
         if (res.status === 200) {
           toast.success("Cập nhập thông tin thành công!");
-          localStorage.setItem("avatar", avatar);
-          refetch();
+
+          localStorage.setItem("avatar", avatarUrl);
+          setNewAvatar(avatarUrl);
+          if (refetch) refetch();
+          window.dispatchEvent(new Event("avatarUpdated"));
+
+          setIsName(true);
+          setIsPhone(true);
+          setIsEmail(true);
+          setIsAddress(true);
         }
-        setIsName(true);
-        setIsPhone(true);
-        setIsEmail(true);
-        setIsAddress(true);
       } catch (error) {
         console.log(error);
       }
@@ -153,9 +187,16 @@ const ProfileUser = ({ data, refetch }) => {
             <div className="avt-img">
               <img
                 className="rounded-circle"
-                src={newAvatar ? URL.createObjectURL(newAvatar) : avatar}
+                src={
+                  newAvatar instanceof File
+                    ? URL.createObjectURL(newAvatar)
+                    : avatar
+                }
                 alt="avatar"
                 style={{ width: "100px", height: "100px" }}
+                onError={(e) => {
+                  e.target.src = avatar;
+                }}
               />
               <label
                 htmlFor="avatar-upload"
