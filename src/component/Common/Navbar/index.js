@@ -142,7 +142,7 @@ const Navbar = ({ openModal }) => {
                                 className="d-flex align-items-center nav-text"
                               >
                                 <CgProfile />
-                                <span className="pl-2">View Profile</span>
+                                <span className="pl-2">Xem Thông Tin</span>
                               </Link>
                             </div>
                             <div className="py-2">
@@ -151,7 +151,7 @@ const Navbar = ({ openModal }) => {
                                 className="d-flex align-items-center nav-text"
                               >
                                 <FaArrowRightFromBracket />
-                                <span className="pl-2">Log out</span>
+                                <span className="pl-2">Đăng xuất</span>
                               </a>
                             </div>
                           </div>

@@ -1,12 +1,13 @@
 import React from "react"
-import { AiOutlineFieldTime } from "react-icons/ai"
+import { BsSignpost } from "react-icons/bs"
 import { CgProfile } from "react-icons/cg"
 import { FaRegHeart } from "react-icons/fa"
 import { FaArrowRightFromBracket } from "react-icons/fa6"
-import { LuPackage } from "react-icons/lu"
+import { LuWallet } from "react-icons/lu"
+import { MdAccessTime } from "react-icons/md"
 import { RiLockPasswordLine } from "react-icons/ri"
+import { MdDirectionsCar } from "react-icons/md"
 
-import { IoWalletOutline } from "react-icons/io5"
 import useAuth from "../../../hooks/useAuth"
 
 const Tab = ({ tab1, setTab1 }) => {
@@ -31,11 +32,16 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2 ">Tài khoản</span>
             </button>
           </li>
-          <li className="my-3">
-            <a className="d-flex align-items-center" href="#order">
-              <LuPackage />
-              <span className="px-2">Đơn hàng</span>
-            </a>
+          <li className="my-3 ">
+            <button
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "historyPost" ? "active" : ""
+              }`}
+              onClick={() => setTab1("historyPost")}
+            >
+              <BsSignpost />
+              <span className="px-1">Bài đăng</span>
+            </button>
           </li>
 
           <li className="tab-item">
@@ -66,22 +72,31 @@ const Tab = ({ tab1, setTab1 }) => {
               }`}
               onClick={() => setTab1("tripHistory")}
             >
-              <AiOutlineFieldTime />
+              <MdAccessTime />
               <span className="px-2">Lịch sử chuyến</span>
             </button>
           </li>
-          <li>
+          <li className="my-3">
             <button
               className={`btn-tab ${tab1 === "wallet" ? "active" : ""}`}
               onClick={() => setTab1("wallet")}
             >
-              <IoWalletOutline />
+              <LuWallet />
               <span className="px-2">Ví của bạn</span>
+            </button>
+          </li>
+          <li>
+            <button
+              className={`btn-tab ${tab1 === "myVehical" ? "active" : ""}`}
+              onClick={() => setTab1("myVehical")}
+            >
+              <MdDirectionsCar />
+              <span className="px-2">Xe của tôi</span>
             </button>
           </li>
         </ul>
       </div>
-      <div className="w-75 d-flex mt-auto pb-3">
+      <div className="my-4">
         <button
           className="btn btn-theme btn-lg d-flex align-items-center"
           onClick={handleLogoutClick}

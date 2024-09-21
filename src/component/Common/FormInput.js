@@ -11,7 +11,11 @@ const FormInput = (props) => {
   ) {
     return (
       <div className="form-group">
-        {props.label && <label htmlFor={props.name}>{props.label}</label>}
+        {props.label && (
+          <label htmlFor={props.name} className="font-weight-bold">
+            {props.label}
+          </label>
+        )}
         <input
           type={props.type}
           name={props.name}
@@ -29,7 +33,11 @@ const FormInput = (props) => {
   if (props.tag === "textarea") {
     return (
       <div className="form-group">
-        {props.label && <label htmlFor={props.name}>{props.label}</label>}
+        {props.label && (
+          <label htmlFor={props.name} className="font-weight-bold">
+            {props.label}
+          </label>
+        )}
         <textarea
           name={props.name}
           cols="30"

@@ -4,6 +4,8 @@ import { useLocation } from "react-router-dom";
 import "../../../assets/css/wallet.css";
 import { jwtDecode } from "jwt-decode";
 import axiosInstance from "../../../config/axiosConfig";
+import ReactPaginate from "react-paginate";
+
 const Wallet = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
   const [depositAmount, setDepositAmount] = useState("");
@@ -16,6 +18,17 @@ const Wallet = ({ data }) => {
   const [transactions, setTransactions] = useState([]);
   const { fullName } = data || {};
   const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(0);
+  const transactionsPerPage = 4;
+  const offset = currentPage * transactionsPerPage;
+  const currentTransactions = transactions.slice(
+    offset,
+    offset + transactionsPerPage
+  );
+  const handlePageClick = (event) => {
+    const selectedPage = event.selected;
+    setCurrentPage(selectedPage);
+  };
 
   const handleDepositClick = async () => {
     setShowModal(true);
@@ -152,10 +165,10 @@ const Wallet = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {transactions.length > 0 ? (
-              transactions.map((transaction, index) => (
+            {currentTransactions.length > 0 ? (
+              currentTransactions.map((transaction, index) => (
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td>{offset + index + 1}</td>
                   <td>{transaction.status === "PAID" ? "Nạp Tiền" : "Khác"}</td>
                   <td
                     style={{
@@ -180,37 +193,7 @@ const Wallet = ({ data }) => {
           </tbody>
         </table>
       </div>
-      <nav aria-label="Page navigation example">
-        <ul class="pagination mb-2">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-              <span class="sr-only">Previous</span>
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-              <span class="sr-only">Next</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+
       {showModal && (
         <div className="modal show" tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">
@@ -278,6 +261,22 @@ const Wallet = ({ data }) => {
           </div>
         </div>
       )}
+      <ReactPaginate
+        pageCount={Math.ceil(transactions?.length / 3)}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        pageClassName={"page-item"}
+        pageLinkClassName={"page-link"}
+        previousClassName={"page-item"}
+        previousLinkClassName={"page-link"}
+        nextClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        breakClassName={"page-item"}
+        breakLinkClassName={"page-link"}
+        activeClassName={"active"}
+        previousLabel={"<<"}
+        nextLabel={">>"}
+      />
     </div>
   );
 };

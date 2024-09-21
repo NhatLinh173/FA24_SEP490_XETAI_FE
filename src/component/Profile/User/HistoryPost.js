@@ -1,0 +1,141 @@
+import React, { useState } from "react";
+import { FaBoxArchive, FaCheck, FaHourglassHalf } from "react-icons/fa6";
+import { FaWeightHanging } from "react-icons/fa";
+import { FaMapLocation } from "react-icons/fa6";
+import { FaCarSide } from "react-icons/fa6";
+import { MdOutlinePersonAdd } from "react-icons/md";
+import { GiCancel } from "react-icons/gi";
+import { CiNoWaitingSign } from "react-icons/ci";
+
+import useInstanceData from "../../../config/useInstanceData";
+import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
+const HistoryPost = () => {
+  const userId = localStorage.getItem("userId");
+  const {
+    data: posts,
+    loading,
+    error,
+    refetch,
+  } = useInstanceData(`/posts/${userId}/users`);
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const postsPerPage = 3;
+  const offset = currentPage * postsPerPage;
+  console.log(offset);
+  const currentPosts = posts?.salePosts?.slice(offset, offset + postsPerPage);
+
+  const handlePageClick = (event) => {
+    const selectedPage = event.selected;
+    setCurrentPage(selectedPage);
+    console.log(event);
+  };
+  return (
+    <div>
+      <h2>Bài đăng</h2>
+      {currentPosts?.map((post) => (
+        <Link
+          to={`/history-post/${post._id}`}
+          rel="noreferrer"
+          className="text-decoration-none"
+        >
+          <div key={post.id} className="my-4 border rounded-12 card-hover">
+            <div className="p-3 d-flex">
+              <div className="image-container">
+                <img
+                  src="https://lawnet.vn/uploads/image/2023/06/09/043314645.jpg"
+                  alt="anh hang hoa"
+                  className="rounded-12 cursor-pointer zoom-image"
+                  style={{
+                    width: "360px",
+                    height: "195px",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+
+              <div className="ml-3">
+                <div className="mb-2 text-secondary  d-flex align-items-center">
+                  <FaMapLocation className="mr-2" />
+                  <div className="font-weight-bold text-nowrap">Điểm đi:</div>
+                  <div className="w-75 ml-2 text-truncate">
+                    {post.startPoint}
+                  </div>
+                </div>
+                <div className="mb-2 text-secondary  d-flex align-items-center">
+                  <FaMapLocation className="mr-2" />
+                  <div className="font-weight-bold text-nowrap">Điểm đến:</div>
+                  <div className="w-75 ml-2 text-truncate">
+                    {post.destination}
+                  </div>
+                </div>
+                <div className="mb-2 text-secondary  d-flex align-items-center">
+                  <FaBoxArchive className="mr-2 " />
+                  <div className="font-weight-bold mr-2">Loại hàng:</div>
+                  {post.title}
+                </div>
+
+                <div className="mb-4 text-secondary  d-flex align-items-center">
+                  <FaWeightHanging className="mr-2" />
+                  <div className="font-weight-bold mr-2">Khối lượng:</div>
+                  {post.load}
+                </div>
+                <div className="fs-18 font-weight-bold">
+                  Tổng tiền: {post.price.toLocaleString()} vnd
+                </div>
+                {post.status === "approve" && (
+                  <button className="btn-sm btn-secondary mt-3 border-0">
+                    <MdOutlinePersonAdd className="mr-2" />
+                    Tài xế đã nhận đơn
+                  </button>
+                )}
+                {post.status === "inprogress" && (
+                  <button className="btn-sm btn-primary mt-3 border-0 d-flex align-items-center">
+                    <FaCarSide className="mr-2" />
+                    Đang giao hàng
+                  </button>
+                )}
+                {post.status === "finish" && (
+                  <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
+                    <FaCheck className="mr-2" />
+                    Đã hoàn thành
+                  </button>
+                )}
+                {post.status === "cancel" && (
+                  <button className="btn-sm  btn-danger mt-3 border-0 d-flex align-items-center">
+                    <GiCancel className="mr-2" />
+                    Đã hủy
+                  </button>
+                )}
+                {post.status === "wait" && (
+                  <button className="btn-sm  btn-warning mt-3 border-0 d-flex align-items-center">
+                    <CiNoWaitingSign className="mr-2" />
+                    Đang chờ duyệt
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </Link>
+      ))}
+      <ReactPaginate
+        pageCount={Math.ceil(posts?.salePosts?.length / 3)}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        pageClassName={"page-item"}
+        pageLinkClassName={"page-link"}
+        previousClassName={"page-item"}
+        previousLinkClassName={"page-link"}
+        nextClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        breakClassName={"page-item"}
+        breakLinkClassName={"page-link"}
+        activeClassName={"active"}
+        previousLabel={"<<"}
+        nextLabel={">>"}
+      />
+    </div>
+  );
+};
+
+export default HistoryPost;
