@@ -1,5 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import axiosInstance from "../../../config/axiosConfig";
+import { toast } from "react-toastify";
 
 const DriverCard = ({
   driverImage,
@@ -12,6 +14,25 @@ const DriverCard = ({
 
   const handleViewDetails = () => {
     history.push(`/driver/${id}`);
+  };
+
+  const userId = localStorage.getItem("userId");
+  const driverId = localStorage.getItem("driverId");
+
+  const handleRemoveFavorites = async () => {
+    try {
+      const response = await axiosInstance.post(`/favorites/remove`, {
+        driverId,
+        userId,
+      });
+      if (response.status === 200) {
+        toast.success("Bỏ yêu thích tài xế thành công");
+      } else {
+        toast.error("Bỏ yêu thích tài xế thất bại");
+      }
+    } catch (error) {
+      console.error("Error removing favorite:", error);
+    }
   };
 
   const getStars = (rating) => {
@@ -43,7 +64,12 @@ const DriverCard = ({
         {/* Cột 3: Nút điều khiển */}
         <div className="col-md-4 d-flex flex-column align-items-end justify-content-center">
           <div className="vertical-line"></div>
-          <button className="btn btn-theme mb-2 w-50">Bỏ thích</button>
+          <button
+            className="btn btn-theme mb-2 w-50"
+            onClick={handleRemoveFavorites}
+          >
+            Bỏ thích
+          </button>
           <button className="btn btn-link w-50" onClick={handleViewDetails}>
             Xem chi tiết
           </button>

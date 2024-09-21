@@ -10,24 +10,50 @@ import { AiOutlineClose } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
+import useUserData from "../../../hooks/useUserData";
+
 const Navbar = ({ openModal }) => {
-  const { handleLogout } = useAuth();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { handleLogout, isAuthenticated } = useAuth();
+  const { userData, loading } = useUserData();
   const [click, setClick] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (userData && userData.avatar) {
+      localStorage.setItem("avatar", userData.avatar);
+      setAvatar(userData.avatar);
+    }
+  }, [userData]);
 
   useEffect(() => {
     const checkToken = localStorage.getItem("accessToken");
     if (checkToken) {
       setIsLoggedIn(true);
+      const avatarFromLocalStorage = localStorage.getItem("avatar");
+      if (avatarFromLocalStorage) {
+        setAvatar(avatarFromLocalStorage);
+      }
     } else {
       setIsLoggedIn(false);
     }
   }, []);
-  // Sticky Menu Area
+
   useEffect(() => {
     window.addEventListener("scroll", isSticky);
     return () => {
       window.removeEventListener("scroll", isSticky);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleAvatarUpdate = () => {
+      const avatarFromLocalStorage = localStorage.getItem("avatar");
+      setAvatar(avatarFromLocalStorage);
+    };
+    window.addEventListener("avatarUpdated", handleAvatarUpdate);
+    return () => {
+      window.removeEventListener("avatarUpdated", handleAvatarUpdate);
     };
   }, []);
 
@@ -68,7 +94,7 @@ const Navbar = ({ openModal }) => {
   };
 
   const menuData = getMenuData();
-  const avatar = localStorage.getItem("avatar");
+
   return (
     <>
       <header className="header-area">
@@ -99,12 +125,12 @@ const Navbar = ({ openModal }) => {
                         <i className="fas fa-search" id="search-btn"></i>
                       </a>
                     </li>
-                    {isLoggedIn && (
+                    {isAuthenticated && userData && (
                       <div className="nav-avatar rounded-circle ml-4">
                         <a href="/profile">
                           <img
                             className="rounded-circle"
-                            src={avatar}
+                            src={avatar || userData?.avatar}
                             alt="avatar"
                           />
                         </a>
