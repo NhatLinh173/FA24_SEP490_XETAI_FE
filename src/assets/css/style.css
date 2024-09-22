@@ -171,6 +171,8 @@ ul li {
 
 input[type="text"],
 input[type="number"],
+input[type="phone"],
+input[type="email"],
 select,
 input[type="password"] {
   min-height: 45px;

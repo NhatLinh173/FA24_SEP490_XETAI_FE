@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import FormInput from "../Common/FormInput";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+import regexPattern from "../../config/regexConfig";
 const SignUpCustomer = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,14 +11,37 @@ const SignUpCustomer = () => {
   const [fullName, setFullName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
-  const handleRegister = async () => {
-    if (!isChecked) {
-      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
-      return;
+
+  const fieldLabels = {
+    fullName: "Họ và Tên",
+    email: "Email",
+    password: "Mật khẩu",
+    phone: "Số điện thoại",
+    nameCompany: "Tên công ty",
+  };
+
+  const validateField = (field, value) => {
+    if (!value) {
+      toast.warn(`Trường ${fieldLabels[field]} không được để trống`);
+      return false;
     }
 
-    if (!email || !password || !phone || !fullName) {
-      toast.warn("Thông tin chưa đầy đủ vui lòng nhập đầy đủ thông tin!!!");
+    if (!regexPattern[field].test(value)) {
+      toast.warn(`Trường ${fieldLabels[field]} sai định dạng`);
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleRegister = async () => {
+    if (!validateField("fullName", fullName)) return;
+    if (!validateField("email", email)) return;
+    if (!validateField("password", password)) return;
+    if (!validateField("phone", phone)) return;
+
+    if (!isChecked) {
+      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
       return;
     }
 
@@ -91,7 +114,7 @@ const SignUpCustomer = () => {
                         type={"text"}
                         name={"lastName"}
                         classes={"form-control"}
-                        placeholder={"Họ"}
+                        placeholder={"Họ và Tên"}
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                         required

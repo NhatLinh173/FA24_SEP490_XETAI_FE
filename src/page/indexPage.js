@@ -11,6 +11,7 @@ import PricingTable from "../component/Common/PricingTable";
 import Subscribe from "../component/Common/Subscribe";
 import BlogHome from "../component/Common/Blog";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const IndexPage = () => {
   const history = useHistory();
@@ -20,9 +21,17 @@ const IndexPage = () => {
     const token = query.get("token");
     console.log(token);
     if (token) {
-      localStorage.setItem("accessToken", token);
-      history.push("/");
-      window.location.reload();
+      try {
+        const decodedToken = jwtDecode(token);
+        localStorage.setItem("accessToken", token);
+        localStorage.setItem("userId", decodedToken.id);
+        history.push("/");
+        window.location.reload();
+      } catch (error) {
+        console.error("Invalid token");
+        history.push("/signIn");
+        window.location.reload();
+      }
     }
   }, [history]);
 

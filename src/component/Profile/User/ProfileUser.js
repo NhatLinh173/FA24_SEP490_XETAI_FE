@@ -18,6 +18,19 @@ const ProfileUser = ({ data, refetch }) => {
   const [newEmail, setNewEmail] = useState("");
   const [newAddress, setNewAddress] = useState("");
 
+  useEffect(() => {
+    let objectUrl;
+    if (newAvatar instanceof File) {
+      objectUrl = URL.createObjectURL(newAvatar);
+    }
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [newAvatar]);
+
   // set lại ô input
   const inputName = (e) => {
     e.preventDefault();
@@ -53,7 +66,23 @@ const ProfileUser = ({ data, refetch }) => {
     if (avatar) {
       setNewAvatar(null);
     }
-  }, [fullName, phone, email, address, avatar]);
+  }, [fullName, phone, email, address]);
+
+  useEffect(() => {
+    const handleAvatarUpdate = () => {
+      const avatarFromLocalStorage = localStorage.getItem("avatar");
+      setNewAvatar(avatarFromLocalStorage);
+    };
+
+    window.addEventListener("avatarUpdated", handleAvatarUpdate);
+
+    handleAvatarUpdate();
+
+    return () => {
+      window.removeEventListener("avatarUpdated", handleAvatarUpdate);
+    };
+  }, []);
+
   // dùng để sửa lại giá trị trong ô input
   const handlenewAddress = (e) => {
     setNewAddress(e.target.value);
@@ -84,6 +113,7 @@ const ProfileUser = ({ data, refetch }) => {
     e.preventDefault();
     setIsAddress(true);
   };
+
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     if (
@@ -130,13 +160,17 @@ const ProfileUser = ({ data, refetch }) => {
 
         if (res.status === 200) {
           toast.success("Cập nhập thông tin thành công!");
-          localStorage.setItem("avatar", avatar);
-          refetch();
+
+          localStorage.setItem("avatar", avatarUrl);
+          setNewAvatar(avatarUrl);
+          if (refetch) refetch();
+          window.dispatchEvent(new Event("avatarUpdated"));
+
+          setIsName(true);
+          setIsPhone(true);
+          setIsEmail(true);
+          setIsAddress(true);
         }
-        setIsName(true);
-        setIsPhone(true);
-        setIsEmail(true);
-        setIsAddress(true);
       } catch (error) {
         console.log(error);
       }
@@ -153,9 +187,16 @@ const ProfileUser = ({ data, refetch }) => {
             <div className="avt-img">
               <img
                 className="rounded-circle"
-                src={newAvatar ? URL.createObjectURL(newAvatar) : avatar}
+                src={
+                  newAvatar instanceof File
+                    ? URL.createObjectURL(newAvatar)
+                    : avatar
+                }
                 alt="avatar"
                 style={{ width: "100px", height: "100px" }}
+                onError={(e) => {
+                  e.target.src = avatar;
+                }}
               />
               <label
                 htmlFor="avatar-upload"
@@ -173,8 +214,8 @@ const ProfileUser = ({ data, refetch }) => {
           </div>
 
           <div className="row g-3 align-item-center">
-            <div className="col-3 ">
-              <label for="name " className="col-form-label font-weight-bold  ">
+            <div className="col-3">
+              <label for="name" className="col-form-label">
                 Họ và Tên:
               </label>
             </div>
@@ -206,7 +247,7 @@ const ProfileUser = ({ data, refetch }) => {
           <br />
           <div className="row g-3 align-items-center ">
             <div className="col-3">
-              <label for="phone" className="col-form-label font-weight-bold">
+              <label for="phone" className="col-form-label">
                 Số Điện Thoại:
               </label>
             </div>
@@ -241,7 +282,7 @@ const ProfileUser = ({ data, refetch }) => {
           <br />
           <div className="row g-3 align-items-center">
             <div className="col-3">
-              <label for="email" className="col-form-label font-weight-bold">
+              <label for="email" className="col-form-label">
                 Email:
               </label>
             </div>
@@ -273,7 +314,7 @@ const ProfileUser = ({ data, refetch }) => {
           </div>
           <br />
           <div className="row g-3 align-items-center">
-            <div className="col-3 font-weight-bold">
+            <div className="col-3">
               <label for="pwd">Địa chỉ:</label>
             </div>
             <div className="col-9">
