@@ -13,6 +13,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/ben-howo-3-chan-ban-full-nhap-khau.jpg?v=1629107651767",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Đà Nẵng",
+    to: "Hải Phòng",
   },
   {
     id: 261,
@@ -25,6 +27,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-tai-thung-howo-5-chan-howotruck-vn.jpg?v=1463814767190",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Hà Nội",
+    to: "Huế",
   },
   {
     id: 241,
@@ -37,6 +41,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-dogn-lanh-t5g-howo-8x4-howotruck-vn.jpg?v=1464575409727",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Sài Gòn",
+    to: "Cần Thơ",
   },
   {
     id: 8,
@@ -49,6 +55,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-dogn-lanh-t5g-howo-8x4-howotruck-vn.jpg?v=1464575409727",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Bình Dương",
+    to: "Phú Yên",
   },
   {
     id: 7,
@@ -61,6 +69,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-dogn-lanh-t5g-howo-8x4-howotruck-vn.jpg?v=1464575409727",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Bình Dương",
+    to: "Phú Yên",
   },
   {
     id: 6,
@@ -73,6 +83,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-dogn-lanh-t5g-howo-8x4-howotruck-vn.jpg?v=1464575409727",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Bình Dương",
+    to: "Phú Yên",
   },
   {
     id: 5,
@@ -85,6 +97,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-dogn-lanh-t5g-howo-8x4-howotruck-vn.jpg?v=1464575409727",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Bình Dương",
+    to: "Phú Yên",
   },
   {
     id: 4,
@@ -97,6 +111,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-dogn-lanh-t5g-howo-8x4-howotruck-vn.jpg?v=1464575409727",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Bình Dương",
+    to: "Phú Yên",
   },
   {
     id: 3,
@@ -109,6 +125,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-dogn-lanh-t5g-howo-8x4-howotruck-vn.jpg?v=1464575409727",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Bình Dương",
+    to: "Phú Yên",
   },
   {
     id: 2,
@@ -121,6 +139,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-dogn-lanh-t5g-howo-8x4-howotruck-vn.jpg?v=1464575409727",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Bình Dương",
+    to: "Phú Yên",
   },
   {
     id: 1,
@@ -133,6 +153,8 @@ const dummyData = [
       "https://bizweb.dktcdn.net/100/084/618/products/xe-dogn-lanh-t5g-howo-8x4-howotruck-vn.jpg?v=1464575409727",
     status: "Khách thuê đã huỷ",
     status_time: "07:35, 30/06/2024",
+    from: "Bình Dương",
+    to: "Phú Yên",
   },
 ]
 
@@ -154,35 +176,41 @@ export const TripHistory = () => {
 
       {currentPageItems.map((item) => (
         <div key={item.id} className="my-4 border rounded-12">
-          <div className="p-3 d-flex">
-            <a href={`/trip/detail/${item.id}`} rel="noreferrer">
+          <a href={`/trip/detail/${item.id}`} rel="noreferrer">
+            <div className="p-3 d-flex">
               <img
                 src={item.image}
                 alt={item.name}
                 className="rounded-12 cursor-pointer"
                 style={{ width: "360px", height: "195px", objectFit: "cover" }}
               />
-            </a>
 
-            <div className="ml-3">
-              <div className="mb-4 fs-18 font-weight-bold">{item.name}</div>
-              <div className="mb-2 text-secondary">
-                Bắt đầu: {item.start_time}
-              </div>
+              <div className="ml-3">
+                <div className="mb-1 fs-18 font-weight-bold">
+                  Điểm đi: {item.from}
+                </div>
+                <div className="mb-2 fs-18 font-weight-bold">
+                  Điểm đến: {item.to}
+                </div>
 
-              <div className="mb-2 text-secondary">
-                Kết thúc: {item.end_time}
-              </div>
+                <div className="mb-2 text-secondary">
+                  Bắt đầu: {item.start_time}
+                </div>
 
-              <div className="mb-4 text-secondary">
-                Nhân viên giao hàng: {item.renter}
-              </div>
+                <div className="mb-2 text-secondary">
+                  Kết thúc: {item.end_time}
+                </div>
 
-              <div className="fs-18 font-weight-bold">
-                Tổng tiền: {item.total_money.toLocaleString()} vnd
+                <div className="mb-3 text-secondary">
+                  Nhân viên giao hàng: {item.renter}
+                </div>
+
+                <div className="fs-18 font-weight-bold">
+                  Tổng tiền: {item.total_money.toLocaleString()} vnd
+                </div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       ))}
 

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ReactPaginate from "react-paginate"
+import { Link } from "react-router-dom/cjs/react-router-dom.min"
 
 const DUMMY_DATA = [
   {
@@ -115,35 +116,39 @@ const Vehicals = () => {
   }
   return (
     <div>
-      <h2 className="mb-4">Xe của tôi</h2>
+      <div className="mb-4 d-flex justify-content-between">
+        <h2>Xe của tôi</h2>
+
+        <button className="btn btn-theme">Thêm xe mới</button>
+      </div>
 
       {currentPageItems.map((item) => (
         <div key={item.id} className="my-4 border rounded-12">
-          <div className="p-3 d-flex">
-            <a href="##" rel="noreferrer">
+          <Link to={`vehical/detail/${item.id}`} relative="path">
+            <div className="p-3 d-flex">
               <img
                 src={item.image}
                 alt={item.name}
                 className="rounded-12 cursor-pointer"
                 style={{ width: "360px", height: "195px", objectFit: "cover" }}
               />
-            </a>
 
-            <div className="ml-3">
-              <div className="mb-4 fs-18 font-weight-bold">{item.name}</div>
-              <div className="mb-2 text-secondary">
-                Biển số: {item.license_plate_number}
-              </div>
+              <div className="ml-3">
+                <div className="mb-4 fs-18 font-weight-bold">{item.name}</div>
+                <div className="mb-2 text-secondary">
+                  Biển số: {item.license_plate_number}
+                </div>
 
-              <div className="mb-2 text-secondary">
-                Trọng tải: {item.weight_capacity} Tấn
-              </div>
+                <div className="mb-2 text-secondary">
+                  Trọng tải: {item.weight_capacity} Tấn
+                </div>
 
-              <div className="font-weight-bold">
-                Ngày đăng kiểm: {item.registration_date}
+                <div className="font-weight-bold">
+                  Ngày đăng kiểm: {item.registration_date}
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       ))}
 

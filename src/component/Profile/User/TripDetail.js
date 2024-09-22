@@ -1,28 +1,28 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { FaStar } from "react-icons/fa";
-import { CiStar } from "react-icons/ci";
-import axiosInstance from "../../../config/axiosConfig";
+import { useState } from "react"
+import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import { FaStar } from "react-icons/fa"
+import { CiStar } from "react-icons/ci"
+import axiosInstance from "../../../config/axiosConfig"
 const TripDetail = () => {
   // const reviewerId = localStorage.getItem("userId");
 
-  const [rating, setRating] = useState(0); // Lưu trạng thái số sao được chọn
-  const [hover, setHover] = useState(null); // Trạng thái sao khi người dùng hover
-  const [feedback, setfeedback] = useState("");
+  const [rating, setRating] = useState(0) // Lưu trạng thái số sao được chọn
+  const [hover, setHover] = useState(null) // Trạng thái sao khi người dùng hover
+  const [feedback, setfeedback] = useState("")
 
   const handleRatingClick = (value) => {
-    setRating(value);
-  };
-  const [isShowModal, setIsShowModal] = useState(false);
+    setRating(value)
+  }
+  const [isShowModal, setIsShowModal] = useState(false)
   const handleOpenModal = () => {
-    setIsShowModal(true);
-  };
+    setIsShowModal(true)
+  }
   const handleCloseModal = () => {
-    setIsShowModal(false);
-  };
+    setIsShowModal(false)
+  }
   const handleFeedback = (e) => {
-    setfeedback(e.target.value);
-  };
+    setfeedback(e.target.value)
+  }
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   try {
@@ -52,17 +52,17 @@ const TripDetail = () => {
     customer_name: "Nguyen Van A",
     email: "vana@gmail.com",
     phone_number: "098765432",
-  };
+  }
 
   const STATUS = {
     0: "Đã Huỷ ",
     1: "Đã giao",
-  };
+  }
 
   const STATUS_BADGE_CLASS = {
     0: "badge-warning",
     1: "badge-info",
-  };
+  }
 
   return (
     <div className="wrapper container pb-5">
@@ -143,14 +143,6 @@ const TripDetail = () => {
                   </div>
 
                   <div className="col">
-                    {/* <label htmlFor="car">Loại xe</label>
-
-                    <div>
-                      <select id="car" className="form-select rounded w-full">
-                        <option value="1">Mazda</option>
-                        <option value="1">Wave</option>
-                      </select>
-                    </div> */}
                     <label htmlFor="deliver_address">Giá tiền</label>
                     <input
                       id="deliver_address"
@@ -295,7 +287,7 @@ const TripDetail = () => {
                       <div className="">
                         <div className="d-flex justify-content-center mb-3">
                           {[...Array(5)].map((star, index) => {
-                            const value = index + 1;
+                            const value = index + 1
                             return (
                               <div
                                 key={index}
@@ -310,7 +302,7 @@ const TripDetail = () => {
                                   <CiStar size={30} color="#000" /> // Ngôi sao rỗng màu đen
                                 )}
                               </div>
-                            );
+                            )
                           })}
                         </div>
                       </div>
@@ -402,7 +394,7 @@ const TripDetail = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TripDetail;
+export default TripDetail
