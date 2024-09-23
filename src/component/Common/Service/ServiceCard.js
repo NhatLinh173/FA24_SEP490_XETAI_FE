@@ -15,7 +15,7 @@ const truncateText = (text, maxLength) => {
 const ServiceCard = ({ id, img, goodsType, pickupLocation, dropoffLocation, weight, price }) => {
     return (
         <div className="service-card">
-            <img src={img} alt={goodsType} className="service-card-image" />
+            <img src={img} alt={goodsType} className="service-card-image zoom-image" />
             <div className="service-details">
                 <p className="font-weight-bold">
                     <FaMapLocation /> Địa điểm lấy hàng: {truncateText(pickupLocation, 20)} {/* Giới hạn độ dài */}
