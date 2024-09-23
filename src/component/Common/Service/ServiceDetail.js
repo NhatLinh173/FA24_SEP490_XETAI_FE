@@ -36,7 +36,7 @@ const ServiceDetail = () => {
                                 src={service.img}
                                 alt="service"
                                 className="img-fluid rounded"
-                                style={{ width: "100%", height: "auto", objectFit: "flex" }}
+                                style={{ width: "100%", height: "auto", objectFit: "cover" }}
                             />
                         </div>
                         <div>
@@ -51,16 +51,6 @@ const ServiceDetail = () => {
                                             <input
                                                 id="type"
                                                 defaultValue={service.goodsType}
-                                                type="text"
-                                                className="form-control"
-                                                readOnly
-                                            />
-                                        </div>
-                                        <div className="form-group col-md-6">
-                                            <label htmlFor="type">Loại xe</label>
-                                            <input
-                                                id="carType"
-                                                defaultValue={service.carType}
                                                 type="text"
                                                 className="form-control"
                                                 readOnly
@@ -120,6 +110,89 @@ const ServiceDetail = () => {
                                 </div>
                             </form>
                         </div>
+
+                        {/* Thông tin người đặt */}
+                        <div className="mt-4">
+                            <h5 className="font-weight-bold" style={{ marginBottom: "15px" }}>
+                                Thông tin người đặt
+                            </h5>
+                            <div className="border rounded p-3 shadow-sm">
+                                <div className="form-row">
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="posterName">Họ và tên</label>
+                                        <input
+                                            id="posterName"
+                                            defaultValue={service.posterName}
+                                            type="text"
+                                            className="form-control"
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="posterPhone">Số điện thoại</label>
+                                        <input
+                                            id="posterPhone"
+                                            defaultValue={service.phoneNumber}
+                                            type="text"
+                                            className="form-control"
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-12">
+                                        <label htmlFor="posterEmail">Email</label>
+                                        <input
+                                            id="posterEmail"
+                                            defaultValue={service.contactEmail}
+                                            type="text"
+                                            className="form-control"
+                                            readOnly
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Thông tin người nhận */}
+                        <div className="mt-4">
+                            <h5 className="font-weight-bold" style={{ marginBottom: "15px" }}>
+                                Thông tin người nhận
+                            </h5>
+                            <div className="border rounded p-3 shadow-sm">
+                                <div className="form-row">
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="receiverName">Họ và tên</label>
+                                        <input
+                                            id="receiverName"
+                                            defaultValue={service.receiverName}
+                                            type="text"
+                                            className="form-control"
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="receiverPhone">Số điện thoại</label>
+                                        <input
+                                            id="receiverPhone"
+                                            defaultValue={service.receiverPhone}
+                                            type="text"
+                                            className="form-control"
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-12">
+                                        <label htmlFor="receiverEmail">Email</label>
+                                        <input
+                                            id="receiverEmail"
+                                            defaultValue={service.receiverEmail}
+                                            type="text"
+                                            className="form-control"
+                                            readOnly
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="mt-3 d-flex justify-content-end">
                             <button
                                 className="btn btn-accept-order mr-2"
@@ -140,6 +213,9 @@ const ServiceDetail = () => {
                 {/* Right Side: Contact Info */}
                 <div className="col-md-4">
                     <div className="border rounded p-3 shadow-sm">
+                        <h5 className="font-weight-bold" style={{ textAlign: 'center', marginBottom: "15px" }}>
+                            Người đăng bài
+                        </h5>
                         <div className="contact-info">
                             <div className="contact-avatar-wrapper">
                                 <img
