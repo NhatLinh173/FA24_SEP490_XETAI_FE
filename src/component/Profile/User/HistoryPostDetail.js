@@ -37,7 +37,9 @@ const HistoryPostDetail = () => {
                 <div className="border rounded p-3 shadow-sm">
                   <div className="form-row">
                     <div className="form-group col-md-6">
-                      <label htmlFor="type">Loại hàng</label>
+                      <label htmlFor="type" className="font-weight-bold">
+                        Loại hàng
+                      </label>
                       <input
                         id="type"
                         defaultValue={post?.title}
@@ -46,7 +48,9 @@ const HistoryPostDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6">
-                      <label htmlFor="type">Loại xe</label>
+                      <label htmlFor="type" className="font-weight-bold">
+                        Loại xe
+                      </label>
                       <input
                         id="carType"
                         defaultValue={category[0]?.description}
@@ -55,7 +59,9 @@ const HistoryPostDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6">
-                      <label htmlFor="weight">Khối lượng</label>
+                      <label htmlFor="weight" className="font-weight-bold">
+                        Khối lượng
+                      </label>
                       <input
                         id="weight"
                         defaultValue={post?.load}
@@ -64,7 +70,9 @@ const HistoryPostDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6">
-                      <label htmlFor="price">Giá</label>
+                      <label htmlFor="price" className="font-weight-bold">
+                        Giá
+                      </label>
                       <input
                         id="price"
                         defaultValue={post?.price}
@@ -73,7 +81,12 @@ const HistoryPostDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6">
-                      <label htmlFor="pickupLocation">Địa điểm lấy hàng</label>
+                      <label
+                        htmlFor="pickupLocation"
+                        className="font-weight-bold"
+                      >
+                        Địa điểm lấy hàng
+                      </label>
                       <input
                         id="pickupLocation"
                         defaultValue={post?.startPoint}
@@ -82,7 +95,12 @@ const HistoryPostDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6">
-                      <label htmlFor="dropoffLocation">Địa điểm trả hàng</label>
+                      <label
+                        htmlFor="dropoffLocation"
+                        className="font-weight-bold"
+                      >
+                        Địa điểm trả hàng
+                      </label>
                       <input
                         id="dropoffLocation"
                         defaultValue={post?.destination}
@@ -91,7 +109,9 @@ const HistoryPostDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-12">
-                      <label htmlFor="description">Mô tả đơn hàng</label>
+                      <label htmlFor="description" className="font-weight-bold">
+                        Mô tả đơn hàng
+                      </label>
                       <textarea
                         id="description"
                         defaultValue={post?.detail}
@@ -108,7 +128,10 @@ const HistoryPostDetail = () => {
                       </h5>
                     </div>
                     <div className="form-group col-md-6 mt-3">
-                      <label htmlFor="name">Họ và Tên</label>
+                      <label htmlFor="name" className="font-weight-bold">
+                        Họ và Tên
+                      </label>
+
                       <input
                         id="name"
                         type="text"
@@ -117,7 +140,9 @@ const HistoryPostDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6 mt-3">
-                      <label htmlFor="email">Email</label>
+                      <label htmlFor="email" className="font-weight-bold">
+                        Email
+                      </label>
                       <input
                         id="email"
                         type="email"
@@ -126,7 +151,9 @@ const HistoryPostDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6 mt-3">
-                      <label htmlFor="phone">Số điện thoại</label>
+                      <label htmlFor="phone" className="font-weight-bold">
+                        Số điện thoại
+                      </label>
                       <input
                         id="phone"
                         type="phone"
