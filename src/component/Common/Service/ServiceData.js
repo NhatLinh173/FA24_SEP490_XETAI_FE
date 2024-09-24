@@ -14,7 +14,10 @@ export const ServiceData = [
         pickupDate: "01-09-2024",
         dropoffDate: "05-09-2024",
         price: "13.500.000 VND",
-        description: "Gửi hàng điện tử, bao gồm các thiết bị như máy tính, điện thoại, và phụ kiện."
+        description: "Gửi hàng điện tử, bao gồm các thiết bị như máy tính, điện thoại, và phụ kiện.",
+        receiverName: "Elizabeth",
+        receiverPhone: "0123456789",
+        receiverEmail: "elizabeth@gmail.com"
     },
     {
         id: 2,

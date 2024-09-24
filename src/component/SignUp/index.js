@@ -32,22 +32,42 @@ const SignUpForm = () => {
     history.push(`/signup?type=${tab}`);
   };
 
+  const fieldLabels = {
+    fullName: "Họ và Tên",
+    email: "Email",
+    password: "Mật khẩu",
+    phone: "Số điện thoại",
+    nameCompany: "Tên công ty",
+  };
+
   const validateField = (field, value) => {
-    if (!regexPattern[field].test(value)) {
-      toast.warn(`Trường ${value} không đúng định dạng`);
+    if (!value) {
+      toast.warn(`Trường ${fieldLabels[field]} không được để trống`);
       return false;
     }
+
+    if (!regexPattern[field].test(value)) {
+      toast.warn(`Trường ${fieldLabels[field]} sai định dạng`);
+      return false;
+    }
+
     return true;
   };
 
   const handleRegisterDriver = async () => {
     const role = activeTab === "personal" ? "personal" : "business";
-
-    // if (!validateField("fullName", fullName)) return;
-    // if (!validateField("email", email)) return;
-    // if (!validateField("password", password)) return;
-    // if (!validateField("phone", phone)) return;
-    // if (!validateField("Name Company", nameCompany)) return;
+    if (role === "personal") {
+      if (!validateField("fullName", fullName)) return;
+      if (!validateField("email", email)) return;
+      if (!validateField("password", password)) return;
+      if (!validateField("phone", phone)) return;
+    } else {
+      if (!validateField("fullName", fullName)) return;
+      if (!validateField("email", email)) return;
+      if (!validateField("password", password)) return;
+      if (!validateField("phone", phone)) return;
+      if (!validateField("Name Company", nameCompany)) return;
+    }
 
     const payloadPersonnal = {
       email,
@@ -62,7 +82,7 @@ const SignUpForm = () => {
       phone,
       fullName,
       companyName: nameCompany,
-      workEmail,
+      email,
       role: role,
     };
 
@@ -71,13 +91,8 @@ const SignUpForm = () => {
       return;
     }
 
-    if (!email || !password) {
-      toast.warn("Email and password are required");
-      return;
-    }
-
     if (password !== confirmPassword) {
-      toast.warn("Passwords do not match");
+      toast.warn("Mật Khẩu Không Khớp!!!");
       return;
     }
 
@@ -159,7 +174,6 @@ const SignUpForm = () => {
               </div>
               <div className="user_area_form">
                 <form
-                  // action="#!"
                   id="form_signIn"
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -175,7 +189,7 @@ const SignUpForm = () => {
                             type={"text"}
                             name={"lastName"}
                             classes={"form-control"}
-                            placeholder={"Họ"}
+                            placeholder={"Họ và Tên"}
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
                             required
@@ -248,11 +262,23 @@ const SignUpForm = () => {
                           <FormInput
                             tag={"input"}
                             type={"text"}
+                            name={"lastName"}
+                            classes={"form-control"}
+                            placeholder={"Tên Chủ Doanh Nghiệp"}
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="col-lg-12">
+                          <FormInput
+                            tag={"input"}
+                            type={"text"}
                             name={"work_email"}
                             classes={"form-control"}
                             placeholder={"Email Công Việc"}
-                            value={workEmail}
-                            onChange={(e) => setWorkEmail(e.target.value)}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                           />
                         </div>
