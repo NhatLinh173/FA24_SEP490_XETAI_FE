@@ -124,7 +124,11 @@ const Vehicals = () => {
 
       {currentPageItems.map((item) => (
         <div key={item.id} className="my-4 border rounded-12">
-          <Link to={`vehical/detail/${item.id}`} relative="path">
+          <Link
+            to={`vehical/detail/${item.id}`}
+            relative="path"
+            className="link-wrapper"
+          >
             <div className="p-3 d-flex">
               <img
                 src={item.image}

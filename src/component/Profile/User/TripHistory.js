@@ -176,7 +176,11 @@ export const TripHistory = () => {
 
       {currentPageItems.map((item) => (
         <div key={item.id} className="my-4 border rounded-12">
-          <a href={`/trip/detail/${item.id}`} rel="noreferrer">
+          <a
+            href={`/trip/detail/${item.id}`}
+            rel="noreferrer"
+            className="link-wrapper"
+          >
             <div className="p-3 d-flex">
               <img
                 src={item.image}
