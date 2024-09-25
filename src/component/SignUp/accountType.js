@@ -1,5 +1,6 @@
 import React from "react";
 import "../../assets/css/accountType.css";
+import { IoMdPerson, IoMdBusiness } from "react-icons/io";
 
 const AccountType = () => {
   return (
@@ -13,6 +14,7 @@ const AccountType = () => {
           <a href="/signup?type=personal">
             <div className="card text-center">
               <div className="card-body">
+                <IoMdPerson className="icon" />
                 <h3 className="card-title">Cá nhân</h3>
                 <p className="card-text">
                   Dành cho cả sử dụng cá nhân cơ bản và doanh nghiệp nhỏ
@@ -31,6 +33,7 @@ const AccountType = () => {
           <a href="/signup?type=business">
             <div className="card text-center">
               <div className="card-body">
+                <IoMdBusiness className="icon" />
                 <h3 className="card-title">Doanh nghiệp</h3>
                 <p className="card-text">
                   Đăng ký để nhận các tính năng độc quyền cho doanh nghiệp hoặc

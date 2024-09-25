@@ -39,14 +39,12 @@ import FavoriteDrivers from "./page/FavoriteDrivers";
 import DriverDetail from "./component/Profile/User/DriverDetail";
 import TripDetail from "./component/Profile/User/TripDetail";
 import HistoryPostDetail from "./component/Profile/User/HistoryPostDetail";
+import PaymentSuccess from "./component/PaymentStatus/PaymentSuccess";
+import PaymentFailed from "./component/PaymentStatus/PaymentFailed";
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { handleLogout } = useAuth();
-
-  // useEffect(() => {
-  //   setLogoutCallback(handleLogout);
-  // }, [handleLogout]);
 
   return (
     <Router>
@@ -58,7 +56,11 @@ const App = () => {
           <Route path="/about" exact component={About} />
           <Route path="/service" exact component={Service} />
           <Route path="/service/:id" extract component={ServiceDetail} />
-          <Route path="/history-post/:id" extract component={HistoryPostDetail} />
+          <Route
+            path="/history-post/:id"
+            extract
+            component={HistoryPostDetail}
+          />
           <Route path="/service_details" exact component={ServiceDetails} />
           <Route path="/blog_grid" exact component={BlogGrid} />
           <Route path="/blog_with_sidebar" exact component={BlogWithSidebar} />
@@ -82,6 +84,8 @@ const App = () => {
           <Route path="/favorite-drivers" exact component={FavoriteDrivers} />
           <Route path="/driver/:id" exact component={DriverDetail} />
           <Route path="/trip/detail/:id" exact component={TripDetail} />
+          <Route path="/payment/success" exact component={PaymentSuccess} />
+          <Route path="/payment/failed" exact component={PaymentFailed} />
         </Switch>
         <Footer />
         <CopyRight />

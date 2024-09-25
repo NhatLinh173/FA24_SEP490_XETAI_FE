@@ -15,7 +15,6 @@ const useUserData = () => {
           const response = await axiosInstance.get(`/auth/user/${userId}`);
           setUserData(response.data);
           setError(null);
-          console.log("alo", response.data.avatar);
         } catch (err) {
           console.error("Error fetching user data:", err);
           setError(err);

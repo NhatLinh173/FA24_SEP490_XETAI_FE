@@ -19,7 +19,6 @@ const IndexPage = () => {
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const token = query.get("token");
-    console.log(token);
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
