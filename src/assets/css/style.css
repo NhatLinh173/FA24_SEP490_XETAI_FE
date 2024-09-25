@@ -3160,7 +3160,7 @@ Search Overlay CSS
   padding: 12px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: #ff0004;
   /* Màu nền cho nút tìm kiếm */
   color: white;
   font-size: 16px;
@@ -3170,10 +3170,6 @@ Search Overlay CSS
   /* Thêm hiệu ứng chuyển màu nền khi hover */
 }
 
-.search_inputs button:hover {
-  background-color: #0056b3;
-  /* Màu nền khi hover */
-}
 
 /* Container chung cho phần ServicesCard */
 #services_page {
@@ -3275,7 +3271,7 @@ Search Overlay CSS
   /* Padding cho nút */
   color: #fff;
   /* Màu chữ */
-  background-color: #007bff;
+  background-color: #3eca2f;
   /* Màu nền của nút */
   border: none;
   /* Không có đường viền */
@@ -3294,14 +3290,13 @@ Search Overlay CSS
 }
 
 .read_more_btn:hover {
-  background-color: #0056b3;
+  background-color: #ffffff;
   /* Màu nền khi di chuột lên nút */
   transform: translateY(-2px);
   /* Hiệu ứng di chuyển nhẹ lên khi di chuột */
 }
 
 .read_more_btn:active {
-  background-color: #004080;
   /* Màu nền khi nút bị nhấn */
   transform: translateY(0);
   /* Đưa nút về vị trí bình thường khi nhấn */
