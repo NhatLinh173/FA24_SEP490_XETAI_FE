@@ -3,7 +3,6 @@ import React from "react";
 const FormInput = (props) => {
   let options = props.options || [];
 
-  // General input element handler
   if (
     props.tag === "input" ||
     props.tag === "password" ||
@@ -21,7 +20,7 @@ const FormInput = (props) => {
           name={props.name}
           placeholder={props.placeholder}
           className={props.classes}
-          style={props.style}
+          style={{ ...props.style, backgroundColor: "#fff" }}
           value={props.value}
           onChange={props.onChange}
         />

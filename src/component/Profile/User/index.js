@@ -5,10 +5,13 @@ import Tab from "./Tab";
 import ChangePassWord from "./ChangePassWord";
 import FavoriteDriver from "./FavoriteDriver";
 import Wallet from "./Wallet";
+import Vehicals from "./Vehicals";
+import { useLocation } from "react-router-dom";
 import { TripHistory } from "./TripHistory";
 import HistoryPost from "./HistoryPost";
 
 const DashboardProfile = () => {
+  const location = useLocation();
   const [tab, setTab] = useState("profile");
   const userId = localStorage.getItem("userId");
   const { data, loading, error, refetch } = useInstanceData(
@@ -16,7 +19,19 @@ const DashboardProfile = () => {
   );
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get("tab");
+    console.log("Tab Param:", tabParam);
+    if (tabParam) {
+      setTab(tabParam);
+    } else {
+      setTab("profile");
+    }
+  }, [location]);
+
+  useEffect(() => {
     if (data && data.avatar) {
+      console.log("Avatar Data:", data.avatar);
       localStorage.setItem("avatar", data.avatar);
     }
   }, [data]);
@@ -40,6 +55,7 @@ const DashboardProfile = () => {
             {tab === "tripHistory" && <TripHistory />}
             {tab === "historyPost" && <HistoryPost />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
+            {tab === "vehicals" && <Vehicals />}
           </div>
         </div>
       </div>

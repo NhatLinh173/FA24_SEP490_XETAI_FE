@@ -1,20 +1,20 @@
-import React from "react"
-import { BsSignpost } from "react-icons/bs"
-import { CgProfile } from "react-icons/cg"
-import { FaRegHeart } from "react-icons/fa"
-import { FaArrowRightFromBracket } from "react-icons/fa6"
-import { LuWallet } from "react-icons/lu"
-import { MdAccessTime } from "react-icons/md"
-import { RiLockPasswordLine } from "react-icons/ri"
-import { MdDirectionsCar } from "react-icons/md"
+import React from "react";
+import { BsSignpost } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import { FaRegHeart } from "react-icons/fa";
+import { FaArrowRightFromBracket } from "react-icons/fa6";
+import { LuWallet } from "react-icons/lu";
+import { MdAccessTime } from "react-icons/md";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { MdDirectionsCar } from "react-icons/md";
 
-import useAuth from "../../../hooks/useAuth"
+import useAuth from "../../../hooks/useAuth";
 
 const Tab = ({ tab1, setTab1 }) => {
-  const { handleLogout } = useAuth()
+  const { handleLogout } = useAuth();
   const handleLogoutClick = async () => {
-    await handleLogout()
-  }
+    await handleLogout();
+  };
 
   return (
     <div className="d-flex flex-column h-100">
@@ -87,8 +87,8 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li>
             <button
-              className={`btn-tab ${tab1 === "myVehical" ? "active" : ""}`}
-              onClick={() => setTab1("myVehical")}
+              className={`btn-tab ${tab1 === "vehicals" ? "active" : ""}`}
+              onClick={() => setTab1("vehicals")}
             >
               <MdDirectionsCar />
               <span className="px-2">Xe của tôi</span>
@@ -106,7 +106,7 @@ const Tab = ({ tab1, setTab1 }) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Tab
+export default Tab;
