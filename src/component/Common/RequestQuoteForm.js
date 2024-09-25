@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import FormInput from "../Common/FormInput";
 import useInstanceData from "../../config/useInstanceData";
 import axiosInstance from "../../config/axiosConfig";
+import axios from "axios";
 import { toast } from "react-toastify";
 
 const RequestQuoteForm = () => {
@@ -14,27 +15,37 @@ const RequestQuoteForm = () => {
   const [newPhone, setNewPhone] = useState(0);
   const [newFullName, setNewFullName] = useState("");
   const [orderType, setNewOrderType] = useState("");
-  const [vehicle, setNewVehicle] = useState("");
   const [addressFrom, setNewAddressFrom] = useState("");
 
   const [addressTo, setNewAddressTo] = useState("");
   const [totalWeight, setNewTotalWeight] = useState("");
   const [cost, setNewCost] = useState("");
   const [orderDescription, setNewoderDescription] = useState("");
-  const { data: trucks } = useInstanceData("/categories");
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [recipientName, setRecipientName] = useState("");
+  const [recipientPhone, setRecipientPhone] = useState("");
+  const [cities, setCities] = useState([]);
+  const [cityFrom, setCityFrom] = useState("");
+  const [cityTo, setCityTo] = useState("");
+
+  const getCity = async () => {
+    try {
+      const res = await axios.get("https://provinces.open-api.vn/api/");
+      setCities(res.data);
+    } catch (error) {}
+  };
 
   useEffect(() => {
     setNewEmail(email);
     setNewPhone(phone);
     setNewFullName(fullName);
+    getCity();
   }, [email, phone, fullName]);
 
   const handleOrderTypeChange = (e) => {
     setNewOrderType(e.target.value);
   };
-  const handleVehicleChange = (e) => {
-    setNewVehicle(e.target.value);
-  };
+
   const handleAddressFromChange = (e) => {
     setNewAddressFrom(e.target.value);
   };
@@ -49,6 +60,21 @@ const RequestQuoteForm = () => {
   };
   const handleOrderDescriptionChange = (e) => {
     setNewoderDescription(e.target.value);
+  };
+  const handleRecipientEmailChange = (e) => {
+    setRecipientEmail(e.target.value);
+  };
+  const handleRecipientNameChange = (e) => {
+    setRecipientName(e.target.value);
+  };
+  const handleRecipientPhoneChange = (e) => {
+    setRecipientPhone(e.target.value);
+  };
+  const handleCityFrom = (e) => {
+    setCityFrom(e.target.value);
+  };
+  const handleCityTo = (e) => {
+    setCityTo(e.target.value);
   };
 
   const handleEmailChange = (e) => {
@@ -71,12 +97,16 @@ const RequestQuoteForm = () => {
         phone: newPhone,
         fullname: newFullName,
         title: orderType,
-        category: vehicle,
         startPoint: addressFrom,
         destination: addressTo,
         load: totalWeight,
         price: cost,
         detail: orderDescription,
+        startPointCity: cityFrom,
+        destinationCity: cityTo,
+        recipientEmail,
+        recipientName,
+        recipientPhone,
       });
       console.log(response);
       if (response.status === 200) {
@@ -132,46 +162,80 @@ const RequestQuoteForm = () => {
                       onChange={handleOrderTypeChange}
                     />
                   </div>
-                  <div className="col-lg-6">
+
+                  {/* <div className="col-lg-6">
                     <div className="form-group">
-                      <label className="font-weight-bold">Loai xe</label>
+                      <label className="font-weight-bold">Thành phố đi</label>
+                      <select className="form-control first_null">
+                        <option>da nang</option>
+                        <option>Hue</option>
+                      </select>
+                    </div>
+                  </div> */}
+                  <div className="col-lg-6 d-flex w-100 addressFrom-input ">
+                    <div className="form-group align-self-end">
+                      <label className="font-weight-bold">
+                        Địa chỉ nhận hàng
+                      </label>
                       <select
                         className="form-control first_null"
-                        onChange={handleVehicleChange}
+                        onChange={handleCityFrom}
+                        defaultValue=""
                       >
-                        {trucks.map((truck) => (
-                          <option key={truck.slug} value={truck._id}>
-                            {truck.name}
-                          </option>
+                        <option value="" disabled>
+                          Chọn Tỉnh/Thành
+                        </option>
+                        {cities.map((city) => (
+                          <option value={city.name}>{city.name}</option>
                         ))}
                       </select>
                     </div>
+                    <div className="flex-1 custom-input">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"departure"}
+                        id={"departure"}
+                        classes={"form-control align-self-end"}
+                        placeholder={"Địa Chỉ Nhận Hàng"}
+                        label="Địa Chỉ Nhận Hàng"
+                        value={addressFrom}
+                        onChange={handleAddressFromChange}
+                      />
+                    </div>
                   </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"departure"}
-                      id={"departure"}
-                      classes={"form-control"}
-                      placeholder={"Địa Chỉ Nhận Hàng"}
-                      label="Địa Chỉ Nhận Hàng"
-                      value={addressFrom}
-                      onChange={handleAddressFromChange}
-                    />
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"city"}
-                      id={"city"}
-                      classes={"form-control"}
-                      placeholder={"Địa Chỉ Giao Hàng"}
-                      label="Địa Chỉ Giao Hàng"
-                      value={addressTo}
-                      onChange={handleAddressToChange}
-                    />
+                  <div className="col-lg-6 d-flex w-100 addressTo-input">
+                    <div className="form-group align-self-end">
+                      <label className="font-weight-bold">
+                        Địa chỉ giao hàng
+                      </label>
+                      <select
+                        className="form-control first_null"
+                        onChange={handleCityTo}
+                        defaultValue=""
+                      >
+                        <option value="" disabled>
+                          Chọn Tỉnh/Thành
+                        </option>
+                        {cities.map((city) => (
+                          <option value={city.name}>{city.name}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="flex-1 custom-input">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"city"}
+                        id={"city"}
+                        classes={"form-control"}
+                        placeholder={"Địa Chỉ Giao Hàng"}
+                        label="Địa Chỉ Giao Hàng"
+                        value={addressTo}
+                        onChange={handleAddressToChange}
+                      />
+                    </div>
                   </div>
                   <div className="col-lg-6">
                     <FormInput
@@ -206,11 +270,53 @@ const RequestQuoteForm = () => {
                       name={"text"}
                       classes={"form-control"}
                       placeholder={"Mô Tả Đơn Hàng"}
-                      label="Mô Tả Đơn Hàng  Chọn)"
+                      label="Mô Tả Đơn Hàng  "
                       value={orderDescription}
                       onChange={handleOrderDescriptionChange}
                     />
                   </div>
+                  <div className="col-lg-12">
+                    <div className="heading_quote arae_top">
+                      <h3>Thông Tin Người Nhận</h3>
+                    </div>
+                  </div>
+                  <div className="col-lg-6">
+                    <FormInput
+                      tag={"input"}
+                      type={"text"}
+                      name={"lname"}
+                      classes={"form-control"}
+                      placeholder={"Họ và Tên"}
+                      label="Họ và Tên"
+                      value={recipientName}
+                      onChange={handleRecipientNameChange}
+                    />
+                  </div>
+                  <div className="col-lg-6">
+                    <FormInput
+                      tag={"input"}
+                      type={"text"}
+                      name={"email"}
+                      classes={"form-control"}
+                      placeholder={"Email"}
+                      label="Email"
+                      value={recipientEmail}
+                      onChange={handleRecipientEmailChange}
+                    />
+                  </div>
+                  <div className="col-lg-6">
+                    <FormInput
+                      tag={"input"}
+                      type={"number"}
+                      name={"number"}
+                      classes={"form-control"}
+                      placeholder={"Số Điện Thoại"}
+                      label="Số Điện Thoại"
+                      value={recipientPhone}
+                      onChange={handleRecipientPhoneChange}
+                    />
+                  </div>
+
                   <div className="col-lg-12">
                     <div className="heading_quote arae_top">
                       <h3>Thông Tin Người Đặt</h3>
@@ -257,7 +363,7 @@ const RequestQuoteForm = () => {
                   <div className="col-lg-12">
                     <div className="quote_submit_button d-flex justify-content-center">
                       <button className="btn btn-theme" onClick={handleSubmit}>
-                        Send Messages
+                        Gửi
                       </button>
                     </div>
                   </div>

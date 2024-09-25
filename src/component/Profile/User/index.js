@@ -6,6 +6,7 @@ import ChangePassWord from "./ChangePassWord";
 import FavoriteDriver from "./FavoriteDriver";
 import Wallet from "./Wallet";
 import { TripHistory } from "./TripHistory";
+import HistoryPost from "./HistoryPost";
 
 const DashboardProfile = () => {
   const [tab, setTab] = useState("profile");
@@ -37,6 +38,7 @@ const DashboardProfile = () => {
             {tab === "changePassword" && <ChangePassWord />}
             {tab === "wallet" && <Wallet data={data} />}
             {tab === "tripHistory" && <TripHistory />}
+            {tab === "historyPost" && <HistoryPost />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
           </div>
         </div>
