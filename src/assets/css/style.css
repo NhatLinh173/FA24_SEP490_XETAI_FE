@@ -243,6 +243,7 @@ select:focus {
   -webkit-transition: all 0.3s ease-in-out 0.1s;
   -o-transition: all 0.3s ease-in-out 0.1s;
   transition: all 0.3s ease-in-out 0.1s;
+  color: #fff !important;
 }
 
 .btn-theme:hover {
@@ -254,7 +255,7 @@ select:focus {
 }
 
 .btn {
-  color: #fff;
+  color: var(--heading-color);
   position: relative;
   display: inline-block;
   padding: 0 35px;
