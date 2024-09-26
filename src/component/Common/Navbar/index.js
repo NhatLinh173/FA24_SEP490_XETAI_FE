@@ -134,7 +134,10 @@ const Navbar = ({ openModal }) => {
                             alt="avatar"
                           />
                         </a>
-                        <div className="nav-avatar-item">
+                        <div
+                          className="nav-avatar-item"
+                          style={{ width: "220px" }}
+                        >
                           <div className="p-3 ">
                             <div>
                               <Link

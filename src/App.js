@@ -38,16 +38,14 @@ import { setLogoutCallback } from "../src/config/axiosConfig"
 import FavoriteDrivers from "./page/FavoriteDrivers"
 import DriverDetail from "./component/Profile/User/DriverDetail"
 import TripDetail from "./component/Profile/User/TripDetail"
-import VehicalDetail from "./component/Profile/User/VehicalDetail"
 import HistoryPostDetail from "./component/Profile/User/HistoryPostDetail"
+import PaymentSuccess from "./component/PaymentStatus/PaymentSuccess"
+import PaymentFailed from "./component/PaymentStatus/PaymentFailed"
+import VehicalDetail from "./component/Profile/User/VehicalDetail"
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal()
   const { handleLogout } = useAuth()
-
-  // useEffect(() => {
-  //   setLogoutCallback(handleLogout);
-  // }, [handleLogout]);
 
   return (
     <Router>
@@ -87,6 +85,8 @@ const App = () => {
           <Route path="/favorite-drivers" exact component={FavoriteDrivers} />
           <Route path="/driver/:id" exact component={DriverDetail} />
           <Route path="/trip/detail/:id" exact component={TripDetail} />
+          <Route path="/payment/success" exact component={PaymentSuccess} />
+          <Route path="/payment/failed" exact component={PaymentFailed} />
           <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
         </Switch>
         <Footer />

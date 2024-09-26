@@ -3161,7 +3161,7 @@ Search Overlay CSS
   padding: 12px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: #ff0004;
   /* Màu nền cho nút tìm kiếm */
   color: white;
   font-size: 16px;
@@ -3171,10 +3171,6 @@ Search Overlay CSS
   /* Thêm hiệu ứng chuyển màu nền khi hover */
 }
 
-.search_inputs button:hover {
-  background-color: #0056b3;
-  /* Màu nền khi hover */
-}
 
 /* Container chung cho phần ServicesCard */
 #services_page {
@@ -3199,6 +3195,17 @@ Search Overlay CSS
 .service-card {
   margin-bottom: 20px;
   /* Khoảng cách giữa các card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Hiệu ứng đổ bóng */
+  border-radius: 10px;
+  /* Bo góc nhẹ cho thẻ nếu cần */
+  transition: box-shadow 0.3s ease;
+  /* Hiệu ứng chuyển tiếp khi hover */
+}
+
+.service-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  /* Tăng hiệu ứng khi hover */
 }
 
 /* Responsive cho các cột dịch vụ */
@@ -3265,7 +3272,7 @@ Search Overlay CSS
   /* Padding cho nút */
   color: #fff;
   /* Màu chữ */
-  background-color: #007bff;
+  background-color: #3eca2f;
   /* Màu nền của nút */
   border: none;
   /* Không có đường viền */
@@ -3284,14 +3291,13 @@ Search Overlay CSS
 }
 
 .read_more_btn:hover {
-  background-color: #0056b3;
+  background-color: #ffffff;
   /* Màu nền khi di chuột lên nút */
   transform: translateY(-2px);
   /* Hiệu ứng di chuyển nhẹ lên khi di chuột */
 }
 
 .read_more_btn:active {
-  background-color: #004080;
   /* Màu nền khi nút bị nhấn */
   transform: translateY(0);
   /* Đưa nút về vị trí bình thường khi nhấn */
@@ -4926,6 +4932,7 @@ textarea {
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
 /*  HistoryPost */
 .image-container {
   overflow: hidden;
@@ -4939,7 +4946,26 @@ input[type="number"]::-webkit-inner-spin-button {
 .zoom-image:hover {
   transform: scale(1.1);
 }
+
 .card-hover:hover {
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.custom-input label {
+  display: none;
+}
+
+.custom-input {
+  margin-top: 45px;
+}
+.addressFrom-input {
+  margin-top: -9px;
+}
+.addressTo-input {
+  margin-top: -7px;
 }

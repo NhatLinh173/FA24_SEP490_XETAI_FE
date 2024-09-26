@@ -1,10 +1,8 @@
 import React from 'react'
 // Import TestimonialsData
-import {TestimonialsData} from '../Testimonial/TestimonialData'
+import { TestimonialsData } from '../Testimonial/TestimonialData'
 // Import ClientLogos
 import ClientLogos from '../Testimonial/Client_Logo'
-// import Section Heading 
-import SectionHeading from '../../Common/SectionHeading'
 //  OwlCarousel Slider Import
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
@@ -31,28 +29,26 @@ const Testimonials = () => {
         <>
             <section id="client_review_area">
                 <div className="container">
-                    <SectionHeading heading="Client's Review" para="Solving your supply chain needs from end to end, taking the
-             complexity out of container shipping. We are at the forefront of developing innovation."/>
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="client_sliders_wrappers">
                                 <OwlCarousel className="owl-theme" margin={30} responsive={responsive} autoplay={true}
-                                             dots={false} nav={true} autoplayHoverPause={true} autoplayTimeout={2500}>
+                                    dots={false} nav={true} autoplayHoverPause={true} autoplayTimeout={2500}>
                                     {TestimonialsData.map((data, index) => (
                                         <div className="client_items" key={index}>
                                             <i className="fas fa-quote-right fa-3x"></i>
                                             <div className="testimonial-box">
-                                                  <span>
-                                                     <i className="fas fa-star"></i>
-                                                      <i className="fas fa-star"></i>
-                                                      <i className="fas fa-star"></i>
-                                                     <i className="fas fa-star"></i>
-                                                     <i className="far fa-star"></i>
-                                                  </span>
+                                                <span>
+                                                    <i className="fas fa-star"></i>
+                                                    <i className="fas fa-star"></i>
+                                                    <i className="fas fa-star"></i>
+                                                    <i className="fas fa-star"></i>
+                                                    <i className="far fa-star"></i>
+                                                </span>
                                                 <p>{data.para}</p>
                                                 <div className="client-destination">
                                                     <div className="client-image">
-                                                        <img src={data.img} alt="Image_Client"/>
+                                                        <img src={data.img} alt="Image_Client" />
                                                     </div>
                                                     <div className="client-details">
                                                         <h5>{data.name}</h5>
@@ -70,7 +66,7 @@ const Testimonials = () => {
                         </div>
                     </div>
                 </div>
-                <ClientLogos/>
+                <ClientLogos />
             </section>
         </>
     )

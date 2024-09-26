@@ -108,7 +108,7 @@ const SectionHeading = ({ onSearch }) => {
                                 className="search_input"
                             />
                         </div>
-                        <button onClick={handleSearch}>Tìm kiếm</button>
+                        <button className='btn-theme' onClick={handleSearch}>Tìm kiếm</button>
                     </div>
                 </div>
             </div>

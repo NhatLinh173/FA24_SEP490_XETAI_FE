@@ -50,7 +50,7 @@ const HomeBanner = () => {
                           dolore magna aliqua quis ipsum suspendisse.
                         </p>
                         <Link className="btn btn-theme" to="/request_quote">
-                          Tạo Bài Đăng
+                          Tạo Đơn Hàng
                         </Link>
                       </div>
                     </div>
@@ -74,7 +74,7 @@ const HomeBanner = () => {
                           dolore magna aliqua quis ipsum suspendisse.
                         </p>
                         <Link className="btn btn-theme" to="/request_quote">
-                          Tạo Bài Đăng
+                          Tạo Đơn Hàng
                         </Link>
                       </div>
                     </div>
@@ -98,7 +98,7 @@ const HomeBanner = () => {
                           dolore magna aliqua quis ipsum suspendisse.
                         </p>
                         <Link className="btn btn-theme" to="/request_quote">
-                          Tạo Bài Đăng
+                          Tạo Đơn Hàng
                         </Link>
                       </div>
                     </div>
