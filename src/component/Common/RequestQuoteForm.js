@@ -27,6 +27,8 @@ const RequestQuoteForm = () => {
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
   const [cityTo, setCityTo] = useState("");
+  const [costError, setCostError] = useState("");
+  const [weightError, setWeightError] = useState("");
 
   const getCity = async () => {
     try {
@@ -53,9 +55,21 @@ const RequestQuoteForm = () => {
     setNewAddressTo(e.target.value);
   };
   const handleTotalWeightChange = (e) => {
+    const value = e.target.value;
+    if (isNaN(value) || value.trim() === "") {
+      setWeightError("*Trường này chỉ nhập số"); // Cập nhật thông báo lỗi cho trọng lượng
+    } else {
+      setWeightError(""); // Xóa thông báo lỗi nếu nhập đúng
+    }
     setNewTotalWeight(e.target.value);
   };
   const handleCostChange = (e) => {
+    const value = e.target.value;
+    if (isNaN(value) || value.trim() === "") {
+      setCostError("*Trường này chỉ nhập số"); // Cập nhật thông báo lỗi
+    } else {
+      setCostError(""); // Xóa thông báo lỗi nếu nhập đúng
+    }
     setNewCost(e.target.value);
   };
   const handleOrderDescriptionChange = (e) => {
@@ -133,6 +147,7 @@ const RequestQuoteForm = () => {
                       <h2>Đơn Hàng</h2>
                     </div>
                   </div>
+
                   <div className="w-100 d-flex justify-content-center">
                     <div class="input-group w-50">
                       <input
@@ -149,29 +164,6 @@ const RequestQuoteForm = () => {
                     </div>
                   </div>
                   <div class="container d-flex justify-content-center mb-3"></div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"orderType"}
-                      id={"orderType"}
-                      classes={"form-control"}
-                      placeholder={"Loại Hàng"}
-                      label="Loại Hàng"
-                      value={orderType}
-                      onChange={handleOrderTypeChange}
-                    />
-                  </div>
-
-                  {/* <div className="col-lg-6">
-                    <div className="form-group">
-                      <label className="font-weight-bold">Thành phố đi</label>
-                      <select className="form-control first_null">
-                        <option>da nang</option>
-                        <option>Hue</option>
-                      </select>
-                    </div>
-                  </div> */}
                   <div className="col-lg-6 d-flex w-100 addressFrom-input ">
                     <div className="form-group align-self-end">
                       <label className="font-weight-bold">
@@ -240,7 +232,30 @@ const RequestQuoteForm = () => {
                   <div className="col-lg-6">
                     <FormInput
                       tag={"input"}
-                      type={"number"}
+                      type={"text"}
+                      name={"orderType"}
+                      id={"orderType"}
+                      classes={"form-control"}
+                      placeholder={"Loại Hàng"}
+                      label="Loại Hàng"
+                      value={orderType}
+                      onChange={handleOrderTypeChange}
+                    />
+                  </div>
+                  {/* <div className="col-lg-6">
+                    <div className="form-group">
+                      <label className="font-weight-bold">Thành phố đi</label>
+                      <select className="form-control first_null">
+                        <option>da nang</option>
+                        <option>Hue</option>
+                      </select>
+                    </div>
+                  </div> */}
+
+                  <div className="col-lg-6">
+                    <FormInput
+                      tag={"input"}
+                      type={"text"}
                       name={"weight"}
                       id={"weight"}
                       classes={"form-control"}
@@ -249,6 +264,10 @@ const RequestQuoteForm = () => {
                       value={totalWeight}
                       onChange={handleTotalWeightChange}
                     />
+                    {weightError && (
+                      <div className="text-danger">{weightError}</div>
+                    )}{" "}
+                    {/* Hiển thị thông báo lỗi cho trọng lượng */}
                   </div>
                   <div className="col-lg-6">
                     <FormInput
@@ -262,6 +281,9 @@ const RequestQuoteForm = () => {
                       value={cost}
                       onChange={handleCostChange}
                     />
+                    {costError && (
+                      <div className="text-danger">{costError}</div>
+                    )}
                   </div>
                   <div className="col-lg-12">
                     <FormInput
@@ -316,13 +338,11 @@ const RequestQuoteForm = () => {
                       onChange={handleRecipientPhoneChange}
                     />
                   </div>
-
                   <div className="col-lg-12">
                     <div className="heading_quote arae_top">
                       <h3>Thông Tin Người Đặt</h3>
                     </div>
                   </div>
-
                   <div className="col-lg-6">
                     <FormInput
                       tag={"input"}
@@ -359,7 +379,6 @@ const RequestQuoteForm = () => {
                       onChange={handlePhoneChange}
                     />
                   </div>
-
                   <div className="col-lg-12">
                     <div className="quote_submit_button d-flex justify-content-center">
                       <button className="btn btn-theme" onClick={handleSubmit}>

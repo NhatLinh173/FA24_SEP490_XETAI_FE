@@ -7,6 +7,7 @@ import { MdOutlinePersonAdd } from "react-icons/md";
 import { GiCancel } from "react-icons/gi";
 import { CiNoWaitingSign } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
+import { GrHide } from "react-icons/gr";
 import axios from "../../../config/axiosConfig";
 import useInstanceData from "../../../config/useInstanceData";
 import ReactPaginate from "react-paginate";
@@ -60,7 +61,7 @@ const HistoryPost = () => {
 
   return (
     <div>
-      <h2>Bài đăng</h2>
+      <h2>Đơn Hàng</h2>
       {currentPosts?.map((post) => (
         <Link
           to={`/history-post/${post._id}`}
@@ -88,14 +89,14 @@ const HistoryPost = () => {
                   <FaMapLocation className="mr-2" />
                   <div className="font-weight-bold text-nowrap">Điểm đi:</div>
                   <div className="w-75 ml-2 text-truncate">
-                    {post.startPoint}
+                    {post.startPointCity}
                   </div>
                 </div>
                 <div className="mb-2 text-secondary d-flex align-items-center">
                   <FaMapLocation className="mr-2" />
                   <div className="font-weight-bold text-nowrap">Điểm đến:</div>
                   <div className="w-75 ml-2 text-truncate">
-                    {post.destination}
+                    {post.destinationCity}
                   </div>
                 </div>
                 <div className="mb-2 text-secondary d-flex align-items-center">
@@ -119,7 +120,7 @@ const HistoryPost = () => {
                   </button>
                 )}
                 {post.status === "finish" && (
-                  <button className="btn-sm btn-primary mt-3 border-0 d-flex align-items-center">
+                  <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
                     <FaCheck className="mr-2" />
                     Đã giao hàng
                   </button>
@@ -140,6 +141,12 @@ const HistoryPost = () => {
                   <button className="btn-sm btn-warning mt-3 border-0 d-flex align-items-center">
                     <CiNoWaitingSign className="mr-2" />
                     Đang chờ duyệt
+                  </button>
+                )}
+                {post.status === "hide" && (
+                  <button className="btn-sm btn-bg-secondary mt-3 border-0 d-flex align-items-center">
+                    <GrHide className="mr-2" />
+                    Tạm ẩn
                   </button>
                 )}
               </div>
@@ -200,7 +207,7 @@ const HistoryPost = () => {
                 ></button>
               </div>
               <div className="modal-body">
-                <p>Bạn có chắc chắn muốn xóa bài đăng này không?</p>
+                <p>Bạn có chắc chắn muốn xóa đơn hàng này không?</p>
               </div>
               <div className="modal-footer">
                 <button
