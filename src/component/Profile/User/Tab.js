@@ -9,6 +9,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { MdDirectionsCar } from "react-icons/md";
 import { PiPackage } from "react-icons/pi";
 
+
 import useAuth from "../../../hooks/useAuth";
 
 const Tab = ({ tab1, setTab1 }) => {
@@ -88,8 +89,8 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li>
             <button
-              className={`btn-tab ${tab1 === "myVehical" ? "active" : ""}`}
-              onClick={() => setTab1("myVehical")}
+              className={`btn-tab ${tab1 === "vehicals" ? "active" : ""}`}
+              onClick={() => setTab1("vehicals")}
             >
               <MdDirectionsCar />
               <span className="px-2">Xe của tôi</span>

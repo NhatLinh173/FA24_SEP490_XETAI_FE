@@ -71,3 +71,20 @@
   padding: 16px 24px;
 }
 /*  */
+
+/* GAP */
+.gap-3 {
+  gap: 12px;
+}
+
+/* CENTER */
+.absolute-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.link-wrapper:hover {
+  color: var(--heading-color);
+}

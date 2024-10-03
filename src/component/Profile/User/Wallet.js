@@ -36,7 +36,7 @@ const Wallet = ({ data }) => {
 
   const handleDepositSubmit = async () => {
     const amount = parseInt(depositAmount, 10);
-    if (amount < 5000 || amount > 1000000) {
+    if (amount < 50000 || amount > 1000000) {
       setError("Số tiền phải nằm trong khoảng 50,000 VND và 1,000,000 VND");
     } else {
       setError("");
@@ -45,8 +45,8 @@ const Wallet = ({ data }) => {
           "http://localhost:3005/payment/create",
           {
             description: "Payment for order",
-            returnUrl: "http://localhost:3006/",
-            cancelUrl: "http://localhost:3006/error",
+            returnUrl: "http://localhost:3006/payment/success",
+            cancelUrl: "http://localhost:3006/payment/failed",
             totalPrice: amount,
             orderCodeStatus: "Pending",
           }
@@ -54,8 +54,8 @@ const Wallet = ({ data }) => {
 
         if (response.status === 200) {
           setCheckoutUrl(response.data.data.checkoutUrl);
+          window.location.href = response.data.data.checkoutUrl;
           setShowModal(true);
-          console.log(response.data.data.checkoutUrl);
         }
       } catch (error) {
         console.error("API call failed: ", error);
@@ -209,35 +209,22 @@ const Wallet = ({ data }) => {
                 </button>
               </div>
               <div className="modal-body">
-                {checkoutUrl ? (
-                  <div>
-                    <h5>Link thanh toán:</h5>
-                    <a
-                      href={checkoutUrl}
-                      target="_self"
-                      rel="noopener noreferrer"
-                    >
-                      Thanh toán tại đây
-                    </a>
+                <div>
+                  <div className="form-group">
+                    <label htmlFor="depositAmount">
+                      Nhập số tiền muốn nạp:
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="depositAmount"
+                      value={depositAmount}
+                      onChange={(e) => setDepositAmount(e.target.value)}
+                      placeholder="Số tiền (VND)"
+                    />
+                    {error && <div className="text-danger mt-2">{error}</div>}
                   </div>
-                ) : (
-                  <div>
-                    <div className="form-group">
-                      <label htmlFor="depositAmount">
-                        Nhập số tiền muốn nạp:
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="depositAmount"
-                        value={depositAmount}
-                        onChange={(e) => setDepositAmount(e.target.value)}
-                        placeholder="Số tiền (VND)"
-                      />
-                      {error && <div className="text-danger mt-2">{error}</div>}
-                    </div>
-                  </div>
-                )}
+                </div>
               </div>
               <div className="modal-footer">
                 <button
