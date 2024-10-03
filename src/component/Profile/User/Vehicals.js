@@ -1,6 +1,6 @@
 import { useState } from "react"
 import ReactPaginate from "react-paginate"
-import { Link } from "react-router-dom/cjs/react-router-dom.min"
+import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min"
 
 const DUMMY_DATA = [
   {
@@ -114,12 +114,15 @@ const Vehicals = () => {
   const handlePageClick = (event) => {
     setCurrentPage(event.selected)
   }
+
   return (
     <div>
       <div className="mb-4 d-flex justify-content-between">
         <h2>Xe của tôi</h2>
 
-        <button className="btn btn-theme">Thêm xe mới</button>
+        <Link to="/vehical/add" className="btn btn-theme">
+          Thêm xe mới
+        </Link>
       </div>
 
       {currentPageItems.map((item) => (

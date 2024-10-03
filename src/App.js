@@ -42,6 +42,7 @@ import HistoryPostDetail from "./component/Profile/User/HistoryPostDetail"
 import PaymentSuccess from "./component/PaymentStatus/PaymentSuccess"
 import PaymentFailed from "./component/PaymentStatus/PaymentFailed"
 import VehicalDetail from "./component/Profile/User/VehicalDetail"
+import VehicalAdd from "./component/Profile/User/VehicalAdd"
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal()
@@ -88,6 +89,7 @@ const App = () => {
           <Route path="/payment/success" exact component={PaymentSuccess} />
           <Route path="/payment/failed" exact component={PaymentFailed} />
           <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
+          <Route path="/vehical/add" exact component={VehicalAdd} />
         </Switch>
         <Footer />
         <CopyRight />
