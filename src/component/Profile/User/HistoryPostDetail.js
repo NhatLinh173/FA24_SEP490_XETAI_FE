@@ -1,18 +1,138 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import useInstanceData from "../../../config/useInstanceData";
+import axios from "axios";
+import axiosInstance from "../../../config/axiosConfig";
+import { toast } from "react-toastify";
+import { GiCancel } from "react-icons/gi";
+import { GrHide } from "react-icons/gr";
+import { FaCarSide, FaCheck } from "react-icons/fa6";
 const HistoryPostDetail = () => {
   const { id } = useParams();
-  const {
-    data: post,
-    loading,
-    error,
-    refetch,
-  } = useInstanceData(`/posts/${id}`);
-  const { data: category } = useInstanceData(`/categories/${post?.category}`);
+  const userId = localStorage.getItem("userId");
+  const [cities, setCities] = useState([]);
+  const [cityFrom, setCityFrom] = useState("");
+  const [cityTo, setCityTo] = useState("");
+  const [newFullName, setNewFullName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPrice, setNewPrice] = useState("");
+  const [newPhone, setNewPhone] = useState(0);
+  const [newtitle, setNewTitle] = useState("");
+  const [newStartPoint, setNewStartPoint] = useState("");
+  const [newDestination, setNewDestination] = useState("");
+  const [newImage, setNewImage] = useState("");
+  const [newDetail, setNewDetail] = useState("");
+  const [newWeight, setNewWeight] = useState("");
+  const [recipientEmail, setRecipentEmail] = useState("");
+  const [recipientName, setRecipentName] = useState("");
+  const [recipientPhone, setRecipentPhone] = useState("");
+  const [status, setStatus] = useState("");
+  const getCity = async () => {
+    try {
+      const res = await axios.get("https://provinces.open-api.vn/api/");
+      setCities(res.data);
+    } catch (error) {}
+  };
+  const { data: post } = useInstanceData(`/posts/${id}`);
   const { data: driver } = useInstanceData(`/auth/user/${post?.driver}`);
-  console.log(driver);
+  useEffect(() => {
+    setNewTitle(post.title);
+    setNewPrice(post.price);
+    setNewFullName(post.fullname);
+    setNewPhone(post.phone);
+    setNewEmail(post.email);
+    setNewStartPoint(post.startPoint);
+    setNewDestination(post.destination);
+    setNewImage(post.image);
+    setNewDetail(post.detail);
+    setNewWeight(post.load);
+    getCity();
+    setCityFrom(post.startPointCity);
+    setCityTo(post.destinationCity);
+    setRecipentEmail(post.recipientEmail);
+    setRecipentName(post.recipientName);
+    setRecipentPhone(post.recipientPhone);
+    setStatus(post.status);
+  }, [post]);
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axiosInstance.patch(`/posts/${id}`, {
+        title: newtitle,
+        detail: newDetail,
+        load: newWeight,
+        fullname: newFullName,
+        email: newEmail,
+        phone: newPhone,
+        startPoint: newStartPoint,
+        destination: newDestination,
+        price: newPrice,
+        startPointCity: cityFrom,
+        destinationCity: cityTo,
+        recipientEmail,
+        recipientPhone,
+        recipientName,
+        status,
+        creator: userId,
+      });
+      if (res.status === 200) {
+        toast.success("Cập nhật thành công!");
+      }
+    } catch (error) {
+      if (error.res.status === 400) {
+        toast.error("Cập nhật không thành công!");
+      }
+    }
+  };
+
+  const handleTitle = (e) => {
+    setNewTitle(e.target.value);
+  };
+  const handleEmailChange = (e) => {
+    setNewEmail(e.target.value);
+  };
+  const handleNameChange = (e) => {
+    setNewFullName(e.target.value);
+  };
+  const handlePhoneChange = (e) => {
+    setNewPhone(e.target.value);
+  };
+  const handleStartPoint = (e) => {
+    setNewStartPoint(e.target.value);
+  };
+  const handleDestination = (e) => {
+    setNewDestination(e.target.value);
+  };
+  const handlePrice = (e) => {
+    setNewPrice(e.target.value);
+  };
+  const handleImage = (e) => {
+    setNewImage(e.target.value);
+  };
+  const handleLoad = (e) => {
+    setNewWeight(e.target.value);
+  };
+  const handleReceptionEmail = (e) => {
+    setRecipentEmail(e.target.value);
+  };
+  const handleReceptionName = (e) => {
+    setRecipentName(e.target.value);
+  };
+  const handleReceptionPhone = (e) => {
+    setRecipentPhone(e.target.value);
+  };
+
+  const handleCityFrom = (e) => {
+    setCityFrom(e.target.value);
+  };
+  const handleCityTo = (e) => {
+    setCityTo(e.target.value);
+  };
+  const handleStatus = (e) => {
+    setStatus(e.target.value);
+  };
+
   return (
     <div className="wrapper container pb-5">
       <ToastContainer /> {/* Thêm ToastContainer vào đây */}
@@ -29,6 +149,78 @@ const HistoryPostDetail = () => {
                 style={{ width: "100%", height: "auto", objectFit: "flex" }}
               />
             </div>
+            <h5 className="font-weight-bold" style={{ marginBottom: "15px" }}>
+              Trạng thái đơn hàng
+            </h5>
+            <div className="form-group col-md-6 ">
+              {post.status === "cancel" && (
+                <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
+                  <GiCancel className="mr-2" />
+                  Đã hủy
+                </button>
+              )}
+
+              {(post.status === "wait" || post.status === "hide") && (
+                <select
+                  id="orderAction"
+                  className={`form-control w-75 ${
+                    status === "cancel"
+                      ? "bg-danger text-white "
+                      : status === "hide"
+                      ? "bg-secondary text-white "
+                      : status === "wait"
+                      ? "bg-warning text-Black"
+                      : ""
+                  } `}
+                  value={status}
+                  onChange={handleStatus}
+                >
+                  <option value="hide" class="bg-white options-text">
+                    Tạm ẩn đơn hàng
+                  </option>
+                  <option value="cancel" class="bg-white options-text">
+                    Hủy đơn hàng
+                  </option>
+                  <option value="wait" class="bg-white options-text">
+                    Đang chờ duyệt
+                  </option>
+                </select>
+              )}
+              {post.status === "inprogress" && (
+                <button className="btn-sm btn-primary mt-3 border-0 d-flex align-items-center">
+                  <FaCarSide className="mr-2" />
+                  Đang giao hàng
+                </button>
+              )}
+              {post.status === "approve" && (
+                <select
+                  id="orderAction"
+                  className={`form-control w-75 ${
+                    status === "cancel"
+                      ? "bg-danger text-white "
+                      : status === "approve"
+                      ? "bg-info text-white"
+                      : ""
+                  } `}
+                  value={status}
+                  onChange={handleStatus}
+                >
+                  <option value="cancel" class="bg-white options-text">
+                    Hủy đơn hàng
+                  </option>
+                  <option value="approve" class="bg-white options-text">
+                    Tài xế đã nhận đơn
+                  </option>
+                </select>
+              )}
+              {post.status === "finish" && (
+                <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
+                  <FaCheck className="mr-2" />
+                  Đã giao hàng
+                </button>
+              )}
+            </div>
+
             <div>
               <h5 className="font-weight-bold" style={{ marginBottom: "15px" }}>
                 Thông tin chi tiết
@@ -36,35 +228,83 @@ const HistoryPostDetail = () => {
               <form>
                 <div className="border rounded p-3 shadow-sm">
                   <div className="form-row">
-                    <div className="form-group col-md-6">
+                    <div className="form-group col-md-12">
+                      <label
+                        htmlFor="pickupLocation"
+                        className="font-weight-bold"
+                      >
+                        Địa chỉ nhận hàng
+                      </label>
+                      <div className="d-flex">
+                        <select
+                          className="w-25 "
+                          onChange={handleCityFrom}
+                          value={cityFrom}
+                        >
+                          {cities.map((city) => (
+                            <option value={city.name}>{city.name}</option>
+                          ))}
+                        </select>
+                        <div className="flex-1">
+                          <input
+                            id="pickupLocation"
+                            value={newStartPoint}
+                            onChange={handleStartPoint}
+                            type="text"
+                            className="form-control"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="form-group col-md-12">
+                      <label
+                        htmlFor="dropoffLocation"
+                        className="font-weight-bold"
+                      >
+                        Địa chỉ giao hàng
+                      </label>
+                      <div className="d-flex ">
+                        <select
+                          className="w-25"
+                          onChange={handleCityTo}
+                          value={cityTo}
+                        >
+                          {cities.map((city) => (
+                            <option value={city.name}>{city.name}</option>
+                          ))}
+                        </select>
+                        <div className="flex-1">
+                          <input
+                            id="dropoffLocation"
+                            value={newDestination}
+                            onChange={handleDestination}
+                            type="text"
+                            className="form-control"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="form-group col-md-6 ">
                       <label htmlFor="type" className="font-weight-bold">
                         Loại hàng
                       </label>
                       <input
                         id="type"
-                        defaultValue={post?.title}
+                        value={newtitle}
                         type="text"
                         className="form-control"
+                        onChange={handleTitle}
                       />
                     </div>
-                    <div className="form-group col-md-6">
-                      <label htmlFor="type" className="font-weight-bold">
-                        Loại xe
-                      </label>
-                      <input
-                        id="carType"
-                        defaultValue={category[0]?.description}
-                        type="text"
-                        className="form-control"
-                      />
-                    </div>
+
                     <div className="form-group col-md-6">
                       <label htmlFor="weight" className="font-weight-bold">
-                        Khối lượng
+                        Tổng Trọng Lượng (KG)
                       </label>
                       <input
                         id="weight"
-                        defaultValue={post?.load}
+                        value={newWeight}
+                        onChange={handleLoad}
                         type="text"
                         className="form-control"
                       />
@@ -75,50 +315,71 @@ const HistoryPostDetail = () => {
                       </label>
                       <input
                         id="price"
-                        defaultValue={post?.price}
+                        value={newPrice}
+                        onChange={handlePrice}
                         type="text"
                         className="form-control"
                       />
                     </div>
-                    <div className="form-group col-md-6">
-                      <label
-                        htmlFor="pickupLocation"
-                        className="font-weight-bold"
-                      >
-                        Địa điểm lấy hàng
-                      </label>
-                      <input
-                        id="pickupLocation"
-                        defaultValue={post?.startPoint}
-                        type="text"
-                        className="form-control"
-                      />
-                    </div>
-                    <div className="form-group col-md-6">
-                      <label
-                        htmlFor="dropoffLocation"
-                        className="font-weight-bold"
-                      >
-                        Địa điểm trả hàng
-                      </label>
-                      <input
-                        id="dropoffLocation"
-                        defaultValue={post?.destination}
-                        type="text"
-                        className="form-control"
-                      />
-                    </div>
+
                     <div className="form-group col-md-12">
                       <label htmlFor="description" className="font-weight-bold">
                         Mô tả đơn hàng
                       </label>
                       <textarea
                         id="description"
-                        defaultValue={post?.detail}
+                        value={newDetail}
+                        onChange={newDestination}
                         className="form-control"
                         rows="4"
                       />
                     </div>
+                    <div className="form-group col-md-12">
+                      <h5
+                        className="font-weight-bold"
+                        style={{ marginTop: "20px" }}
+                      >
+                        Thông tin người nhận
+                      </h5>
+                    </div>
+                    <div className="form-group col-md-6 mt-3">
+                      <label htmlFor="name" className="font-weight-bold">
+                        Họ và Tên
+                      </label>
+
+                      <input
+                        id="name"
+                        type="text"
+                        className="form-control"
+                        value={recipientName}
+                        onChange={handleReceptionName}
+                      />
+                    </div>
+                    <div className="form-group col-md-6 mt-3">
+                      <label htmlFor="email" className="font-weight-bold">
+                        Email
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        className="form-control"
+                        value={recipientEmail}
+                        onChange={handleReceptionEmail}
+                      />
+                    </div>
+                    <div className="form-group col-md-6 mt-3">
+                      <label htmlFor="phone" className="font-weight-bold">
+                        Số điện thoại
+                      </label>
+                      <input
+                        id="phone"
+                        type="phone"
+                        className="form-control"
+                        value={recipientPhone}
+                        onChange={handleReceptionPhone}
+                      />
+                    </div>
+
                     <div className="form-group col-md-12">
                       <h5
                         className="font-weight-bold"
@@ -136,7 +397,8 @@ const HistoryPostDetail = () => {
                         id="name"
                         type="text"
                         className="form-control"
-                        defaultValue={post?.fullname}
+                        value={newFullName}
+                        onChange={handleNameChange}
                       />
                     </div>
                     <div className="form-group col-md-6 mt-3">
@@ -147,7 +409,8 @@ const HistoryPostDetail = () => {
                         id="email"
                         type="email"
                         className="form-control"
-                        defaultValue={post?.email}
+                        value={newEmail}
+                        onChange={handleEmailChange}
                       />
                     </div>
                     <div className="form-group col-md-6 mt-3">
@@ -158,10 +421,21 @@ const HistoryPostDetail = () => {
                         id="phone"
                         type="phone"
                         className="form-control"
-                        defaultValue={post?.phone}
+                        value={newPhone}
+                        onChange={handlePhoneChange}
                       />
                     </div>
                   </div>
+                </div>
+
+                <div className="w-70 d-flex justify-content-center mt-3">
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-lg w-25 "
+                    onClick={handleSubmitForm}
+                  >
+                    <span>Cập nhật</span>
+                  </button>
                 </div>
               </form>
             </div>

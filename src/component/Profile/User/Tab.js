@@ -1,20 +1,21 @@
-import React from "react"
-import { BsSignpost } from "react-icons/bs"
-import { CgProfile } from "react-icons/cg"
-import { FaRegHeart } from "react-icons/fa"
-import { FaArrowRightFromBracket } from "react-icons/fa6"
-import { LuWallet } from "react-icons/lu"
-import { MdAccessTime } from "react-icons/md"
-import { RiLockPasswordLine } from "react-icons/ri"
-import { MdDirectionsCar } from "react-icons/md"
+import React from "react";
+import { BsSignpost } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import { FaRegHeart } from "react-icons/fa";
+import { FaArrowRightFromBracket } from "react-icons/fa6";
+import { LuWallet } from "react-icons/lu";
+import { MdAccessTime } from "react-icons/md";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { MdDirectionsCar } from "react-icons/md";
+import { PiPackage } from "react-icons/pi";
 
-import useAuth from "../../../hooks/useAuth"
+import useAuth from "../../../hooks/useAuth";
 
 const Tab = ({ tab1, setTab1 }) => {
-  const { handleLogout } = useAuth()
+  const { handleLogout } = useAuth();
   const handleLogoutClick = async () => {
-    await handleLogout()
-  }
+    await handleLogout();
+  };
 
   return (
     <div className="d-flex flex-column h-100">
@@ -39,8 +40,8 @@ const Tab = ({ tab1, setTab1 }) => {
               }`}
               onClick={() => setTab1("historyPost")}
             >
-              <BsSignpost />
-              <span className="px-1">Bài đăng</span>
+              <PiPackage />
+              <span className="px-1">Đơn hàng</span>
             </button>
           </li>
 
@@ -106,7 +107,7 @@ const Tab = ({ tab1, setTab1 }) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Tab
+export default Tab;
