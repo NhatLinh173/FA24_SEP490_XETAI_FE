@@ -79,14 +79,16 @@ const Navbar = ({ openModal }) => {
   };
 
   const handleSearchOpen = (event) => {
-    event.preventDefault();
-    const searchInputElement = document.getElementById("home-search-input");
-    const scheduleSection = document.getElementById("schedule_one");
-    searchInputElement.focus();
+    event.preventDefault()
+    const searchInputElement = document.getElementById("home-search-input")
+    if (!searchInputElement) return
+
+    const scheduleSection = document.getElementById("schedule_one")
+    searchInputElement.focus()
     window.scroll({
       top: scheduleSection.getBoundingClientRect().top + window.scrollY,
       behavior: "smooth",
-    });
+    })
   };
 
   const handleLogoutClick = async () => {
