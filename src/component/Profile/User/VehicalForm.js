@@ -79,24 +79,22 @@ const VehicalForm = ({ data, editable, setData }) => {
         </div>
 
         <div className="col">
-          <label htmlFor="deliver_address">Loại xe</label>
+          <label htmlFor="deliver_address">Ngày đăng kiểm</label>
 
           <div>
-            <select
-              id="car"
+            <input
               className="form-select rounded w-full form-control"
+              type="date"
+              placeholder="dd-mm-yyyy"
               disabled={!editable}
-              value={data.car_type}
+              value={data.register_date}
               onChange={(e) =>
                 setData((prev) => ({
                   ...prev,
-                  car_type: e.target.value,
+                  register_date: e.target.value,
                 }))
               }
-            >
-              <option value="0">Xe tải</option>
-              <option value="1">Xe khách</option>
-            </select>
+            />
           </div>
         </div>
       </div>
@@ -122,13 +120,13 @@ const VehicalForm = ({ data, editable, setData }) => {
         </div>
 
         <div className="col">
-          <label htmlFor="weightCapacity">Trọng tải</label>
+          <label htmlFor="weightCapacity">Trọng tải (Tấn)</label>
 
           <input
             id="weightCapacity"
             type="text"
             className="form-control"
-            placeholder="Trọng tải"
+            placeholder="Trọng tải (Tấn)"
             disabled={!editable}
             value={data.weight_capacity}
             onChange={(e) =>

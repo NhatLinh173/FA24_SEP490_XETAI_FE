@@ -6,7 +6,7 @@ const DUMMY_DATA = {
   car_img: "",
   register_img: "",
   name: "",
-  car_type: 0,
+  register_date: "",
   license_plate_number: "",
   weight_capacity: "",
 }

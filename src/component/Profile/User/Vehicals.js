@@ -1,11 +1,13 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
+import { MdDelete } from "react-icons/md"
 import ReactPaginate from "react-paginate"
-import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min"
+import { Link } from "react-router-dom/cjs/react-router-dom.min"
+import { toast } from "react-toastify"
 
 const DUMMY_DATA = [
   {
     id: 15,
-    name: "Toyota",
+    name: "Derrick",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -14,7 +16,7 @@ const DUMMY_DATA = [
   },
   {
     id: 70,
-    name: "Toyota",
+    name: "Austin",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -23,7 +25,7 @@ const DUMMY_DATA = [
   },
   {
     id: 80,
-    name: "Toyota",
+    name: "Leon",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -32,7 +34,7 @@ const DUMMY_DATA = [
   },
   {
     id: 82,
-    name: "Toyota",
+    name: "Ian",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -41,7 +43,7 @@ const DUMMY_DATA = [
   },
   {
     id: 37,
-    name: "Toyota",
+    name: "Luke",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -50,7 +52,7 @@ const DUMMY_DATA = [
   },
   {
     id: 70,
-    name: "Toyota",
+    name: "Edward",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -59,7 +61,7 @@ const DUMMY_DATA = [
   },
   {
     id: 4,
-    name: "Toyota",
+    name: "Blanche",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -68,7 +70,7 @@ const DUMMY_DATA = [
   },
   {
     id: 88,
-    name: "Toyota",
+    name: "Ethel",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -77,7 +79,7 @@ const DUMMY_DATA = [
   },
   {
     id: 43,
-    name: "Toyota",
+    name: "Lola",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -86,7 +88,7 @@ const DUMMY_DATA = [
   },
   {
     id: 18,
-    name: "Toyota",
+    name: "James",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -95,7 +97,7 @@ const DUMMY_DATA = [
   },
   {
     id: 23,
-    name: "Toyota",
+    name: "Lina",
     image:
       "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
     license_plate_number: "59-V1 793.79",
@@ -106,6 +108,8 @@ const DUMMY_DATA = [
 
 const Vehicals = () => {
   const [currentPage, setCurrentPage] = useState(0)
+  const [isVisible, setIsVisible] = useState(false)
+  const [selectedId, setSelectedId] = useState(null)
 
   const itemPerPage = 5
   const offset = currentPage * itemPerPage
@@ -113,6 +117,29 @@ const Vehicals = () => {
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected)
+  }
+
+  const selectedName = useMemo(() => {
+    const findedItem = DUMMY_DATA.find((item) => item.id === selectedId)
+    if (!findedItem) return ""
+
+    return findedItem.name
+  }, [selectedId])
+
+  const onConfirmDelete = (event, selectedId) => {
+    event.preventDefault()
+    setSelectedId(selectedId)
+    setIsVisible(true)
+  }
+
+  const onCloseModal = () => {
+    setIsVisible(false)
+  }
+
+  const onDelete = () => {
+    setIsVisible(false)
+
+    toast.success(`Xóa thành công ${selectedName}`)
   }
 
   return (
@@ -137,22 +164,35 @@ const Vehicals = () => {
                 src={item.image}
                 alt={item.name}
                 className="rounded-12 cursor-pointer"
-                style={{ width: "360px", height: "195px", objectFit: "cover" }}
+                style={{ width: "310px", height: "160px", objectFit: "cover" }}
               />
 
               <div className="ml-3">
-                <div className="mb-4 fs-18 font-weight-bold">{item.name}</div>
-                <div className="mb-2 text-secondary">
-                  Biển số: {item.license_plate_number}
-                </div>
+                <div className="mb-4">{item.name}</div>
 
-                <div className="mb-2 text-secondary">
+                <div className="mb-2">Biển số: {item.license_plate_number}</div>
+
+                <div className="mb-2">
                   Trọng tải: {item.weight_capacity} Tấn
                 </div>
 
-                <div className="font-weight-bold">
-                  Ngày đăng kiểm: {item.registration_date}
-                </div>
+                <div className="">Ngày đăng kiểm: {item.registration_date}</div>
+              </div>
+
+              <div
+                style={{
+                  alignSelf: "center",
+                  flex: 1,
+                  justifySelf: "right",
+                  textAlign: "end",
+                }}
+              >
+                <button
+                  className="btn-danger btn-sm align-self-start border-0"
+                  onClick={(event) => onConfirmDelete(event, item.id)}
+                >
+                  <MdDelete />
+                </button>
               </div>
             </div>
           </Link>
@@ -175,6 +215,57 @@ const Vehicals = () => {
         previousLabel={"<<"}
         nextLabel={">>"}
       />
+
+      {isVisible && (
+        <div
+          className="modal fade show"
+          id="exampleModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Xác nhận xóa
+                </h5>
+
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={onCloseModal}
+                ></button>
+              </div>
+
+              <div className="modal-body">
+                <p>Bạn có chắc chắn muốn xóa xe {selectedName} không?</p>
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  onClick={onCloseModal}
+                >
+                  Đóng
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={onDelete}
+                >
+                  Xóa
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

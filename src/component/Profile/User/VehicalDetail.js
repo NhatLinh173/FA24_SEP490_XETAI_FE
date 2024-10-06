@@ -9,6 +9,7 @@ const DUMMY_DATA = {
   car_type: 1,
   license_plate_number: "29H2-33344",
   weight_capacity: "100",
+  register_date: "2024-10-09",
 }
 
 const VehicalDetail = () => {
