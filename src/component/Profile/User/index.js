@@ -56,7 +56,6 @@ const DashboardProfile = () => {
             {tab === "tripHistory" && <TripHistory />}
             {tab === "historyPost" && <HistoryPost />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
-            {tab === "historyPost" && <HistoryPost />}
             {tab === "vehicals" && <Vehicals />}
 
           </div>
