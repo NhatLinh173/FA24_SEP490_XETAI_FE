@@ -4,44 +4,46 @@ import Navbar from "./component/Common/Navbar"
 import Footer from "./component/Common/Footer"
 import CopyRight from "./component/Common/CopyRight"
 
-import Home_One from "./page/indexPage"
-import About from "./page/About"
-import Service from "./page/Service"
-import ServiceDetail from "./component/Common/Service/ServiceDetail"
-import ServiceDetails from "./page/ServiceDetails"
-import BlogGrid from "./page/BlogGrid"
-import BlogWithSidebar from "./page/BlogWithSidebar"
-import BlogDetails from "./page/BlogDetails"
-import OurTeamArea from "./page/OurTeam"
-import Testimonials from "./page/Testimonial"
-import Gallery from "./page/Gallery"
-import Faqs from "./page/Faqs"
-import TrackYourShip from "./page/TrackYourShip"
-import SignUp from "./page/SignUp"
-import SignIn from "./page/SignIn"
-import PrivacyPolicy from "./page/PrivacyPolicy"
-import TermsCondition from "./page/TermsCondition"
-import Error from "./page/Error"
-import Contact from "./page/Contact"
-import PricingContent from "./page/Pricing"
-import RequestQuote from "./page/RequestQuote"
-import AccountTypes from "./page/AccountTypes"
-import Profile from "./page/Profile"
-import CustomModal from "./component/modal-popup/CustomModal"
-import ScrollToTop from "./component/ScrollToTop"
-import useModal from "./hooks/useModal"
-import SignUpCustomerPage from "./page/SignUpCustomerPage"
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import useAuth from "./hooks/useAuth"
-import { setLogoutCallback } from "../src/config/axiosConfig"
-import FavoriteDrivers from "./page/FavoriteDrivers"
-import DriverDetail from "./component/Profile/User/DriverDetail"
-import TripDetail from "./component/Profile/User/TripDetail"
-import HistoryPostDetail from "./component/Profile/User/HistoryPostDetail"
-import PaymentSuccess from "./component/PaymentStatus/PaymentSuccess"
-import PaymentFailed from "./component/PaymentStatus/PaymentFailed"
+import Home_One from "./page/indexPage";
+import About from "./page/About";
+import Service from "./page/Service";
+import ServiceDetail from "./component/Common/Service/ServiceDetail";
+import ServiceDetails from "./page/ServiceDetails";
+import BlogGrid from "./page/BlogGrid";
+import BlogWithSidebar from "./page/BlogWithSidebar";
+import BlogDetails from "./page/BlogDetails";
+import OurTeamArea from "./page/OurTeam";
+import Testimonials from "./page/Testimonial";
+import Gallery from "./page/Gallery";
+import Faqs from "./page/Faqs";
+import TrackYourShip from "./page/TrackYourShip";
+import SignUp from "./page/SignUp";
+import SignIn from "./page/SignIn";
+import PrivacyPolicy from "./page/PrivacyPolicy";
+import TermsCondition from "./page/TermsCondition";
+import Error from "./page/Error";
+import Contact from "./page/Contact";
+import PricingContent from "./page/Pricing";
+import RequestQuote from "./page/RequestQuote";
+import AccountTypes from "./page/AccountTypes";
+import Profile from "./page/Profile";
+import CustomModal from "./component/modal-popup/CustomModal";
+import ScrollToTop from "./component/ScrollToTop";
+import useModal from "./hooks/useModal";
+import SignUpCustomerPage from "./page/SignUpCustomerPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useAuth from "./hooks/useAuth";
+import { setLogoutCallback } from "../src/config/axiosConfig";
+import FavoriteDrivers from "./page/FavoriteDrivers";
+import DriverDetail from "./component/Profile/User/DriverDetail";
+import TripDetail from "./component/Profile/User/TripDetail";
+import HistoryPostDetail from "./component/Profile/User/HistoryPostDetail";
+import PaymentSuccess from "./component/PaymentStatus/PaymentSuccess";
+import PaymentFailed from "./component/PaymentStatus/PaymentFailed";
+import Chat from "./component/Chat/chat";
 import VehicalDetail from "./component/Profile/User/VehicalDetail"
+
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal()
@@ -87,6 +89,7 @@ const App = () => {
           <Route path="/trip/detail/:id" exact component={TripDetail} />
           <Route path="/payment/success" exact component={PaymentSuccess} />
           <Route path="/payment/failed" exact component={PaymentFailed} />
+          <Route path="/chat" exact component={Chat} />
           <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
         </Switch>
         <Footer />

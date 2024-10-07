@@ -12,6 +12,8 @@
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
+    "ajv": "^8.17.1",
+    "ajv-keywords": "^5.1.0",
     "axios": "^1.7.5",
     "bootstrap": "^5.3.3",
     "firebase": "^10.13.0",
@@ -33,6 +35,7 @@
     "react-scripts": "^5.0.1",
     "react-slider": "^2.0.6",
     "react-toastify": "^10.0.5",
+    "socket.io-client": "^4.8.0",
     "transtics": "file:",
     "web-vitals": "^0.2.4"
   },
