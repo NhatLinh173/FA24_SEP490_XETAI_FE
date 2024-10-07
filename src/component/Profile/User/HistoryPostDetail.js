@@ -28,6 +28,8 @@ const HistoryPostDetail = () => {
   const [recipientName, setRecipentName] = useState("");
   const [recipientPhone, setRecipentPhone] = useState("");
   const [status, setStatus] = useState("");
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [dealIdUpdate, setDealIdUpdate] = useState(null);
   const getCity = async () => {
     try {
       const res = await axios.get("https://provinces.open-api.vn/api/");
@@ -35,7 +37,23 @@ const HistoryPostDetail = () => {
     } catch (error) {}
   };
   const { data: post } = useInstanceData(`/posts/${id}`);
-  const { data: driver } = useInstanceData(`/auth/user/${post?.driver}`);
+  console.log(post);
+  const { data: deals } = useInstanceData(`/dealPrice`);
+  const handleConfirmDriver = async () => {
+    try {
+      const res = await axiosInstance.patch(`/dealPrice/status/${id}`, {
+        dealId: dealIdUpdate,
+        status: "approve",
+      });
+      console.log(res);
+      setIsShowModal(false);
+      if (res.status === 200) {
+        toast.success("Xác nhận tài xế thành công");
+      } else {
+        toast.error("Xác nhận tài xế thất bại");
+      }
+    } catch (error) {}
+  };
   useEffect(() => {
     setNewTitle(post.title);
     setNewPrice(post.price);
@@ -85,7 +103,14 @@ const HistoryPostDetail = () => {
       }
     }
   };
+  const handleOpenModal = (dealId) => {
+    setIsShowModal(true);
+    setDealIdUpdate(dealId);
+  };
 
+  const handleCloseModal = () => {
+    setIsShowModal(false);
+  };
   const handleTitle = (e) => {
     setNewTitle(e.target.value);
   };
@@ -443,23 +468,113 @@ const HistoryPostDetail = () => {
         </div>
 
         {/* Right Side: Contact Info */}
-        {post?.driver && (
+        {post.status === "wait" && (
+          <div className="col-md-4 " style={{ right: "20px", width: "300px" }}>
+            <div className="card-driver ">
+              <div className="card-header">
+                <h4>Tài xế đang thương lượng</h4>
+              </div>
+              <ul>
+                {deals.map(
+                  (
+                    deal,
+                    index // Sử dụng vòng lặp map để tạo danh sách
+                  ) => (
+                    <li
+                      key={index}
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <div>
+                        <strong>Tài xế:</strong>
+                        <span>{deal.driverId.userId.fullName}</span>
+                        <br />
+                        <strong>Giá: </strong>
+                        <span>{deal.dealPrice}</span>
+                      </div>
+                      <button
+                        className="btn-success btn-sm "
+                        style={{ border: "none" }}
+                        onClick={() => handleOpenModal(deal._id)}
+                      >
+                        Xác nhận
+                      </button>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+          </div>
+        )}
+        {isShowModal && (
+          <div
+            className="modal fade show"
+            id="exampleModal"
+            tabIndex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-lg">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Xác nhận đơn hàng
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    onClick={handleCloseModal}
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <p>Bạn có chắc chắn muốn xác nhận tài xế này không?</p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    onClick={handleCloseModal}
+                  >
+                    Đóng
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-info"
+                    onClick={handleConfirmDriver}
+                  >
+                    Xác nhận
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Hiển thị tài xế nếu đơn hàng đã được approve */}
+        {post?.dealId && (
           <div className="col-md-4">
             <div className="border rounded p-3 shadow-sm">
               <div className="contact-info">
                 <div className="contact-avatar-wrapper rounded-circle">
-                  {driver?.avatar && (
+                  {post?.dealId.driverId.userId.avatar && (
                     <img
-                      src={driver?.avatar}
+                      src={post.dealId.driverId.userId.avatar}
                       className="contact-avatar rounded-circle"
                       alt="contact avatar"
                     />
                   )}
                 </div>
                 <div className="contact-details">
-                  <h5 className="contact-name">{driver?.fullName}</h5>
-                  <p className="contact-phone">{driver?.phone}</p>
-                  <p className="contact-email">{driver?.email}</p>
+                  <h5 className="contact-name">
+                    {post?.dealId.driverId.userId.fullName}
+                  </h5>
+                  <p className="contact-phone">
+                    {post?.dealId.driverId.userId.phone}
+                  </p>
+                  <p className="contact-email">
+                    {post?.dealId.driverId.userId.email}
+                  </p>
                 </div>
               </div>
             </div>
