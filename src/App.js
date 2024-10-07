@@ -41,7 +41,7 @@ import TripDetail from "./component/Profile/User/TripDetail";
 import HistoryPostDetail from "./component/Profile/User/HistoryPostDetail";
 import PaymentSuccess from "./component/PaymentStatus/PaymentSuccess";
 import PaymentFailed from "./component/PaymentStatus/PaymentFailed";
-
+import Chat from "./component/Chat/chat";
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { handleLogout } = useAuth();
@@ -86,6 +86,7 @@ const App = () => {
           <Route path="/trip/detail/:id" exact component={TripDetail} />
           <Route path="/payment/success" exact component={PaymentSuccess} />
           <Route path="/payment/failed" exact component={PaymentFailed} />
+          <Route path="/chat" exact component={Chat} />
         </Switch>
         <Footer />
         <CopyRight />

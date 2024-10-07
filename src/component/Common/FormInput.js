@@ -3,6 +3,18 @@ import React from "react";
 const FormInput = (props) => {
   let options = props.options || [];
 
+  const inputStyles = {
+    ...props.style,
+    backgroundColor: "#fff",
+    // border: "1px solid #000", // Viền mặc định
+  };
+
+  const focusStyles = {
+    outline: "none",
+    boxShadow: "0 0 5px rgba(0, 0, 0, 0.5)", // Hiệu ứng khi focus
+    border: "1px solid #000",
+  };
+
   if (
     props.tag === "input" ||
     props.tag === "password" ||
@@ -20,9 +32,11 @@ const FormInput = (props) => {
           name={props.name}
           placeholder={props.placeholder}
           className={props.classes}
-          style={{ ...props.style, backgroundColor: "#fff" }}
+          style={inputStyles}
           value={props.value}
           onChange={props.onChange}
+          onFocus={(e) => (e.target.style = { ...inputStyles, ...focusStyles })} // Thêm hiệu ứng khi focus
+          onBlur={(e) => (e.target.style = inputStyles)} // Quay lại viền mặc định khi blur
         />
       </div>
     );
@@ -43,9 +57,11 @@ const FormInput = (props) => {
           rows="7"
           placeholder={props.placeholder}
           className={props.classes}
-          style={props.style}
+          style={inputStyles}
           value={props.value}
           onChange={props.onChange}
+          onFocus={(e) => (e.target.style = { ...inputStyles, ...focusStyles })} // Thêm hiệu ứng khi focus
+          onBlur={(e) => (e.target.style = inputStyles)} // Quay lại viền mặc định khi blur
         />
       </div>
     );
@@ -77,6 +93,9 @@ const FormInput = (props) => {
           id={props.id}
           value={props.value}
           onChange={props.onChange}
+          style={inputStyles}
+          onFocus={(e) => (e.target.style = { ...inputStyles, ...focusStyles })} // Thêm hiệu ứng khi focus
+          onBlur={(e) => (e.target.style = inputStyles)} // Quay lại viền mặc định khi blur
         >
           {options.map((data, index) => (
             <option key={index} value={data.value}>

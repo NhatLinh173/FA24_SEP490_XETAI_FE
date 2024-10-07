@@ -8,9 +8,10 @@ import SearchForm from "../SearchForm";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
-import { FaArrowRightFromBracket } from "react-icons/fa6";
+import { FaArrowRightFromBracket, FaBell } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
 import useUserData from "../../../hooks/useUserData";
+import { toast } from "react-toastify";
 
 const Navbar = ({ openModal }) => {
   const { handleLogout, isAuthenticated } = useAuth();
@@ -18,6 +19,8 @@ const Navbar = ({ openModal }) => {
   const [click, setClick] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     if (userData && userData.avatar) {
@@ -57,6 +60,23 @@ const Navbar = ({ openModal }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:3005");
+    ws.onmessage = (event) => {
+      const newMessage = JSON.parse(event.data);
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        newMessage,
+      ]);
+      toast.info(
+        `New message from ${newMessage.senderName}: ${newMessage.text}`
+      );
+    };
+    return () => {
+      ws.close();
+    };
+  }, []);
+
   const isSticky = () => {
     const header = document.querySelector(".navbar-area");
     const scrollTop = window.scrollY;
@@ -78,19 +98,12 @@ const Navbar = ({ openModal }) => {
     setClick(!click);
   };
 
-  const handleSearchOpen = (event) => {
-    event.preventDefault();
-    const searchInputElement = document.getElementById("home-search-input");
-    const scheduleSection = document.getElementById("schedule_one");
-    searchInputElement.focus();
-    window.scroll({
-      top: scheduleSection.getBoundingClientRect().top + window.scrollY,
-      behavior: "smooth",
-    });
-  };
-
   const handleLogoutClick = async () => {
     await handleLogout();
+  };
+
+  const handleNotificationClick = async () => {
+    setShowDropdown(!showDropdown);
   };
 
   const menuData = getMenuData();
@@ -116,14 +129,33 @@ const Navbar = ({ openModal }) => {
                         openModal={openModal}
                       />
                     ))}
+
                     <li className="nav-item">
                       <a
                         href="#!"
-                        onClick={handleSearchOpen}
-                        className="nav-link search-box"
+                        onClick={handleNotificationClick}
+                        className="nav-link notification-box"
+                        style={{
+                          marginTop: "6px",
+                          fontSize: "20px",
+                        }}
                       >
-                        <i className="fas fa-search" id="search-btn"></i>
+                        <FaBell />
+                        {notifications.length > 0 && (
+                          <span className="notification-count">
+                            {notifications.length}
+                          </span>
+                        )}
                       </a>
+                      {showDropdown && (
+                        <div className="notification-dropdown">
+                          <ul>
+                            {notifications.map((notification, index) => (
+                              <li key={index}>{notification.text}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </li>
                     {isAuthenticated && userData && (
                       <div className="nav-avatar rounded-circle ml-4">
