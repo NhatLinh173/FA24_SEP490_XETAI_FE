@@ -1,20 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { ServiceData } from './ServiceData';
 import { ToastContainer, toast } from 'react-toastify';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const ServiceDetail = () => {
     const { id } = useParams();
-    const history = useHistory(); // Sử dụng useHistory thay vì useNavigate
+    const history = useHistory();
     const service = ServiceData.find((item) => item.id === parseInt(id));
 
+    const [showModal, setShowModal] = useState(false);
+    const [negotiatedPrice, setNegotiatedPrice] = useState(''); // Giá thương lượng
+    const [deliveryTime, setDeliveryTime] = useState(''); // Thời gian giao hàng
+    const [isNegotiating, setIsNegotiating] = useState(false); // Xác định người dùng chọn thương lượng
+    const [isConfirming, setIsConfirming] = useState(false); // Xác định người dùng đang xác nhận giá
+
     const handleAcceptOrder = () => {
-        toast.success("Chấp nhận đơn hàng thành công", {
-            autoClose: 2000, // Thời gian hiển thị toast (ms)
-            onClose: () => {
-                history.goBack(); // Quay lại trang trước
-            }
-        });
+        setShowModal(true); // Hiển thị modal
+        setIsConfirming(true); // Bắt đầu xác nhận giá
+    };
+
+    const handleConfirmPrice = () => {
+        setIsConfirming(false); // Không thương lượng, chấp nhận giá gốc
+    };
+
+    const handleNegotiatePrice = () => {
+        setIsNegotiating(true); // Thương lượng giá
+        setIsConfirming(false); // Đóng xác nhận giá
+    };
+
+    const handleSubmitOrder = () => {
+        if (!deliveryTime) {
+            toast.error("Vui lòng chọn thời gian dự kiến giao hàng");
+            return;
+        }
+        setShowModal(false); // Đóng modal
+        toast.success("Chấp nhận đơn hàng thành công", { autoClose: 2000 });
+    };
+
+    const handleSubmitNegotiation = () => {
+        if (!deliveryTime) {
+            toast.error("Vui lòng chọn thời gian dự kiến giao hàng");
+            return;
+        }
+        setShowModal(false); // Đóng modal
+        toast.success("Gửi yêu cầu thương lượng thành công", { autoClose: 2000 });
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false); // Đóng modal
+        setNegotiatedPrice(''); // Đặt lại giá thương lượng
+        setDeliveryTime(''); // Đặt lại thời gian giao hàng
+        setIsNegotiating(false); // Đặt lại trạng thái thương lượng
+        setIsConfirming(false); // Đặt lại trạng thái xác nhận
+    };
+
+    const handlePriceChange = (e) => {
+        // Lấy giá trị đầu vào và loại bỏ các ký tự không phải số
+        const value = e.target.value.replace(/\D/g, "");
+        // Định dạng số với dấu phẩy
+        const formattedValue = new Intl.NumberFormat().format(value);
+        setNegotiatedPrice(formattedValue);
     };
 
     const handleClose = () => {
@@ -195,7 +242,7 @@ const ServiceDetail = () => {
 
                         <div className="mt-3 d-flex justify-content-end">
                             <button
-                                className="btn btn-accept-order mr-2"
+                                className="btn btn-accept-order"
                                 onClick={handleAcceptOrder}
                             >
                                 Chấp nhận đơn hàng
@@ -208,9 +255,74 @@ const ServiceDetail = () => {
                             </button>
                         </div>
                     </div>
+
+                    {/* Modal */}
+                    <Modal show={showModal} onHide={handleCloseModal} className="order-acceptance-modal" centered>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Chấp nhận đơn hàng</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {isConfirming && !isNegotiating ? (
+                                <>
+                                    <p>Bạn có muốn chấp nhận giá này: {service.price}?</p>
+                                    <Button className="success text-white" onClick={handleConfirmPrice} style={{ marginBottom: '10px' }}>
+                                        Đồng ý
+                                    </Button>
+                                    <Button className="secondary text-white" onClick={handleNegotiatePrice}>
+                                        Thương lượng giá
+                                    </Button>
+                                </>
+                            ) : isNegotiating ? (
+                                <>
+                                    <p>Nhập giá mong muốn:</p>
+                                    <div className="input-group mb-3"> {/* Sử dụng input-group */}
+                                        <input
+                                            type="text" // Đổi thành text để cho phép định dạng
+                                            className="form-control"
+                                            value={negotiatedPrice}
+                                            onChange={handlePriceChange}
+                                            placeholder="Nhập giá mong muốn"
+                                        />
+                                        <span className="currency-unit">VND</span>
+                                    </div>
+                                    <p>Thời gian dự kiến giao hàng:</p>
+                                    <input
+                                        type="datetime-local" // Sử dụng datetime-local
+                                        className="form-control mb-3"
+                                        value={deliveryTime}
+                                        onChange={(e) => setDeliveryTime(e.target.value)}
+                                        min={new Date().toISOString().split("T")[0]}
+                                    />
+                                    <Button className="info text-white" onClick={handleSubmitNegotiation}>
+                                        Gửi yêu cầu thương lượng
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <p>Thời gian dự kiến giao hàng:</p>
+                                    <input
+                                        type="datetime-local" // Sử dụng datetime-local
+                                        className="form-control mb-3"
+                                        value={deliveryTime}
+                                        onChange={(e) => setDeliveryTime(e.target.value)}
+                                        min={new Date().toISOString().split("T")[0]}
+                                    />
+                                    <Button className="info text-white" onClick={handleSubmitOrder}>
+                                        Gửi yêu cầu
+                                    </Button>
+                                </>
+                            )}
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button className="btn btn-close-order secondary" onClick={handleCloseModal}>
+                                Đóng
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
                 </div>
 
-                {/* Right Side: Contact Info */}
+                {/* Right Side: Sidebar */}
                 <div className="col-md-4">
                     <div className="border rounded p-3 shadow-sm">
                         <h5 className="font-weight-bold" style={{ textAlign: 'center', marginBottom: "15px" }}>

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Navbar from "./component/Common/Navbar";
-import Footer from "./component/Common/Footer";
-import CopyRight from "./component/Common/CopyRight";
+import React, { useEffect } from "react"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import Navbar from "./component/Common/Navbar"
+import Footer from "./component/Common/Footer"
+import CopyRight from "./component/Common/CopyRight"
 
 import Home_One from "./page/indexPage";
 import About from "./page/About";
@@ -42,9 +42,12 @@ import HistoryPostDetail from "./component/Profile/User/HistoryPostDetail";
 import PaymentSuccess from "./component/PaymentStatus/PaymentSuccess";
 import PaymentFailed from "./component/PaymentStatus/PaymentFailed";
 import Chat from "./component/Chat/chat";
+import VehicalDetail from "./component/Profile/User/VehicalDetail"
+
+
 const App = () => {
-  const { isOpen, openModal, closeModal } = useModal();
-  const { handleLogout } = useAuth();
+  const { isOpen, openModal, closeModal } = useModal()
+  const { handleLogout } = useAuth()
 
   return (
     <Router>
@@ -87,13 +90,14 @@ const App = () => {
           <Route path="/payment/success" exact component={PaymentSuccess} />
           <Route path="/payment/failed" exact component={PaymentFailed} />
           <Route path="/chat" exact component={Chat} />
+          <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
         </Switch>
         <Footer />
         <CopyRight />
         <CustomModal isOpen={isOpen} closeModal={closeModal} />
       </ScrollToTop>
     </Router>
-  );
-};
+  )
+}
 
-export default App;
+export default App
