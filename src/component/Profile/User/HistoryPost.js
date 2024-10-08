@@ -24,7 +24,6 @@ const HistoryPost = () => {
     error,
     refetch,
   } = useInstanceData(`/posts/${userId}/users`);
-  console.log(posts);
 
   const handleDelete = async () => {
     try {

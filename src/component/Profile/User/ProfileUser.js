@@ -349,7 +349,7 @@ const ProfileUser = ({ data, refetch }) => {
           <div className="w-70 d-flex justify-content-center mb-3">
             <button
               type="submit"
-              className="btn btn-primary btn-lg w-25 "
+              className="btn btn-primary btn-lg w-25 text-white"
               onClick={handleSubmitForm}
             >
               <span>Cập nhật</span>

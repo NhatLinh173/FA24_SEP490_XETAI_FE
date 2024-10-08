@@ -13,6 +13,7 @@ const useAuth = () => {
   const history = useHistory();
 
   const handleLogin = async (email, password) => {
+    console.log("Login", email, password);
     try {
       const { data } = await axiosInstance.post("/auth/login", {
         email,
