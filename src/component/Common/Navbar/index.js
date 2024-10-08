@@ -1,112 +1,125 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import logo from "../../../assets/img/logo.png";
-import TopHeader from "../TopHeader";
-import { getMenuData } from "./MenuData";
-import MenuItems from "./MenuItems";
-import SearchForm from "../SearchForm";
-import { HiMenuAlt3 } from "react-icons/hi";
-import { AiOutlineClose } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
-import { FaArrowRightFromBracket, FaBell } from "react-icons/fa6";
-import useAuth from "../../../hooks/useAuth";
-import useUserData from "../../../hooks/useUserData";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import logo from "../../../assets/img/logo.png"
+import TopHeader from "../TopHeader"
+import { getMenuData } from "./MenuData"
+import MenuItems from "./MenuItems"
+import SearchForm from "../SearchForm"
+import { HiMenuAlt3 } from "react-icons/hi"
+import { AiOutlineClose } from "react-icons/ai"
+import { CgProfile } from "react-icons/cg"
+import { FaArrowRightFromBracket, FaBell } from "react-icons/fa6"
+import useAuth from "../../../hooks/useAuth"
+import useUserData from "../../../hooks/useUserData"
+import { toast } from "react-toastify"
 
 const Navbar = ({ openModal }) => {
-  const { handleLogout, isAuthenticated } = useAuth();
-  const { userData, loading } = useUserData();
-  const [click, setClick] = useState(false);
-  const [avatar, setAvatar] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [notifications, setNotifications] = useState([]);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const { handleLogout, isAuthenticated } = useAuth()
+  const { userData, loading } = useUserData()
+  const [click, setClick] = useState(false)
+  const [avatar, setAvatar] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [notifications, setNotifications] = useState([])
+  const [showDropdown, setShowDropdown] = useState(false)
 
   useEffect(() => {
     if (userData && userData.avatar) {
-      localStorage.setItem("avatar", userData.avatar);
-      setAvatar(userData.avatar);
+      localStorage.setItem("avatar", userData.avatar)
+      setAvatar(userData.avatar)
     }
-  }, [userData]);
+  }, [userData])
 
   useEffect(() => {
-    const checkToken = localStorage.getItem("accessToken");
+    const checkToken = localStorage.getItem("accessToken")
     if (checkToken) {
-      setIsLoggedIn(true);
-      const avatarFromLocalStorage = localStorage.getItem("avatar");
+      setIsLoggedIn(true)
+      const avatarFromLocalStorage = localStorage.getItem("avatar")
       if (avatarFromLocalStorage) {
-        setAvatar(avatarFromLocalStorage);
+        setAvatar(avatarFromLocalStorage)
       }
     } else {
-      setIsLoggedIn(false);
+      setIsLoggedIn(false)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    window.addEventListener("scroll", isSticky);
+    window.addEventListener("scroll", isSticky)
     return () => {
-      window.removeEventListener("scroll", isSticky);
-    };
-  }, []);
+      window.removeEventListener("scroll", isSticky)
+    }
+  }, [])
 
   useEffect(() => {
     const handleAvatarUpdate = () => {
-      const avatarFromLocalStorage = localStorage.getItem("avatar");
-      setAvatar(avatarFromLocalStorage);
-    };
-    window.addEventListener("avatarUpdated", handleAvatarUpdate);
+      const avatarFromLocalStorage = localStorage.getItem("avatar")
+      setAvatar(avatarFromLocalStorage)
+    }
+    window.addEventListener("avatarUpdated", handleAvatarUpdate)
     return () => {
-      window.removeEventListener("avatarUpdated", handleAvatarUpdate);
-    };
-  }, []);
+      window.removeEventListener("avatarUpdated", handleAvatarUpdate)
+    }
+  }, [])
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3005");
+    const ws = new WebSocket("ws://localhost:3005")
     ws.onmessage = (event) => {
-      const newMessage = JSON.parse(event.data);
+      const newMessage = JSON.parse(event.data)
       setNotifications((prevNotifications) => [
         ...prevNotifications,
         newMessage,
-      ]);
+      ])
       toast.info(
         `New message from ${newMessage.senderName}: ${newMessage.text}`
-      );
-    };
+      )
+    }
     return () => {
-      ws.close();
-    };
-  }, []);
+      ws.close()
+    }
+  }, [])
 
   const isSticky = () => {
-    const header = document.querySelector(".navbar-area");
-    const scrollTop = window.scrollY;
+    const header = document.querySelector(".navbar-area")
+    const scrollTop = window.scrollY
     scrollTop >= 250
       ? header.classList.add("is-sticky")
-      : header.classList.remove("is-sticky");
-  };
+      : header.classList.remove("is-sticky")
+  }
 
   const handleClick = () => {
     if (click) {
       document
         .querySelector("#navbarSupportedContent")
-        .classList.remove("navber-colpes");
+        .classList.remove("navber-colpes")
     } else {
       document
         .querySelector("#navbarSupportedContent")
-        .classList.add("navber-colpes");
+        .classList.add("navber-colpes")
     }
-    setClick(!click);
-  };
+    setClick(!click)
+  }
+
+  const handleSearchOpen = (event) => {
+    event.preventDefault()
+    const searchInputElement = document.getElementById("home-search-input")
+    if (!searchInputElement) return
+
+    const scheduleSection = document.getElementById("schedule_one")
+    searchInputElement.focus()
+    window.scroll({
+      top: scheduleSection.getBoundingClientRect().top + window.scrollY,
+      behavior: "smooth",
+    })
+  }
 
   const handleLogoutClick = async () => {
-    await handleLogout();
-  };
+    await handleLogout()
+  }
 
   const handleNotificationClick = async () => {
-    setShowDropdown(!showDropdown);
-  };
+    setShowDropdown(!showDropdown)
+  }
 
-  const menuData = getMenuData();
+  const menuData = getMenuData()
 
   return (
     <>
@@ -209,7 +222,7 @@ const Navbar = ({ openModal }) => {
       </header>
       <SearchForm />
     </>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
