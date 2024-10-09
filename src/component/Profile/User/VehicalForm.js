@@ -60,7 +60,9 @@ const VehicalForm = ({ data, editable, setData }) => {
 
       <div className="row pt-3 border-top">
         <div className="col">
-          <label htmlFor="name">Tên xe</label>
+          <label htmlFor="name" className="required">
+            Tên xe
+          </label>
 
           <input
             id="name"
@@ -79,7 +81,9 @@ const VehicalForm = ({ data, editable, setData }) => {
         </div>
 
         <div className="col">
-          <label htmlFor="deliver_address">Ngày đăng kiểm</label>
+          <label htmlFor="deliver_address" className="required">
+            Ngày đăng kiểm
+          </label>
 
           <div>
             <input
@@ -101,7 +105,9 @@ const VehicalForm = ({ data, editable, setData }) => {
 
       <div className="row mt-3">
         <div className="col">
-          <label htmlFor="licensePlateNumber">Biển số</label>
+          <label htmlFor="licensePlateNumber" className="required">
+            Biển số
+          </label>
 
           <input
             id="licensePlateNumber"
@@ -120,13 +126,15 @@ const VehicalForm = ({ data, editable, setData }) => {
         </div>
 
         <div className="col">
-          <label htmlFor="weightCapacity">Trọng tải (Tấn)</label>
+          <label htmlFor="weightCapacity" className="required">
+            Trọng tải (Kg)
+          </label>
 
           <input
             id="weightCapacity"
-            type="text"
+            type="number"
             className="form-control"
-            placeholder="Trọng tải (Tấn)"
+            placeholder="Trọng tải (Kg)"
             disabled={!editable}
             value={data.weight_capacity}
             onChange={(e) =>

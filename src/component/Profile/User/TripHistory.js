@@ -175,7 +175,7 @@ export const TripHistory = () => {
       <h2 className="mb-4">Lịch sử chuyến</h2>
 
       {currentPageItems.map((item) => (
-        <div key={item.id} className="my-4 border rounded-12">
+        <div key={item.id} className="my-4 border rounded-12 item-card">
           <a
             href={`/trip/detail/${item.id}`}
             rel="noreferrer"
@@ -209,8 +209,8 @@ export const TripHistory = () => {
                   Nhân viên giao hàng: {item.renter}
                 </div>
 
-                <div className="fs-18 font-weight-bold">
-                  Tổng tiền: {item.total_money.toLocaleString()} vnd
+                <div className="fs-18 font-weight-bold total-amount">
+                  Tổng tiền: {item.total_money.toLocaleString()} VND
                 </div>
               </div>
             </div>

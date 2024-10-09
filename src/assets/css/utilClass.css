@@ -88,3 +88,17 @@
 .link-wrapper:hover {
   color: var(--heading-color);
 }
+
+.item-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.item-card:hover a div div div.total-amount {
+  color: var(--main-theme-color);
+}
+
+label.required::after {
+  content: " *";
+  color: var(--main-theme-color);
+}

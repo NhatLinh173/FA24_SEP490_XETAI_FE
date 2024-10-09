@@ -122,7 +122,7 @@ const TripDetail = () => {
                     <label htmlFor="deliver_address">Giá tiền</label>
                     <input
                       id="deliver_address"
-                      defaultValue={`${DUMMY_DATA.amount.toLocaleString()} vnd`}
+                      defaultValue={`${DUMMY_DATA.amount.toLocaleString()} VND`}
                       type="text"
                       className="form-control"
                       placeholder="Giá tiền"
@@ -296,7 +296,7 @@ const TripDetail = () => {
 
                 <div className="mb-3 d-flex justify-content-between">
                   <span>Đơn giá hàng</span>
-                  <span className="fw-600">803,600 vnd</span>
+                  <span className="fw-600">803,600 VND</span>
                 </div>
               </div>
             </div>

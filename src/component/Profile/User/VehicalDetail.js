@@ -27,7 +27,7 @@ const VehicalDetail = () => {
         <h2 className="mb-3">Chi tiết xe: Mazda</h2>
 
         <div className="border rounded-12 p-3">
-          <div className="mt-5 d-flex justify-content-center gap-3 flex-column">
+          <div className="d-flex justify-content-center gap-3 flex-column">
             <VehicalForm editable={editable} data={state} setData={setState} />
 
             <div className="mt-4 d-flex justify-content-center gap-3">

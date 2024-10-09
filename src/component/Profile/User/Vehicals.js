@@ -147,13 +147,13 @@ const Vehicals = () => {
       <div className="mb-4 d-flex justify-content-between">
         <h2>Xe của tôi</h2>
 
-        <Link to="/vehical/add" className="btn btn-theme">
+        <Link to="/vehical/add" className="btn btn-success">
           Thêm xe mới
         </Link>
       </div>
 
       {currentPageItems.map((item) => (
-        <div key={item.id} className="my-4 border rounded-12">
+        <div key={item.id} className="my-4 border rounded-12 item-card">
           <Link
             to={`vehical/detail/${item.id}`}
             relative="path"
@@ -168,7 +168,7 @@ const Vehicals = () => {
               />
 
               <div className="ml-3">
-                <div className="mb-4">{item.name}</div>
+                <h4 className="mb-4 fw-600">{item.name}</h4>
 
                 <div className="mb-2">Biển số: {item.license_plate_number}</div>
 
@@ -181,7 +181,6 @@ const Vehicals = () => {
 
               <div
                 style={{
-                  alignSelf: "center",
                   flex: 1,
                   justifySelf: "right",
                   textAlign: "end",
