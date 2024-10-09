@@ -43,6 +43,7 @@ import PaymentSuccess from "./component/PaymentStatus/PaymentSuccess";
 import PaymentFailed from "./component/PaymentStatus/PaymentFailed";
 import Chat from "./component/Chat/chat";
 import VehicalDetail from "./component/Profile/User/VehicalDetail"
+import VehicalAdd from "./component/Profile/User/VehicalAdd"
 
 
 const App = () => {
@@ -91,6 +92,7 @@ const App = () => {
           <Route path="/payment/failed" exact component={PaymentFailed} />
           <Route path="/chat" exact component={Chat} />
           <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
+          <Route path="/vehical/add" exact component={VehicalAdd} />
         </Switch>
         <Footer />
         <CopyRight />
