@@ -37,7 +37,6 @@ const HistoryPostDetail = () => {
     } catch (error) {}
   };
   const { data: post } = useInstanceData(`/posts/${id}`);
-  console.log(post);
   const { data: deals } = useInstanceData(`/dealPrice`);
   const handleConfirmDriver = async () => {
     try {
@@ -466,15 +465,14 @@ const HistoryPostDetail = () => {
             </div>
           </div>
         </div>
-
         {/* Right Side: Contact Info */}
         {post.status === "wait" && (
           <div className="col-md-4 " style={{ right: "20px", width: "300px" }}>
-            <div className="card-driver ">
+            <div className="card border ">
               <div className="card-header">
-                <h4>Tài xế đang thương lượng</h4>
+                <h3>Tài xế đang thương lượng</h3>
               </div>
-              <ul>
+              <ul className="list-group list-group-flush">
                 {deals.map(
                   (
                     deal,
@@ -485,7 +483,7 @@ const HistoryPostDetail = () => {
                       className="list-group-item d-flex justify-content-between align-items-center"
                     >
                       <div>
-                        <strong>Tài xế:</strong>
+                        <strong>Tài xế: </strong>
                         <span>{deal.driverId.userId.fullName}</span>
                         <br />
                         <strong>Giá: </strong>
@@ -554,7 +552,10 @@ const HistoryPostDetail = () => {
         {/* Hiển thị tài xế nếu đơn hàng đã được approve */}
         {post?.dealId && (
           <div className="col-md-4">
-            <div className="border rounded p-3 shadow-sm">
+            <div className="border rounded p-3 shadow-sm ">
+              <h3 className="text-center border-bottom pb-2 mb-3 ">
+                Thông tin tài xế
+              </h3>
               <div className="contact-info">
                 <div className="contact-avatar-wrapper rounded-circle">
                   {post?.dealId.driverId.userId.avatar && (
@@ -566,15 +567,34 @@ const HistoryPostDetail = () => {
                   )}
                 </div>
                 <div className="contact-details">
-                  <h5 className="contact-name">
-                    {post?.dealId.driverId.userId.fullName}
-                  </h5>
-                  <p className="contact-phone">
-                    {post?.dealId.driverId.userId.phone}
-                  </p>
-                  <p className="contact-email">
-                    {post?.dealId.driverId.userId.email}
-                  </p>
+                  <ul className="list-group">
+                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                      <strong>Tài xế:</strong>
+                      <span className="text-muted">
+                        {post?.dealId.driverId.userId.fullName}
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                      <strong>Số điện thoại:</strong>
+                      <span className="text-muted">
+                        {post?.dealId.driverId.userId.phone}
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                      <strong>Email:</strong>
+                      <span className="text-muted">
+                        {post?.dealId.driverId.userId.email}
+                      </span>
+                    </li>
+                  </ul>
+                  <button
+                    className="btn-success rounded border-0 mt-2 text-white"
+                    onClick={() => {
+                      /* Thêm logic để xem chi tiết tài xế */
+                    }}
+                  >
+                    Xem chi tiết
+                  </button>
                 </div>
               </div>
             </div>

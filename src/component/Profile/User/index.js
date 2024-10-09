@@ -53,6 +53,7 @@ const DashboardProfile = () => {
             {tab === "changePassword" && <ChangePassWord />}
             {tab === "wallet" && <Wallet data={data} />}
             {tab === "tripHistory" && <TripHistory />}
+            {tab === "historyPost" && <HistoryPost />}
             {tab === "favoriteDriver" && <FavoriteDriver />}
             {tab === "vehicals" && <Vehicals />}
           </div>
