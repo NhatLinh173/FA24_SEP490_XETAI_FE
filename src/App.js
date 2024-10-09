@@ -45,6 +45,9 @@ import Chat from "./component/Chat/chat";
 import VehicalDetail from "./component/Profile/User/VehicalDetail";
 import { WebSocketProvider } from "./hooks/WebSocketContext";
 import NotificationHandler from "./config/NotificationHandler";
+import VehicalAdd from "./component/Profile/User/VehicalAdd"
+
+
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -113,3 +116,4 @@ const App = () => {
 };
 
 export default App;
+
