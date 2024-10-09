@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { io } from "socket.io-client";
+import { useWebSocket } from "../../hooks/WebSocketContext";
 import axios from "axios";
 import { IoSend } from "react-icons/io5";
 
@@ -14,88 +14,79 @@ const Chat = () => {
   const [chatUsers, setChatUsers] = useState([]);
   const senderId = localStorage.getItem("userId");
   const messageContainerRef = useRef(null);
-
-  const [socket] = useState(() => {
-    const newSocket = io("http://localhost:3005");
-    newSocket.on("connect", () => {
-      console.log("Connected to socket server");
-    });
-    newSocket.on("connect_error", (error) => {
-      console.error("Socket connection error:", error);
-    });
-    return newSocket;
-  });
+  const socket = useWebSocket();
 
   useEffect(() => {
-    socket.on("conversationIdCreated", ({ conversationId }) => {
-      setConversationId(conversationId);
-      loadMessages(conversationId);
-    });
+    if (socket) {
+      socket.on("conversationIdCreated", ({ conversationId }) => {
+        setConversationId(conversationId);
+        loadMessages(conversationId);
+      });
 
-    socket.on("loadMessages", (loadedMessages) => {
-      if (Array.isArray(loadedMessages)) {
-        const sortedMessages = loadedMessages.sort(
-          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-        );
-        setMessages(sortedMessages);
-      } else {
-        setMessages([]);
-        console.log("No messages loaded");
+      socket.on("loadMessages", (loadedMessages) => {
+        if (Array.isArray(loadedMessages)) {
+          const sortedMessages = loadedMessages.sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          );
+          setMessages(sortedMessages);
+        } else {
+          setMessages([]);
+          console.log("No messages loaded");
+        }
+      });
+
+      if (senderId) {
+        socket.emit("joinRoom", senderId);
+        socket.on("joinedRoom", (roomId) => {
+          console.log(`Joined room: ${roomId}`);
+        });
+
+        socket.on("receiveMessage", (newMessage) => {
+          console.log("Received new message:", newMessage);
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+          updateChatUserWithLatestMessage(newMessage);
+        });
       }
-    });
 
-    if (senderId) {
-      socket.emit("joinRoom", senderId);
-      socket.on("joinedRoom", (roomId) => {
-        console.log(`Joined room: ${roomId}`);
+      socket.on("error", (error) => {
+        console.error("Socket error:", error);
       });
 
-      socket.on("receiveMessage", (newMessage) => {
-        console.log("Received new message:", newMessage);
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
-        updateChatUserWithLatestMessage(newMessage);
+      socket.on("disconnect", (reason) => {
+        console.log("Disconnected from socket server:", reason);
       });
+
+      socket.on("newMessageNotification", (data) => {
+        const {
+          senderId,
+          senderName,
+          senderAvatar,
+          senderEmail,
+          conversationId,
+          text,
+          createdAt,
+        } = data;
+
+        updateChatUserWithLatestMessage({
+          senderId,
+          senderName,
+          senderAvatar,
+          senderEmail,
+          conversationId,
+          text,
+          createdAt,
+        });
+      });
+
+      return () => {
+        socket.off("conversationIdCreated");
+        socket.off("loadMessages");
+        socket.off("receiveMessage");
+        socket.off("newMessageNotification");
+        socket.off("error");
+        socket.off("disconnect");
+      };
     }
-
-    socket.on("error", (error) => {
-      console.error("Socket error:", error);
-    });
-
-    socket.on("disconnect", (reason) => {
-      console.log("Disconnected from socket server:", reason);
-    });
-
-    socket.on("newMessageNotification", (data) => {
-      const {
-        senderId,
-        senderName,
-        senderAvatar,
-        senderEmail,
-        conversationId,
-        text,
-        createdAt,
-      } = data;
-
-      updateChatUserWithLatestMessage({
-        senderId,
-        senderName,
-        senderAvatar,
-        senderEmail,
-        conversationId,
-        text,
-        createdAt,
-      });
-    });
-
-    return () => {
-      socket.off("conversationIdCreated");
-      socket.off("loadMessages");
-      socket.off("receiveMessage");
-      socket.off("newMessageNotification");
-      socket.off("error");
-      socket.off("disconnect");
-      socket.disconnect();
-    };
   }, [senderId, socket]);
 
   useEffect(() => {

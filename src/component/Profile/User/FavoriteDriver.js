@@ -15,13 +15,11 @@ const FavoriteDrivers = () => {
         const response = await axiosIntance.get(`/favorites/${userId}`);
         console.log("Response data:", response.data);
 
-        // Kiểm tra cấu trúc dữ liệu và lấy dữ liệu tài xế yêu thích
         if (response.data && response.data.favorite) {
-          // Nếu dữ liệu yêu thích tồn tại và là một đối tượng
           const driver = response.data.favorite.driverId;
 
           if (driver) {
-            setDrivers([driver]); // Đặt driver vào state (chuyển thành mảng để dễ xử lý)
+            setDrivers([driver]);
           } else {
             console.error(
               "Driver data is missing in favorite:",

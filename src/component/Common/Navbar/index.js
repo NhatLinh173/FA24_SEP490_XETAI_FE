@@ -60,22 +60,22 @@ const Navbar = ({ openModal }) => {
     };
   }, []);
 
-  useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3005");
-    ws.onmessage = (event) => {
-      const newMessage = JSON.parse(event.data);
-      setNotifications((prevNotifications) => [
-        ...prevNotifications,
-        newMessage,
-      ]);
-      toast.info(
-        `New message from ${newMessage.senderName}: ${newMessage.text}`
-      );
-    };
-    return () => {
-      ws.close();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const ws = new WebSocket("http://localhost:3005");
+  //   ws.onmessage = (event) => {
+  //     const newMessage = JSON.parse(event.data);
+  //     setNotifications((prevNotifications) => [
+  //       ...prevNotifications,
+  //       newMessage,
+  //     ]);
+  //     toast.info(
+  //       `New message from ${newMessage.senderName}: ${newMessage.text}`
+  //     );
+  //   };
+  //   return () => {
+  //     ws.close();
+  //   };
+  // }, []);
 
   const isSticky = () => {
     const header = document.querySelector(".navbar-area");
