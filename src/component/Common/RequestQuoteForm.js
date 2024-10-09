@@ -27,9 +27,9 @@ const RequestQuoteForm = () => {
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
   const [cityTo, setCityTo] = useState("");
-  const [costError, setCostError] = useState("");
   const [weightError, setWeightError] = useState("");
-
+  const [emailError, setEmailError] = useState("");
+  const [recipientEmailError, setRecipientEmailError] = useState("");
   const getCity = async () => {
     try {
       const res = await axios.get("https://provinces.open-api.vn/api/");
@@ -64,19 +64,23 @@ const RequestQuoteForm = () => {
     setNewTotalWeight(e.target.value);
   };
   const handleCostChange = (e) => {
-    const value = e.target.value;
-    if (isNaN(value) || value.trim() === "") {
-      setCostError("*Trường này chỉ nhập số"); // Cập nhật thông báo lỗi
-    } else {
-      setCostError(""); // Xóa thông báo lỗi nếu nhập đúng
-    }
-    setNewCost(e.target.value);
+    // Lấy giá trị đầu vào và loại bỏ các ký tự không phải số
+    const value = e.target.value.replace(/\D/g, "");
+    // Định dạng số với dấu phẩy
+    const formattedValue = new Intl.NumberFormat().format(value);
+    setNewCost(formattedValue);
   };
   const handleOrderDescriptionChange = (e) => {
     setNewoderDescription(e.target.value);
   };
   const handleRecipientEmailChange = (e) => {
-    setRecipientEmail(e.target.value);
+    const emailValueReception = e.target.value;
+    setRecipientEmail(emailValueReception);
+    if (!isValidEmail(emailValueReception)) {
+      setRecipientEmailError("*Email không hợp lệ"); // Thiết lập thông báo lỗi nếu email không hợp lệ
+    } else {
+      setRecipientEmailError(""); // Xóa thông báo lỗi nếu email hợp lệ
+    }
   };
   const handleRecipientNameChange = (e) => {
     setRecipientName(e.target.value);
@@ -90,10 +94,23 @@ const RequestQuoteForm = () => {
   const handleCityTo = (e) => {
     setCityTo(e.target.value);
   };
+  const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
 
   const handleEmailChange = (e) => {
-    setNewEmail(e.target.value);
+    const emailValue = e.target.value;
+    setNewEmail(emailValue);
+
+    // Kiểm tra định dạng email
+    if (!isValidEmail(emailValue)) {
+      setEmailError("*Email không hợp lệ"); // Thiết lập thông báo lỗi nếu email không hợp lệ
+    } else {
+      setEmailError(""); // Xóa thông báo lỗi nếu email hợp lệ
+    }
   };
+
   const handlePhoneChange = (e) => {
     setNewPhone(e.target.value);
   };
@@ -277,13 +294,10 @@ const RequestQuoteForm = () => {
                       id={"bill"}
                       classes={"form-control"}
                       placeholder={"Giá Tiền"}
-                      label="Giá Tiền"
+                      label="Giá Tiền (VND)"
                       value={cost}
                       onChange={handleCostChange}
                     />
-                    {costError && (
-                      <div className="text-danger">{costError}</div>
-                    )}
                   </div>
                   <div className="col-lg-12">
                     <FormInput
@@ -325,6 +339,9 @@ const RequestQuoteForm = () => {
                       value={recipientEmail}
                       onChange={handleRecipientEmailChange}
                     />
+                    {recipientEmailError && (
+                      <div className="text-danger">{recipientEmailError}</div>
+                    )}
                   </div>
                   <div className="col-lg-6">
                     <FormInput
@@ -366,6 +383,9 @@ const RequestQuoteForm = () => {
                       value={newEmail}
                       onChange={handleEmailChange}
                     />
+                    {emailError && (
+                      <div className="text-danger">{emailError}</div>
+                    )}
                   </div>
                   <div className="col-lg-6">
                     <FormInput
