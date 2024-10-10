@@ -30,6 +30,7 @@ const HistoryPostDetail = () => {
   const [status, setStatus] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
   const [dealIdUpdate, setDealIdUpdate] = useState(null);
+  const [isShowModalCancel, setIsShowModalCancel] = useState(false);
   const getCity = async () => {
     try {
       const res = await axios.get("https://provinces.open-api.vn/api/");
@@ -74,33 +75,44 @@ const HistoryPostDetail = () => {
   }, [post]);
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axiosInstance.patch(`/posts/${id}`, {
-        title: newtitle,
-        detail: newDetail,
-        load: newWeight,
-        fullname: newFullName,
-        email: newEmail,
-        phone: newPhone,
-        startPoint: newStartPoint,
-        destination: newDestination,
-        price: newPrice,
-        startPointCity: cityFrom,
-        destinationCity: cityTo,
-        recipientEmail,
-        recipientPhone,
-        recipientName,
-        status,
-        creator: userId,
-      });
-      if (res.status === 200) {
-        toast.success("Cập nhật thành công!");
-      }
-    } catch (error) {
-      if (error.res.status === 400) {
-        toast.error("Cập nhật không thành công!");
+    if (status === "cancel") {
+      setIsShowModalCancel(true);
+    } else {
+      try {
+        const res = await axiosInstance.patch(`/posts/${id}`, {
+          title: newtitle,
+          detail: newDetail,
+          load: newWeight,
+          fullname: newFullName,
+          email: newEmail,
+          phone: newPhone,
+          startPoint: newStartPoint,
+          destination: newDestination,
+          price: newPrice,
+          startPointCity: cityFrom,
+          destinationCity: cityTo,
+          recipientEmail,
+          recipientPhone,
+          recipientName,
+          status,
+          creator: userId,
+        });
+        if (res.status === 200) {
+          toast.success("Cập nhật thành công!");
+        }
+      } catch (error) {
+        if (error.res.status === 400) {
+          toast.error("Cập nhật không thành công!");
+        }
       }
     }
+  };
+  const handleCloseModalCancel = () => {
+    setIsShowModalCancel(false);
+  };
+  const handleConfirmModalCancel = () => {
+    console.log("da tru tien");
+    setIsShowModalCancel(false);
   };
   const handleOpenModal = (dealId) => {
     setIsShowModal(true);
@@ -594,6 +606,51 @@ const HistoryPostDetail = () => {
                     }}
                   >
                     Xem chi tiết
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {isShowModalCancel && (
+          <div
+            className="modal fade show"
+            id="exampleModal"
+            tabIndex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-lg">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Xác nhận huỷ đơn hàng
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <p>Bạn có chắc chắn muốn hủy đơn hàng này không?</p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    onClick={handleCloseModalCancel}
+                  >
+                    Đóng
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-info"
+                    onClick={handleConfirmModalCancel}
+                  >
+                    Xác nhận
                   </button>
                 </div>
               </div>
