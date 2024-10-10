@@ -1632,15 +1632,15 @@ Search Overlay CSS
 
 /* --Banner Area Start-- */
 .banner-img-one {
-  background-image: url("../img/home1/banner-bg1.jpg");
+  background-image: url("../img/homepage/pexels-hormel-media-1095814.jpg");
 }
 
 .banner-img-two {
-  background-image: url("../img/home1/banner-bg2.jpg");
+  background-image: url("../img/homepage/pexels-500photos-com-15338-93398.jpg");
 }
 
 .banner-img-three {
-  background-image: url("../img/home1/banner-bg3.jpg");
+  background-image: url("../img/homepage/pexels-thatguycraig000-2449454.jpg");
 }
 
 .banner-item {
@@ -2241,7 +2241,7 @@ Search Overlay CSS
 /* --Client Area Strat-- */
 #client_review_area {
   padding: 120px 0 0;
-  background-image: url("../img/home1/shipments.jpg");
+  background-image: url("../img/Testimonial/pexels-marcin-jozwiak-199600-2800121.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }

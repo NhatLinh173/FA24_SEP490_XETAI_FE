@@ -1,15 +1,13 @@
-import React from 'react'
-import PricingTable from '../component/Common/PricingTable'
-import CommonBanner from '../component/Common/Banner'
-import OurPartner from '../component/Common/OurPartner'
+import React from "react";
+import CommonBanner from "../component/Common/Banner";
+import OurPartner from "../component/Common/OurPartner";
 const PricingContent = () => {
- return (
-  <>
-    <CommonBanner heading="Our Pricing Plan" page="Our Pricing Plan"/>
-   <PricingTable/>
-   <OurPartner/>
-  </>
- )
-}
+  return (
+    <>
+      <CommonBanner heading="Our Pricing Plan" page="Our Pricing Plan" />
+      <OurPartner />
+    </>
+  );
+};
 
-export default PricingContent
+export default PricingContent;

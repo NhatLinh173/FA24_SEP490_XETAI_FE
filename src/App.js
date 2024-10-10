@@ -45,9 +45,7 @@ import Chat from "./component/Chat/chat";
 import VehicalDetail from "./component/Profile/User/VehicalDetail";
 import { WebSocketProvider } from "./hooks/WebSocketContext";
 import NotificationHandler from "./config/NotificationHandler";
-import VehicalAdd from "./component/Profile/User/VehicalAdd"
-
-
+import VehicalAdd from "./component/Profile/User/VehicalAdd";
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -58,7 +56,6 @@ const App = () => {
       <Router>
         <ScrollToTop>
           <Navbar openModal={openModal} />
-          <ToastContainer />
           <NotificationHandler />
           <Switch>
             <Route path="/" exact component={Home_One} />
@@ -111,9 +108,9 @@ const App = () => {
           <CustomModal isOpen={isOpen} closeModal={closeModal} />
         </ScrollToTop>
       </Router>
+      <ToastContainer />
     </WebSocketProvider>
   );
 };
 
 export default App;
-

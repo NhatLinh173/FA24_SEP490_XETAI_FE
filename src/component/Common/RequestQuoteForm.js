@@ -142,6 +142,19 @@ const RequestQuoteForm = () => {
       console.log(response);
       if (response.status === 200) {
         toast.success("Đăng Bài thành công");
+        setNewOrderType("");
+        setNewAddressFrom("");
+        setNewAddressTo("");
+        setNewTotalWeight("");
+        setNewoderDescription("");
+        setRecipientEmail("");
+        setRecipientName("");
+        setRecipientPhone("");
+        setCityFrom("");
+        setCityTo("");
+        setWeightError("");
+        setEmailError("");
+        setRecipientEmailError("");
       }
       refetch();
     } catch (error) {
