@@ -27,9 +27,20 @@ const RequestQuoteForm = () => {
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
   const [cityTo, setCityTo] = useState("");
+  // các biến lỗi
   const [weightError, setWeightError] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [newEmailError, setEmailError] = useState("");
   const [recipientEmailError, setRecipientEmailError] = useState("");
+  const [AddressToChangeError, setAddressToChangeError] = useState("");
+  const [AddressFromChangeError, setAddressFromChangeError] = useState("");
+  const [OrderTypeChangeError, setOrderTypeChangeError] = useState("");
+  const [recipientNameError, setRecipientNameError] = useState("");
+  const [newFullNameError, setNewFullNameError] = useState("");
+  const [recipientPhoneError, setRecipientPhoneError] = useState("");
+  const [newPhoneError, setNewPhoneError] = useState("");
+  const [orderDescriptionError, setOrderDescriptionError] = useState("");
+  const [isDisable, setIsDisable] = useState(false);
+
   const getCity = async () => {
     try {
       const res = await axios.get("https://provinces.open-api.vn/api/");
@@ -45,19 +56,38 @@ const RequestQuoteForm = () => {
   }, [email, phone, fullName]);
 
   const handleOrderTypeChange = (e) => {
+    if (e.target.value.length > 30) {
+      setOrderTypeChangeError("*Trường này giới hạn 50 kí tự");
+      setIsDisable(true);
+    } else {
+      setOrderTypeChangeError("");
+    }
     setNewOrderType(e.target.value);
   };
 
   const handleAddressFromChange = (e) => {
+    if (e.target.value.length > 60) {
+      setAddressFromChangeError("*Trường này giới hạn 60 kí tự");
+      setIsDisable(true);
+    } else {
+      setAddressFromChangeError("");
+    }
     setNewAddressFrom(e.target.value);
   };
   const handleAddressToChange = (e) => {
+    if (e.target.value.length > 60) {
+      setAddressToChangeError("*Trường này giới hạn 60 kí tự");
+      setIsDisable(true);
+    } else {
+      setAddressToChangeError("");
+    }
     setNewAddressTo(e.target.value);
   };
   const handleTotalWeightChange = (e) => {
     const value = e.target.value;
     if (isNaN(value) || value.trim() === "") {
       setWeightError("*Trường này chỉ nhập số"); // Cập nhật thông báo lỗi cho trọng lượng
+      setIsDisable(true);
     } else {
       setWeightError(""); // Xóa thông báo lỗi nếu nhập đúng
     }
@@ -66,11 +96,22 @@ const RequestQuoteForm = () => {
   const handleCostChange = (e) => {
     // Lấy giá trị đầu vào và loại bỏ các ký tự không phải số
     const value = e.target.value.replace(/\D/g, "");
-    // Định dạng số với dấu phẩy
-    const formattedValue = new Intl.NumberFormat().format(value);
-    setNewCost(formattedValue);
+    if (value === "") {
+      setNewCost(""); // Hoặc null, tùy thuộc vào cách bạn muốn xử lý
+      setIsDisable(true);
+    } else {
+      // Định dạng số với dấu phẩy
+      const formattedValue = new Intl.NumberFormat().format(value);
+      setNewCost(formattedValue);
+    }
   };
   const handleOrderDescriptionChange = (e) => {
+    if (e.target.value.length > 150) {
+      setOrderDescriptionError("*Trường này giới hạn 150 kí tự");
+      setIsDisable(true);
+    } else {
+      setOrderDescriptionError("");
+    }
     setNewoderDescription(e.target.value);
   };
   const handleRecipientEmailChange = (e) => {
@@ -78,14 +119,35 @@ const RequestQuoteForm = () => {
     setRecipientEmail(emailValueReception);
     if (!isValidEmail(emailValueReception)) {
       setRecipientEmailError("*Email không hợp lệ"); // Thiết lập thông báo lỗi nếu email không hợp lệ
+      setIsDisable(true);
     } else {
       setRecipientEmailError(""); // Xóa thông báo lỗi nếu email hợp lệ
     }
   };
   const handleRecipientNameChange = (e) => {
+    const nameRegex = /^[A-Za-z\s]+$/;
+    if (e.target.value.length > 30) {
+      setRecipientNameError("*Trường này giới hạn 30 kí tự");
+      setIsDisable(true);
+    } else if (!nameRegex.test(e.target.value)) {
+      setRecipientNameError("*Trường này không được nhập số");
+      setIsDisable(true);
+    } else {
+      setRecipientNameError("");
+    }
     setRecipientName(e.target.value);
   };
   const handleRecipientPhoneChange = (e) => {
+    const value = e.target.value;
+    if (isNaN(value) || value.trim() === "") {
+      setRecipientPhoneError("*Trường này chỉ nhập số"); // Cập nhật thông báo lỗi cho trọng lượng
+      setIsDisable(true);
+    } else if (value.length > 10) {
+      setRecipientPhoneError("*Trường này chỉ nhập 10 số");
+      setIsDisable(true);
+    } else {
+      setRecipientPhoneError(""); // Xóa thông báo lỗi nếu nhập đúng
+    }
     setRecipientPhone(e.target.value);
   };
   const handleCityFrom = (e) => {
@@ -106,15 +168,35 @@ const RequestQuoteForm = () => {
     // Kiểm tra định dạng email
     if (!isValidEmail(emailValue)) {
       setEmailError("*Email không hợp lệ"); // Thiết lập thông báo lỗi nếu email không hợp lệ
+      setIsDisable(true);
     } else {
       setEmailError(""); // Xóa thông báo lỗi nếu email hợp lệ
     }
   };
 
   const handlePhoneChange = (e) => {
-    setNewPhone(e.target.value);
+    const value = e.target.value;
+    if (isNaN(value) || value.trim() === "") {
+      setNewPhoneError("*Trường này chỉ nhập số"); // Cập nhật thông báo lỗi cho trọng lượng
+      setIsDisable(true);
+    } else if (value.length > 10) {
+      setNewPhoneError("*Trường này chỉ nhập 10 số");
+      setIsDisable(true);
+    } else {
+      setNewPhone(e.target.value);
+    }
   };
   const handleFullNameChange = (e) => {
+    const nameRegex = /^[A-Za-z\s]+$/;
+    if (e.target.value.length > 30) {
+      setNewFullNameError("*Trường này giới hạn 30 kí tự");
+      setIsDisable(true);
+    } else if (!nameRegex.test(e.target.value)) {
+      setNewFullNameError("Trường này không được nhập số");
+      setIsDisable(true);
+    } else {
+      setNewFullNameError("");
+    }
     setNewFullName(e.target.value);
   };
 
@@ -218,12 +300,19 @@ const RequestQuoteForm = () => {
                         type={"text"}
                         name={"departure"}
                         id={"departure"}
-                        classes={"form-control align-self-end"}
+                        classes={
+                          "form-control align-self-end position-relative"
+                        }
                         placeholder={"Địa Chỉ Nhận Hàng"}
                         label="Địa Chỉ Nhận Hàng"
                         value={addressFrom}
                         onChange={handleAddressFromChange}
                       />
+                      {AddressFromChangeError && (
+                        <div className="text-danger position-absolute bottom-error">
+                          {AddressFromChangeError}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col-lg-6 d-flex w-100 addressTo-input">
@@ -251,12 +340,17 @@ const RequestQuoteForm = () => {
                         type={"text"}
                         name={"city"}
                         id={"city"}
-                        classes={"form-control"}
+                        classes={"form-control position-relative"}
                         placeholder={"Địa Chỉ Giao Hàng"}
                         label="Địa Chỉ Giao Hàng"
                         value={addressTo}
                         onChange={handleAddressToChange}
                       />
+                      {AddressToChangeError && (
+                        <div className="text-danger position-absolute bottom-error">
+                          {AddressToChangeError}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="col-lg-6">
@@ -265,22 +359,18 @@ const RequestQuoteForm = () => {
                       type={"text"}
                       name={"orderType"}
                       id={"orderType"}
-                      classes={"form-control"}
+                      classes={"form-control "}
                       placeholder={"Loại Hàng"}
                       label="Loại Hàng"
                       value={orderType}
                       onChange={handleOrderTypeChange}
                     />
+                    {OrderTypeChangeError && (
+                      <div className="text-danger   position-absolute marginBottom-error">
+                        {OrderTypeChangeError}
+                      </div>
+                    )}{" "}
                   </div>
-                  {/* <div className="col-lg-6">
-                    <div className="form-group">
-                      <label className="font-weight-bold">Thành phố đi</label>
-                      <select className="form-control first_null">
-                        <option>da nang</option>
-                        <option>Hue</option>
-                      </select>
-                    </div>
-                  </div> */}
 
                   <div className="col-lg-6">
                     <FormInput
@@ -295,7 +385,9 @@ const RequestQuoteForm = () => {
                       onChange={handleTotalWeightChange}
                     />
                     {weightError && (
-                      <div className="text-danger">{weightError}</div>
+                      <div className="text-danger position-absolute marginBottom-error">
+                        {weightError}
+                      </div>
                     )}{" "}
                     {/* Hiển thị thông báo lỗi cho trọng lượng */}
                   </div>
@@ -323,6 +415,11 @@ const RequestQuoteForm = () => {
                       value={orderDescription}
                       onChange={handleOrderDescriptionChange}
                     />
+                    {orderDescriptionError && (
+                      <div className="text-danger position-absolute marginBottom-error">
+                        {orderDescriptionError}
+                      </div>
+                    )}{" "}
                   </div>
                   <div className="col-lg-12">
                     <div className="heading_quote arae_top">
@@ -333,13 +430,18 @@ const RequestQuoteForm = () => {
                     <FormInput
                       tag={"input"}
                       type={"text"}
-                      name={"lname"}
+                      name={"receptionName"}
                       classes={"form-control"}
                       placeholder={"Họ và Tên"}
                       label="Họ và Tên"
                       value={recipientName}
                       onChange={handleRecipientNameChange}
                     />
+                    {recipientNameError && (
+                      <div className="text-danger position-absolute marginBottom-error">
+                        {recipientNameError}
+                      </div>
+                    )}{" "}
                   </div>
                   <div className="col-lg-6">
                     <FormInput
@@ -353,13 +455,15 @@ const RequestQuoteForm = () => {
                       onChange={handleRecipientEmailChange}
                     />
                     {recipientEmailError && (
-                      <div className="text-danger">{recipientEmailError}</div>
+                      <div className="text-danger position-absolute marginBottom-error">
+                        {recipientEmailError}
+                      </div>
                     )}
                   </div>
                   <div className="col-lg-6">
                     <FormInput
                       tag={"input"}
-                      type={"number"}
+                      type={"text"}
                       name={"number"}
                       classes={"form-control"}
                       placeholder={"Số Điện Thoại"}
@@ -367,6 +471,11 @@ const RequestQuoteForm = () => {
                       value={recipientPhone}
                       onChange={handleRecipientPhoneChange}
                     />
+                    {recipientPhoneError && (
+                      <div className="text-danger position-absolute marginBottom-error">
+                        {recipientPhoneError}
+                      </div>
+                    )}
                   </div>
                   <div className="col-lg-12">
                     <div className="heading_quote arae_top">
@@ -384,6 +493,11 @@ const RequestQuoteForm = () => {
                       value={newFullName}
                       onChange={handleFullNameChange}
                     />
+                    {newFullNameError && (
+                      <div className="text-danger position-absolute marginBottom-error">
+                        {newFullNameError}
+                      </div>
+                    )}
                   </div>
                   <div className="col-lg-6">
                     <FormInput
@@ -396,14 +510,16 @@ const RequestQuoteForm = () => {
                       value={newEmail}
                       onChange={handleEmailChange}
                     />
-                    {emailError && (
-                      <div className="text-danger">{emailError}</div>
+                    {newEmailError && (
+                      <div className="text-danger position-absolute marginBottom-error">
+                        {newEmailError}
+                      </div>
                     )}
                   </div>
                   <div className="col-lg-6">
                     <FormInput
                       tag={"input"}
-                      type={"number"}
+                      type={"text"}
                       name={"number"}
                       classes={"form-control"}
                       placeholder={"Số Điện Thoại"}
@@ -411,10 +527,23 @@ const RequestQuoteForm = () => {
                       value={newPhone}
                       onChange={handlePhoneChange}
                     />
+                    {newPhoneError && (
+                      <div className="text-danger position-absolute marginBottom-error">
+                        {newPhoneError}
+                      </div>
+                    )}
                   </div>
                   <div className="col-lg-12">
                     <div className="quote_submit_button d-flex justify-content-center">
-                      <button className="btn btn-theme" onClick={handleSubmit}>
+                      <button
+                        className={`btn ${
+                          isDisable
+                            ? "btn-secondary cursor-disable"
+                            : "btn-theme"
+                        }`}
+                        onClick={handleSubmit}
+                        disabled={isDisable}
+                      >
                         Gửi
                       </button>
                     </div>

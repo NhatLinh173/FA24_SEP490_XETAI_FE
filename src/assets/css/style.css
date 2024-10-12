@@ -5012,3 +5012,13 @@ input[type="number"]::-webkit-inner-spin-button {
 .options-text {
   color: black !important;
 }
+
+.bottom-error {
+  bottom: 0;
+}
+.marginBottom-error {
+  bottom: 7px;
+}
+.cursor-disable {
+  cursor: not-allowed;
+}
