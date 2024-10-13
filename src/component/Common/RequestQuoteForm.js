@@ -4,6 +4,8 @@ import useInstanceData from "../../config/useInstanceData";
 import axiosInstance from "../../config/axiosConfig";
 import axios from "axios";
 import { toast } from "react-toastify";
+import imgUpload from "../../../src/assets/img/homepage/output-onlinepngtools.png";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 const RequestQuoteForm = () => {
   const userId = localStorage.getItem("userId");
@@ -40,6 +42,7 @@ const RequestQuoteForm = () => {
   const [newPhoneError, setNewPhoneError] = useState("");
   const [orderDescriptionError, setOrderDescriptionError] = useState("");
   const [isDisable, setIsDisable] = useState(false);
+  const [imgs, setImgs] = useState([]);
 
   const getCity = async () => {
     try {
@@ -199,27 +202,50 @@ const RequestQuoteForm = () => {
     }
     setNewFullName(e.target.value);
   };
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    if (files.length + imgs.length > 3) {
+      toast.error("You can only upload up to 3 images.");
+      return;
+    }
+    const filePreviews = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      file,
+    }));
+
+    setImgs((prevImgs) => [...prevImgs, ...filePreviews]);
+  };
+  const handleDeleteImage = (index) => {
+    const updatedImgs = imgs.filter((_, i) => i !== index);
+    setImgs(updatedImgs);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const formData = new FormData();
+    imgs.forEach((img) => {
+      formData.append("images", img.file);
+    });
+    formData.append("creator", userId);
+    formData.append("email", newEmail);
+    formData.append("phone", newPhone);
+    formData.append("fullname", newFullName);
+    formData.append("title", orderType);
+    formData.append("startPoint", addressFrom);
+    formData.append("destination", addressTo);
+    formData.append("load", totalWeight);
+    formData.append("price", cost);
+    formData.append("detail", orderDescription);
+    formData.append("startPointCity", cityFrom);
+    formData.append("destinationCity", cityTo);
+    formData.append("recipientEmail", recipientEmail);
+    formData.append("recipientName", recipientName);
+    formData.append("recipientPhone", recipientPhone);
     try {
-      const response = await axiosInstance.post("/posts", {
-        creator: userId,
-        email: newEmail,
-        phone: newPhone,
-        fullname: newFullName,
-        title: orderType,
-        startPoint: addressFrom,
-        destination: addressTo,
-        load: totalWeight,
-        price: cost,
-        detail: orderDescription,
-        startPointCity: cityFrom,
-        destinationCity: cityTo,
-        recipientEmail,
-        recipientName,
-        recipientPhone,
+      const response = await axiosInstance.post("/posts", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
       console.log(response);
       if (response.status === 200) {
@@ -259,22 +285,72 @@ const RequestQuoteForm = () => {
                       <h2>Đơn Hàng</h2>
                     </div>
                   </div>
-
-                  <div className="w-100 d-flex justify-content-center">
-                    <div class="input-group w-50">
+                  {imgs && imgs.length > 0 && (
+                    <div
+                      className={`d-flex image-form align-items-center mb-3 ${
+                        imgs.length === 1
+                          ? "justify-content-center"
+                          : imgs.length === 2
+                          ? "justify-content-center w-100"
+                          : "justify-content-between w-100"
+                      }`}
+                    >
+                      {imgs.map((img, index) => (
+                        <div
+                          className={`position-relative border rounded-12 p-3 d-inline-block ${
+                            imgs.length === 1 ? "w-50" : ""
+                          }`}
+                        >
+                          <img
+                            src={img.url}
+                            alt=""
+                            className={`rounded-12  ${
+                              imgs.length === 1 ? "w-100" : ""
+                            }`}
+                          />
+                          <IoCloseCircleOutline
+                            className={`position-absolute ${
+                              imgs.length === 1 ? "delete-img" : "delete-imgs"
+                            }`}
+                            onClick={() => handleDeleteImage(index)} // Hàm để xóa ảnh
+                          />
+                        </div>
+                      ))}
+                      <div className="text-center">
+                        <input
+                          className="input-custom"
+                          id="file-upload"
+                          type="file"
+                          onChange={handleFileChange}
+                        />
+                        <label
+                          className="border rounded-12 p-3 pointer img-upload"
+                          htmlFor="file-upload" // Sửa từ "for" thành "htmlFor"
+                        >
+                          <img src={imgUpload} alt="upload" />
+                        </label>
+                        <p className="font-weight-bold">Tải ảnh lên</p>
+                      </div>
+                    </div>
+                  )}
+                  {imgs.length === 0 && (
+                    <div className="d-flex justify-content-center flex-column align-items-center">
                       <input
+                        className="input-custom"
+                        id="file-upload"
                         type="file"
-                        class="form-control h-custom"
-                        id="inputGroupFile02"
+                        onChange={handleFileChange}
                       />
                       <label
-                        class="input-group-text bg-dark-subtle "
-                        for="inputGroupFile02"
+                        className="border rounded-12 p-3 pointer w-50"
+                        htmlFor="file-upload" // Sửa từ "for" thành "htmlFor"
                       >
-                        Tải Ảnh
+                        <img src={imgUpload} alt="upload" />
                       </label>
+                      <p className="font-weight-bold">Tải ảnh lên</p>
                     </div>
-                  </div>
+                  )}
+
                   <div class="container d-flex justify-content-center mb-3"></div>
                   <div className="col-lg-6 d-flex w-100 addressFrom-input ">
                     <div className="form-group align-self-end">

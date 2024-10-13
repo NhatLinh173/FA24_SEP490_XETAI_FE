@@ -4522,6 +4522,12 @@ textarea {
 .h-custom {
   height: 100% !important;
 }
+.input-custom {
+  display: none;
+}
+.pointer {
+  cursor: pointer;
+}
 
 /* =============================
        FavoriteDriver Page Start
@@ -5021,4 +5027,31 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .cursor-disable {
   cursor: not-allowed;
+}
+
+.image-form {
+  gap: 40px;
+}
+
+.image-form img {
+  width: 400px;
+}
+.img-upload img {
+  width: 400px;
+}
+.delete-imgs {
+  cursor: pointer;
+  font-size: 20px;
+  font-size: 24px;
+  right: -3%;
+  top: -4%;
+  color: red;
+}
+.delete-img {
+  cursor: pointer;
+  font-size: 20px;
+  font-size: 24px;
+  right: -2%;
+  top: -3%;
+  color: red;
 }
