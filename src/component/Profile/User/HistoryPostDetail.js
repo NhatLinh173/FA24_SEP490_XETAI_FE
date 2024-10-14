@@ -179,10 +179,11 @@ const HistoryPostDetail = () => {
     const value = e.target.value;
     if (value.length > 50) {
       setTitleError("*Trường này giới hạn 50 ký tự");
-    } else {
+      setIsDisable(true);
       setTitleError("");
     }
     setNewTitle(value);
+    setIsDisable(false);
   };
 
   const handleEmailChange = (e) => {
@@ -190,8 +191,10 @@ const HistoryPostDetail = () => {
     setNewEmail(emailValue);
     if (!isValidEmail(emailValue)) {
       setEmailError("*Email không hợp lệ");
+      setIsDisable(true);
     } else {
       setEmailError("");
+      setIsDisable(false);
     }
   };
 
@@ -200,10 +203,13 @@ const HistoryPostDetail = () => {
     const nameRegex = /^[A-Za-z\s]+$/;
     if (value.length > 30) {
       setFullNameError("*Trường này giới hạn 30 ký tự");
+      setIsDisable(true);
     } else if (!nameRegex.test(value)) {
       setFullNameError("*Trường này không được nhập số");
+      setIsDisable(true);
     } else {
       setFullNameError("");
+      setIsDisable(false);
     }
     setNewFullName(value);
   };
@@ -367,54 +373,60 @@ const HistoryPostDetail = () => {
       <div className="row">
         {/* Left Side: Service Details */}
         <div className="col-md-8">
-          {totalImage && totalImage.length > 0 && (
+          {(post.status === "wait" || post.status === "hide") && (
             <div>
-              <div
-                className={`d-flex image-form align-items-center mb-3 ${
-                  totalImage.length === 1
-                    ? "justify-content-center"
-                    : totalImage.length === 2
-                    ? "justify-content-center w-100"
-                    : "justify-content-between w-100"
-                }`}
-              >
-                {totalImage.map((image, index) => (
+              {totalImage && totalImage.length > 0 && (
+                <div>
                   <div
-                    className={`position-relative border rounded-12 p-3 d-inline-block ${
-                      totalImage.length === 1 ? "w-75" : ""
+                    className={`d-flex image-form align-items-center mb-3 ${
+                      totalImage.length === 1
+                        ? "justify-content-center"
+                        : totalImage.length === 2
+                        ? "justify-content-center w-100"
+                        : "justify-content-between w-100"
                     }`}
                   >
-                    <img
-                      src={image}
-                      alt=""
-                      className={`rounded-12  ${
-                        totalImage.length === 1 ? "w-100" : ""
-                      }`}
-                    />
-                    <IoCloseCircleOutline
-                      className={`position-absolute ${
-                        totalImage.length === 1 ? "delete-img" : "delete-imgs"
-                      }`}
-                      onClick={() => handleDeleteImage(index)} // Hàm để xóa ảnh
-                    />
+                    {totalImage.map((image, index) => (
+                      <div
+                        className={`position-relative border rounded-12 p-3 d-inline-block ${
+                          totalImage.length === 1 ? "w-75" : ""
+                        }`}
+                      >
+                        <img
+                          src={image}
+                          alt=""
+                          className={`rounded-12  ${
+                            totalImage.length === 1 ? "w-100" : ""
+                          }`}
+                        />
+                        <IoCloseCircleOutline
+                          className={`position-absolute ${
+                            totalImage.length === 1
+                              ? "delete-img"
+                              : "delete-imgs"
+                          }`}
+                          onClick={() => handleDeleteImage(index)} // Hàm để xóa ảnh
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div className="text-center">
-                <input
-                  className="input-custom "
-                  id="file-upload"
-                  type="file"
-                  onChange={handleFileChange}
-                />
-                <label
-                  className="border rounded-12 p-3 pointer img-upload width-img"
-                  htmlFor="file-upload" // Sửa từ "for" thành "htmlFor"
-                >
-                  <img src={imgUpload} alt="upload" />
-                </label>
-                <p className="font-weight-bold">Tải ảnh lên</p>
-              </div>
+                  <div className="text-center">
+                    <input
+                      className="input-custom "
+                      id="file-upload"
+                      type="file"
+                      onChange={handleFileChange}
+                    />
+                    <label
+                      className="border rounded-12 p-3 pointer img-upload width-img"
+                      htmlFor="file-upload" // Sửa từ "for" thành "htmlFor"
+                    >
+                      <img src={imgUpload} alt="upload" />
+                    </label>
+                    <p className="font-weight-bold">Tải ảnh lên</p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -584,7 +596,7 @@ const HistoryPostDetail = () => {
                             className="form-control position-relative"
                           />
                           {startPointError && (
-                            <div className="text-danger position-absolute bt-error">
+                            <div className="text-danger position-absolute ">
                               {startPointError}
                             </div>
                           )}
@@ -617,7 +629,7 @@ const HistoryPostDetail = () => {
                             className="form-control position-relative"
                           />
                           {destinationError && (
-                            <div className="text-danger position-absolute bt-error">
+                            <div className="text-danger position-absolute ">
                               {destinationError}
                             </div>
                           )}
@@ -823,8 +835,9 @@ const HistoryPostDetail = () => {
                 <div className="w-70 d-flex justify-content-center mt-3">
                   <button
                     type="submit"
-                    className="btn btn-primary btn-lg w-25 "
+                    className="btn btn-primary btn-lg w-25  cursor-disable"
                     onClick={handleSubmitForm}
+                    disabled={isDisable}
                   >
                     <span>Cập nhật</span>
                   </button>
