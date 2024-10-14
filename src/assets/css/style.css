@@ -5066,8 +5066,9 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .bt-error {
   top: 100%;
-  left: 20%;
+  left: 2%;
 }
+
 .width-img {
   width: 100px;
 }
