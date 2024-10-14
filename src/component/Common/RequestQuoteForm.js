@@ -64,6 +64,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setOrderTypeChangeError("");
+      setIsDisable(false);
     }
     setNewOrderType(e.target.value);
   };
@@ -74,6 +75,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setAddressFromChangeError("");
+      setIsDisable(false);
     }
     setNewAddressFrom(e.target.value);
   };
@@ -83,6 +85,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setAddressToChangeError("");
+      setIsDisable(false);
     }
     setNewAddressTo(e.target.value);
   };
@@ -93,6 +96,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setWeightError(""); // Xóa thông báo lỗi nếu nhập đúng
+      setIsDisable(false);
     }
     setNewTotalWeight(e.target.value);
   };
@@ -114,6 +118,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setOrderDescriptionError("");
+      setIsDisable(false);
     }
     setNewoderDescription(e.target.value);
   };
@@ -125,6 +130,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setRecipientEmailError(""); // Xóa thông báo lỗi nếu email hợp lệ
+      setIsDisable(false);
     }
   };
   const handleRecipientNameChange = (e) => {
@@ -137,6 +143,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setRecipientNameError("");
+      setIsDisable(false);
     }
     setRecipientName(e.target.value);
   };
@@ -150,6 +157,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setRecipientPhoneError(""); // Xóa thông báo lỗi nếu nhập đúng
+      setIsDisable(false);
     }
     setRecipientPhone(e.target.value);
   };
@@ -174,6 +182,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setEmailError(""); // Xóa thông báo lỗi nếu email hợp lệ
+      setIsDisable(false);
     }
   };
 
@@ -187,6 +196,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setNewPhone(e.target.value);
+      setIsDisable(false);
     }
   };
   const handleFullNameChange = (e) => {
@@ -199,6 +209,7 @@ const RequestQuoteForm = () => {
       setIsDisable(true);
     } else {
       setNewFullNameError("");
+      setIsDisable(false);
     }
     setNewFullName(e.target.value);
   };
