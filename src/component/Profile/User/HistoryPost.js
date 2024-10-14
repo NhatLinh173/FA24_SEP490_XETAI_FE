@@ -76,12 +76,11 @@ const HistoryPost = () => {
             <div className="p-3 d-flex">
               <div className="image-container">
                 <img
-                  src="https://lawnet.vn/uploads/image/2023/06/09/043314645.jpg"
+                  src={post.images[0]}
                   alt="anh hang hoa"
                   className="rounded-12 cursor-pointer zoom-image"
                   style={{
                     width: "360px",
-                    height: "195px",
                     objectFit: "cover",
                   }}
                 />
