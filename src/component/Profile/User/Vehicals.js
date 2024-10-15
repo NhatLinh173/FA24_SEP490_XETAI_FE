@@ -1,129 +1,30 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { MdDelete } from "react-icons/md"
 import ReactPaginate from "react-paginate"
 import { Link } from "react-router-dom/cjs/react-router-dom.min"
 import { toast } from "react-toastify"
-
-const DUMMY_DATA = [
-  {
-    id: 15,
-    name: "Derrick",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 70,
-    name: "Austin",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 80,
-    name: "Leon",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 82,
-    name: "Ian",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 37,
-    name: "Luke",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 70,
-    name: "Edward",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 4,
-    name: "Blanche",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 88,
-    name: "Ethel",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 43,
-    name: "Lola",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 18,
-    name: "James",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-  {
-    id: 23,
-    name: "Lina",
-    image:
-      "https://cdn.tuoitre.vn/zoom/700_390/2022/12/2/renazzo-lamborghini-urus-performante-unveiled-thailand-motor-expo-2022-7-16699859694741013805461-crop-16699861242161368888932.jpg",
-    license_plate_number: "59-V1 793.79",
-    weight_capacity: "2",
-    registration_date: "10/09/2023",
-  },
-]
+import axiosInstance from "../../../config/axiosConfig"
+import dayjs from "dayjs"
 
 const Vehicals = () => {
   const [currentPage, setCurrentPage] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
+  const [vehicals, setVehicals] = useState([])
 
   const itemPerPage = 5
   const offset = currentPage * itemPerPage
-  const currentPageItems = DUMMY_DATA.slice(offset, offset + itemPerPage)
+  const currentPageItems = vehicals.slice(offset, offset + itemPerPage)
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected)
   }
 
   const selectedName = useMemo(() => {
-    const findedItem = DUMMY_DATA.find((item) => item.id === selectedId)
+    const findedItem = vehicals.find((item) => item._id === selectedId)
     if (!findedItem) return ""
 
-    return findedItem.name
+    return findedItem.nameCar
   }, [selectedId])
 
   const onConfirmDelete = (event, selectedId) => {
@@ -136,11 +37,27 @@ const Vehicals = () => {
     setIsVisible(false)
   }
 
-  const onDelete = () => {
-    setIsVisible(false)
-
-    toast.success(`Xóa thành công ${selectedName}`)
+  const onDelete = async () => {
+    try {
+      await axiosInstance.delete(`/car/${selectedId}`)
+      setIsVisible(false)
+      toast.success(`Xóa thành công ${selectedName}`)
+      getMyVehicals()
+    } catch (error) {
+      toast.success("Có lỗi xảy ra")
+    }
   }
+
+  const getMyVehicals = async () => {
+    try {
+      const response = await axiosInstance.get("/car")
+      setVehicals(response.data)
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    getMyVehicals()
+  }, [])
 
   return (
     <div>
@@ -153,30 +70,35 @@ const Vehicals = () => {
       </div>
 
       {currentPageItems.map((item) => (
-        <div key={item.id} className="my-4 border rounded-12 item-card">
+        <div key={item._id} className="my-4 border rounded-12 item-card">
           <Link
-            to={`vehical/detail/${item.id}`}
+            to={`vehical/detail/${item._id}`}
             relative="path"
             className="link-wrapper"
           >
             <div className="p-3 d-flex">
               <img
-                src={item.image}
-                alt={item.name}
+                src={
+                  item.imageCar.length
+                    ? item.imageCar[0]
+                    : "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg"
+                }
+                alt={item.nameCar}
                 className="rounded-12 cursor-pointer"
                 style={{ width: "310px", height: "160px", objectFit: "cover" }}
               />
 
               <div className="ml-3">
-                <h4 className="mb-4 fw-600">{item.name}</h4>
+                <h4 className="mb-4 fw-600">{item.nameCar}</h4>
 
-                <div className="mb-2">Biển số: {item.license_plate_number}</div>
+                <div className="mb-2">Biển số: {item.licensePlate}</div>
 
-                <div className="mb-2">
-                  Trọng tải: {item.weight_capacity} Tấn
+                <div className="mb-2">Trọng tải: {item.load} Tấn</div>
+
+                <div className="">
+                  Ngày đăng kiểm:{" "}
+                  {dayjs(item.registrationDate).format("DD/MM/YYYY")}
                 </div>
-
-                <div className="">Ngày đăng kiểm: {item.registration_date}</div>
               </div>
 
               <div
@@ -188,7 +110,7 @@ const Vehicals = () => {
               >
                 <button
                   className="btn-danger btn-sm align-self-start border-0"
-                  onClick={(event) => onConfirmDelete(event, item.id)}
+                  onClick={(event) => onConfirmDelete(event, item._id)}
                 >
                   <MdDelete />
                 </button>
@@ -199,7 +121,7 @@ const Vehicals = () => {
       ))}
 
       <ReactPaginate
-        pageCount={Math.ceil(DUMMY_DATA.length / itemPerPage)}
+        pageCount={Math.ceil(vehicals.length / itemPerPage)}
         onPageChange={handlePageClick}
         containerClassName={"pagination"}
         pageClassName={"page-item"}

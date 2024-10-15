@@ -4,7 +4,6 @@ import axiosInstance from "../../../config/axiosConfig"
 
 export const TripHistory = () => {
   const [currentPage, setCurrentPage] = useState(0)
-  // const [currentPageItems, setCurrentPageItems] = useState([])
   const [tripHistories, setTripHistories] = useState([])
 
   const userId = localStorage.getItem("userId")
@@ -22,9 +21,6 @@ export const TripHistory = () => {
   const getTripHistory = async () => {
     try {
       const response = await axiosInstance.get(`/posts/${userId}/users/history`)
-      // setCurrentPageItems(
-      //   response.data.salePosts.slice(offset, offset + itemPerPage)
-      // )
       setTripHistories(response.data.salePosts)
     } catch (error) {}
   }

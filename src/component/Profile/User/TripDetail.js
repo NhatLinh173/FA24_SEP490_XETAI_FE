@@ -64,11 +64,7 @@ const TripDetail = () => {
   const getTripHistoryDetail = async () => {
     try {
       const response = await axiosInstance.get(`/posts/${id}`)
-      // setCurrentPageItems(
-      //   response.data.salePosts.slice(offset, offset + itemPerPage)
-      // )
       setTripDetail(response.data)
-      console.log(response.data)
     } catch (error) {}
   }
 
