@@ -51,6 +51,7 @@ const VehicalAdd = () => {
     return { isValid, messages }
   }
 
+  // TODO: handle error case when call api
   const handleSubmit = async () => {
     const { isValid, messages } = validateData(state)
     if (!isValid) return toast.error(messages)

@@ -12,6 +12,7 @@ const VehicalDetail = () => {
   const [defaultVehical, setDefaultVehical] = useState(null)
   const [loading, setLoading] = useState(false)
 
+  // TODO: handle error case when call api
   const handleSubmit = async () => {
     const formData = new FormData()
 
