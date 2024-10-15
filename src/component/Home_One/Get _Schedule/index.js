@@ -1,14 +1,15 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { TbTransfer } from "react-icons/tb"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import Select from "react-select"
 import { toast } from "react-toastify"
-import axiosInstance from "../../../config/axiosConfig"
 
 const GetSchedule = () => {
   const [provinces, setProvinces] = useState(null)
   const [startPoint, setStartPoint] = useState("")
   const [destination, setDestination] = useState("")
+  const history = useHistory()
 
   const getProvinces = async () => {
     try {
@@ -31,12 +32,31 @@ const GetSchedule = () => {
     control: (styles) => ({
       ...styles,
       backgroundColor: "white",
-      width: "250px",
+      width: "380px",
       boxShadow: "none",
       border: "1px solid hsl(0, 0%, 80%)",
+      height: 45,
+      minHeight: 45,
       ":hover": {
         borderColor: "#EC0101",
       },
+    }),
+    valueContainer: (provided, state) => ({
+      ...provided,
+      height: 45,
+      padding: "0 12px",
+    }),
+
+    input: (provided, state) => ({
+      ...provided,
+      margin: 0,
+    }),
+    indicatorSeparator: (state) => ({
+      display: "none",
+    }),
+    indicatorsContainer: (provided, state) => ({
+      ...provided,
+      height: 45,
     }),
   }
 
@@ -48,11 +68,7 @@ const GetSchedule = () => {
       return
     }
 
-    try {
-      await axiosInstance(
-        `/search?startPoint=${startPoint}&destination=${destination}`
-      )
-    } catch (error) {}
+    history.push(`/service?startPoint=${startPoint}&destination=${destination}`)
   }
 
   useEffect(() => {
@@ -69,14 +85,18 @@ const GetSchedule = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <div className="mt-5 d-flex justify-content-center">
+              <div className="d-flex justify-content-center">
                 <div className="search-overlay-form">
+                  <div className="mb-5 heading-left-border">
+                    <h2>Tra đơn hàng</h2>
+                  </div>
+
                   <form id="home-search-input">
                     <div>
                       <Select
                         options={provinces}
                         styles={colourStyles}
-                        placeholder="Chọn tỉnh/thành phố"
+                        placeholder="Chọn tỉnh/Thành phố"
                         onChange={(data) => {
                           setStartPoint(data.label)
                         }}
@@ -88,7 +108,7 @@ const GetSchedule = () => {
                     <Select
                       options={provinces}
                       styles={colourStyles}
-                      placeholder="Chọn tỉnh/thành phố"
+                      placeholder="Chọn tỉnh/Thành phố"
                       onChange={(data) => {
                         setDestination(data.label)
                       }}

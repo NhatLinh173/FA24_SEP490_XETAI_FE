@@ -1,12 +1,31 @@
+import dayjs from "dayjs"
+
 const VehicalForm = ({ data, editable, setData }) => {
   const onFileChange = (event, field) => {
-    const imageUrl = URL.createObjectURL(event.target.files[0])
-
-    setData((prev) => ({ ...prev, [field]: imageUrl }))
+    setData((prev) => ({
+      ...prev,
+      [field]: event.target.files[0],
+    }))
   }
 
   const PLACEHOLDER_IMAGE =
     "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg"
+
+  const createImageUrl = (imageFile) => {
+    return URL.createObjectURL(imageFile)
+  }
+
+  const getImageUrl = (data) => {
+    if (typeof data === "string" && data.length > 0) {
+      return data
+    }
+
+    if (typeof data === "object" && data !== null) {
+      return createImageUrl(data)
+    }
+
+    return PLACEHOLDER_IMAGE
+  }
 
   return (
     <>
@@ -16,11 +35,7 @@ const VehicalForm = ({ data, editable, setData }) => {
 
           <img
             className="rounded-12 border"
-            src={
-              data.car_img.length
-                ? data.car_img
-                : "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg"
-            }
+            src={getImageUrl(data.imageCar)}
             alt={data.name}
             style={{ height: "300px", width: "100%", objectFit: "cover" }}
           />
@@ -29,8 +44,9 @@ const VehicalForm = ({ data, editable, setData }) => {
             <input
               className="mt-3 form-control"
               type="file"
+              accept="image/*"
               style={{ minHeight: "45px" }}
-              onChange={(event) => onFileChange(event, "car_img")}
+              onChange={(event) => onFileChange(event, "imageCar")}
             />
           )}
         </div>
@@ -40,9 +56,7 @@ const VehicalForm = ({ data, editable, setData }) => {
 
           <img
             className="rounded-12 border"
-            src={
-              data.register_img.length ? data.register_img : PLACEHOLDER_IMAGE
-            }
+            src={getImageUrl(data.imageRegistration)}
             alt={data.name}
             style={{ height: "300px", width: "100%", objectFit: "cover" }}
           />
@@ -51,8 +65,9 @@ const VehicalForm = ({ data, editable, setData }) => {
             <input
               className="mt-3 form-control"
               type="file"
+              accept="image/*"
               style={{ minHeight: "45px" }}
-              onChange={(event) => onFileChange(event, "register_img")}
+              onChange={(event) => onFileChange(event, "imageRegistration")}
             />
           )}
         </div>
@@ -60,7 +75,9 @@ const VehicalForm = ({ data, editable, setData }) => {
 
       <div className="row pt-3 border-top">
         <div className="col">
-          <label htmlFor="name">Tên xe</label>
+          <label htmlFor="name" className="required">
+            Tên xe
+          </label>
 
           <input
             id="name"
@@ -68,30 +85,31 @@ const VehicalForm = ({ data, editable, setData }) => {
             className="form-control"
             placeholder="Tên xe"
             disabled={!editable}
-            value={data.name}
+            value={data.nameCar}
             onChange={(e) =>
               setData((prev) => ({
                 ...prev,
-                name: e.target.value,
+                nameCar: e.target.value,
               }))
             }
           />
         </div>
 
         <div className="col">
-          <label htmlFor="deliver_address">Ngày đăng kiểm</label>
+          <label htmlFor="deliver_address" className="required">
+            Ngày đăng kiểm
+          </label>
 
           <div>
             <input
               className="form-select rounded w-full form-control"
               type="date"
-              placeholder="dd-mm-yyyy"
               disabled={!editable}
-              value={data.register_date}
+              value={dayjs(data.registrationDate).format("YYYY-MM-DD")}
               onChange={(e) =>
                 setData((prev) => ({
                   ...prev,
-                  register_date: e.target.value,
+                  registrationDate: e.target.value,
                 }))
               }
             />
@@ -101,7 +119,9 @@ const VehicalForm = ({ data, editable, setData }) => {
 
       <div className="row mt-3">
         <div className="col">
-          <label htmlFor="licensePlateNumber">Biển số</label>
+          <label htmlFor="licensePlateNumber" className="required">
+            Biển số
+          </label>
 
           <input
             id="licensePlateNumber"
@@ -109,30 +129,32 @@ const VehicalForm = ({ data, editable, setData }) => {
             className="form-control"
             placeholder="Biển số"
             disabled={!editable}
-            value={data.license_plate_number}
+            value={data.licensePlate}
             onChange={(e) =>
               setData((prev) => ({
                 ...prev,
-                license_plate_number: e.target.value,
+                licensePlate: e.target.value,
               }))
             }
           />
         </div>
 
         <div className="col">
-          <label htmlFor="weightCapacity">Trọng tải (Tấn)</label>
+          <label htmlFor="weightCapacity" className="required">
+            Trọng tải (Kg)
+          </label>
 
           <input
             id="weightCapacity"
-            type="text"
+            type="number"
             className="form-control"
-            placeholder="Trọng tải (Tấn)"
+            placeholder="Trọng tải (Kg)"
             disabled={!editable}
-            value={data.weight_capacity}
+            value={data.load}
             onChange={(e) =>
               setData((prev) => ({
                 ...prev,
-                weight_capacity: e.target.value,
+                load: e.target.value,
               }))
             }
           />

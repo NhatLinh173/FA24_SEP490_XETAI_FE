@@ -1,11 +1,13 @@
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import axiosInstance from "../../../config/axiosConfig"
 import { toast } from "react-toastify"
+import { useEffect, useState } from "react"
 
 const TripDetail = () => {
   const { id } = useParams()
   const driverId = localStorage.getItem("driverId")
   const userId = localStorage.getItem("userId")
+  const [tripDetail, setTripDetail] = useState(null)
 
   const handleFavoriteDriver = async () => {
     try {
@@ -42,14 +44,35 @@ const TripDetail = () => {
   }
 
   const STATUS = {
-    0: "Đã Huỷ ",
-    1: "Đã giao",
+    wait: "Đang chờ",
+    approve: "Đã giao",
+    inprogress: "Đang giao",
+    finish: "Đã giao",
+    cancel: "Đã Huỷ",
+    hide: "Ẩn",
   }
 
   const STATUS_BADGE_CLASS = {
-    0: "badge-warning",
-    1: "badge-info",
+    wait: "status-wait", // "Đang chờ" - waiting
+    approve: "status-approve", // "Đã giao" - approved
+    inprogress: "status-inprogress", // "Đang giao" - in progress
+    finish: "status-finish", // "Đã giao" - finished (may be considered as secondary)
+    cancel: "status-cancel", // "Đã Huỷ" - canceled
+    hide: "status-hide", // "Ẩn" - hidden
   }
+
+  const getTripHistoryDetail = async () => {
+    try {
+      const response = await axiosInstance.get(`/posts/${id}`)
+      setTripDetail(response.data)
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    getTripHistoryDetail()
+  }, [])
+
+  if (!tripDetail) return <div>Không có data</div>
 
   return (
     <div className="wrapper container pb-5">
@@ -67,20 +90,20 @@ const TripDetail = () => {
               <div className="ml-4 d-flex flex-column justify-content-center">
                 <div className="mb-2">
                   <span className="font-weight-bold">
-                    {DUMMY_DATA.trip_name}
+                    {tripDetail.startPointCity} - {tripDetail.destinationCity}
                   </span>
                 </div>
 
                 <div
-                  className={`mb-3 fs-12 ${
-                    STATUS_BADGE_CLASS[DUMMY_DATA.status]
+                  className={`mb-3 fs-12 status-badge ${
+                    STATUS_BADGE_CLASS[tripDetail.status]
                   }`}
                 >
-                  {STATUS[DUMMY_DATA.status]}
+                  {STATUS[tripDetail.status]}
                 </div>
 
                 <div className="fs-12 text-secondary">
-                  Địa chỉ nhận hàng: {DUMMY_DATA.address}
+                  {`Địa chỉ nhận hàng: ${tripDetail.destination} - ${tripDetail.destinationCity}`}
                 </div>
               </div>
             </div>
@@ -110,7 +133,7 @@ const TripDetail = () => {
                     <label htmlFor="category">Loại hàng</label>
                     <input
                       id="category"
-                      defaultValue={DUMMY_DATA.category}
+                      defaultValue={tripDetail.title}
                       type="text"
                       className="form-control"
                       placeholder="Loại hàng"
@@ -122,7 +145,7 @@ const TripDetail = () => {
                     <label htmlFor="deliver_address">Giá tiền</label>
                     <input
                       id="deliver_address"
-                      defaultValue={`${DUMMY_DATA.amount.toLocaleString()} vnd`}
+                      defaultValue={`${tripDetail.price.toLocaleString()} VND`}
                       type="text"
                       className="form-control"
                       placeholder="Giá tiền"
@@ -136,7 +159,7 @@ const TripDetail = () => {
                     <label htmlFor="address">Địa chỉ nhận hàng</label>
                     <input
                       id="address"
-                      defaultValue={DUMMY_DATA.receive_address}
+                      defaultValue={tripDetail.startPointCity}
                       type="text"
                       className="form-control"
                       placeholder="Địa chỉ nhận hàng"
@@ -148,7 +171,7 @@ const TripDetail = () => {
                     <label htmlFor="deliver_address">Địa chỉ giao hàng</label>
                     <input
                       id="deliver_address"
-                      defaultValue={DUMMY_DATA.delivery_address}
+                      defaultValue={tripDetail.destinationCity}
                       type="text"
                       className="form-control"
                       placeholder="Địa chỉ giao hàng"
@@ -162,7 +185,7 @@ const TripDetail = () => {
                     <label htmlFor="address">Tổng trọng lượng (KG)</label>
                     <input
                       id="address"
-                      defaultValue={DUMMY_DATA.total_weight}
+                      defaultValue={tripDetail.load}
                       type="number"
                       className="form-control"
                       placeholder="Tổng trọng lượng (KG)"
@@ -179,7 +202,7 @@ const TripDetail = () => {
                     <div style={{ height: "300px" }}>
                       <textarea
                         id="description"
-                        defaultValue={DUMMY_DATA.description}
+                        defaultValue={tripDetail.detail}
                         className="w-full form-control"
                         placeholder="Mô tả đơn hàng"
                         readOnly
@@ -199,7 +222,7 @@ const TripDetail = () => {
                     <label htmlFor="customer-name">Họ và tên</label>
                     <input
                       id="customer-name"
-                      defaultValue={DUMMY_DATA.customer_name}
+                      defaultValue={tripDetail.recipientName}
                       type="text"
                       className="form-control"
                       placeholder="Họ và tên"
@@ -212,7 +235,7 @@ const TripDetail = () => {
 
                     <input
                       id="email"
-                      defaultValue={DUMMY_DATA.email}
+                      defaultValue={tripDetail.recipientEmail}
                       type="email"
                       className="form-control"
                       placeholder="Email"
@@ -226,7 +249,7 @@ const TripDetail = () => {
                     <label htmlFor="phone-number">Số điện thoại</label>
                     <input
                       id="phone-number"
-                      defaultValue={DUMMY_DATA.phone_number}
+                      defaultValue={tripDetail.recipientPhone}
                       type="tel"
                       className="form-control"
                       placeholder="Số điện thoại"
@@ -271,12 +294,12 @@ const TripDetail = () => {
 
                 <div className="mb-3 d-flex justify-content-between">
                   <span>Tên người nhận hàng</span>
-                  <span className="fw-600">Nguyen Van A</span>
+                  <span className="fw-600">{tripDetail.recipientName}</span>
                 </div>
 
                 <div className="mb-3 d-flex justify-content-between">
                   <span>SĐT người nhận</span>
-                  <span className="fw-600">0987654321</span>
+                  <span className="fw-600">{tripDetail.recipientPhone}</span>
                 </div>
 
                 <div className="mb-3 d-flex justify-content-between">
@@ -296,7 +319,7 @@ const TripDetail = () => {
 
                 <div className="mb-3 d-flex justify-content-between">
                   <span>Đơn giá hàng</span>
-                  <span className="fw-600">803,600 vnd</span>
+                  <span className="fw-600">803,600 VND</span>
                 </div>
               </div>
             </div>

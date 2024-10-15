@@ -1,66 +1,66 @@
-import React, { useState } from "react";
-import { FaBoxArchive, FaCheck, FaHourglassHalf } from "react-icons/fa6";
-import { FaWeightHanging } from "react-icons/fa";
-import { FaMapLocation } from "react-icons/fa6";
-import { FaCarSide } from "react-icons/fa6";
-import { MdOutlinePersonAdd } from "react-icons/md";
-import { GiCancel } from "react-icons/gi";
-import { CiNoWaitingSign } from "react-icons/ci";
-import { MdDelete } from "react-icons/md";
-import { GrHide } from "react-icons/gr";
-import axios from "../../../config/axiosConfig";
-import useInstanceData from "../../../config/useInstanceData";
-import ReactPaginate from "react-paginate";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useState } from "react"
+import { FaBoxArchive, FaCheck, FaHourglassHalf } from "react-icons/fa6"
+import { FaWeightHanging } from "react-icons/fa"
+import { FaMapLocation } from "react-icons/fa6"
+import { FaCarSide } from "react-icons/fa6"
+import { MdOutlinePersonAdd } from "react-icons/md"
+import { GiCancel } from "react-icons/gi"
+import { CiNoWaitingSign } from "react-icons/ci"
+import { MdDelete } from "react-icons/md"
+import { GrHide } from "react-icons/gr"
+import axios from "../../../config/axiosConfig"
+import useInstanceData from "../../../config/useInstanceData"
+import ReactPaginate from "react-paginate"
+import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
 
 const HistoryPost = () => {
-  const [isShowModal, setIsShowModal] = useState(false);
-  const [postID, setPostID] = useState(null);
+  const [isShowModal, setIsShowModal] = useState(false)
+  const [postID, setPostID] = useState(null)
 
-  console.log(postID);
-  const userId = localStorage.getItem("userId");
+  console.log(postID)
+  const userId = localStorage.getItem("userId")
   const {
     data: posts,
     loading,
     error,
     refetch,
-  } = useInstanceData(`/posts/${userId}/users`);
+  } = useInstanceData(`/posts/${userId}/users`)
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/posts/${postID}`);
-      refetch(); // Gọi lại API để cập nhật danh sách bài đăng
-      setIsShowModal(false);
-      toast.success("Đơn hàng đã được xóa thành công");
+      await axios.delete(`/posts/${postID}`)
+      refetch() // Gọi lại API để cập nhật danh sách bài đăng
+      setIsShowModal(false)
+      toast.success("Đơn hàng đã được xóa thành công")
     } catch (error) {
-      console.error("Error deleting post:", error);
-      toast.error("Có lỗi xảy ra khi xóa đơn hàng!");
+      console.error("Error deleting post:", error)
+      toast.error("Có lỗi xảy ra khi xóa đơn hàng!")
     }
-  };
+  }
 
   const handleOpenModal = (postId) => {
-    setPostID(postId);
-    setIsShowModal(true);
-  };
+    setPostID(postId)
+    setIsShowModal(true)
+  }
 
   const handleCloseModal = () => {
-    setIsShowModal(false);
-    setPostID(null);
-  };
+    setIsShowModal(false)
+    setPostID(null)
+  }
 
-  const [currentPage, setCurrentPage] = useState(0);
-  const postsPerPage = 3;
+  const [currentPage, setCurrentPage] = useState(0)
+  const postsPerPage = 3
 
-  const offset = currentPage * postsPerPage;
-  console.log(offset);
-  const currentPosts = posts?.salePosts?.slice(offset, offset + postsPerPage);
+  const offset = currentPage * postsPerPage
+  console.log(offset)
+  const currentPosts = posts?.salePosts?.slice(offset, offset + postsPerPage)
 
   const handlePageClick = (event) => {
-    const selectedPage = event.selected;
-    setCurrentPage(selectedPage);
-    console.log(event);
-  };
+    const selectedPage = event.selected
+    setCurrentPage(selectedPage)
+    console.log(event)
+  }
 
   return (
     <div>
@@ -159,8 +159,8 @@ const HistoryPost = () => {
                 <button
                   className="btn-danger btn-sm align-self-start border-0"
                   onClick={(e) => {
-                    e.preventDefault();
-                    handleOpenModal(post._id);
+                    e.preventDefault()
+                    handleOpenModal(post._id)
                   }}
                 >
                   <MdDelete />
@@ -233,7 +233,7 @@ const HistoryPost = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default HistoryPost;
+export default HistoryPost
