@@ -28,6 +28,7 @@ const FormInput = (props) => {
           </label>
         )}
         <input
+          id={props.name}
           type={props.type}
           name={props.name}
           placeholder={props.placeholder}

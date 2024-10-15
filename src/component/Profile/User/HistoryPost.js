@@ -12,10 +12,12 @@ import axios from "../../../config/axiosConfig"
 import useInstanceData from "../../../config/useInstanceData"
 import ReactPaginate from "react-paginate"
 import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
 
 const HistoryPost = () => {
   const [isShowModal, setIsShowModal] = useState(false)
   const [postID, setPostID] = useState(null)
+
   console.log(postID)
   const userId = localStorage.getItem("userId")
   const {
@@ -30,8 +32,10 @@ const HistoryPost = () => {
       await axios.delete(`/posts/${postID}`)
       refetch() // Gọi lại API để cập nhật danh sách bài đăng
       setIsShowModal(false)
+      toast.success("Đơn hàng đã được xóa thành công")
     } catch (error) {
       console.error("Error deleting post:", error)
+      toast.error("Có lỗi xảy ra khi xóa đơn hàng!")
     }
   }
 
@@ -72,12 +76,11 @@ const HistoryPost = () => {
             <div className="p-3 d-flex">
               <div className="image-container">
                 <img
-                  src="https://lawnet.vn/uploads/image/2023/06/09/043314645.jpg"
+                  src={post.images[0]}
                   alt="anh hang hoa"
                   className="rounded-12 cursor-pointer zoom-image"
                   style={{
                     width: "360px",
-                    height: "195px",
                     objectFit: "cover",
                   }}
                 />

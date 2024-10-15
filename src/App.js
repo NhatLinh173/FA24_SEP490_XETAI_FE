@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import Navbar from "./component/Common/Navbar"
-import Footer from "./component/Common/Footer"
-import CopyRight from "./component/Common/CopyRight"
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Navbar from "./component/Common/Navbar";
+import Footer from "./component/Common/Footer";
+import CopyRight from "./component/Common/CopyRight";
 
 import Home_One from "./page/indexPage";
 import About from "./page/About";
@@ -42,64 +42,75 @@ import HistoryPostDetail from "./component/Profile/User/HistoryPostDetail";
 import PaymentSuccess from "./component/PaymentStatus/PaymentSuccess";
 import PaymentFailed from "./component/PaymentStatus/PaymentFailed";
 import Chat from "./component/Chat/chat";
-import VehicalDetail from "./component/Profile/User/VehicalDetail"
-import VehicalAdd from "./component/Profile/User/VehicalAdd"
-
+import VehicalDetail from "./component/Profile/User/VehicalDetail";
+import { WebSocketProvider } from "./hooks/WebSocketContext";
+import NotificationHandler from "./config/NotificationHandler";
+import VehicalAdd from "./component/Profile/User/VehicalAdd";
 
 const App = () => {
-  const { isOpen, openModal, closeModal } = useModal()
-  const { handleLogout } = useAuth()
+  const { isOpen, openModal, closeModal } = useModal();
+  const { handleLogout } = useAuth();
 
   return (
-    <Router>
-      <ScrollToTop>
-        <Navbar openModal={openModal} />
-        <ToastContainer />
-        <Switch>
-          <Route path="/" exact component={Home_One} />
-          <Route path="/about" exact component={About} />
-          <Route path="/service" exact component={Service} />
-          <Route path="/service/:id" extract component={ServiceDetail} />
-          <Route
-            path="/history-post/:id"
-            extract
-            component={HistoryPostDetail}
-          />
-          <Route path="/service_details" exact component={ServiceDetails} />
-          <Route path="/blog_grid" exact component={BlogGrid} />
-          <Route path="/blog_with_sidebar" exact component={BlogWithSidebar} />
-          <Route path="/blog_details" exact component={BlogDetails} />
-          <Route path="/our_team" exact component={OurTeamArea} />
-          <Route path="/testimonials" exact component={Testimonials} />
-          <Route path="/gallery" exact component={Gallery} />
-          <Route path="/faqs" exact component={Faqs} />
-          <Route path="/track_ship" exact component={TrackYourShip} />
-          <Route path="/pricing" exact component={PricingContent} />
-          <Route path="/request_quote" exact component={RequestQuote} />
-          <Route path="/signup" exact component={SignUp} />
-          <Route path="/signin" exact component={SignIn} />
-          <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
-          <Route path="/terms" exact component={TermsCondition} />
-          <Route path="/contact" exact component={Contact} />
-          <Route path="/profile" exact component={Profile} />
-          <Route path="/accountType" exact component={AccountTypes} />
-          <Route path="/signUp-customer" exact component={SignUpCustomerPage} />
-          <Route path="/error" exact component={Error} />
-          <Route path="/favorite-drivers" exact component={FavoriteDrivers} />
-          <Route path="/driver/:id" exact component={DriverDetail} />
-          <Route path="/trip/detail/:id" exact component={TripDetail} />
-          <Route path="/payment/success" exact component={PaymentSuccess} />
-          <Route path="/payment/failed" exact component={PaymentFailed} />
-          <Route path="/chat" exact component={Chat} />
-          <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
-          <Route path="/vehical/add" exact component={VehicalAdd} />
-        </Switch>
-        <Footer />
-        <CopyRight />
-        <CustomModal isOpen={isOpen} closeModal={closeModal} />
-      </ScrollToTop>
-    </Router>
-  )
-}
+    <WebSocketProvider>
+      <Router>
+        <ScrollToTop>
+          <Navbar openModal={openModal} />
+          <NotificationHandler />
+          <Switch>
+            <Route path="/" exact component={Home_One} />
+            <Route path="/about" exact component={About} />
+            <Route path="/service" exact component={Service} />
+            <Route path="/service/:id" extract component={ServiceDetail} />
+            <Route
+              path="/history-post/:id"
+              extract
+              component={HistoryPostDetail}
+            />
+            <Route path="/service_details" exact component={ServiceDetails} />
+            <Route path="/blog_grid" exact component={BlogGrid} />
+            <Route
+              path="/blog_with_sidebar"
+              exact
+              component={BlogWithSidebar}
+            />
+            <Route path="/blog_details" exact component={BlogDetails} />
+            <Route path="/our_team" exact component={OurTeamArea} />
+            <Route path="/testimonials" exact component={Testimonials} />
+            <Route path="/gallery" exact component={Gallery} />
+            <Route path="/faqs" exact component={Faqs} />
+            <Route path="/track_ship" exact component={TrackYourShip} />
+            <Route path="/pricing" exact component={PricingContent} />
+            <Route path="/request_quote" exact component={RequestQuote} />
+            <Route path="/signup" exact component={SignUp} />
+            <Route path="/signin" exact component={SignIn} />
+            <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
+            <Route path="/terms" exact component={TermsCondition} />
+            <Route path="/contact" exact component={Contact} />
+            <Route path="/profile" exact component={Profile} />
+            <Route path="/accountType" exact component={AccountTypes} />
+            <Route
+              path="/signUp-customer"
+              exact
+              component={SignUpCustomerPage}
+            />
+            <Route path="/error" exact component={Error} />
+            <Route path="/favorite-drivers" exact component={FavoriteDrivers} />
+            <Route path="/driver/:id" exact component={DriverDetail} />
+            <Route path="/trip/detail/:id" exact component={TripDetail} />
+            <Route path="/payment/success" exact component={PaymentSuccess} />
+            <Route path="/payment/failed" exact component={PaymentFailed} />
+            <Route path="/chat" exact component={Chat} />
+            <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
+          </Switch>
+          <Footer />
+          <CopyRight />
+          <CustomModal isOpen={isOpen} closeModal={closeModal} />
+        </ScrollToTop>
+      </Router>
+      <ToastContainer />
+    </WebSocketProvider>
+  );
+};
 
-export default App
+export default App;

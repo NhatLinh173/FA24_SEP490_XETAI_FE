@@ -1,23 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axiosInstance from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
 
-const DriverCard = ({
-  driverImage,
-  driverName,
-  rating,
-  tripsCompleted,
-  id,
-}) => {
+const DriverCard = () => {
   const history = useHistory();
-
+  const [driver, setDriver] = useState([]);
   const handleViewDetails = () => {
-    history.push(`/driver/${id}`);
+    history.push(`/driver/${driver._id}`);
   };
 
   const userId = localStorage.getItem("userId");
   const driverId = localStorage.getItem("driverId");
+
+  useEffect(() => {
+    const getDriver = async () => {
+      try {
+        const response = await axiosInstance.get(`/driver/${userId}`);
+        if (response.status === 200) {
+          console.log("Driver favorite", response.data);
+          setDriver(response.data.favorite.driverId);
+        } else {
+          toast.error("Lấy thông tin tài xế thất bại");
+        }
+      } catch (error) {
+        console.error("Error getting driver:", error);
+      }
+    };
+    if (userId) {
+      getDriver();
+    }
+  }, [userId]);
 
   const handleRemoveFavorites = async () => {
     try {
@@ -35,33 +48,36 @@ const DriverCard = ({
     }
   };
 
-  const getStars = (rating) => {
-    const stars = [];
-    const roundedRating = Math.round(rating); // Làm tròn rating để tính số lượng ngôi sao
-    for (let i = 1; i <= 5; i++) {
-      if (i <= roundedRating) {
-        stars.push(<i key={i} className="fa fa-star star-filled"></i>);
-      } else {
-        stars.push(<i key={i} className="fa fa-star star-empty"></i>);
-      }
-    }
-    return stars;
-  };
+  // const getStars = (rating) => {
+  //   const stars = [];
+  //   const roundedRating = Math.round(rating);
+  //   for (let i = 1; i <= 5; i++) {
+  //     if (i <= roundedRating) {
+  //       stars.push(<i key={i} className="fa fa-star star-filled"></i>);
+  //     } else {
+  //       stars.push(<i key={i} className="fa fa-star star-empty"></i>);
+  //     }
+  //   }
+  //   return stars;
+  // };
 
   return (
     <div className="card mb-4 driver-card">
       <div className="row g-0">
-        {/* Cột 1: Ảnh tài xế */}
         <div className="col-md-3 d-flex align-items-center">
-          <img src={driverImage} className="img-fluid" alt={driverName} />
+          <img
+            src={driver.avatar}
+            className="img-fluid"
+            alt={driver.fullName}
+          />
         </div>
-        {/* Cột 2: Tên tài xế, rating, số chuyến hoàn thành */}
+
         <div className="col-md-5 d-flex flex-column justify-content-center">
-          <h5 className="card-title">{driverName}</h5>
-          <div className="rating">{getStars(rating)}</div>
-          <p className="card-text">Số chuyến hoàn thành: {tripsCompleted}</p>
+          <h5 className="card-title">{driver.fullName}</h5>
+          {/* <div className="rating">{getStars(rating)}</div> */}
+          {/* <p className="card-text">Số chuyến hoàn thành: {tripsCompleted}</p> */}
         </div>
-        {/* Cột 3: Nút điều khiển */}
+
         <div className="col-md-4 d-flex flex-column align-items-end justify-content-center">
           <div className="vertical-line"></div>
           <button

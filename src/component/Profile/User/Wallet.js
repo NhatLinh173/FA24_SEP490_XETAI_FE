@@ -25,6 +25,7 @@ const Wallet = ({ data }) => {
     offset,
     offset + transactionsPerPage
   );
+
   const handlePageClick = (event) => {
     const selectedPage = event.selected;
     setCurrentPage(selectedPage);
@@ -64,6 +65,17 @@ const Wallet = ({ data }) => {
     }
   };
 
+  const isTokenExpired = (token) => {
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decodedToken.exp < currentTime;
+    } catch (error) {
+      console.error("Failed to decode token:", error);
+      return true;
+    }
+  };
+
   useEffect(() => {
     const fetchPaymentInfo = async () => {
       const token = localStorage.getItem("accessToken");
@@ -72,10 +84,15 @@ const Wallet = ({ data }) => {
         return;
       }
 
+      if (isTokenExpired(token)) {
+        console.error("Token has expired");
+        return;
+      }
+
       try {
         const decodedToken = jwtDecode(token);
         setUserId(decodedToken.id);
-        console.log(decodedToken);
+        console.log("Decoded token:", decodedToken);
 
         const responseUserId = await axiosInstance.get(
           `http://localhost:3005/payment/get-userId/${decodedToken.id}`,
