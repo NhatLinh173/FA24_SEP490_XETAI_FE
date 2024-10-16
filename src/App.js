@@ -46,6 +46,8 @@ import VehicalDetail from "./component/Profile/User/VehicalDetail";
 import { WebSocketProvider } from "./hooks/WebSocketContext";
 import NotificationHandler from "./config/NotificationHandler";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
+import ProtectedRoute from "./config/checkRole";
+
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -81,13 +83,23 @@ const App = () => {
             <Route path="/faqs" exact component={Faqs} />
             <Route path="/track_ship" exact component={TrackYourShip} />
             <Route path="/pricing" exact component={PricingContent} />
-            <Route path="/request_quote" exact component={RequestQuote} />
+            <ProtectedRoute
+              path="/request_quote"
+              exact
+              component={RequestQuote}
+              allowedRoles={["customer"]}
+            />
             <Route path="/signup" exact component={SignUp} />
             <Route path="/signin" exact component={SignIn} />
             <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
             <Route path="/terms" exact component={TermsCondition} />
             <Route path="/contact" exact component={Contact} />
-            <Route path="/profile" exact component={Profile} />
+            <ProtectedRoute
+              path="/profile"
+              exact
+              component={Profile}
+              allowedRoles={["customer"]}
+            />
             <Route path="/accountType" exact component={AccountTypes} />
             <Route
               path="/signUp-customer"

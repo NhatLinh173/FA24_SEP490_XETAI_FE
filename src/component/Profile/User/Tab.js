@@ -1,5 +1,5 @@
-import React from "react";
-import { BsSignpost } from "react-icons/bs";
+import React, { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import { CgProfile } from "react-icons/cg";
 import { FaRegHeart } from "react-icons/fa";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
@@ -8,15 +8,23 @@ import { MdAccessTime } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdDirectionsCar } from "react-icons/md";
 import { PiPackage } from "react-icons/pi";
-
-
 import useAuth from "../../../hooks/useAuth";
 
 const Tab = ({ tab1, setTab1 }) => {
+  const [role, setRole] = useState("");
   const { handleLogout } = useAuth();
   const handleLogoutClick = async () => {
     await handleLogout();
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const userRole = decodedToken.role;
+      setRole(userRole);
+    }
+  }, []);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -45,19 +53,19 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-1">Đơn hàng</span>
             </button>
           </li>
-
-          <li className="tab-item">
-            <button
-              className={`btn-tab d-flex align-items-center ${
-                tab1 === "favoriteDriver" ? "active" : ""
-              }`}
-              onClick={() => setTab1("favoriteDriver")}
-            >
-              <FaRegHeart />
-              <span className="px-2 ">Tài xế yêu thích</span>
-            </button>
-          </li>
-
+          {role === "customer" && (
+            <li className="tab-item">
+              <button
+                className={`btn-tab d-flex align-items-center ${
+                  tab1 === "favoriteDriver" ? "active" : ""
+                }`}
+                onClick={() => setTab1("favoriteDriver")}
+              >
+                <FaRegHeart />
+                <span className="px-2 ">Tài xế yêu thích</span>
+              </button>
+            </li>
+          )}
           <li className="my-3">
             <button
               className={`btn-tab ${tab1 === "changePassword" ? "active" : ""}`}
@@ -87,15 +95,17 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Ví của bạn</span>
             </button>
           </li>
-          <li>
-            <button
-              className={`btn-tab ${tab1 === "vehicals" ? "active" : ""}`}
-              onClick={() => setTab1("vehicals")}
-            >
-              <MdDirectionsCar />
-              <span className="px-2">Xe của tôi</span>
-            </button>
-          </li>
+          {role === "driver" && (
+            <li>
+              <button
+                className={`btn-tab ${tab1 === "vehicals" ? "active" : ""}`}
+                onClick={() => setTab1("vehicals")}
+              >
+                <MdDirectionsCar />
+                <span className="px-2">Xe của tôi</span>
+              </button>
+            </li>
+          )}
         </ul>
       </div>
       <div className="my-4">

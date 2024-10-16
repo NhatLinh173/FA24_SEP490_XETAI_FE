@@ -9,7 +9,6 @@ const SectionHeading = ({ onSearch }) => {
   const [pickupSuggestions, setPickupSuggestions] = useState([]);
   const [dropoffSuggestions, setDropoffSuggestions] = useState([]);
 
-  // Hàm xử lý khi nhấn nút Tìm Kiếm
   const handleSearch = () => {
     const weightValue = parseInt(weight, 10);
     if (isNaN(weightValue) || weightValue <= 0) {
@@ -19,7 +18,6 @@ const SectionHeading = ({ onSearch }) => {
     onSearch({ pickupLocation, dropoffLocation, weight: weightValue });
   };
 
-  // Xử lý thay đổi input cho địa điểm lấy hàng
   const handlePickupChange = (e) => {
     const value = e.target.value;
     setPickupLocation(value);
@@ -34,7 +32,6 @@ const SectionHeading = ({ onSearch }) => {
     }
   };
 
-  // Xử lý thay đổi input cho địa điểm trả hàng
   const handleDropoffChange = (e) => {
     const value = e.target.value;
     setDropoffLocation(value);
@@ -49,12 +46,10 @@ const SectionHeading = ({ onSearch }) => {
     }
   };
 
-  // Xử lý thay đổi input cho khối lượng hàng hóa
   const handleWeightChange = (e) => {
     setWeight(e.target.value);
   };
 
-  // Hàm xử lý khi nhấn vào gợi ý
   const handleSuggestionClick = (value, type) => {
     if (type === "pickup") {
       setPickupLocation(value);
@@ -71,7 +66,6 @@ const SectionHeading = ({ onSearch }) => {
         <div className="search_bar">
           <h2>Tìm kiếm dịch vụ vận tải</h2>
           <div className="search_inputs">
-            {/* Nhập địa điểm lấy hàng */}
             <div className="search_input_container">
               <input
                 type="text"
@@ -95,7 +89,6 @@ const SectionHeading = ({ onSearch }) => {
                 </ul>
               )}
             </div>
-            {/* Nhập địa điểm trả hàng */}
             <div className="search_input_container">
               <input
                 type="text"
@@ -119,7 +112,6 @@ const SectionHeading = ({ onSearch }) => {
                 </ul>
               )}
             </div>
-            {/* Nhập khối lượng hàng hóa */}
             <div className="search_input_container">
               <input
                 type="number"

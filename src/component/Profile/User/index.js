@@ -14,6 +14,7 @@ const DashboardProfile = () => {
   const location = useLocation();
   const [tab, setTab] = useState("profile");
   const userId = localStorage.getItem("userId");
+
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
   );
@@ -21,7 +22,6 @@ const DashboardProfile = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tabParam = params.get("tab");
-    console.log("Tab Param:", tabParam);
     if (tabParam) {
       setTab(tabParam);
     } else {
