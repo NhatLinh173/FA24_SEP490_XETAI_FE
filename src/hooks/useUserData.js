@@ -16,14 +16,12 @@ const useUserData = () => {
           setUserData(response.data);
           setError(null);
         } catch (err) {
-          console.error("Error fetching user data:", err);
           setError(err);
         } finally {
           setLoading(false);
         }
       } else {
         setLoading(false);
-        setError("User ID not found in localStorage");
       }
     };
 

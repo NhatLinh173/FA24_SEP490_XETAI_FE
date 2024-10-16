@@ -3,6 +3,7 @@ import axiosInstance from "../config/axiosConfig";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -13,19 +14,20 @@ const useAuth = () => {
   const history = useHistory();
 
   const handleLogin = async (email, password) => {
-    console.log("Login", email, password);
     try {
-      const { data } = await axiosInstance.post("/auth/login", {
-        email,
-        password,
-      });
-      console.log(data);
+      const { data } = await axios.post(
+        "http://localhost:3005/auth/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
       if (data) {
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("userId", data._id);
         localStorage.setItem("driverId", data.driverId);
         localStorage.setItem("avatar", data.avatar);
-        Cookies.set("refreshToken", data.refreshToken);
         setAvatar(data.avatar);
         setIsAuthenticated(true);
         history.push("/");

@@ -1,28 +1,29 @@
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
-import axiosInstance from "../../../config/axiosConfig"
-import { toast } from "react-toastify"
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import axiosInstance from "../../../config/axiosConfig";
+import { toast } from "react-toastify";
+import { CiHeart, FaHeart } from "react-icons/ci";
 
 const TripDetail = () => {
-  const { id } = useParams()
-  const driverId = localStorage.getItem("driverId")
-  const userId = localStorage.getItem("userId")
+  const { id } = useParams();
+  const driverId = localStorage.getItem("driverId");
+  const userId = localStorage.getItem("userId");
 
   const handleFavoriteDriver = async () => {
     try {
       const response = await axiosInstance.post("/favorites/add", {
         driverId,
         userId,
-      })
+      });
       if (response.status === 200) {
-        toast.success("Đã thêm tài xế vào danh sách yêu thích")
+        toast.success("Đã thêm tài xế vào danh sách yêu thích");
       } else {
-        toast.error("Thêm tài xế vào danh sách yêu thích thất bại")
+        toast.error("Thêm tài xế vào danh sách yêu thích thất bại");
       }
     } catch (error) {
-      console.error("Error adding favorite driver:", error)
-      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.")
+      console.error("Error adding favorite driver:", error);
+      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.");
     }
-  }
+  };
 
   const DUMMY_DATA = {
     trip_name: "Đà Nẵng - Hải Phòng",
@@ -39,17 +40,17 @@ const TripDetail = () => {
     customer_name: "Nguyen Van A",
     email: "vana@gmail.com",
     phone_number: "098765432",
-  }
+  };
 
   const STATUS = {
     0: "Đã Huỷ ",
     1: "Đã giao",
-  }
+  };
 
   const STATUS_BADGE_CLASS = {
     0: "badge-warning",
     1: "badge-info",
-  }
+  };
 
   return (
     <div className="wrapper container pb-5">
@@ -261,7 +262,13 @@ const TripDetail = () => {
                   <div className="fw-600">Nguyễn Xuân Tùng</div>
                   <tel className="fs-14 text-secondary">0987654321</tel>
                   <div>
-                    <button onClick={handleFavoriteDriver}>Yêu Thích</button>
+                    <a
+                      onClick={handleFavoriteDriver}
+                      style={{ fontSize: "30px" }}
+                    >
+                      {" "}
+                      <CiHeart />{" "}
+                    </a>
                   </div>
                 </div>
               </div>
@@ -304,7 +311,7 @@ const TripDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TripDetail
+export default TripDetail;

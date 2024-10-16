@@ -10,13 +10,12 @@ const RequestQuoteForm = () => {
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
   );
-  const { email, phone, fullName } = data;
+  const { email, phone, fullName, balance } = data || {};
   const [newEmail, setNewEmail] = useState("");
   const [newPhone, setNewPhone] = useState(0);
   const [newFullName, setNewFullName] = useState("");
   const [orderType, setNewOrderType] = useState("");
   const [addressFrom, setNewAddressFrom] = useState("");
-
   const [addressTo, setNewAddressTo] = useState("");
   const [totalWeight, setNewTotalWeight] = useState("");
   const [cost, setNewCost] = useState("");
@@ -29,20 +28,23 @@ const RequestQuoteForm = () => {
   const [cityTo, setCityTo] = useState("");
   const [costError, setCostError] = useState("");
   const [weightError, setWeightError] = useState("");
-
+  const [currentBalance, setCurrentBalance] = useState(balance || 0);
   const getCity = async () => {
     try {
       const res = await axios.get("https://provinces.open-api.vn/api/");
       setCities(res.data);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
   };
 
   useEffect(() => {
     setNewEmail(email);
     setNewPhone(phone);
     setNewFullName(fullName);
+    setCurrentBalance(balance);
     getCity();
-  }, [email, phone, fullName]);
+  }, [email, phone, fullName, balance]);
 
   const handleOrderTypeChange = (e) => {
     setNewOrderType(e.target.value);
@@ -122,14 +124,19 @@ const RequestQuoteForm = () => {
         recipientName,
         recipientPhone,
       });
-      console.log(response);
-      if (response.status === 200) {
+      if (response.status === 201) {
         toast.success("Đăng Bài thành công");
+        refetch();
+      } else {
+        toast.error("Có lỗi xảy ra, vui lòng thử lại!!!.");
       }
-      refetch();
     } catch (error) {
-      if (error.response.status === 400) {
-        toast.error("Vui lòng điền đầy đủ thông tin");
+      if (error.response?.status === 400) {
+        toast.error(
+          "Số dư tài khoảng không đủ để đăng bài. Vui lòng nạp thêm tiền."
+        );
+      } else {
+        toast.error("Có lỗi xảy ra, vui lòng thử lại.");
       }
     }
   };
@@ -242,16 +249,6 @@ const RequestQuoteForm = () => {
                       onChange={handleOrderTypeChange}
                     />
                   </div>
-                  {/* <div className="col-lg-6">
-                    <div className="form-group">
-                      <label className="font-weight-bold">Thành phố đi</label>
-                      <select className="form-control first_null">
-                        <option>da nang</option>
-                        <option>Hue</option>
-                      </select>
-                    </div>
-                  </div> */}
-
                   <div className="col-lg-6">
                     <FormInput
                       tag={"input"}
