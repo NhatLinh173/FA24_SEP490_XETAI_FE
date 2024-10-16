@@ -11,12 +11,6 @@ const CommonBanner = (props) => {
               <div className="inner_banner_text">
                 <h2>{props.heading}</h2>
                 <ul>
-                  <li>
-                    <Link to="/">Home</Link>
-                  </li>
-                  <li>
-                    <i className="fas fa-angle-right"></i>
-                  </li>
                   <li className="active">{props.page}</li>
                 </ul>
               </div>
