@@ -46,7 +46,6 @@ const RequestQuoteForm = () => {
   const [isDisable, setIsDisable] = useState(false);
   const [imgs, setImgs] = useState([]);
 
-
   const getCity = async () => {
     try {
       const res = await axios.get("https://provinces.open-api.vn/api/");
@@ -282,7 +281,7 @@ const RequestQuoteForm = () => {
         refetch();
       } else {
         toast.error("Có lỗi xảy ra, vui lòng thử lại!!!.");
-
+      }
       console.log(response);
       if (response.status === 200) {
         toast.success("Tạo đơn hàng thành công");
@@ -300,7 +299,6 @@ const RequestQuoteForm = () => {
         setEmailError("");
         setRecipientEmailError("");
         setNewCost("");
-
       }
     } catch (error) {
       if (error.response?.status === 400) {

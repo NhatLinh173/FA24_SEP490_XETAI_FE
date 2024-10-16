@@ -31,9 +31,9 @@ const ServiceCard = ({
         <p>
           <FaWeightHanging /> Khối lượng: {weight} kg
         </p>
-        <p>Tổng tiền: {price} VNĐ</p>
+        <p>Tổng tiền: {price}</p>
       </div>
-      <Link to={`/service/${id}`} className="read_more_btn">
+      <Link to={`/service/${id}`} className="btn btn-theme w-100">
         Xem chi tiết
       </Link>
     </div>

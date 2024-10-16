@@ -1,7 +1,6 @@
 import React from "react";
 import CommonBanner from "../component/Common/Banner";
 import SignInForm from "../component/SignIn";
-import OurPartner from "../component/Common/OurPartner";
 
 const SignIn = () => {
   return (
