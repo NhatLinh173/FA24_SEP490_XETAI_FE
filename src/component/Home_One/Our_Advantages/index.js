@@ -32,7 +32,7 @@ const OurAdvantage = () => {
               <div className="col-lg-8 col-md-12 col-sm-12 col-12">
                 <div className="our_advantages_inner">
                   <div className="heading-left-border">
-                    <h2>Our Advantages</h2>
+                    <h2>Ưu điểm</h2>
                   </div>
                   <div className="advantages_slider">
                     <OwlCarousel

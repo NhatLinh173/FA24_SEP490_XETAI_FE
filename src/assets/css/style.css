@@ -325,7 +325,7 @@ section {
 
 /* --Common Area Banner-- */
 #inner_area_banner {
-  background-image: url("../img/common/inner_banner.png");
+  background-image: url("../img/CreateOrder/pexels-kelly-1179532-13766346\ \(1\).jpg");
   padding: 245px 0 120px 0;
 }
 
@@ -1631,7 +1631,7 @@ Search Overlay CSS
 
 /* --Banner Area Start-- */
 .banner-img-one {
-  background-image: url("../img/homepage/pexels-hormel-media-1095814.jpg");
+  background-image: url("../img/homepage/pexels-carloscruz-artegrafia-172084181-11087830.jpg");
 }
 
 .banner-img-two {
@@ -1639,7 +1639,7 @@ Search Overlay CSS
 }
 
 .banner-img-three {
-  background-image: url("../img/homepage/pexels-thatguycraig000-2449454.jpg");
+  background-image: url("../img/homepage/pexels-igor-passchier-111147847-27508769.jpg");
 }
 
 .banner-item {
@@ -2136,9 +2136,9 @@ Search Overlay CSS
 
 /* --About Area End-- */
 
-/* --Our Advantages Area Start-- */
+/* --Our Advantages Area Start-- //1920*700*/
 #our_advantages_area {
-  background-image: url("../img/home1/truck-banner.png");
+  background-image: url("../img/homepage/pexels-thatguycraig000-2449454.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

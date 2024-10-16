@@ -134,18 +134,23 @@ const RequestQuoteForm = () => {
     }
   };
   const handleRecipientNameChange = (e) => {
-    const nameRegex = /^[A-Za-z\s]+$/;
-    if (e.target.value.length > 30) {
+    const value = e.target.value;
+    const nameRegex = /^[\p{L}\s]+$/u;
+
+    if (value.trim() === "") {
+      setRecipientNameError("");
+    } else if (value.length > 30) {
       setRecipientNameError("*Trường này giới hạn 30 kí tự");
       setIsDisable(true);
-    } else if (!nameRegex.test(e.target.value)) {
+    } else if (!nameRegex.test(value)) {
       setRecipientNameError("*Trường này không được nhập số");
       setIsDisable(true);
     } else {
       setRecipientNameError("");
       setIsDisable(false);
     }
-    setRecipientName(e.target.value);
+
+    setRecipientName(value);
   };
   const handleRecipientPhoneChange = (e) => {
     const value = e.target.value;
@@ -200,18 +205,25 @@ const RequestQuoteForm = () => {
     }
   };
   const handleFullNameChange = (e) => {
-    const nameRegex = /^[A-Za-z\s]+$/;
-    if (e.target.value.length > 30) {
+    const value = e.target.value;
+    const nameRegex = /^[\p{L}\s]+$/u;
+
+    if (value === "") {
+      // Khi giá trị rỗng, không hiển thị lỗi
+      setNewFullNameError("");
+      setIsDisable(false);
+    } else if (value.length > 30) {
       setNewFullNameError("*Trường này giới hạn 30 kí tự");
       setIsDisable(true);
-    } else if (!nameRegex.test(e.target.value)) {
+    } else if (!nameRegex.test(value)) {
       setNewFullNameError("Trường này không được nhập số");
       setIsDisable(true);
     } else {
       setNewFullNameError("");
       setIsDisable(false);
     }
-    setNewFullName(e.target.value);
+
+    setNewFullName(value);
   };
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -260,7 +272,7 @@ const RequestQuoteForm = () => {
       });
       console.log(response);
       if (response.status === 200) {
-        toast.success("Đăng Bài thành công");
+        toast.success("Tạo đơn hàng thành công");
         setNewOrderType("");
         setNewAddressFrom("");
         setNewAddressTo("");
@@ -274,6 +286,7 @@ const RequestQuoteForm = () => {
         setWeightError("");
         setEmailError("");
         setRecipientEmailError("");
+        setNewCost("");
       }
       refetch();
     } catch (error) {
@@ -485,8 +498,8 @@ const RequestQuoteForm = () => {
                       name={"bill"}
                       id={"bill"}
                       classes={"form-control"}
-                      placeholder={"Giá Tiền"}
-                      label="Giá Tiền (VND)"
+                      placeholder={"Giá vận chuyển"}
+                      label="Giá vận chuyển (VND)"
                       value={cost}
                       onChange={handleCostChange}
                     />

@@ -5,26 +5,26 @@ import Counter from "./Counter";
 import img1 from "../../../assets/img/About/pexels-quintingellar-2199293 (1).jpg";
 import img2 from "../../../assets/img/home1/sign.png";
 // Counter Data
-const CounterData = [
-  {
-    countStart: 100,
-    countEnd: 12345,
-    heading: "COMPANY ESTABLISHED",
-    icon: " fas fa-building",
-  },
-  {
-    countStart: 100,
-    countEnd: 12345,
-    heading: "COUNTRIES SERVED",
-    icon: "fas fa-globe",
-  },
-  {
-    countStart: 100,
-    countEnd: 12345,
-    heading: "PORTS SERVED",
-    icon: " fas fa-building",
-  },
-];
+// const CounterData = [
+//   {
+//     countStart: 100,
+//     countEnd: 12345,
+//     heading: "COMPANY ESTABLISHED",
+//     icon: " fas fa-building",
+//   },
+//   {
+//     countStart: 100,
+//     countEnd: 12345,
+//     heading: "COUNTRIES SERVED",
+//     icon: "fas fa-globe",
+//   },
+//   {
+//     countStart: 100,
+//     countEnd: 12345,
+//     heading: "PORTS SERVED",
+//     icon: " fas fa-building",
+//   },
+// ];
 
 const HomeAbout = () => {
   return (
@@ -59,7 +59,7 @@ const HomeAbout = () => {
               </div>
             </div>
           </div>
-          <div className="about_counter_area">
+          {/* <div className="about_counter_area">
             <div className="row">
               {CounterData.map((data, index) => (
                 <Counter
@@ -71,7 +71,7 @@ const HomeAbout = () => {
                 />
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </>
