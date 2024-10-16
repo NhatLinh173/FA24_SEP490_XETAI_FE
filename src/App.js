@@ -48,6 +48,7 @@ import NotificationHandler from "./config/NotificationHandler";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
 
+
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { handleLogout } = useAuth();
@@ -57,7 +58,6 @@ const App = () => {
       <Router>
         <ScrollToTop>
           <Navbar openModal={openModal} />
-          <ToastContainer />
           <NotificationHandler />
           <Switch>
             <Route path="/" exact component={Home_One} />
@@ -120,6 +120,7 @@ const App = () => {
           <CustomModal isOpen={isOpen} closeModal={closeModal} />
         </ScrollToTop>
       </Router>
+      <ToastContainer />
     </WebSocketProvider>
   );
 };

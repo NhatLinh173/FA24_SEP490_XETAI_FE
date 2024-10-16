@@ -16,6 +16,7 @@
     "ajv-keywords": "^5.1.0",
     "axios": "^1.7.5",
     "bootstrap": "^5.3.3",
+    "dayjs": "^1.11.13",
     "firebase": "^10.13.0",
     "fuse.js": "^7.0.0",
     "google-map-react": "^2.1.9",

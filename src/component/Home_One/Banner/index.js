@@ -40,14 +40,11 @@ const HomeBanner = () => {
                   <div className="row">
                     <div className="col-lg-8 col-md-12 col-sm-12 col-12">
                       <div className="banner-text">
-                        <h1>
-                          Shipping Products <br />
-                          Worldwide
-                        </h1>
+                        <h1>Hệ thống quản lý vận tải hàng hóa đường bộ</h1>
                         <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua quis ipsum suspendisse.
+                          "Vận tải Bắc Nam – Kết nối mọi nhà, phục vụ tận tâm,
+                          mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
+                          chuyến hàng khắp mọi miền tổ quốc."
                         </p>
                         <Link className="btn btn-theme" to="/request_quote">
                           Tạo Đơn Hàng
@@ -64,14 +61,11 @@ const HomeBanner = () => {
                   <div className="row">
                     <div className="col-lg-8 col-md-12 col-sm-12 col-12">
                       <div className="banner-text">
-                        <h1>
-                          Shipping Products <br />
-                          Worldwide
-                        </h1>
+                        <h1>Hệ thống quản lý vận tải hàng hóa đường bộ</h1>
                         <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua quis ipsum suspendisse.
+                          "Vận tải Bắc Nam – Kết nối mọi nhà, phục vụ tận tâm,
+                          mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
+                          chuyến hàng khắp mọi miền tổ quốc."
                         </p>
                         <Link className="btn btn-theme" to="/request_quote">
                           Tạo Đơn Hàng
@@ -88,14 +82,11 @@ const HomeBanner = () => {
                   <div className="row">
                     <div className="col-lg-8 col-md-12 col-sm-12 col-12">
                       <div className="banner-text">
-                        <h1>
-                          Shipping Products <br />
-                          Worldwide
-                        </h1>
+                        <h1>Hệ thống quản lý vận tải hàng hóa đường bộ</h1>
                         <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua quis ipsum suspendisse.
+                          "Vận tải Bắc Nam – Kết nối mọi nhà, phục vụ tận tâm,
+                          mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
+                          chuyến hàng khắp mọi miền tổ quốc."
                         </p>
                         <Link className="btn btn-theme" to="/request_quote">
                           Tạo Đơn Hàng

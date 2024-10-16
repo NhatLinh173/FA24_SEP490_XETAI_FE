@@ -1,42 +1,99 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import VehicalForm from "./VehicalForm"
-
-const DUMMY_DATA = {
-  car_img:
-    "https://bizweb.dktcdn.net/100/084/618/products/ben-howo-3-chan-ban-full-nhap-khau.jpg?v=1629107651767",
-  register_img: "https://winlegal.vn/wp-content/uploads/2023/10/image1-8.jpg",
-  name: "abc",
-  car_type: 1,
-  license_plate_number: "29H2-33344",
-  weight_capacity: "100",
-  register_date: "2024-10-09",
-}
+import axiosInstance from "../../../config/axiosConfig"
+import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import { toast } from "react-toastify"
 
 const VehicalDetail = () => {
-  const [editable, setEditable] = useState(false)
-  const [state, setState] = useState(DUMMY_DATA)
+  const { id } = useParams()
 
-  const handleSubmit = () => {
-    console.log(state)
-    setEditable(true)
+  const [editable, setEditable] = useState(false)
+  const [vehical, setVehical] = useState(null)
+  const [defaultVehical, setDefaultVehical] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  // TODO: handle error case when call api
+  const handleSubmit = async () => {
+    const formData = new FormData()
+
+    const { imageCar, imageRegistration, ...withoutImageData } = vehical
+
+    Object.keys(withoutImageData).forEach((key) => {
+      formData.append(key, withoutImageData[key])
+    })
+
+    if (typeof imageCar === "object" && !Array.isArray(imageCar)) {
+      formData.append("imageCar", imageCar)
+    }
+
+    if (
+      typeof imageRegistration === "object" &&
+      !Array.isArray(imageRegistration)
+    ) {
+      formData.append("imageRegistration", imageRegistration)
+    }
+
+    setLoading(true)
+
+    await axiosInstance.put(`/car/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+
+    setLoading(false)
+
+    setEditable(false)
+    toast.success("Cập nhật thành công.")
   }
+
+  const getVehicalDetail = async () => {
+    try {
+      const response = await axiosInstance.get(`/car/${id}`)
+
+      const transformedData = {
+        ...response.data,
+        imageCar: response.data.imageCar[0],
+        imageRegistration: response.data.imageRegistration[0],
+      }
+
+      setVehical(transformedData)
+      setDefaultVehical(transformedData)
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    getVehicalDetail()
+  }, [])
+
+  if (!vehical || !defaultVehical)
+    return (
+      <div className="wrapper container text-center font-weight-bold">
+        Không có data
+      </div>
+    )
 
   return (
     <div className="wrapper container pb-5">
       <div className="col">
-        <h2 className="mb-3">Chi tiết xe: Mazda</h2>
+        <h2 className="mb-3">Chi tiết xe: {defaultVehical.nameCar}</h2>
 
         <div className="border rounded-12 p-3">
-          <div className="mt-5 d-flex justify-content-center gap-3 flex-column">
-            <VehicalForm editable={editable} data={state} setData={setState} />
+          <div className="d-flex justify-content-center gap-3 flex-column">
+            <VehicalForm
+              editable={editable}
+              data={vehical}
+              setData={setVehical}
+            />
 
             <div className="mt-4 d-flex justify-content-center gap-3">
               <button
                 type="button"
                 class={`btn ${editable ? "" : "btn-theme"}`}
+                disabled={loading}
                 onClick={() => {
                   setEditable((prev) => !prev)
-                  setState(DUMMY_DATA)
+                  setVehical(defaultVehical)
                 }}
               >
                 {editable ? "Quay lại" : "Chỉnh sửa"}
@@ -46,9 +103,10 @@ const VehicalDetail = () => {
                 <button
                   type="button"
                   class="btn btn-theme"
+                  disabled={loading}
                   onClick={handleSubmit}
                 >
-                  Xác nhận
+                  {loading ? "Loading" : "Xác nhận"}
                 </button>
               )}
             </div>

@@ -256,7 +256,6 @@ select:focus {
 }
 
 .btn {
-  color: var(--heading-color);
   position: relative;
   display: inline-block;
   padding: 0 35px;
@@ -326,7 +325,7 @@ section {
 
 /* --Common Area Banner-- */
 #inner_area_banner {
-  background-image: url("../img/common/inner_banner.png");
+  background-image: url("../img/CreateOrder/pexels-kelly-1179532-13766346\ \(1\).jpg");
   padding: 245px 0 120px 0;
 }
 
@@ -1632,15 +1631,15 @@ Search Overlay CSS
 
 /* --Banner Area Start-- */
 .banner-img-one {
-  background-image: url("../img/home1/banner-bg1.jpg");
+  background-image: url("../img/homepage/pexels-carloscruz-artegrafia-172084181-11087830.jpg");
 }
 
 .banner-img-two {
-  background-image: url("../img/home1/banner-bg2.jpg");
+  background-image: url("../img/homepage/pexels-500photos-com-15338-93398.jpg");
 }
 
 .banner-img-three {
-  background-image: url("../img/home1/banner-bg3.jpg");
+  background-image: url("../img/homepage/pexels-igor-passchier-111147847-27508769.jpg");
 }
 
 .banner-item {
@@ -2137,9 +2136,9 @@ Search Overlay CSS
 
 /* --About Area End-- */
 
-/* --Our Advantages Area Start-- */
+/* --Our Advantages Area Start-- //1920*700*/
 #our_advantages_area {
-  background-image: url("../img/home1/truck-banner.png");
+  background-image: url("../img/homepage/pexels-thatguycraig000-2449454.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -2241,7 +2240,7 @@ Search Overlay CSS
 /* --Client Area Strat-- */
 #client_review_area {
   padding: 120px 0 0;
-  background-image: url("../img/home1/shipments.jpg");
+  background-image: url("../img/Testimonial/pexels-marcin-jozwiak-199600-2800121.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -4522,6 +4521,12 @@ textarea {
 .h-custom {
   height: 100% !important;
 }
+.input-custom {
+  display: none;
+}
+.pointer {
+  cursor: pointer;
+}
 
 /* =============================
        FavoriteDriver Page Start
@@ -4998,11 +5003,11 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .addressFrom-input {
-  margin-top: -9px;
+  margin-top: -6px;
 }
 
 .addressTo-input {
-  margin-top: -7px;
+  margin-top: -6px;
 }
 
 .custom-select {
@@ -5011,4 +5016,58 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .options-text {
   color: black !important;
+}
+
+.bottom-error {
+  bottom: 0;
+}
+.marginBottom-error {
+  bottom: 7px;
+}
+.cursor-disable {
+  cursor: not-allowed;
+}
+
+.image-form {
+  gap: 40px;
+}
+
+.image-form img {
+  width: 400px;
+}
+.img-upload img {
+  width: 400px;
+}
+.delete-imgs {
+  cursor: pointer;
+  font-size: 20px;
+  font-size: 24px;
+  right: -3%;
+  top: -4%;
+  color: red;
+}
+.delete-img {
+  cursor: pointer;
+  font-size: 20px;
+  font-size: 24px;
+  right: -2%;
+  top: -3%;
+  color: red;
+}
+.carousel-bg {
+  background: transparent;
+  cursor: pointer;
+  opacity: 1 !important;
+}
+.carousel-bg span {
+  filter: brightness(0) saturate(100%) invert(98%) sepia(64%) saturate(6899%)
+    hue-rotate(7deg) brightness(101%) contrast(85%);
+}
+.bt-error {
+  top: 100%;
+  left: 2%;
+}
+
+.width-img {
+  width: 100px;
 }
