@@ -12,7 +12,7 @@ import { jwtDecode } from "jwt-decode";
 
 const IndexPage = () => {
   const history = useHistory();
-  const location = useLocation();
+
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const token = query.get("token");
@@ -30,39 +30,6 @@ const IndexPage = () => {
       }
     }
   }, [history]);
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const status = queryParams.get("status");
-    const orderCode = queryParams.get("orderCode");
-    if (orderCode) {
-      sessionStorage.setItem("orderCode", orderCode);
-    }
-    const token = localStorage.getItem("accessToken");
-    const fetchPaymentCallback = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3005/payment/callback",
-          {
-            params: {
-              status,
-              orderCode,
-            },
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response.status === 200) {
-          console.log("Response Data:", response.data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchPaymentCallback();
-  }, [location.search]);
 
   return (
     <>
