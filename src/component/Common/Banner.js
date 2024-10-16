@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 // CommonBanner Area
 const CommonBanner = (props) => {
   return (

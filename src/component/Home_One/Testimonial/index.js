@@ -67,7 +67,7 @@ const Testimonials = () => {
               </div>
               <div className="review_button">
                 <a href="#!" className="btn btn-theme mb-2">
-                  More Review
+                  Xem thêm
                 </a>
               </div>
             </div>

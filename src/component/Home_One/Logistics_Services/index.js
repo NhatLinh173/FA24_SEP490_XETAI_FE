@@ -5,6 +5,7 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import useInstanceData from "../../../config/useInstanceData";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const LogisticsService = () => {
   const { data: post } = useInstanceData(`/posts`);
@@ -19,9 +20,7 @@ const LogisticsService = () => {
                 <div className="logistic_tabs_button">
                   <ul>
                     <li>
-                      <button className="active mb-4 ">
-                        Military Logistics
-                      </button>
+                      <button className="active mb-4 ">Đơn Hàng</button>
                     </li>
                   </ul>
                 </div>
@@ -32,7 +31,7 @@ const LogisticsService = () => {
                     autoplayHoverPause={true}
                     autoplayTimeout={2500}
                     loop={true}
-                    margin={10}
+                    margin={20}
                     nav={false}
                     dots={true}
                   >
@@ -53,6 +52,11 @@ const LogisticsService = () => {
                         />
                       ))}
                   </OwlCarousel>
+                </div>
+                <div className="review_button">
+                  <Link to="/service" className="btn btn-theme mb-2">
+                    Xem thêm
+                  </Link>
                 </div>
               </div>
             </div>

@@ -7,7 +7,7 @@ export const getMenuData = () => {
       has_children: false,
     },
     {
-      name: "Dịch Vụ",
+      name: "Đơn Hàng",
       href: "/service",
       has_children: false,
     },
@@ -21,11 +21,16 @@ export const getMenuData = () => {
       href: "/contact",
       has_children: false,
     },
-    {
-      name: isLoggedIn ? "Thông Tin" : "Đăng Nhập",
-      href: isLoggedIn ? "/profile" : "/signIn",
-      has_children: false,
-    },
+    ...(!isLoggedIn
+      ? [
+          {
+            name: "Đăng Nhập",
+            href: "/signIn",
+            has_children: false,
+          },
+        ]
+      : []),
+
     ...(!isLoggedIn
       ? [
           {

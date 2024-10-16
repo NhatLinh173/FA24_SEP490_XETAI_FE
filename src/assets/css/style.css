@@ -3264,44 +3264,6 @@ Search Overlay CSS
   object-fit: cover;
 }
 
-.read_more_btn {
-  display: inline-block;
-  /* Khoảng cách giữa các phần tử trên cùng */
-  padding: 10px 20px;
-  /* Padding cho nút */
-  color: #fff;
-  /* Màu chữ */
-  background-color: #3eca2f;
-  /* Màu nền của nút */
-  border: none;
-  /* Không có đường viền */
-  border-radius: 5px;
-  /* Bo tròn góc nút */
-  text-align: center;
-  /* Căn giữa văn bản */
-  text-decoration: none;
-  /* Không có gạch chân */
-  font-size: 14px;
-  /* Kích thước chữ */
-  cursor: pointer;
-  /* Con trỏ chuột khi di chuột lên nút */
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  /* Hiệu ứng chuyển tiếp */
-}
-
-.read_more_btn:hover {
-  background-color: #ffffff;
-  /* Màu nền khi di chuột lên nút */
-  transform: translateY(-2px);
-  /* Hiệu ứng di chuyển nhẹ lên khi di chuột */
-}
-
-.read_more_btn:active {
-  /* Màu nền khi nút bị nhấn */
-  transform: translateY(0);
-  /* Đưa nút về vị trí bình thường khi nhấn */
-}
-
 .service-details {
   padding: 15px;
   /* Padding giống với service-caption */
