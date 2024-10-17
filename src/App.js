@@ -48,7 +48,6 @@ import NotificationHandler from "./config/NotificationHandler";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
 
-
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { handleLogout } = useAuth();

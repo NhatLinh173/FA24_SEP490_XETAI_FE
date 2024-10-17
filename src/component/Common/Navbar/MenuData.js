@@ -21,16 +21,16 @@ export const getMenuData = () => {
       href: "/contact",
       has_children: false,
     },
+
     ...(!isLoggedIn
       ? [
           {
-            name: "Đăng Nhập",
-            href: "/signIn",
+            name: "Đăng nhập",
+            href: "#",
             has_children: false,
           },
         ]
       : []),
-
     ...(!isLoggedIn
       ? [
           {
