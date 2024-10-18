@@ -370,14 +370,15 @@ const HistoryPostDetail = () => {
 
   return (
     <div className="wrapper container pb-5">
-      <ToastContainer /> {/* Thêm ToastContainer vào đây */}
+      <ToastContainer />
       <div className="row">
         {/* Left Side: Service Details */}
         <div className="col-md-8">
           {(post.status === "wait" || post.status === "hide") && (
             <div>
-              {totalImage && totalImage.length > 0 && (
+              {totalImage.length > 0 && (
                 <div>
+                  {/* Hiển thị ảnh đã tải lên */}
                   <div
                     className={`d-flex image-form align-items-center mb-3 ${
                       totalImage.length === 1
@@ -396,7 +397,7 @@ const HistoryPostDetail = () => {
                         <img
                           src={image}
                           alt=""
-                          className={`rounded-12  ${
+                          className={`rounded-12 ${
                             totalImage.length === 1 ? "w-100" : ""
                           }`}
                         />
@@ -406,28 +407,28 @@ const HistoryPostDetail = () => {
                               ? "delete-img"
                               : "delete-imgs"
                           }`}
-                          onClick={() => handleDeleteImage(index)} // Hàm để xóa ảnh
+                          onClick={() => handleDeleteImage(index)}
                         />
                       </div>
                     ))}
                   </div>
-                  <div className="text-center">
-                    <input
-                      className="input-custom "
-                      id="file-upload"
-                      type="file"
-                      onChange={handleFileChange}
-                    />
-                    <label
-                      className="border rounded-12 p-3 pointer img-upload width-img"
-                      htmlFor="file-upload" // Sửa từ "for" thành "htmlFor"
-                    >
-                      <img src={imgUpload} alt="upload" />
-                    </label>
-                    <p className="font-weight-bold">Tải ảnh lên</p>
-                  </div>
                 </div>
               )}
+              <div className="text-center">
+                <input
+                  className="input-custom"
+                  id="file-upload"
+                  type="file"
+                  onChange={handleFileChange}
+                />
+                <label
+                  className="border rounded-12 p-3 pointer img-upload width-img"
+                  htmlFor="file-upload"
+                >
+                  <img src={imgUpload} alt="upload" />
+                </label>
+                <p className="font-weight-bold">Tải ảnh lên</p>
+              </div>
             </div>
           )}
 
