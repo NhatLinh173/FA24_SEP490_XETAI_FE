@@ -585,12 +585,21 @@ const HistoryPostDetail = () => {
                           className="w-25 "
                           onChange={handleCityFrom}
                           value={cityFrom}
-                          disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                          style={
-                            post.status === "approve"
-                              ? { cursor: "not-allowed" }
-                              : {}
-                          }
+                          disabled={
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                          } // Kiểm tra trạng thái đơn
+                          style={{
+                            cursor:
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel"
+                                ? "not-allowed"
+                                : "auto",
+                          }}
                         >
                           {cities.map((city) => (
                             <option value={city.name}>{city.name}</option>
@@ -603,12 +612,21 @@ const HistoryPostDetail = () => {
                             onChange={handleStartPoint}
                             type="text"
                             className="form-control position-relative"
-                            disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                            style={
-                              post.status === "approve"
-                                ? { cursor: "not-allowed" }
-                                : {}
-                            }
+                            disabled={
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel"
+                            } // Kiểm tra trạng thái đơn
+                            style={{
+                              cursor:
+                                post.status === "approve" ||
+                                post.status === "inprogress" ||
+                                post.status === "finish" ||
+                                post.status === "cancel"
+                                  ? "not-allowed"
+                                  : "auto",
+                            }}
                           />
                           {startPointError && (
                             <div className="text-danger position-absolute ">
@@ -630,12 +648,21 @@ const HistoryPostDetail = () => {
                           className="w-25"
                           onChange={handleCityTo}
                           value={cityTo}
-                          disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                          style={
-                            post.status === "approve"
-                              ? { cursor: "not-allowed" }
-                              : {}
-                          }
+                          disabled={
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                          } // Kiểm tra trạng thái đơn
+                          style={{
+                            cursor:
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel"
+                                ? "not-allowed"
+                                : "auto",
+                          }}
                         >
                           {cities.map((city) => (
                             <option value={city.name}>{city.name}</option>
@@ -648,12 +675,21 @@ const HistoryPostDetail = () => {
                             onChange={handleDestination}
                             type="text"
                             className="form-control position-relative"
-                            disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                            style={
-                              post.status === "approve"
-                                ? { cursor: "not-allowed" }
-                                : {}
-                            }
+                            disabled={
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel"
+                            } // Kiểm tra trạng thái đơn
+                            style={{
+                              cursor:
+                                post.status === "approve" ||
+                                post.status === "inprogress" ||
+                                post.status === "finish" ||
+                                post.status === "cancel"
+                                  ? "not-allowed"
+                                  : "auto",
+                            }}
                           />
                           {destinationError && (
                             <div className="text-danger position-absolute ">
@@ -673,12 +709,21 @@ const HistoryPostDetail = () => {
                         type="text"
                         className="form-control position-relative"
                         onChange={handleTitle}
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {titleError && (
                         <div className="text-danger position-absolute bt-error">
@@ -697,12 +742,21 @@ const HistoryPostDetail = () => {
                         onChange={handleLoad}
                         type="text"
                         className="form-control position-relative"
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {weightError && (
                         <div className="text-danger position-absolute bt-error">
@@ -720,12 +774,21 @@ const HistoryPostDetail = () => {
                         onChange={handlePrice}
                         type="text"
                         className="form-control position-relative"
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {priceError && (
                         <div className="text-danger position-absolute bt-error ">
@@ -744,12 +807,21 @@ const HistoryPostDetail = () => {
                         onChange={handleNewDetail}
                         className="form-control position-relative"
                         rows="4"
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
 
                       {detailError && (
@@ -777,12 +849,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={recipientName}
                         onChange={handleReceptionName}
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {recipentNameError && (
                         <div className="text-danger position-absolute bt-error">
@@ -800,12 +881,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={recipientEmail}
                         onChange={handleReceptionEmail}
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {recipentEmailError && (
                         <div className="text-danger position-absolute bt-error">
@@ -823,12 +913,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={recipientPhone}
                         onChange={handleReceptionPhone}
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
 
                       {recipentPhoneError && (
@@ -857,12 +956,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={newFullName}
                         onChange={handleNameChange}
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {fullNameError && (
                         <div className="text-danger position-absolute bt-error">
@@ -880,12 +988,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={newEmail}
                         onChange={handleEmailChange}
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {emailError && (
                         <div className="text-danger position-absolute bt-error">
@@ -903,12 +1020,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={newPhone}
                         onChange={handlePhoneChange}
-                        disabled={post.status === "approve"} // Kiểm tra trạng thái đơn
-                        style={
-                          post.status === "approve"
-                            ? { cursor: "not-allowed" }
-                            : {}
-                        }
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {phoneError && (
                         <div className="text-danger position-absolute bt-error">
@@ -924,7 +1050,12 @@ const HistoryPostDetail = () => {
                     type="submit"
                     className="btn btn-primary btn-lg w-25  cursor-disable"
                     onClick={handleSubmitForm}
-                    disabled={isDisable}
+                    disabled={
+                      isDisable ||
+                      post.status === "finish" ||
+                      post.status === "inprogress" ||
+                      post.status === "cancel"
+                    }
                   >
                     <span>Cập nhật</span>
                   </button>
@@ -1060,12 +1191,7 @@ const HistoryPostDetail = () => {
                       </span>
                     </li>
                   </ul>
-                  <button
-                    className="btn-success rounded border-0 mt-2 text-white"
-                    onClick={() => {
-                      /* Thêm logic để xem chi tiết tài xế */
-                    }}
-                  >
+                  <button className="btn-success rounded border-0 mt-2 text-white">
                     Xem chi tiết
                   </button>
                 </div>
