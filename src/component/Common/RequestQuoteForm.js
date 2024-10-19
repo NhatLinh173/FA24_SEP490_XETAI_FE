@@ -337,7 +337,7 @@ const RequestQuoteForm = () => {
                       {imgs.map((img, index) => (
                         <div
                           className={`position-relative border rounded-12 p-3 d-inline-block ${
-                            imgs.length === 1 ? "w-50" : ""
+                            imgs.length === 1 ? "w-100" : ""
                           }`}
                         >
                           <img
