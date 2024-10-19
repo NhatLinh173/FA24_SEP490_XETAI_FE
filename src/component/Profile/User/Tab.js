@@ -95,7 +95,7 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Ví của bạn</span>
             </button>
           </li>
-          {role === "driver" && (
+          {(role === "personal" || role === "business") && (
             <li>
               <button
                 className={`btn-tab ${tab1 === "vehicals" ? "active" : ""}`}

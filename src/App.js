@@ -44,11 +44,9 @@ import PaymentFailed from "./component/PaymentStatus/PaymentFailed";
 import Chat from "./component/Chat/chat";
 import VehicalDetail from "./component/Profile/User/VehicalDetail";
 import { WebSocketProvider } from "./hooks/WebSocketContext";
-import NotificationHandler from "./config/NotificationHandler";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
-
-
+import AdminDashboard from "../src/component/Admin/adminDashboard";
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { handleLogout } = useAuth();
@@ -58,7 +56,6 @@ const App = () => {
       <Router>
         <ScrollToTop>
           <Navbar openModal={openModal} />
-          <NotificationHandler />
           <Switch>
             <Route path="/" exact component={Home_One} />
             <Route path="/about" exact component={About} />
@@ -98,7 +95,7 @@ const App = () => {
               path="/profile"
               exact
               component={Profile}
-              allowedRoles={["customer"]}
+              allowedRoles={["customer", "personal", "business"]}
             />
             <Route path="/accountType" exact component={AccountTypes} />
             <Route
@@ -114,6 +111,7 @@ const App = () => {
             <Route path="/payment/failed" exact component={PaymentFailed} />
             <Route path="/chat" exact component={Chat} />
             <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
+            <Route path="/dashboard-admin" exact component={AdminDashboard} />
           </Switch>
           <Footer />
           <CopyRight />

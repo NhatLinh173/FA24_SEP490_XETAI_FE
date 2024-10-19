@@ -8,7 +8,6 @@
   justify-content: space-between;
 }
 
-
 .card:hover {
   border-color: red;
 }
@@ -29,12 +28,10 @@
   font-size: 24px;
 }
 
-/* Giữ khoảng cách giữa các mục */
 .card-text {
   margin-bottom: 20px;
 }
 
-/* Style danh sách */
 .card-body ul {
   padding-left: 0;
   list-style-type: none;
@@ -46,7 +43,6 @@
   padding-left: 10px;
 }
 
-/* Dấu gạch ngang trước mỗi dòng */
 .card-body ul li:before {
   content: "-";
   color: blue;
@@ -54,7 +50,7 @@
   left: 0;
 }
 
-/* Đảm bảo nội dung trong thẻ không bị giãn ra */
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -62,12 +58,12 @@
 }
 
 .list-unstyled {
-  padding: 0; /* Bỏ padding mặc định */
-  list-style: none; /* Bỏ dấu đầu dòng */
+  padding: 0; 
+  list-style: none; 
 }
 
 .list-unstyled li {
-  display: block; /* Hiển thị mỗi mục dưới dạng block */
-  text-align: left; /* Căn trái nội dung */
-  margin-bottom: 10px; /* Khoảng cách giữa các mục */
+  display: block; 
+  text-align: left; 
+  margin-bottom: 10px; 
 }

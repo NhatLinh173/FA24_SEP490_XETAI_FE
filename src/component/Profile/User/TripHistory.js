@@ -1,38 +1,40 @@
-import { useEffect, useMemo, useState } from "react"
-import ReactPaginate from "react-paginate"
-import axiosInstance from "../../../config/axiosConfig"
+import { useEffect, useMemo, useState } from "react";
+import ReactPaginate from "react-paginate";
+import axiosInstance from "../../../config/axiosConfig";
 
 export const TripHistory = () => {
-  const [currentPage, setCurrentPage] = useState(0)
-  const [tripHistories, setTripHistories] = useState([])
+  const [currentPage, setCurrentPage] = useState(0);
+  const [tripHistories, setTripHistories] = useState([]);
 
-  const userId = localStorage.getItem("userId")
+  const userId = localStorage.getItem("userId");
 
-  const itemPerPage = 5
+  const itemPerPage = 5;
 
-  const offset = currentPage * itemPerPage
+  const offset = currentPage * itemPerPage;
 
-  const currentPageItems = tripHistories.slice(offset, offset + itemPerPage)
+  const currentPageItems = tripHistories.slice(offset, offset + itemPerPage);
 
   const handlePageClick = (event) => {
-    setCurrentPage(event.selected)
-  }
+    setCurrentPage(event.selected);
+  };
 
   const getTripHistory = async () => {
     try {
-      const response = await axiosInstance.get(`/posts/${userId}/users/history`)
-      setTripHistories(response.data.salePosts)
+      const response = await axiosInstance.get(
+        `/posts/${userId}/users/history`
+      );
+      setTripHistories(response.data.salePosts);
     } catch (error) {}
-  }
+  };
 
   useEffect(() => {
-    getTripHistory()
-  }, [])
+    getTripHistory();
+  }, []);
 
   if (!tripHistories.length)
     return (
       <div className="mt-5 text-center font-weight-bold">Không có data</div>
-    )
+    );
 
   return (
     <div className="delivery-history-list">
@@ -103,5 +105,5 @@ export const TripHistory = () => {
         nextLabel={">>"}
       />
     </div>
-  )
-}
+  );
+};

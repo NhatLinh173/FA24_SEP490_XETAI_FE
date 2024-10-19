@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import { FaMapLocation } from "react-icons/fa6";
 import { FaBoxArchive } from "react-icons/fa6";
 import { FaWeightHanging } from "react-icons/fa";
@@ -12,9 +12,8 @@ const ServiceCard = ({
   dropoffLocation,
   weight,
   price,
-  description,
-  carType,
 }) => {
+  console.log("Title:", );
   return (
     <div className="service-card">
       <img src={img} alt={title} className="service-card-image zoom-image" />

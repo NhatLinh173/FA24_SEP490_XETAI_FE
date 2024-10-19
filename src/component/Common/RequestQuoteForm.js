@@ -46,15 +46,15 @@ const RequestQuoteForm = () => {
   const [isDisable, setIsDisable] = useState(false);
   const [imgs, setImgs] = useState([]);
 
-
   const getCity = async () => {
     try {
-      const res = await axios.get("https://provinces.open-api.vn/api/");
+      const res = await axios.get("");
       setCities(res.data);
     } catch (error) {
       console.error("Error fetching cities:", error);
     }
   };
+  // https://provinces.open-api.vn/api/
 
   useEffect(() => {
     setNewEmail(email);
@@ -270,24 +270,12 @@ const RequestQuoteForm = () => {
     formData.append("recipientEmail", recipientEmail);
     formData.append("recipientName", recipientName);
     formData.append("recipientPhone", recipientPhone);
-    try {
-      const response = await axiosInstance.post("/posts", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
 
-      if (response.status === 201) {
+    try {
+      const response = await axiosInstance.post("/posts", formData);
+      if (response.status === 200) {
         toast.success("Đăng Bài thành công");
         refetch();
-      } else {
-        toast.error("Có lỗi xảy ra, vui lòng thử lại!!!.");
-
-      console.log(response);
-      if (response.status === 200) {
-        toast.success("Tạo đơn hàng thành công");
-        setNewOrderType("");
-        setNewAddressFrom("");
         setNewAddressTo("");
         setNewTotalWeight("");
         setNewoderDescription("");
@@ -300,15 +288,14 @@ const RequestQuoteForm = () => {
         setEmailError("");
         setRecipientEmailError("");
         setNewCost("");
-
       }
     } catch (error) {
       if (error.response?.status === 400) {
+        toast.error("Vui lòng điền đầy đủ thông tin!");
+      } else if (error.response?.status === 402) {
         toast.error(
-          "Số dư tài khoảng không đủ để đăng bài. Vui lòng nạp thêm tiền."
+          "Số dư tài khoản không đủ để đăng bài! Vui lòng nạp thêm tiền để đăng bài"
         );
-      } else {
-        toast.error("Có lỗi xảy ra, vui lòng thử lại.");
       }
     }
   };

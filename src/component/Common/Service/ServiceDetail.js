@@ -5,23 +5,28 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import axiosInstance from "../../../config/axiosConfig";
 import { jwtDecode } from "jwt-decode";
+import LoadingAnimation from "../../Animation/loadingAnimation";
 
 const ServiceDetail = () => {
   const { id } = useParams();
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
-  const [negotiatedPrice, setNegotiatedPrice] = useState(""); // Giá thương lượng
-  const [deliveryTime, setDeliveryTime] = useState(""); // Thời gian giao hàng
-  const [isNegotiating, setIsNegotiating] = useState(false); // Xác định người dùng chọn thương lượng
-  const [isConfirming, setIsConfirming] = useState(false); // Xác định người dùng đang xác nhận giá
+  const [negotiatedPrice, setNegotiatedPrice] = useState("");
+  const [deliveryTime, setDeliveryTime] = useState("");
+  const [isNegotiating, setIsNegotiating] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
   const [postData, setPostData] = useState("");
   const [inforPoster, setInforPoster] = useState("");
   const [idPoster, setIdPoster] = useState(null);
   const [userRole, setUserRole] = useState(null);
-
+  const [loading, setLoading] = useState(true);
+  const [postId, setPostId] = useState(null);
+  const [driverId, setDriverId] = useState(null);
   useEffect(() => {
     const decodeToken = () => {
       const token = localStorage.getItem("accessToken");
+      const driverId = localStorage.getItem("driverId");
+      setDriverId(driverId);
       if (token) {
         try {
           const decoded = jwtDecode(token);
@@ -42,17 +47,17 @@ const ServiceDetail = () => {
     setUserRole(role);
   }, []);
 
-  console.log(userRole);
-
   useEffect(() => {
     const getPostById = async () => {
       try {
         const response = await axiosInstance.get(`/posts/${id}`);
-        console.log("Dữ liệu bài viết:", response.data);
+        console.log("Data post", response.data);
+        console.log("DealId", response.data.dealId);
         setPostData(response.data);
         if (response.data.creator && response.data.creator._id) {
           setIdPoster(response.data.creator._id);
-          console.log("ID người đăng:", response.data.creator._id);
+          setPostId(response.data._id);
+          setLoading(false);
         } else {
           console.error("ID người đăng không hợp lệ:", response.data.creator);
         }
@@ -81,7 +86,6 @@ const ServiceDetail = () => {
         const response = await axiosInstance.get(`/auth/user/${posterId}`);
         console.log("Phản hồi từ API:", response);
 
-        // Kiểm tra dữ liệu trả về từ API
         if (response.data) {
           setInforPoster(response.data);
           console.log("Thông tin người đăng:", response.data);
@@ -98,50 +102,71 @@ const ServiceDetail = () => {
     }
   }, [idPoster]);
 
+  if (loading) {
+    return <LoadingAnimation />;
+  }
+
   const handleAcceptOrder = () => {
-    setShowModal(true); // Hiển thị modal
-    setIsConfirming(true); // Bắt đầu xác nhận giá
+    setShowModal(true);
+    setIsConfirming(true);
   };
 
   const handleConfirmPrice = () => {
-    setIsConfirming(false); // Không thương lượng, chấp nhận giá gốc
+    setIsConfirming(false);
   };
 
   const handleNegotiatePrice = () => {
-    setIsNegotiating(true); // Thương lượng giá
-    setIsConfirming(false); // Đóng xác nhận giá
+    setIsNegotiating(true);
+    setIsConfirming(false);
   };
 
-  const handleSubmitOrder = () => {
+  const handleSubmitOrder = async () => {
     if (!deliveryTime) {
       toast.error("Vui lòng chọn thời gian dự kiến giao hàng");
       return;
     }
-    setShowModal(false); // Đóng modal
-    toast.success("Chấp nhận đơn hàng thành công", { autoClose: 2000 });
+
+    const response = await axiosInstance.patch(`/posts/${postId}/deal`, {
+      driverId,
+      status: "approve",
+    });
+    if (response.status === 200) {
+      setShowModal(false);
+      toast.success("Chấp nhận đơn hàng thành công", { autoClose: 2000 });
+    } else {
+      console.error("Lỗi khi Chấp nhận đơn hàng:", response.data);
+      toast.error("Chấp nhận đơn hàng thất bại");
+    }
   };
 
-  const handleSubmitNegotiation = () => {
+  const handleSubmitNegotiation = async () => {
     if (!deliveryTime) {
       toast.error("Vui lòng chọn thời gian dự kiến giao hàng");
       return;
     }
-    setShowModal(false); // Đóng modal
-    toast.success("Gửi yêu cầu thương lượng thành công", { autoClose: 2000 });
+    const response = await axiosInstance.patch(`/posts/${postId}/deal`, {
+      driverId,
+      status: "wait",
+    });
+    if (response.status === 200) {
+      setShowModal(false);
+      toast.success("Thương lượng giá thành công", { autoClose: 2000 });
+    } else {
+      console.error("Lỗi khi thương lượng giá:", response.data);
+      toast.error("Thương lượng giá thất bại");
+    }
   };
 
   const handleCloseModal = () => {
-    setShowModal(false); // Đóng modal
-    setNegotiatedPrice(""); // Đặt lại giá thương lượng
-    setDeliveryTime(""); // Đặt lại thời gian giao hàng
-    setIsNegotiating(false); // Đặt lại trạng thái thương lượng
-    setIsConfirming(false); // Đặt lại trạng thái xác nhận
+    setShowModal(false);
+    setNegotiatedPrice("");
+    setDeliveryTime("");
+    setIsNegotiating(false);
+    setIsConfirming(false);
   };
 
   const handlePriceChange = (e) => {
-    // Lấy giá trị đầu vào và loại bỏ các ký tự không phải số
     const value = e.target.value.replace(/\D/g, "");
-    // Định dạng số với dấu phẩy
     const formattedValue = new Intl.NumberFormat().format(value);
     setNegotiatedPrice(formattedValue);
   };
@@ -161,12 +186,31 @@ const ServiceDetail = () => {
           <div className="border rounded p-3 shadow-sm">
             {/* Service Information */}
             <div className="d-flex border-bottom pb-3 mb-3">
-              <img
-                src={postData.img}
-                alt="service"
-                className="img-fluid rounded"
-                style={{ width: "100%", height: "auto", objectFit: "cover" }}
-              />
+              {postData.images && postData.images.length > 0 ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "10px",
+                  }}
+                >
+                  {postData.images.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`service-${index}`}
+                      style={{
+                        width: "220px",
+                        height: "140px",
+                        objectFit: "cover",
+                        borderRadius: "5px",
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <p>No images available</p>
+              )}
             </div>
             <div>
               <h5 className="font-weight-bold" style={{ marginBottom: "15px" }}>
@@ -322,7 +366,7 @@ const ServiceDetail = () => {
               </div>
             </div>
             <div className="mt-3 d-flex justify-content-end">
-              {userRole === "driver" && (
+              {(userRole === "personal" || userRole === "business") && (
                 <button
                   className="btn btn-accept-order"
                   onClick={handleAcceptOrder}
