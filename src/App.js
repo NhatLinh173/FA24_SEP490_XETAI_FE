@@ -97,7 +97,7 @@ const App = () => {
               path="/profile"
               exact
               component={Profile}
-              allowedRoles={["customer"]}
+              allowedRoles={["customer", "personal", "business  "]}
             />
             <Route path="/accountType" exact component={AccountTypes} />
             <Route
