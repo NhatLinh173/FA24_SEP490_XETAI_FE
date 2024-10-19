@@ -12,6 +12,7 @@ import ServiceDetails from "./page/ServiceDetails";
 import BlogGrid from "./page/BlogGrid";
 import BlogWithSidebar from "./page/BlogWithSidebar";
 import BlogDetails from "./page/BlogDetails";
+import BlogDetail from "./component/BlogDetails/BlogDetail";
 import OurTeamArea from "./page/OurTeam";
 import Testimonials from "./page/Testimonial";
 import Gallery from "./page/Gallery";
@@ -76,6 +77,7 @@ const App = () => {
               component={BlogWithSidebar}
             />
             <Route path="/blog_details" exact component={BlogDetails} />
+            <Route path="/blog/:id" extract component={BlogDetail} />
             <Route path="/our_team" exact component={OurTeamArea} />
             <Route path="/testimonials" exact component={Testimonials} />
             <Route path="/gallery" exact component={Gallery} />

@@ -1,96 +1,116 @@
-import React from 'react'
-// Import All Blog Details Components 
-import BlogSidebar from '../Common/BlogSidebar'
-import AllComment from '../BlogDetails/AllComment'
-import ReplayForm from '../BlogDetails/ReplayForm'
-// Import Blog Details Img
-import DetailsImg from '../../assets/img/blog/blog_singal1.jpg'
+import React from 'react';
+import { Link } from 'react-router-dom';
+// Import Blog Sidebar if needed (commented for now)
+// import BlogSidebar from '../Common/BlogSidebar';
 
 const BlogDetailsArea = () => {
+
     return (
-        <>
-            <section id="blog_area_sidebar">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-8 col-md-12 col-sm-12 col-12">
-                            <div className="single_blog_wrappers">
-                                <div className="blog_single_item">
-                                    <div className="blog_single_text_area">
-                                        <div className="blog_single_top_img">
-                                            <img src={DetailsImg} alt="Details_Img"/>
-                                        </div>
-                                        <div className="blog_single_viewer_area ">
-                                            <ul>
-                                                <li><a href="#!"><i className="far fa-user"></i> Hadayet Ali</a></li>
-                                                <li><a href="#!"><i className="far fa-clock"></i> March 22, 2018</a>
-                                                </li>
-                                                <li><a href="#!"><i className="far fa-comment"></i> 4</a></li>
-                                            </ul>
-                                        </div>
-                                        <div className="blog_single_heading">
-                                            <h3>It is a long established fact that a reader will be.</h3>
-                                        </div>
-                                        <div className="blog_single_text">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
-                                                vehicula mauris ac facilisis congue.
-                                                Fusce sem enim, rhoncus volutpat condimentum ac, placerat semper ligula.
-                                                Suspendisse in viverra justo,
-                                                eu placerat urna. Vestibulum blandit diam suscipit nibh mattis
-                                                ullamcorper. Nullam a condimentum nulla,
-                                                ut facilisis enim. Aliquam sagittis ipsum ex, sed luctus augue venenatis
-                                                ut. Fusce at rutrum tellus,
-                                                ac elementum neque. In nec velit orci. Etiam purus felis, pellentesque
-                                                sit amet tincidunt at, iaculis
-                                                quis erat. Morbi imperdiet sodales sapien nec rhoncus.</p>
-                                            <p>Donec placerat mi et libero iaculis, id maximus est vestibulum. Etiam
-                                                augue augue, auctor at ornare
-                                                eget, porta ac nisl. Aliquam et mattis dolor, et aliquet ligula. Sed
-                                                ultricies posuere magna elementum
-                                                laoreet. Suspendisse elementum sagittis nisl, id pellentesque purus
-                                                auctor finibus. Donec elementum quam
-                                                est, a condimentum diam tempor ac. Sed quis magna lobortis, pulvinar est
-                                                at, commodo mauris. Nunc in mollis
-                                                erat. Integer aliquet orci non auctor pretium. Pellentesque eu nisl
-                                                augue. Curabitur vitae est ut sem
-                                                luctus tristique. Suspendisse euismod sapien facilisis tellus aliquam
-                                                pellentesque.</p>
-                                            <blockquote>
-                                                Mistaken idea of denouncing pleasure and praising pain was born and I
-                                                will give you a complete
-                                                account of the system, and expound the actual teachings of the great
-                                                explorer of the truth,
-                                                the master-builder of human happiness.
-                                            </blockquote>
-                                        </div>
-                                        <div className="blog_single_tags_bottom">
-                                            <ul>
-                                                <li><i className="fas fa-tags"></i> Tags:</li>
-                                                <li><a href="!#">Trucks</a></li>
-                                                <li><a href="!#">Transport</a></li>
-                                                <li><a href="!#">Warehouse</a></li>
-                                                <li><a href="!#">Freight</a></li>
-                                                <li><a href="!#">Cargo</a></li>
-                                            </ul>
-                                            <ul className="shared_post">
-                                                <li><a href="#!"><i className="fas fa-share-alt"></i>Share The Post</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <AllComment/>
-                                <ReplayForm/>
+        <div className="container mt-5 blog-details-section">
+            {/* Main Blog Content Area */}
+            <div className="row">
+                {/* Main Blog Card */}
+                <div className="col-md-7">
+                    <div className="card mb-4 blog-main-card shadow-effect">
+                        <img
+                            src="https://interlogistics.com.vn/static/2722/2024/10/15/d%E1%BB%B1%20b%C3%A1o%20c%C6%B0%E1%BB%9Bc%20q4.2024.png"
+                            className="card-img-top"
+                            alt="Main blog content"
+                            style={{ height: '400px', objectFit: 'cover' }}
+                        />
+                        <div className="card-body">
+                            <h5 className="card-title blog-card-title text-truncate">
+                                Giá cước vận chuyển quý 4/2024 có xu hướng giảm nhiệt
+                            </h5>
+                            <div className="d-flex justify-content-between align-items-center">
+                                <Link to="/blog/1" className="text-primary font-weight-bold">Xem thêm</Link>
                             </div>
-                        </div>
-                        <div className="col-lg-4 col-md-12 col-sm-12 col-12">
-                            <BlogSidebar/>
                         </div>
                     </div>
                 </div>
-            </section>
-        </>
-    )
-}
+
+                {/* Sidebar Content (Related Topics) */}
+                <div className="col-md-5">
+                    <div className="list-group blog-sidebar">
+                        <h5 className="sidebar-title">Bài Đăng Nổi Bật</h5>
+                        {[
+                            {
+                                img: "https://interlogistics.com.vn/static/2687/2024/09/26/z5865029091724_878c227b8ca172f908c6113ced9da1251.jpg",
+                                title: "Fiata World Congress 2024 – Cơ hội cho Việt Nam mở rộng giao thương với Panama và Trung Mỹ.",
+                            },
+                            {
+                                img: "https://interlogistics.com.vn/static/2614/2024/09/24/Thumbnail%201.png",
+                                title: "Tập đoàn hàng đầu thế giới có kế hoạch xây dựng cảng thông minh tại Việt Nam",
+                            },
+                            {
+                                img: "https://interlogistics.com.vn/static/2606/2024/09/24/Thumbnail.png",
+                                title: "Ngành logistics bị ảnh hưởng nặng nề nhất với hơn 80% doanh nghiệp gặp gián đoạn sau bão Yagi",
+                            },
+                            {
+                                img: "https://interlogistics.com.vn/static/2596/2024/09/18/1.jpg",
+                                title: "Chính sách hoàn thuế hàng hóa nhập khẩu cho sản xuất xuất khẩu",
+                            },
+                        ].map((item, idx) => (
+                            <a href="/" className="list-group-item list-group-item-action d-flex align-items-center" key={idx}>
+                                <div className="col-4 pr-0">
+                                    <img src={item.img} alt={item.title} className="img-fluid blog-sidebar-img rounded" />
+                                </div>
+                                <div className="col-9 pl-2">
+                                    <h6 className="blog-title">{item.title}</h6>
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Related Blog Posts Section */}
+            <div className="row mt-5 related-blogs-section">
+                {[
+                    {
+                        img: "https://interlogistics.com.vn/static/2591/2024/09/16/%C4%91i%E1%BB%87n.jpg",
+                        title: "Bão Yagi đã gây thiệt hại khoảng 40,000 tỷ đồng...",
+                    },
+                    {
+                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
+                        title: "Giải pháp vận chuyển hàng LTL Bắc Nam...",
+                    },
+                    {
+                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
+                        title: "Vận chuyển hàng vào kho Amazon...",
+                    },
+                    {
+                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
+                        title: "Vận chuyển hàng vào kho Amazon...",
+                    }, {
+                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
+                        title: "Vận chuyển hàng vào kho Amazon...",
+                    }, {
+                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
+                        title: "Vận chuyển hàng vào kho Amazon...",
+                    },
+                ].map((post, idx) => (
+                    <div className="col-md-4" key={idx}>
+                        <div className="card mb-4 blog-related-card shadow-effect">
+                            <img
+                                src={post.img}
+                                className="card-img-top card-img"
+                                alt={`Related post ${idx + 1}`}
+                            />
+                            <div className="card-body">
+                                <h6 className="card-title text-truncate blog-card-title">
+                                    {post.title}
+                                </h6>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <span className="text-primary font-weight-bold">Xem thêm</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 export default BlogDetailsArea;
-
