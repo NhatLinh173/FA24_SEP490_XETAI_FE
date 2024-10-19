@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CiCamera } from "react-icons/ci";
 import { toast } from "react-toastify";
+import axiosInstance from "../../../config/axiosConfig";
 import axios from "axios";
 
 const ProfileUser = ({ data, refetch }) => {
@@ -149,7 +150,7 @@ const ProfileUser = ({ data, refetch }) => {
             return;
           }
         }
-        const res = await axios.put(
+        const res = await axiosInstance.put(
           `http://localhost:3005/auth/update-user/${_id}`,
           {
             fullName: newName,
@@ -159,7 +160,6 @@ const ProfileUser = ({ data, refetch }) => {
             avatar: avatarUrl,
           }
         );
-
         if (res.status === 200) {
           toast.success("Cập nhập thông tin thành công!");
 
@@ -174,7 +174,7 @@ const ProfileUser = ({ data, refetch }) => {
           setIsAddress(true);
         }
       } catch (error) {
-        console.log(error);
+        console.log("Error updating user information:", error);
       }
     }
   };

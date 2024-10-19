@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { provinces } from "./Service/provinces";
 import { toast } from "react-toastify";
 
 const SectionHeading = ({ onSearch }) => {
@@ -18,33 +17,33 @@ const SectionHeading = ({ onSearch }) => {
     onSearch({ pickupLocation, dropoffLocation, weight: weightValue });
   };
 
-  const handlePickupChange = (e) => {
-    const value = e.target.value;
-    setPickupLocation(value);
-    if (value) {
-      setPickupSuggestions(
-        provinces.filter((province) =>
-          province.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    } else {
-      setPickupSuggestions([]);
-    }
-  };
+  // const handlePickupChange = (e) => {
+  //   const value = e.target.value;
+  //   setPickupLocation(value);
+  //   if (value) {
+  //     setPickupSuggestions(
+  //       provinces.filter((province) =>
+  //         province.toLowerCase().includes(value.toLowerCase())
+  //       )
+  //     );
+  //   } else {
+  //     setPickupSuggestions([]);
+  //   }
+  // };
 
-  const handleDropoffChange = (e) => {
-    const value = e.target.value;
-    setDropoffLocation(value);
-    if (value) {
-      setDropoffSuggestions(
-        provinces.filter((province) =>
-          province.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    } else {
-      setDropoffSuggestions([]);
-    }
-  };
+  // const handleDropoffChange = (e) => {
+  //   const value = e.target.value;
+  //   setDropoffLocation(value);
+  //   if (value) {
+  //     setDropoffSuggestions(
+  //       provinces.filter((province) =>
+  //         province.toLowerCase().includes(value.toLowerCase())
+  //       )
+  //     );
+  //   } else {
+  //     setDropoffSuggestions([]);
+  //   }
+  // };
 
   const handleWeightChange = (e) => {
     setWeight(e.target.value);
@@ -70,7 +69,7 @@ const SectionHeading = ({ onSearch }) => {
               <input
                 type="text"
                 value={pickupLocation}
-                onChange={handlePickupChange}
+                // onChange={handlePickupChange}
                 placeholder="Địa điểm lấy hàng"
                 className="search_input"
               />
@@ -93,7 +92,7 @@ const SectionHeading = ({ onSearch }) => {
               <input
                 type="text"
                 value={dropoffLocation}
-                onChange={handleDropoffChange}
+                // onChange={handleDropoffChange}
                 placeholder="Địa điểm trả hàng"
                 className="search_input"
               />

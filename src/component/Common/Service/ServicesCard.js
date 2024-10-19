@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import SectionHeading from "../Common/SectionHeading";
-import ServiceCard from "../Common/Service/ServiceCard";
+import SectionHeading from "../SectionHeading";
+import ServiceCard from "./ServiceCard";
 import ReactPaginate from "react-paginate";
-import axiosInstance from "../../config/axiosConfig";
+import axiosInstance from "../../../config/axiosConfig";
 import Fuse from "fuse.js";
 
 const ServicesCard = () => {
@@ -74,7 +74,7 @@ const ServicesCard = () => {
                       ? data.images[0]
                       : "default-image.jpg"
                   }
-                  goodsType={data.title}
+                  title={data.title}
                   pickupLocation={data.startPointCity}
                   dropoffLocation={data.destinationCity}
                   weight={data.load}

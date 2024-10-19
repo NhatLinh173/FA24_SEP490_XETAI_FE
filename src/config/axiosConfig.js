@@ -15,16 +15,12 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const newAccessToken = await refreshAccessToken();
-
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${newAccessToken}`;
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Failed to refresh access token:", refreshError);
-
+        window.location.href = "/signIn";
         return Promise.reject(refreshError);
       }
     }
