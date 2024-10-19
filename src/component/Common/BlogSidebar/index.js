@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 // Import BlogData Component
 import img1 from '../../../assets/img/blog/sidetmb-1.jpg'
 
@@ -30,59 +30,32 @@ const PopularPosts = [
 
 const Category = [
     {
-        list: "Entrepreneurs",
+        list: "Doanh nhân",
         count: "23"
     },
     {
-        list: "High Way",
+        list: "Đường cao tốc",
         count: "25"
     },
     {
-        list: "Logistic",
+        list: "Logistics",
         count: "28"
     },
     {
-        list: "Manufacturing",
+        list: "Sản xuất",
         count: "45"
     },
     {
-        list: "Pharmacology",
+        list: "Dược phẩm",
         count: "53"
     },
     {
-        list: "Warehousing",
+        list: "Kho bãi",
         count: "82"
     }
 ]
 
 
-const PopularTag = [
-    {
-        list: "Cargo"
-    },
-    {
-        list: "Contact"
-    },
-    {
-        list: "Ground"
-    },
-    {
-        list: "Management"
-    },
-    {
-        list: "Ocean"
-    },
-    {
-        list: "Offers"
-    },
-    {
-        list: "Shipment"
-    },
-    {
-        list: "Transporation"
-    },
-
-]
 
 const BlogSidebar = () => {
     return (
@@ -93,7 +66,7 @@ const BlogSidebar = () => {
                         <h3>Search</h3>
                     </div>
                     <div className="blog-search">
-                        <input type="text" className="form-control"/>
+                        <input type="text" className="form-control" />
                         <i className="fas fa-search"></i>
                     </div>
                 </div>
@@ -118,23 +91,13 @@ const BlogSidebar = () => {
                         {PopularPosts.map((data, index) => (
                             <div className="popular_post_item" key={index}>
                                 <div className="populer_post_img">
-                                    <Link to="/blog_details"><img src={data.img} alt="Thumd_Img"/></Link>
+                                    <Link to="/blog_details"><img src={data.img} alt="Thumd_Img" /></Link>
                                 </div>
                                 <div className="popular_post_text">
                                     <h4><Link to="/blog_details">{data.title}</Link></h4>
                                     <p><i className="far fa-clock"></i>{data.date}</p>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="blog_sidebar_item">
-                    <div className="blog_sidebar_heading">
-                        <h3>Popular Tag</h3>
-                    </div>
-                    <div className="tags_blog_sidebar">
-                        {PopularTag.map((data, index) => (
-                           <Link to="/blog_details" key={index}>{data.list}</Link>
                         ))}
                     </div>
                 </div>

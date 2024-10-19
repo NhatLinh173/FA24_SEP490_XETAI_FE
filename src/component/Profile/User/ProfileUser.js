@@ -135,7 +135,7 @@ const ProfileUser = ({ data, refetch }) => {
           formData.append("upload_preset", "Transaction");
 
           try {
-            const cloudinaryRes = await axiosInstance.post(
+            const cloudinaryRes = await axios.post(
               "https://api.cloudinary.com/v1_1/dqzsoudfk/image/upload",
               formData
             );
@@ -217,7 +217,7 @@ const ProfileUser = ({ data, refetch }) => {
 
           <div className="row g-3 align-item-center">
             <div className="col-3">
-              <label for="name" className="col-form-label">
+              <label for="name" className="col-form-label font-weight-bold">
                 Họ và Tên:
               </label>
             </div>
@@ -249,7 +249,7 @@ const ProfileUser = ({ data, refetch }) => {
           <br />
           <div className="row g-3 align-items-center ">
             <div className="col-3">
-              <label for="phone" className="col-form-label">
+              <label for="phone" className="col-form-label font-weight-bold">
                 Số Điện Thoại:
               </label>
             </div>
@@ -284,7 +284,7 @@ const ProfileUser = ({ data, refetch }) => {
           <br />
           <div className="row g-3 align-items-center">
             <div className="col-3">
-              <label for="email" className="col-form-label">
+              <label for="email" className="col-form-label font-weight-bold">
                 Email:
               </label>
             </div>
@@ -316,7 +316,7 @@ const ProfileUser = ({ data, refetch }) => {
           </div>
           <br />
           <div className="row g-3 align-items-center">
-            <div className="col-3">
+            <div className="col-3 font-weight-bold">
               <label for="pwd">Địa chỉ:</label>
             </div>
             <div className="col-9">

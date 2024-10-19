@@ -12,6 +12,7 @@ import ServiceDetails from "./page/ServiceDetails";
 import BlogGrid from "./page/BlogGrid";
 import BlogWithSidebar from "./page/BlogWithSidebar";
 import BlogDetails from "./page/BlogDetails";
+import BlogDetail from "./component/BlogDetails/BlogDetail";
 import OurTeamArea from "./page/OurTeam";
 import Testimonials from "./page/Testimonial";
 import Gallery from "./page/Gallery";
@@ -47,6 +48,7 @@ import { WebSocketProvider } from "./hooks/WebSocketContext";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
 import AdminDashboard from "../src/component/Admin/adminDashboard";
+
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const { handleLogout } = useAuth();
@@ -74,6 +76,7 @@ const App = () => {
               component={BlogWithSidebar}
             />
             <Route path="/blog_details" exact component={BlogDetails} />
+            <Route path="/blog/:id" extract component={BlogDetail} />
             <Route path="/our_team" exact component={OurTeamArea} />
             <Route path="/testimonials" exact component={Testimonials} />
             <Route path="/gallery" exact component={Gallery} />
@@ -95,7 +98,7 @@ const App = () => {
               path="/profile"
               exact
               component={Profile}
-              allowedRoles={["customer", "personal", "business"]}
+              allowedRoles={["customer", "personal", "business  "]}
             />
             <Route path="/accountType" exact component={AccountTypes} />
             <Route

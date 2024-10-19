@@ -26,6 +26,15 @@ const Tab = ({ tab1, setTab1 }) => {
     }
   }, []);
 
+  const handleClickProfile = () => {
+    setTab1("profile");
+    localStorage.setItem("tabHistory", "profile");
+  };
+  const handleClickPost = () => {
+    setTab1("historyPost");
+    localStorage.setItem("tabHistory", "historyPost");
+  };
+
   return (
     <div className="d-flex flex-column h-100">
       <h2>Tài Khoản</h2>
@@ -36,7 +45,7 @@ const Tab = ({ tab1, setTab1 }) => {
               className={`btn-tab d-flex align-items-center ${
                 tab1 === "profile" ? "active" : ""
               }`}
-              onClick={() => setTab1("profile")}
+              onClick={handleClickProfile}
             >
               <CgProfile />
               <span className="px-2 ">Tài khoản</span>
@@ -47,7 +56,7 @@ const Tab = ({ tab1, setTab1 }) => {
               className={`btn-tab d-flex align-items-center ${
                 tab1 === "historyPost" ? "active" : ""
               }`}
-              onClick={() => setTab1("historyPost")}
+              onClick={handleClickPost}
             >
               <PiPackage />
               <span className="px-1">Đơn hàng</span>

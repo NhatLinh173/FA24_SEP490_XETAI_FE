@@ -276,6 +276,14 @@ const RequestQuoteForm = () => {
       if (response.status === 200) {
         toast.success("Đăng Bài thành công");
         refetch();
+      } else {
+        toast.error("Có lỗi xảy ra, vui lòng thử lại!!!.");
+      }
+      console.log(response);
+      if (response.status === 200) {
+        toast.success("Tạo đơn hàng thành công");
+        setNewOrderType("");
+        setNewAddressFrom("");
         setNewAddressTo("");
         setNewTotalWeight("");
         setNewoderDescription("");
@@ -326,7 +334,7 @@ const RequestQuoteForm = () => {
                       {imgs.map((img, index) => (
                         <div
                           className={`position-relative border rounded-12 p-3 d-inline-block ${
-                            imgs.length === 1 ? "w-50" : ""
+                            imgs.length === 1 ? "w-100" : ""
                           }`}
                         >
                           <img

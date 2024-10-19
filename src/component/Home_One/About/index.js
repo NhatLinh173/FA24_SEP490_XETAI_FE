@@ -3,7 +3,6 @@ import React from "react";
 import Counter from "./Counter";
 // About Img
 import img1 from "../../../assets/img/About/pexels-quintingellar-2199293 (1).jpg";
-import img2 from "../../../assets/img/home1/sign.png";
 // Counter Data
 // const CounterData = [
 //   {

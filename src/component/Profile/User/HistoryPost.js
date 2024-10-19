@@ -18,6 +18,7 @@ const HistoryPost = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [postID, setPostID] = useState(null);
 
+  console.log(postID);
   const userId = localStorage.getItem("userId");
   const {
     data: posts,
@@ -25,10 +26,11 @@ const HistoryPost = () => {
     error,
     refetch,
   } = useInstanceData(`/posts/${userId}/users`);
+
   const handleDelete = async () => {
     try {
       await axios.delete(`/posts/${postID}`);
-      refetch();
+      refetch(); // Gọi lại API để cập nhật danh sách bài đăng
       setIsShowModal(false);
       toast.success("Đơn hàng đã được xóa thành công");
     } catch (error) {
@@ -87,14 +89,18 @@ const HistoryPost = () => {
               <div className="ml-3">
                 <div className="mb-2 text-secondary d-flex align-items-center">
                   <FaMapLocation className="mr-2" />
-                  <div className="font-weight-bold text-nowrap">Điểm đi:</div>
+                  <div className="font-weight-bold text-nowrap">
+                    Địa điểm đi:
+                  </div>
                   <div className="w-75 ml-2 text-truncate">
                     {post.startPointCity}
                   </div>
                 </div>
                 <div className="mb-2 text-secondary d-flex align-items-center">
                   <FaMapLocation className="mr-2" />
-                  <div className="font-weight-bold text-nowrap">Điểm đến:</div>
+                  <div className="font-weight-bold text-nowrap">
+                    Địa điểm đến:
+                  </div>
                   <div className="w-75 ml-2 text-truncate">
                     {post.destinationCity}
                   </div>

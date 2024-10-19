@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import HomeBanner from "../component/Home_One/Banner";
 import GetSchedule from "../component/Home_One/Get _Schedule";
 import LogisticsService from "../component/Home_One/Logistics_Services";
