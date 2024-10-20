@@ -34,6 +34,22 @@ const Tab = ({ tab1, setTab1 }) => {
     setTab1("historyPost");
     localStorage.setItem("tabHistory", "historyPost");
   };
+  const handleClickFarvoriteDriver = () => {
+    setTab1("favoriteDriver");
+    localStorage.setItem("tabHistory", "favoriteDriver");
+  };
+  const handleClickChangePassword = () => {
+    setTab1("changePassword");
+    localStorage.setItem("tabHistory", "changePassword");
+  };
+  const handleClickTripHistory = () => {
+    setTab1("tripHistory");
+    localStorage.setItem("tabHistory", "tripHistory");
+  };
+  const handleClickWallet = () => {
+    setTab1("wallet");
+    localStorage.setItem("tabHistory", "wallet");
+  };
 
   return (
     <div className="d-flex flex-column h-100">
@@ -68,7 +84,7 @@ const Tab = ({ tab1, setTab1 }) => {
                 className={`btn-tab d-flex align-items-center ${
                   tab1 === "favoriteDriver" ? "active" : ""
                 }`}
-                onClick={() => setTab1("favoriteDriver")}
+                onClick={handleClickFarvoriteDriver}
               >
                 <FaRegHeart />
                 <span className="px-2 ">Tài xế yêu thích</span>
@@ -78,7 +94,7 @@ const Tab = ({ tab1, setTab1 }) => {
           <li className="my-3">
             <button
               className={`btn-tab ${tab1 === "changePassword" ? "active" : ""}`}
-              onClick={() => setTab1("changePassword")}
+              onClick={handleClickChangePassword}
             >
               <RiLockPasswordLine />
               <span className="px-2">Mật khẩu</span>
@@ -89,7 +105,7 @@ const Tab = ({ tab1, setTab1 }) => {
               className={`btn-tab d-flex align-items-center ${
                 tab1 === "tripHistory" ? "active" : ""
               }`}
-              onClick={() => setTab1("tripHistory")}
+              onClick={handleClickTripHistory}
             >
               <MdAccessTime />
               <span className="px-2">Lịch sử chuyến</span>
@@ -98,7 +114,7 @@ const Tab = ({ tab1, setTab1 }) => {
           <li className="my-3">
             <button
               className={`btn-tab ${tab1 === "wallet" ? "active" : ""}`}
-              onClick={() => setTab1("wallet")}
+              onClick={handleClickWallet}
             >
               <LuWallet />
               <span className="px-2">Ví của bạn</span>
