@@ -112,7 +112,10 @@ const ChangePassWord = () => {
           </div>
           <br />
           <div className="row justify-content-center pb-3 ">
-            <button className="btn btn-primary btn-lg  " onClick={handleSubmit}>
+            <button
+              className="btn btn-primary btn-lg w-25 text-white  "
+              onClick={handleSubmit}
+            >
               <span>Cập Nhập</span>
             </button>
           </div>
