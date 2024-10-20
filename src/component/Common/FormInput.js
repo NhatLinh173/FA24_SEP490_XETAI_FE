@@ -6,12 +6,11 @@ const FormInput = (props) => {
   const inputStyles = {
     ...props.style,
     backgroundColor: "#fff",
-    // border: "1px solid #000", // Viền mặc định
   };
 
   const focusStyles = {
     outline: "none",
-    boxShadow: "0 0 5px rgba(0, 0, 0, 0.5)", // Hiệu ứng khi focus
+    boxShadow: "0 0 5px rgba(0, 0, 0, 0.5)",
     border: "1px solid #000",
   };
 
@@ -36,14 +35,13 @@ const FormInput = (props) => {
           style={inputStyles}
           value={props.value}
           onChange={props.onChange}
-          onFocus={(e) => (e.target.style = { ...inputStyles, ...focusStyles })} // Thêm hiệu ứng khi focus
-          onBlur={(e) => (e.target.style = inputStyles)} // Quay lại viền mặc định khi blur
+          onFocus={(e) => (e.target.style = { ...inputStyles, ...focusStyles })}
+          onBlur={(e) => (e.target.style = inputStyles)}
         />
       </div>
     );
   }
 
-  // Textarea element handler
   if (props.tag === "textarea") {
     return (
       <div className="form-group">

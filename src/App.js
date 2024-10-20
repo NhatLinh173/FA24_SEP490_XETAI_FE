@@ -12,6 +12,7 @@ import ServiceDetails from "./page/ServiceDetails";
 import BlogGrid from "./page/BlogGrid";
 import BlogWithSidebar from "./page/BlogWithSidebar";
 import BlogDetails from "./page/BlogDetails";
+import BlogDetail from "./component/BlogDetails/BlogDetail";
 import OurTeamArea from "./page/OurTeam";
 import Testimonials from "./page/Testimonial";
 import Gallery from "./page/Gallery";
@@ -44,9 +45,9 @@ import PaymentFailed from "./component/PaymentStatus/PaymentFailed";
 import Chat from "./component/Chat/chat";
 import VehicalDetail from "./component/Profile/User/VehicalDetail";
 import { WebSocketProvider } from "./hooks/WebSocketContext";
-import NotificationHandler from "./config/NotificationHandler";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
+import AdminDashboard from "../src/component/Admin/adminDashboard";
 
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -57,7 +58,6 @@ const App = () => {
       <Router>
         <ScrollToTop>
           <Navbar openModal={openModal} />
-          <NotificationHandler />
           <Switch>
             <Route path="/" exact component={Home_One} />
             <Route path="/about" exact component={About} />
@@ -76,6 +76,7 @@ const App = () => {
               component={BlogWithSidebar}
             />
             <Route path="/blog_details" exact component={BlogDetails} />
+            <Route path="/blog/:id" extract component={BlogDetail} />
             <Route path="/our_team" exact component={OurTeamArea} />
             <Route path="/testimonials" exact component={Testimonials} />
             <Route path="/gallery" exact component={Gallery} />
@@ -113,6 +114,7 @@ const App = () => {
             <Route path="/payment/failed" exact component={PaymentFailed} />
             <Route path="/chat" exact component={Chat} />
             <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
+            <Route path="/dashboard-admin" exact component={AdminDashboard} />
           </Switch>
           <Footer />
           <CopyRight />
