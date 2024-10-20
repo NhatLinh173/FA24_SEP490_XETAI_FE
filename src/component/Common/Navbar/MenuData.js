@@ -2,8 +2,8 @@ export const getMenuData = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const MenuData = [
     {
-      name: "Chúng Tôi",
-      href: "/about",
+      name: "Trang chủ",
+      href: "/",
       has_children: false,
     },
     {

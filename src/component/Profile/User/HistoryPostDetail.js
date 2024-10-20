@@ -1093,6 +1093,9 @@ const HistoryPostDetail = () => {
                         <FaStar />
                         <FaStarHalfAlt /> {/* Ngôi sao nửa */}
                       </span>
+                      <br />
+                      <strong>Ngày giao dự kiến:</strong>
+                      <span className="mr-1"> 2/2/2024</span>
                     </div>
                     <button
                       className="btn-success btn-sm"
@@ -1191,9 +1194,14 @@ const HistoryPostDetail = () => {
                       </span>
                     </li>
                   </ul>
-                  <button className="btn-success rounded border-0 mt-2 text-white">
-                    Xem chi tiết
-                  </button>
+                  <div className="mt-2 d-flex flex-column align-items-center w-100">
+                    <button className="btn-success  rounded border-0 text-white w-50 mb-2 ">
+                      Xem chi tiết
+                    </button>
+                    <button className="btn-warning rounded border-0 w-50 text-white">
+                      Đánh giá
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
