@@ -1,32 +1,32 @@
-import axios from "axios"
-import React, { useEffect, useState } from "react"
-import { TbTransfer } from "react-icons/tb"
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
-import Select from "react-select"
-import { toast } from "react-toastify"
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { TbTransfer } from "react-icons/tb";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Select from "react-select";
+import { toast } from "react-toastify";
 
 const GetSchedule = () => {
-  const [provinces, setProvinces] = useState(null)
-  const [startPoint, setStartPoint] = useState("")
-  const [destination, setDestination] = useState("")
-  const history = useHistory()
+  const [provinces, setProvinces] = useState(null);
+  const [startPoint, setStartPoint] = useState("");
+  const [destination, setDestination] = useState("");
+  const history = useHistory();
 
   const getProvinces = async () => {
     try {
       const result = await axios.get(
         "https://provinces.open-api.vn/api/?depth=1"
-      )
+      );
 
       const transformedData = result.data.map((item) => ({
         value: item.code,
         label: item.name,
-      }))
+      }));
 
-      setProvinces(transformedData)
+      setProvinces(transformedData);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const colourStyles = {
     control: (styles) => ({
@@ -58,26 +58,28 @@ const GetSchedule = () => {
       ...provided,
       height: 45,
     }),
-  }
+  };
 
   const onSearch = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     if (!startPoint.length || !destination.length) {
-      toast.info("Vui lòng chọn điểm xuất phát và điểm đến!")
-      return
+      toast.info("Vui lòng chọn điểm xuất phát và điểm đến!");
+      return;
     }
 
-    history.push(`/service?startPoint=${startPoint}&destination=${destination}`)
-  }
+    history.push(
+      `/service?startPoint=${startPoint}&destination=${destination}`
+    );
+  };
 
   useEffect(() => {
-    getProvinces()
-  }, [])
+    getProvinces();
+  }, []);
 
-  if (!provinces) {
-    return <div>Loading...</div>
-  }
+  // if (!provinces) {
+  //   return <div>Loading...</div>
+  // }
 
   return (
     <>
@@ -98,7 +100,7 @@ const GetSchedule = () => {
                         styles={colourStyles}
                         placeholder="Chọn tỉnh/Thành phố"
                         onChange={(data) => {
-                          setStartPoint(data.label)
+                          setStartPoint(data.label);
                         }}
                       />
                     </div>
@@ -110,7 +112,7 @@ const GetSchedule = () => {
                       styles={colourStyles}
                       placeholder="Chọn tỉnh/Thành phố"
                       onChange={(data) => {
-                        setDestination(data.label)
+                        setDestination(data.label);
                       }}
                     />
 
@@ -127,7 +129,7 @@ const GetSchedule = () => {
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default GetSchedule
+export default GetSchedule;

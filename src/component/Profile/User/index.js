@@ -12,16 +12,18 @@ import HistoryPost from "./HistoryPost";
 
 const DashboardProfile = () => {
   const location = useLocation();
+
   const [tab, setTab] = useState("profile");
   const userId = localStorage.getItem("userId");
+
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
   );
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
+
     const tabParam = params.get("tab");
-    console.log("Tab Param:", tabParam);
     if (tabParam) {
       setTab(tabParam);
     } else {
@@ -31,10 +33,20 @@ const DashboardProfile = () => {
 
   useEffect(() => {
     if (data && data.avatar) {
-      console.log("Avatar Data:", data.avatar);
       localStorage.setItem("avatar", data.avatar);
     }
   }, [data]);
+
+  useEffect(() => {
+    const tabHistory = localStorage.getItem("tabHistory");
+    if (window.location.pathname === "/profile") {
+      if (tabHistory) {
+        setTab(tabHistory);
+      }
+    } else {
+      localStorage.removeItem("tabHistory");
+    }
+  }, []);
 
   if (error) {
     console.error("Error fetching data:", error);

@@ -2,12 +2,12 @@ export const getMenuData = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const MenuData = [
     {
-      name: "Chúng Tôi",
-      href: "/about",
+      name: "Trang chủ",
+      href: "/",
       has_children: false,
     },
     {
-      name: "Dịch Vụ",
+      name: "Đơn Hàng",
       href: "/service",
       has_children: false,
     },
@@ -22,8 +22,8 @@ export const getMenuData = () => {
       has_children: false,
     },
     {
-      name: isLoggedIn ? "Thông Tin" : "Đăng Nhập",
-      href: isLoggedIn ? "/profile" : "/signIn",
+      name: isLoggedIn ? "" : "Đăng Nhập", // Xóa "Thông Tin" khi đã đăng nhập
+      href: isLoggedIn ? "#" : "/signIn", // Đổi href thành "#" khi đã đăng nhập
       has_children: false,
     },
     ...(!isLoggedIn

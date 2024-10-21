@@ -10,12 +10,11 @@ export const WebSocketProvider = ({ children }) => {
     const newSocket = io("http://localhost:3005");
     newSocket.on("connect", () => {
       console.log("Connected to socket server");
+      setSocket(newSocket);
     });
     newSocket.on("connect_error", (error) => {
       console.error("Socket connection error:", error);
     });
-
-    setSocket(newSocket);
 
     return () => {
       newSocket.disconnect();

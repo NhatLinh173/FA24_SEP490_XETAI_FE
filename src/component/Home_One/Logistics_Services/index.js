@@ -1,96 +1,70 @@
-import React, { useState } from 'react'
-// Import LogisticsCard
-import LogisticsCard from './LogisticsCard'
-// Import LogisticsData
-import { LogisticsData } from './Logistics_Data'
+import React, { useState } from "react";
+import ServiceCard from "../../Common/Service/ServiceCard";
+import OwlCarousel from "react-owl-carousel";
 //  OwlCarousel Slider Import
-import OwlCarousel from 'react-owl-carousel';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
+import useInstanceData from "../../../config/useInstanceData";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const LogisticsService = () => {
-    const [sliderIndex, setSliderIndex] = useState(0)
+  const { data: post } = useInstanceData(`/posts`);
 
-
-    let responsive = {
-        0: {
-            items: 1,
-        },
-        600: {
-            items: 1,
-        },
-        960: {
-            items: 2,
-        },
-        1200: {
-            items: 3,
-        },
-    }
-
-    return (
-        <>
-            <section id="logistics_area">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="logistics_wrappers">
-                                <div className="logistic_tabs_button">
-                                    <ul>
-                                        <li>
-                                            <button className={sliderIndex === 0 ? 'active' : ''}
-                                                onClick={() => setSliderIndex(0)}>Business Logistics
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button className={sliderIndex === 1 ? 'active' : ''}
-                                                onClick={() => setSliderIndex(1)}>Military Logistics
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button className={sliderIndex === 2 ? 'active' : ''}
-                                                onClick={() => setSliderIndex(2)}>Event Logistics
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="logistics_area_slider">
-                                    {sliderIndex === 0 && (
-                                        <OwlCarousel className="owl-theme" responsive={responsive} autoplay={true}
-                                            autoplayHoverPause={true} autoplayTimeout={2500}
-                                            loop={true} margin={10} nav={true} dots={false}>
-                                            {LogisticsData[0].map((data, index) => (
-                                                <LogisticsCard img={data.img} heading={data.heading} para={data.para}
-                                                    key={index} />))}
-                                        </OwlCarousel>
-                                    )}
-
-                                    {sliderIndex === 1 && (
-                                        <OwlCarousel className="owl-theme" responsive={responsive} autoplay={true}
-                                            autoplayHoverPause={true} autoplayTimeout={2500}
-                                            loop={true} margin={10} nav={true} dots={false}>
-                                            {LogisticsData[1].map((data, index) => (
-                                                <LogisticsCard img={data.img} heading={data.heading} para={data.para}
-                                                    key={index} />))}
-                                        </OwlCarousel>
-                                    )}
-
-                                    {sliderIndex === 2 && (
-                                        <OwlCarousel className="owl-theme" responsive={responsive} autoplay={true}
-                                            autoplayHoverPause={true} autoplayTimeout={2500}
-                                            loop={true} margin={10} nav={true} dots={false}>
-                                            {LogisticsData[2].map((data, index) => (
-                                                <LogisticsCard img={data.img} heading={data.heading} para={data.para}
-                                                    key={index} />))}
-                                        </OwlCarousel>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <>
+      <section id="logistics_area">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="logistics_wrappers">
+                <div className="logistic_tabs_button">
+                  <ul>
+                    <li>
+                      <button className="active mb-4 ">Đơn Hàng</button>
+                    </li>
+                  </ul>
                 </div>
-            </section>
-        </>
-    )
-}
+                <div className="service_slider_home_two">
+                  <OwlCarousel
+                    className="owl-theme"
+                    autoplay={true}
+                    autoplayHoverPause={true}
+                    autoplayTimeout={2500}
+                    loop={true}
+                    margin={20}
+                    nav={false}
+                    dots={true}
+                  >
+                    {post &&
+                      post?.salePosts?.map((data) => (
+                        <ServiceCard
+                          id={data._id}
+                          img={
+                            data.images && data.images.length > 0
+                              ? data.images[0]
+                              : "default-image.jpg"
+                          }
+                          goodsType={data.title}
+                          pickupLocation={data.startPointCity}
+                          dropoffLocation={data.destinationCity}
+                          weight={data.load}
+                          price={data.price}
+                        />
+                      ))}
+                  </OwlCarousel>
+                </div>
+                <div className="review_button">
+                  <Link to="/service" className="btn btn-theme mb-2">
+                    Xem thêm
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
 
 export default LogisticsService;

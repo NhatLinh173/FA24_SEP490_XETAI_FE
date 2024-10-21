@@ -17,6 +17,7 @@ const VehicalAdd = () => {
   const [state, setState] = useState(DEFAULT_DATA)
   const [loading, setLoading] = useState(false)
   const history = useHistory()
+  const driverId = localStorage.getItem("driverId")
 
   const validateData = (data) => {
     let isValid = true
@@ -53,6 +54,8 @@ const VehicalAdd = () => {
 
   // TODO: handle error case when call api
   const handleSubmit = async () => {
+    if (loading) return
+
     const { isValid, messages } = validateData(state)
     if (!isValid) return toast.error(messages)
 
@@ -63,7 +66,7 @@ const VehicalAdd = () => {
     formData.append("registrationDate", state.registrationDate)
     formData.append("imageCar", state.imageCar)
     formData.append("imageRegistration", state.imageRegistration)
-    formData.append("driverId", "66e6dbc1a403de7498e7c667")
+    formData.append("driverId", driverId)
     formData.append("description", "66e6dbc1a403de7498e7c667")
 
     setLoading(true)
@@ -94,7 +97,6 @@ const VehicalAdd = () => {
               <button
                 type="button"
                 className="btn btn-theme"
-                disabled={loading}
                 onClick={handleSubmit}
               >
                 {loading ? "Loading" : "Thêm mới"}

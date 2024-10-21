@@ -325,7 +325,7 @@ section {
 
 /* --Common Area Banner-- */
 #inner_area_banner {
-  background-image: url("../img/common/inner_banner.png");
+  background-image: url("../img/CreateOrder/pexels-kelly-1179532-13766346\ \(1\).jpg");
   padding: 245px 0 120px 0;
 }
 
@@ -1631,7 +1631,7 @@ Search Overlay CSS
 
 /* --Banner Area Start-- */
 .banner-img-one {
-  background-image: url("../img/homepage/pexels-hormel-media-1095814.jpg");
+  background-image: url("../img/homepage/pexels-carloscruz-artegrafia-172084181-11087830.jpg");
 }
 
 .banner-img-two {
@@ -1639,7 +1639,7 @@ Search Overlay CSS
 }
 
 .banner-img-three {
-  background-image: url("../img/homepage/pexels-thatguycraig000-2449454.jpg");
+  background-image: url("../img/homepage/pexels-igor-passchier-111147847-27508769.jpg");
 }
 
 .banner-item {
@@ -2136,9 +2136,9 @@ Search Overlay CSS
 
 /* --About Area End-- */
 
-/* --Our Advantages Area Start-- */
+/* --Our Advantages Area Start-- //1920*700*/
 #our_advantages_area {
-  background-image: url("../img/home1/truck-banner.png");
+  background-image: url("../img/homepage/pexels-thatguycraig000-2449454.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -3262,44 +3262,6 @@ Search Overlay CSS
   height: 200px;
   display: block;
   object-fit: cover;
-}
-
-.read_more_btn {
-  display: inline-block;
-  /* Khoảng cách giữa các phần tử trên cùng */
-  padding: 10px 20px;
-  /* Padding cho nút */
-  color: #fff;
-  /* Màu chữ */
-  background-color: #3eca2f;
-  /* Màu nền của nút */
-  border: none;
-  /* Không có đường viền */
-  border-radius: 5px;
-  /* Bo tròn góc nút */
-  text-align: center;
-  /* Căn giữa văn bản */
-  text-decoration: none;
-  /* Không có gạch chân */
-  font-size: 14px;
-  /* Kích thước chữ */
-  cursor: pointer;
-  /* Con trỏ chuột khi di chuột lên nút */
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  /* Hiệu ứng chuyển tiếp */
-}
-
-.read_more_btn:hover {
-  background-color: #ffffff;
-  /* Màu nền khi di chuột lên nút */
-  transform: translateY(-2px);
-  /* Hiệu ứng di chuyển nhẹ lên khi di chuột */
-}
-
-.read_more_btn:active {
-  /* Màu nền khi nút bị nhấn */
-  transform: translateY(0);
-  /* Đưa nút về vị trí bình thường khi nhấn */
 }
 
 .service-details {
@@ -4521,9 +4483,11 @@ textarea {
 .h-custom {
   height: 100% !important;
 }
+
 .input-custom {
   display: none;
 }
+
 .pointer {
   cursor: pointer;
 }
@@ -5011,9 +4975,12 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .custom-select {
-  background-color: #28a745; /* Màu xanh lá cây */
-  color: white; /* Màu chữ trắng */
+  background-color: #28a745;
+  /* Màu xanh lá cây */
+  color: white;
+  /* Màu chữ trắng */
 }
+
 .options-text {
   color: black !important;
 }
@@ -5021,9 +4988,11 @@ input[type="number"]::-webkit-inner-spin-button {
 .bottom-error {
   bottom: 0;
 }
+
 .marginBottom-error {
   bottom: 7px;
 }
+
 .cursor-disable {
   cursor: not-allowed;
 }
@@ -5035,9 +5004,11 @@ input[type="number"]::-webkit-inner-spin-button {
 .image-form img {
   width: 400px;
 }
+
 .img-upload img {
   width: 400px;
 }
+
 .delete-imgs {
   cursor: pointer;
   font-size: 20px;
@@ -5046,6 +5017,7 @@ input[type="number"]::-webkit-inner-spin-button {
   top: -4%;
   color: red;
 }
+
 .delete-img {
   cursor: pointer;
   font-size: 20px;
@@ -5054,15 +5026,18 @@ input[type="number"]::-webkit-inner-spin-button {
   top: -3%;
   color: red;
 }
+
 .carousel-bg {
   background: transparent;
   cursor: pointer;
   opacity: 1 !important;
 }
+
 .carousel-bg span {
   filter: brightness(0) saturate(100%) invert(98%) sepia(64%) saturate(6899%)
     hue-rotate(7deg) brightness(101%) contrast(85%);
 }
+
 .bt-error {
   top: 100%;
   left: 2%;
@@ -5071,3 +5046,179 @@ input[type="number"]::-webkit-inner-spin-button {
 .width-img {
   width: 100px;
 }
+
+/* =============================
+       Bloglist Start
+============================== */
+/* BlogDetailsArea.css */
+
+/* Container for blog details section */
+.blog-details-section {
+  padding: 20px;
+}
+
+/* Main blog card styles */
+.blog-main-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.blog-main-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar styles */
+.sidebar-title {
+  font-weight: bold;
+  /* Đậm chữ */
+  font-size: 1.5rem;
+  /* Kích thước chữ */
+  margin-bottom: 15px;
+  /* Khoảng cách phía dưới */
+  color: #333;
+  /* Màu chữ */
+}
+
+.blog-sidebar {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+
+/* Larger image styles */
+.blog-sidebar-img {
+  height: 80px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Related blog cards */
+.blog-related-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.blog-related-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Text and title styles */
+.blog-card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+.blog-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.text-primary {
+  color: red !important;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.text-primary:hover {
+  color: #0056b3;
+}
+
+/* Add some margin to related blogs */
+.related-blogs-section {
+  margin-top: 30px;
+}
+
+/* Card image styles */
+.card-img {
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Shadow effect for the blog cards */
+.shadow-effect {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* =============================
+       Bloglist End
+============================== */
+
+/* =============================
+       BlogDetail Start
+============================== */
+.breadcrumb {
+  font-size: 15px;
+  color: #666;
+  margin-top: 50px;
+}
+
+.breadcrumb a {
+  color: #007bff;
+  text-decoration: none;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.related-blogs-card {
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+}
+
+.related-blogs-header {
+  background-color: #f8f9fa;
+  /* Màu nền nhẹ cho header */
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.related-blogs-list {
+  padding: 0;
+}
+
+.related-blogs-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  flex-direction: column;
+}
+
+.related-blog-image {
+  width: auto;
+  /* Chiều rộng cố định cho hình ảnh */
+  height: auto;
+  /* Chiều cao cố định cho hình ảnh */
+  object-fit: cover;
+  /* Cắt hình ảnh theo tỉ lệ */
+  margin-right: 15px;
+  /* Khoảng cách bên phải */
+}
+
+.related-blog-title {
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  /* Màu chữ tiêu đề */
+}
+
+.related-blog-title:hover {
+  color: orange;
+  /* Màu chữ khi hover */
+}
+
+/* =============================
+       BlogDetail End
+============================== */

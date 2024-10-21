@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { CiCamera } from "react-icons/ci";
-import axios from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../config/axiosConfig";
+import axios from "axios";
 
 const ProfileUser = ({ data, refetch }) => {
   const { email, fullName, phone, address, _id, avatar } = data;
@@ -135,7 +135,7 @@ const ProfileUser = ({ data, refetch }) => {
           formData.append("upload_preset", "Transaction");
 
           try {
-            const cloudinaryRes = await axiosInstance.post(
+            const cloudinaryRes = await axios.post(
               "https://api.cloudinary.com/v1_1/dqzsoudfk/image/upload",
               formData
             );
@@ -150,14 +150,16 @@ const ProfileUser = ({ data, refetch }) => {
             return;
           }
         }
-        const res = await axiosInstance.put(`/auth/update-user/${_id}`, {
-          fullName: newName,
-          phone: newPhone,
-          email: newEmail,
-          address: newAddress,
-          avatar: avatarUrl,
-        });
-
+        const res = await axiosInstance.put(
+          `http://localhost:3005/auth/update-user/${_id}`,
+          {
+            fullName: newName,
+            phone: newPhone,
+            email: newEmail,
+            address: newAddress,
+            avatar: avatarUrl,
+          }
+        );
         if (res.status === 200) {
           toast.success("Cập nhập thông tin thành công!");
 
@@ -172,7 +174,7 @@ const ProfileUser = ({ data, refetch }) => {
           setIsAddress(true);
         }
       } catch (error) {
-        console.log(error);
+        console.log("Error updating user information:", error);
       }
     }
   };
@@ -215,7 +217,7 @@ const ProfileUser = ({ data, refetch }) => {
 
           <div className="row g-3 align-item-center">
             <div className="col-3">
-              <label for="name" className="col-form-label">
+              <label for="name" className="col-form-label font-weight-bold">
                 Họ và Tên:
               </label>
             </div>
@@ -247,7 +249,7 @@ const ProfileUser = ({ data, refetch }) => {
           <br />
           <div className="row g-3 align-items-center ">
             <div className="col-3">
-              <label for="phone" className="col-form-label">
+              <label for="phone" className="col-form-label font-weight-bold">
                 Số Điện Thoại:
               </label>
             </div>
@@ -282,7 +284,7 @@ const ProfileUser = ({ data, refetch }) => {
           <br />
           <div className="row g-3 align-items-center">
             <div className="col-3">
-              <label for="email" className="col-form-label">
+              <label for="email" className="col-form-label font-weight-bold">
                 Email:
               </label>
             </div>
@@ -314,7 +316,7 @@ const ProfileUser = ({ data, refetch }) => {
           </div>
           <br />
           <div className="row g-3 align-items-center">
-            <div className="col-3">
+            <div className="col-3 font-weight-bold">
               <label for="pwd">Địa chỉ:</label>
             </div>
             <div className="col-9">

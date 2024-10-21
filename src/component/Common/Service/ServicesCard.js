@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import SectionHeading from "../Common/SectionHeading";
-import ServiceCard from "../Common/Service/ServiceCard";
+import SectionHeading from "../SectionHeading";
+import ServiceCard from "./ServiceCard";
 import ReactPaginate from "react-paginate";
-import axiosInstance from "../../config/axiosConfig";
+import axiosInstance from "../../../config/axiosConfig";
+import Fuse from "fuse.js";
 
 const ServicesCard = () => {
   const itemsPerPage = 9; // Số lượng bài viết mỗi trang
@@ -11,7 +12,6 @@ const ServicesCard = () => {
   const sectionHeadingRef = useRef(null);
   const [dataPost, setDataPost] = useState([]);
 
-  // Gọi API để lấy dữ liệu post khi component mount
   useEffect(() => {
     const getDataPost = async () => {
       try {
@@ -26,36 +26,22 @@ const ServicesCard = () => {
     getDataPost();
   }, []);
 
-  // Theo dõi sự thay đổi của filteredData
-  useEffect(() => {
-    console.log("Dữ liệu filteredData sau khi set:", filteredData);
-  }, [filteredData]);
-
   const handleSearch = ({ pickupLocation, dropoffLocation, weight }) => {
-    console.log("Tham số tìm kiếm:", {
-      pickupLocation,
-      dropoffLocation,
-      weight,
+    const options = {
+      keys: ["startPointCity", "destinationCity", "load"],
+      threshold: 0.3,
+    };
+
+    const fuse = new Fuse(dataPost, options);
+    const searchResults = fuse.search({
+      $and: [
+        { startPointCity: pickupLocation },
+        { destinationCity: dropoffLocation },
+        { load: weight.toString() },
+      ],
     });
+    const filtered = searchResults.map((result) => result.item);
 
-    const filtered = dataPost.filter((service) => {
-      const startCity = service.startPointCity || "";
-      const destinationCityValue = service.destinationCity || "";
-      const serviceWeight = parseInt(service.load, 10) || 0;
-
-      return (
-        startCity.toLowerCase().includes(pickupLocation.trim().toLowerCase()) &&
-        destinationCityValue
-          .toLowerCase()
-          .includes(dropoffLocation.trim().toLowerCase()) &&
-        (weight === "" || serviceWeight === weight)
-      );
-    });
-
-    // Log ra dữ liệu sau khi lọc
-    console.log("Dữ liệu đã lọc:", filtered);
-
-    // Cập nhật filteredData
     setFilteredData(filtered);
     setCurrentPage(0);
   };
@@ -65,7 +51,6 @@ const ServicesCard = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Hàm xử lý khi chọn trang khác
   const handlePageClick = (event) => {
     const selectedPage = event.selected;
     setCurrentPage(selectedPage);
@@ -75,12 +60,10 @@ const ServicesCard = () => {
   return (
     <section id="services_page">
       <div className="container">
-        {/* Phần tiêu đề và tìm kiếm */}
         <div ref={sectionHeadingRef}>
           <SectionHeading onSearch={handleSearch} />
         </div>
         <div className="service_wrapper_top">
-          {/* Hiển thị danh sách bài viết */}
           <div className="row">
             {currentItems.map((data) => (
               <div className="col-lg-4" key={data._id}>
@@ -91,7 +74,7 @@ const ServicesCard = () => {
                       ? data.images[0]
                       : "default-image.jpg"
                   }
-                  goodsType={data.title}
+                  title={data.title}
                   pickupLocation={data.startPointCity}
                   dropoffLocation={data.destinationCity}
                   weight={data.load}
@@ -100,7 +83,6 @@ const ServicesCard = () => {
               </div>
             ))}
           </div>
-          {/* Phân trang */}
           <div className="pagination-controls-services text-center">
             <ReactPaginate
               pageCount={pageCount}

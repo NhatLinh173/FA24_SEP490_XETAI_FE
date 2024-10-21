@@ -4,6 +4,8 @@ import FormInput from "../Common/FormInput";
 import { toast } from "react-toastify";
 import axios from "axios";
 import regexPattern from "../../config/regexConfig";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF } from "react-icons/fa";
 const SignUpCustomer = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -189,9 +191,17 @@ const SignUpCustomer = () => {
                       <div className="submit_button">
                         <FormInput
                           tag={"button"}
-                          type="submit"
-                          val={"Đăng Ký"}
-                          style={{ height: "50px", width: "100%" }}
+                          val={"Đăng Nhập"}
+                          className="btn btn-primary btn-block"
+                          style={{
+                            height: "50px",
+                            fontWeight: "600",
+                            marginBottom: "10px",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            width: "100%",
+                          }}
                         />
                       </div>
                     </div>
@@ -200,35 +210,54 @@ const SignUpCustomer = () => {
                     </div>
                     <div className="col-lg-12">
                       <button
+                        type="button"
+                        className="btn btn-primary btn-block"
                         style={{
                           height: "50px",
-                          width: "100%",
                           backgroundColor: "#3b5898",
                           fontWeight: "600",
                           color: "#fff",
                           marginBottom: "10px",
                           border: "none",
                           borderRadius: "5px",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
                         onClick={handleGoogleLogin}
                       >
-                        Đăng Nhập Với Google
+                        <FcGoogle
+                          style={{
+                            marginRight: "10px",
+                            fontSize: "20px",
+                          }}
+                        />{" "}
+                        Đăng nhập với Google
                       </button>
                     </div>
                     <div className="col-lg-12">
                       <button
+                        type="button"
+                        className="btn btn-primary btn-block"
                         style={{
                           height: "50px",
-                          width: "100%",
                           backgroundColor: "#4285f4",
                           fontWeight: "600",
                           color: "#fff",
                           border: "none",
                           borderRadius: "5px",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
                         onClick={handleFacebookLogin}
                       >
-                        Đăng Nhập Với Facebook
+                        <FaFacebookF
+                          style={{ marginRight: "10px", fontSize: "18px" }}
+                        />{" "}
+                        Đăng nhập với Facebook
                       </button>
                     </div>
                     <div className="col-lg-12">

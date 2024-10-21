@@ -45,7 +45,7 @@ const VehicalForm = ({ data, editable, setData }) => {
               className="mt-3 form-control"
               type="file"
               accept="image/*"
-              style={{ minHeight: "45px" }}
+              style={{ minHeight: "45px", lineHeight: "32px" }}
               onChange={(event) => onFileChange(event, "imageCar")}
             />
           )}
@@ -66,7 +66,7 @@ const VehicalForm = ({ data, editable, setData }) => {
               className="mt-3 form-control"
               type="file"
               accept="image/*"
-              style={{ minHeight: "45px" }}
+              style={{ minHeight: "45px", lineHeight: "32px" }}
               onChange={(event) => onFileChange(event, "imageRegistration")}
             />
           )}

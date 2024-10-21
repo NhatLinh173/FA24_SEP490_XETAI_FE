@@ -5,7 +5,7 @@ import ContactDetails from '../component/Contact'
 const Contact = () => {
     return (
         <div className='pb-5'>
-            <CommonBanner heading="Contact Us" page="Contact Us"/>
+            <CommonBanner heading="Liên hệ" page="Liên hệ"/>
             <ContactDetails/>
         </div>
     )

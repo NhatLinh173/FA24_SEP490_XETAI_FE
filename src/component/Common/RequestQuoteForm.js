@@ -12,13 +12,12 @@ const RequestQuoteForm = () => {
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
   );
-  const { email, phone, fullName } = data;
+  const { email, phone, fullName, balance } = data || {};
   const [newEmail, setNewEmail] = useState("");
   const [newPhone, setNewPhone] = useState(0);
   const [newFullName, setNewFullName] = useState("");
   const [orderType, setNewOrderType] = useState("");
   const [addressFrom, setNewAddressFrom] = useState("");
-
   const [addressTo, setNewAddressTo] = useState("");
   const [totalWeight, setNewTotalWeight] = useState("");
   const [cost, setNewCost] = useState("");
@@ -31,6 +30,9 @@ const RequestQuoteForm = () => {
   const [cityTo, setCityTo] = useState("");
   // các biến lỗi
   const [weightError, setWeightError] = useState("");
+
+  const [currentBalance, setCurrentBalance] = useState(balance || 0);
+
   const [newEmailError, setEmailError] = useState("");
   const [recipientEmailError, setRecipientEmailError] = useState("");
   const [AddressToChangeError, setAddressToChangeError] = useState("");
@@ -46,17 +48,21 @@ const RequestQuoteForm = () => {
 
   const getCity = async () => {
     try {
-      const res = await axios.get("https://provinces.open-api.vn/api/");
+      const res = await axios.get("");
       setCities(res.data);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
   };
+  // https://provinces.open-api.vn/api/
 
   useEffect(() => {
     setNewEmail(email);
     setNewPhone(phone);
     setNewFullName(fullName);
+    setCurrentBalance(balance);
     getCity();
-  }, [email, phone, fullName]);
+  }, [email, phone, fullName, balance]);
 
   const handleOrderTypeChange = (e) => {
     if (e.target.value.length > 30) {
@@ -134,18 +140,23 @@ const RequestQuoteForm = () => {
     }
   };
   const handleRecipientNameChange = (e) => {
-    const nameRegex = /^[A-Za-z\s]+$/;
-    if (e.target.value.length > 30) {
+    const value = e.target.value;
+    const nameRegex = /^[\p{L}\s]+$/u;
+
+    if (value.trim() === "") {
+      setRecipientNameError("");
+    } else if (value.length > 30) {
       setRecipientNameError("*Trường này giới hạn 30 kí tự");
       setIsDisable(true);
-    } else if (!nameRegex.test(e.target.value)) {
+    } else if (!nameRegex.test(value)) {
       setRecipientNameError("*Trường này không được nhập số");
       setIsDisable(true);
     } else {
       setRecipientNameError("");
       setIsDisable(false);
     }
-    setRecipientName(e.target.value);
+
+    setRecipientName(value);
   };
   const handleRecipientPhoneChange = (e) => {
     const value = e.target.value;
@@ -200,18 +211,25 @@ const RequestQuoteForm = () => {
     }
   };
   const handleFullNameChange = (e) => {
-    const nameRegex = /^[A-Za-z\s]+$/;
-    if (e.target.value.length > 30) {
+    const value = e.target.value;
+    const nameRegex = /^[\p{L}\s]+$/u;
+
+    if (value === "") {
+      // Khi giá trị rỗng, không hiển thị lỗi
+      setNewFullNameError("");
+      setIsDisable(false);
+    } else if (value.length > 30) {
       setNewFullNameError("*Trường này giới hạn 30 kí tự");
       setIsDisable(true);
-    } else if (!nameRegex.test(e.target.value)) {
+    } else if (!nameRegex.test(value)) {
       setNewFullNameError("Trường này không được nhập số");
       setIsDisable(true);
     } else {
       setNewFullNameError("");
       setIsDisable(false);
     }
-    setNewFullName(e.target.value);
+
+    setNewFullName(value);
   };
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -252,15 +270,18 @@ const RequestQuoteForm = () => {
     formData.append("recipientEmail", recipientEmail);
     formData.append("recipientName", recipientName);
     formData.append("recipientPhone", recipientPhone);
+
     try {
-      const response = await axiosInstance.post("/posts", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response);
+      const response = await axiosInstance.post("/posts", formData);
       if (response.status === 200) {
         toast.success("Đăng Bài thành công");
+        refetch();
+      } else {
+        toast.error("Có lỗi xảy ra, vui lòng thử lại!!!.");
+      }
+      console.log(response);
+      if (response.status === 200) {
+        toast.success("Tạo đơn hàng thành công");
         setNewOrderType("");
         setNewAddressFrom("");
         setNewAddressTo("");
@@ -274,11 +295,15 @@ const RequestQuoteForm = () => {
         setWeightError("");
         setEmailError("");
         setRecipientEmailError("");
+        setNewCost("");
       }
-      refetch();
     } catch (error) {
-      if (error.response.status === 400) {
-        toast.error("Vui lòng điền đầy đủ thông tin");
+      if (error.response?.status === 400) {
+        toast.error("Vui lòng điền đầy đủ thông tin!");
+      } else if (error.response?.status === 402) {
+        toast.error(
+          "Số dư tài khoản không đủ để đăng bài! Vui lòng nạp thêm tiền để đăng bài"
+        );
       }
     }
   };
@@ -309,7 +334,7 @@ const RequestQuoteForm = () => {
                       {imgs.map((img, index) => (
                         <div
                           className={`position-relative border rounded-12 p-3 d-inline-block ${
-                            imgs.length === 1 ? "w-50" : ""
+                            imgs.length === 1 ? "w-100" : ""
                           }`}
                         >
                           <img
@@ -362,82 +387,83 @@ const RequestQuoteForm = () => {
                     </div>
                   )}
 
-                  <div class="container d-flex justify-content-center mb-3"></div>
-                  <div className="col-lg-6 d-flex w-100 addressFrom-input ">
-                    <div className="form-group align-self-end">
-                      <label className="font-weight-bold">
-                        Địa chỉ nhận hàng
-                      </label>
-                      <select
-                        className="form-control first_null"
-                        onChange={handleCityFrom}
-                        defaultValue=""
-                      >
-                        <option value="" disabled>
-                          Chọn Tỉnh/Thành
-                        </option>
-                        {cities.map((city) => (
-                          <option value={city.name}>{city.name}</option>
-                        ))}
-                      </select>
+                  <div class="container d-flex justify-content-center mb-3">
+                    <div className="col-lg-6 d-flex w-100 addressFrom-input  pl-0">
+                      <div className="form-group align-self-end">
+                        <label className="font-weight-bold">
+                          Địa chỉ nhận hàng
+                        </label>
+                        <select
+                          className="form-control first_null"
+                          onChange={handleCityFrom}
+                          defaultValue=""
+                        >
+                          <option value="" disabled>
+                            Chọn Tỉnh/Thành
+                          </option>
+                          {cities.map((city) => (
+                            <option value={city.name}>{city.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-1 custom-input">
+                        <FormInput
+                          tag={"input"}
+                          type={"text"}
+                          name={"departure"}
+                          id={"departure"}
+                          classes={
+                            "form-control align-self-end position-relative"
+                          }
+                          placeholder={"Địa Chỉ Nhận Hàng"}
+                          label="Địa Chỉ Nhận Hàng"
+                          value={addressFrom}
+                          onChange={handleAddressFromChange}
+                        />
+                        {AddressFromChangeError && (
+                          <div className="text-danger position-absolute bottom-error">
+                            {AddressFromChangeError}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex-1 custom-input">
-                      <FormInput
-                        tag={"input"}
-                        type={"text"}
-                        name={"departure"}
-                        id={"departure"}
-                        classes={
-                          "form-control align-self-end position-relative"
-                        }
-                        placeholder={"Địa Chỉ Nhận Hàng"}
-                        label="Địa Chỉ Nhận Hàng"
-                        value={addressFrom}
-                        onChange={handleAddressFromChange}
-                      />
-                      {AddressFromChangeError && (
-                        <div className="text-danger position-absolute bottom-error">
-                          {AddressFromChangeError}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-lg-6 d-flex w-100 addressTo-input">
-                    <div className="form-group align-self-end">
-                      <label className="font-weight-bold">
-                        Địa chỉ giao hàng
-                      </label>
-                      <select
-                        className="form-control first_null"
-                        onChange={handleCityTo}
-                        defaultValue=""
-                      >
-                        <option value="" disabled>
-                          Chọn Tỉnh/Thành
-                        </option>
-                        {cities.map((city) => (
-                          <option value={city.name}>{city.name}</option>
-                        ))}
-                      </select>
-                    </div>
+                    <div className="col-lg-6 d-flex w-100 addressTo-input pr-0">
+                      <div className="form-group align-self-end">
+                        <label className="font-weight-bold">
+                          Địa chỉ giao hàng
+                        </label>
+                        <select
+                          className="form-control first_null"
+                          onChange={handleCityTo}
+                          defaultValue=""
+                        >
+                          <option value="" disabled>
+                            Chọn Tỉnh/Thành
+                          </option>
+                          {cities.map((city) => (
+                            <option value={city.name}>{city.name}</option>
+                          ))}
+                        </select>
+                      </div>
 
-                    <div className="flex-1 custom-input">
-                      <FormInput
-                        tag={"input"}
-                        type={"text"}
-                        name={"city"}
-                        id={"city"}
-                        classes={"form-control position-relative"}
-                        placeholder={"Địa Chỉ Giao Hàng"}
-                        label="Địa Chỉ Giao Hàng"
-                        value={addressTo}
-                        onChange={handleAddressToChange}
-                      />
-                      {AddressToChangeError && (
-                        <div className="text-danger position-absolute bottom-error">
-                          {AddressToChangeError}
-                        </div>
-                      )}
+                      <div className="flex-1 custom-input">
+                        <FormInput
+                          tag={"input"}
+                          type={"text"}
+                          name={"city"}
+                          id={"city"}
+                          classes={"form-control position-relative"}
+                          placeholder={"Địa Chỉ Giao Hàng"}
+                          label="Địa Chỉ Giao Hàng"
+                          value={addressTo}
+                          onChange={handleAddressToChange}
+                        />
+                        {AddressToChangeError && (
+                          <div className="text-danger position-absolute bottom-error">
+                            {AddressToChangeError}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="col-lg-6">
@@ -485,8 +511,8 @@ const RequestQuoteForm = () => {
                       name={"bill"}
                       id={"bill"}
                       classes={"form-control"}
-                      placeholder={"Giá Tiền"}
-                      label="Giá Tiền (VND)"
+                      placeholder={"Giá vận chuyển"}
+                      label="Giá vận chuyển (VND)"
                       value={cost}
                       onChange={handleCostChange}
                     />

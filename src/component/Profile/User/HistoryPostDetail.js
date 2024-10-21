@@ -10,6 +10,7 @@ import { GrHide } from "react-icons/gr";
 import { FaCarSide, FaCheck } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import imgUpload from "../../../assets/img/homepage/output-onlinepngtools.png";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 const HistoryPostDetail = () => {
   const { id } = useParams();
   const userId = localStorage.getItem("userId");
@@ -369,14 +370,15 @@ const HistoryPostDetail = () => {
 
   return (
     <div className="wrapper container pb-5">
-      <ToastContainer /> {/* Thêm ToastContainer vào đây */}
+      <ToastContainer />
       <div className="row">
         {/* Left Side: Service Details */}
         <div className="col-md-8">
           {(post.status === "wait" || post.status === "hide") && (
             <div>
-              {totalImage && totalImage.length > 0 && (
+              {totalImage.length > 0 && (
                 <div>
+                  {/* Hiển thị ảnh đã tải lên */}
                   <div
                     className={`d-flex image-form align-items-center mb-3 ${
                       totalImage.length === 1
@@ -395,7 +397,7 @@ const HistoryPostDetail = () => {
                         <img
                           src={image}
                           alt=""
-                          className={`rounded-12  ${
+                          className={`rounded-12 ${
                             totalImage.length === 1 ? "w-100" : ""
                           }`}
                         />
@@ -405,28 +407,28 @@ const HistoryPostDetail = () => {
                               ? "delete-img"
                               : "delete-imgs"
                           }`}
-                          onClick={() => handleDeleteImage(index)} // Hàm để xóa ảnh
+                          onClick={() => handleDeleteImage(index)}
                         />
                       </div>
                     ))}
                   </div>
-                  <div className="text-center">
-                    <input
-                      className="input-custom "
-                      id="file-upload"
-                      type="file"
-                      onChange={handleFileChange}
-                    />
-                    <label
-                      className="border rounded-12 p-3 pointer img-upload width-img"
-                      htmlFor="file-upload" // Sửa từ "for" thành "htmlFor"
-                    >
-                      <img src={imgUpload} alt="upload" />
-                    </label>
-                    <p className="font-weight-bold">Tải ảnh lên</p>
-                  </div>
                 </div>
               )}
+              <div className="text-center">
+                <input
+                  className="input-custom"
+                  id="file-upload"
+                  type="file"
+                  onChange={handleFileChange}
+                />
+                <label
+                  className="border rounded-12 p-3 pointer img-upload width-img"
+                  htmlFor="file-upload"
+                >
+                  <img src={imgUpload} alt="upload" />
+                </label>
+                <p className="font-weight-bold">Tải ảnh lên</p>
+              </div>
             </div>
           )}
 
@@ -434,7 +436,8 @@ const HistoryPostDetail = () => {
             {/* Service Information */}
             {(post.status === "cancel" ||
               post.status === "inprogress" ||
-              post.status === "finish") && (
+              post.status === "finish" ||
+              post.status === "approve") && (
               <div className="d-flex border-bottom pb-3 mb-3">
                 <div
                   id="carouselExampleControls"
@@ -582,6 +585,21 @@ const HistoryPostDetail = () => {
                           className="w-25 "
                           onChange={handleCityFrom}
                           value={cityFrom}
+                          disabled={
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                          } // Kiểm tra trạng thái đơn
+                          style={{
+                            cursor:
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel"
+                                ? "not-allowed"
+                                : "auto",
+                          }}
                         >
                           {cities.map((city) => (
                             <option value={city.name}>{city.name}</option>
@@ -594,6 +612,21 @@ const HistoryPostDetail = () => {
                             onChange={handleStartPoint}
                             type="text"
                             className="form-control position-relative"
+                            disabled={
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel"
+                            } // Kiểm tra trạng thái đơn
+                            style={{
+                              cursor:
+                                post.status === "approve" ||
+                                post.status === "inprogress" ||
+                                post.status === "finish" ||
+                                post.status === "cancel"
+                                  ? "not-allowed"
+                                  : "auto",
+                            }}
                           />
                           {startPointError && (
                             <div className="text-danger position-absolute ">
@@ -615,6 +648,21 @@ const HistoryPostDetail = () => {
                           className="w-25"
                           onChange={handleCityTo}
                           value={cityTo}
+                          disabled={
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                          } // Kiểm tra trạng thái đơn
+                          style={{
+                            cursor:
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel"
+                                ? "not-allowed"
+                                : "auto",
+                          }}
                         >
                           {cities.map((city) => (
                             <option value={city.name}>{city.name}</option>
@@ -627,6 +675,21 @@ const HistoryPostDetail = () => {
                             onChange={handleDestination}
                             type="text"
                             className="form-control position-relative"
+                            disabled={
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel"
+                            } // Kiểm tra trạng thái đơn
+                            style={{
+                              cursor:
+                                post.status === "approve" ||
+                                post.status === "inprogress" ||
+                                post.status === "finish" ||
+                                post.status === "cancel"
+                                  ? "not-allowed"
+                                  : "auto",
+                            }}
                           />
                           {destinationError && (
                             <div className="text-danger position-absolute ">
@@ -646,6 +709,21 @@ const HistoryPostDetail = () => {
                         type="text"
                         className="form-control position-relative"
                         onChange={handleTitle}
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {titleError && (
                         <div className="text-danger position-absolute bt-error">
@@ -664,6 +742,21 @@ const HistoryPostDetail = () => {
                         onChange={handleLoad}
                         type="text"
                         className="form-control position-relative"
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {weightError && (
                         <div className="text-danger position-absolute bt-error">
@@ -673,7 +766,7 @@ const HistoryPostDetail = () => {
                     </div>
                     <div className="form-group col-md-6">
                       <label htmlFor="price" className="font-weight-bold ">
-                        Giá
+                        Giá vận chuyển
                       </label>
                       <input
                         id="price"
@@ -681,6 +774,21 @@ const HistoryPostDetail = () => {
                         onChange={handlePrice}
                         type="text"
                         className="form-control position-relative"
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {priceError && (
                         <div className="text-danger position-absolute bt-error ">
@@ -699,6 +807,21 @@ const HistoryPostDetail = () => {
                         onChange={handleNewDetail}
                         className="form-control position-relative"
                         rows="4"
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
 
                       {detailError && (
@@ -726,6 +849,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={recipientName}
                         onChange={handleReceptionName}
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {recipentNameError && (
                         <div className="text-danger position-absolute bt-error">
@@ -743,6 +881,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={recipientEmail}
                         onChange={handleReceptionEmail}
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {recipentEmailError && (
                         <div className="text-danger position-absolute bt-error">
@@ -760,6 +913,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={recipientPhone}
                         onChange={handleReceptionPhone}
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
 
                       {recipentPhoneError && (
@@ -788,6 +956,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={newFullName}
                         onChange={handleNameChange}
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {fullNameError && (
                         <div className="text-danger position-absolute bt-error">
@@ -805,6 +988,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={newEmail}
                         onChange={handleEmailChange}
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {emailError && (
                         <div className="text-danger position-absolute bt-error">
@@ -822,6 +1020,21 @@ const HistoryPostDetail = () => {
                         className="form-control position-relative"
                         value={newPhone}
                         onChange={handlePhoneChange}
+                        disabled={
+                          post.status === "approve" ||
+                          post.status === "inprogress" ||
+                          post.status === "finish" ||
+                          post.status === "cancel"
+                        } // Kiểm tra trạng thái đơn
+                        style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel"
+                              ? "not-allowed"
+                              : "auto",
+                        }}
                       />
                       {phoneError && (
                         <div className="text-danger position-absolute bt-error">
@@ -837,7 +1050,12 @@ const HistoryPostDetail = () => {
                     type="submit"
                     className="btn btn-primary btn-lg w-25  cursor-disable"
                     onClick={handleSubmitForm}
-                    disabled={isDisable}
+                    disabled={
+                      isDisable ||
+                      post.status === "finish" ||
+                      post.status === "inprogress" ||
+                      post.status === "cancel"
+                    }
                   >
                     <span>Cập nhật</span>
                   </button>
@@ -848,38 +1066,46 @@ const HistoryPostDetail = () => {
         </div>
         {/* Right Side: Contact Info */}
         {post.status === "wait" && (
-          <div className="col-md-4 " style={{ right: "20px", width: "300px" }}>
-            <div className="card border ">
+          <div className="col-md-4" style={{ right: "20px", width: "300px" }}>
+            <div className="card border">
               <div className="card-header">
                 <h3>Tài xế đang thương lượng</h3>
               </div>
               <ul className="list-group list-group-flush">
-                {deals.map(
-                  (
-                    deal,
-                    index // Sử dụng vòng lặp map để tạo danh sách
-                  ) => (
-                    <li
-                      key={index}
-                      className="list-group-item d-flex justify-content-between align-items-center"
+                {deals.map((deal, index) => (
+                  <li
+                    key={index}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <strong>Tài xế: </strong>
+                      <span>{deal.driverId.userId.fullName}</span>
+                      <br />
+                      <strong>Giá: </strong>
+                      <span>{deal.dealPrice} VND</span>
+                      <br />
+                      {/* Hiển thị đánh giá với biểu tượng ngôi sao */}
+                      <strong>Đánh giá: </strong>
+                      <span style={{ color: "gold" }}>
+                        <FaStar />
+                        <FaStar />
+                        <FaStar />
+                        <FaStar />
+                        <FaStarHalfAlt /> {/* Ngôi sao nửa */}
+                      </span>
+                      <br />
+                      <strong>Ngày giao dự kiến:</strong>
+                      <span className="mr-1"> 2/2/2024</span>
+                    </div>
+                    <button
+                      className="btn-success btn-sm"
+                      style={{ border: "none" }}
+                      onClick={() => handleOpenModal(deal._id)}
                     >
-                      <div>
-                        <strong>Tài xế: </strong>
-                        <span>{deal.driverId.userId.fullName}</span>
-                        <br />
-                        <strong>Giá: </strong>
-                        <span>{deal.dealPrice}</span>
-                      </div>
-                      <button
-                        className="btn-success btn-sm "
-                        style={{ border: "none" }}
-                        onClick={() => handleOpenModal(deal._id)}
-                      >
-                        Xác nhận
-                      </button>
-                    </li>
-                  )
-                )}
+                      Xác nhận
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -968,14 +1194,14 @@ const HistoryPostDetail = () => {
                       </span>
                     </li>
                   </ul>
-                  <button
-                    className="btn-success rounded border-0 mt-2 text-white"
-                    onClick={() => {
-                      /* Thêm logic để xem chi tiết tài xế */
-                    }}
-                  >
-                    Xem chi tiết
-                  </button>
+                  <div className="mt-2 d-flex flex-column align-items-center w-100">
+                    <button className="btn-success  rounded border-0 text-white w-50 mb-2 ">
+                      Xem chi tiết
+                    </button>
+                    <button className="btn-warning rounded border-0 w-50 text-white">
+                      Đánh giá
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
