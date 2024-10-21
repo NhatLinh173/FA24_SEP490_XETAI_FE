@@ -3,8 +3,6 @@ import React from 'react'
 import ContactForm from '../Contact/ContactForm'
 // Import ContactInfo Area
 import ContactInfo from '../Contact/ContactInfo'
-// Import ContactMap Area
-import ContactMap from '../Contact/ContactMap'
 
 //ContactArea Area
 const ContactDetails = () => {
@@ -15,7 +13,7 @@ const ContactDetails = () => {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="section_heading_center">
-                                <h2>Contact Info</h2>
+                                <h2>Thông tin liên hệ</h2>
                             </div>
                         </div>
                     </div>
@@ -31,9 +29,6 @@ const ContactDetails = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="map_area">
-                    <ContactMap/>
                 </div>
             </section>
         </>
