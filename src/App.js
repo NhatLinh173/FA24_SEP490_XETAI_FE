@@ -113,6 +113,7 @@ const App = () => {
             <Route path="/payment/success" exact component={PaymentSuccess} />
             <Route path="/payment/failed" exact component={PaymentFailed} />
             <Route path="/chat" exact component={Chat} />
+       
             <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
             <Route path="/dashboard-admin" exact component={AdminDashboard} />
           </Switch>

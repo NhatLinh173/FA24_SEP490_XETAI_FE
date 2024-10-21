@@ -17,10 +17,11 @@ import "./assets/css/responsive.css";
 import "./assets/css/animate.min.css";
 import "./assets/css/fontawesome.all.min.css";
 import "./assets/css/color.css";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
-  <React.Fragment>
+  <BrowserRouter>
     <App />
-  </React.Fragment>,
+  </BrowserRouter>,
   document.getElementById("root")
 );

@@ -15,9 +15,9 @@ const DashboardProfile = () => {
 
   const [tab, setTab] = useState("profile");
   const userId = localStorage.getItem("userId");
-
+  const driverId = localStorage.getItem("driverId");
   const { data, loading, error, refetch } = useInstanceData(
-    `/auth/user/${userId}`
+    `/auth/user/${userId} `
   );
 
   useEffect(() => {
