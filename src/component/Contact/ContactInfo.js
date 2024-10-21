@@ -1,32 +1,26 @@
-import React from "react"
+import React from 'react'
 //ContactInfo Area
 const ContactInfo = () => {
-  return (
-    <>
-      <div className="contact_info_wrapper">
-        <div className="contact_item">
-          <h5>Tổng Công ty Vận Tải RFTMS</h5>
-          <p>(Road Freight Transportation Management System)</p>
-        </div>
-        <div className="contact_item">
-          <h5>Trụ Sở Chính:</h5>
-          <p>04 Bạch Đằng, Thạch Thang, Hải Châu, Đà Nẵng 550000, Việt Nam</p>
-        </div>
-        <div className="contact_item">
-          <h5>Số Điện Thoại Liên Hệ:</h5>
-          <p>19009999</p>
-        </div>
-        <div className="contact_item">
-          <h5>Email:</h5>
-          <p>cskh@RFTMS.com.vn</p>
-        </div>
-        <div className="contact_item">
-          <h5>Website:</h5>
-          <p>04 Bạch Đằng, Thạch Thang, Hải Châu, Đà Nẵng 550000, Việt Nam</p>
-        </div>
-      </div>
-    </>
-  )
+    return (
+        <>
+            <div className="contact_info_wrapper">
+                <div className="contact_item">
+                    <h5>Our Address</h5>
+                    <p>6th floor, anthina Barbosa Sidney</p>
+                </div>
+                <div className="contact_item">
+                    <h5>Call us on</h5>
+                    <p>Office: +44 567 890123 & +44 123 456789</p>
+                    <p>Customer Care: 1800-123-45-6789</p>
+                </div>
+                <div className="contact_item">
+                    <h5>Mail Us at</h5>
+                    <p>Mailus@demo.com</p>
+                    <p>Wesupportyou@demo.com</p>
+                </div>
+            </div>
+        </>
+    )
 }
 
 export default ContactInfo

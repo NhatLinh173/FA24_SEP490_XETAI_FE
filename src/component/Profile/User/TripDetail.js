@@ -1,68 +1,29 @@
-import { useEffect, useState } from "react"
-import { CiStar } from "react-icons/ci"
-import { FaStar } from "react-icons/fa"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
-import { toast } from "react-toastify"
-import axiosInstance from "../../../config/axiosConfig"
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import axiosInstance from "../../../config/axiosConfig";
+import { toast } from "react-toastify";
+import { CiHeart, FaHeart } from "react-icons/ci";
 
 const TripDetail = () => {
-  const [tripDetail, setTripDetail] = useState(null)
-  const [rating, setRating] = useState(0) // Lưu trạng thái số sao được chọn
-  const [hover, setHover] = useState(null) // Trạng thái sao khi người dùng hover
-  const [feedback, setfeedback] = useState("")
-  const [isShowModal, setIsShowModal] = useState(false)
-
-  const { id } = useParams()
-  const driverId = localStorage.getItem("driverId")
-  const userId = localStorage.getItem("userId")
+  const { id } = useParams();
+  const driverId = localStorage.getItem("driverId");
+  const userId = localStorage.getItem("userId");
 
   const handleFavoriteDriver = async () => {
     try {
       const response = await axiosInstance.post("/favorites/add", {
         driverId,
         userId,
-      })
+      });
       if (response.status === 200) {
-        toast.success("Đã thêm tài xế vào danh sách yêu thích")
+        toast.success("Đã thêm tài xế vào danh sách yêu thích");
       } else {
-        toast.error("Thêm tài xế vào danh sách yêu thích thất bại")
+        toast.error("Thêm tài xế vào danh sách yêu thích thất bại");
       }
     } catch (error) {
-      console.error("Error adding favorite driver:", error)
-      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.")
+      console.error("Error adding favorite driver:", error);
+      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.");
     }
-  }
-
-  const handleOpenModal = () => {
-    setIsShowModal(true)
-  }
-
-  const handleCloseModal = () => {
-    setIsShowModal(false)
-  }
-
-  const handleFeedback = (e) => {
-    setfeedback(e.target.value)
-  }
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axiosInstance.post("/rating", {
-  //       userId: 12312321,
-  //       rating: rating,
-  //       reviewerId: reviewerId,
-  //       comment: feedback,
-  //     });
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const handleRatingClick = (value) => {
-    setRating(value)
-  }
+  };
 
   const DUMMY_DATA = {
     trip_name: "Đà Nẵng - Hải Phòng",
@@ -79,38 +40,17 @@ const TripDetail = () => {
     customer_name: "Nguyen Van A",
     email: "vana@gmail.com",
     phone_number: "098765432",
-  }
+  };
 
   const STATUS = {
-    wait: "Đang chờ",
-    approve: "Đã giao",
-    inprogress: "Đang giao",
-    finish: "Đã giao",
-    cancel: "Đã Huỷ",
-    hide: "Ẩn",
-  }
+    0: "Đã Huỷ ",
+    1: "Đã giao",
+  };
 
   const STATUS_BADGE_CLASS = {
-    wait: "status-wait", // "Đang chờ" - waiting
-    approve: "status-approve", // "Đã giao" - approved
-    inprogress: "status-inprogress", // "Đang giao" - in progress
-    finish: "status-finish", // "Đã giao" - finished (may be considered as secondary)
-    cancel: "status-cancel", // "Đã Huỷ" - canceled
-    hide: "status-hide", // "Ẩn" - hidden
-  }
-
-  const getTripHistoryDetail = async () => {
-    try {
-      const response = await axiosInstance.get(`/posts/${id}`)
-      setTripDetail(response.data)
-    } catch (error) {}
-  }
-
-  useEffect(() => {
-    getTripHistoryDetail()
-  }, [])
-
-  if (!tripDetail) return <div>Không có data</div>
+    0: "badge-warning",
+    1: "badge-info",
+  };
 
   return (
     <div className="wrapper container pb-5">
@@ -128,32 +68,20 @@ const TripDetail = () => {
               <div className="ml-4 d-flex flex-column justify-content-center">
                 <div className="mb-2">
                   <span className="font-weight-bold">
-                    {tripDetail.startPointCity} - {tripDetail.destinationCity}
+                    {DUMMY_DATA.trip_name}
                   </span>
                 </div>
 
                 <div
-                  className={`mb-3 fs-12 status-badge ${
-                    STATUS_BADGE_CLASS[tripDetail.status]
+                  className={`mb-3 fs-12 ${
+                    STATUS_BADGE_CLASS[DUMMY_DATA.status]
                   }`}
                 >
-                  {STATUS[tripDetail.status]}
+                  {STATUS[DUMMY_DATA.status]}
                 </div>
 
                 <div className="fs-12 text-secondary">
-                  {`Địa chỉ nhận hàng: ${tripDetail.destination} - ${tripDetail.destinationCity}`}
-                </div>
-
-                <div className="mt-2">
-                  <button
-                    type="button"
-                    class="btn btn-theme "
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    onClick={handleOpenModal}
-                  >
-                    Đánh giá
-                  </button>
+                  Địa chỉ nhận hàng: {DUMMY_DATA.address}
                 </div>
               </div>
             </div>
@@ -183,7 +111,7 @@ const TripDetail = () => {
                     <label htmlFor="category">Loại hàng</label>
                     <input
                       id="category"
-                      defaultValue={tripDetail.title}
+                      defaultValue={DUMMY_DATA.category}
                       type="text"
                       className="form-control"
                       placeholder="Loại hàng"
@@ -195,7 +123,7 @@ const TripDetail = () => {
                     <label htmlFor="deliver_address">Giá tiền</label>
                     <input
                       id="deliver_address"
-                      defaultValue={`${tripDetail.price.toLocaleString()} VND`}
+                      defaultValue={`${DUMMY_DATA.amount.toLocaleString()} vnd`}
                       type="text"
                       className="form-control"
                       placeholder="Giá tiền"
@@ -209,7 +137,7 @@ const TripDetail = () => {
                     <label htmlFor="address">Địa chỉ nhận hàng</label>
                     <input
                       id="address"
-                      defaultValue={tripDetail.startPointCity}
+                      defaultValue={DUMMY_DATA.receive_address}
                       type="text"
                       className="form-control"
                       placeholder="Địa chỉ nhận hàng"
@@ -221,7 +149,7 @@ const TripDetail = () => {
                     <label htmlFor="deliver_address">Địa chỉ giao hàng</label>
                     <input
                       id="deliver_address"
-                      defaultValue={tripDetail.destinationCity}
+                      defaultValue={DUMMY_DATA.delivery_address}
                       type="text"
                       className="form-control"
                       placeholder="Địa chỉ giao hàng"
@@ -235,7 +163,7 @@ const TripDetail = () => {
                     <label htmlFor="address">Tổng trọng lượng (KG)</label>
                     <input
                       id="address"
-                      defaultValue={tripDetail.load}
+                      defaultValue={DUMMY_DATA.total_weight}
                       type="number"
                       className="form-control"
                       placeholder="Tổng trọng lượng (KG)"
@@ -252,7 +180,7 @@ const TripDetail = () => {
                     <div style={{ height: "300px" }}>
                       <textarea
                         id="description"
-                        defaultValue={tripDetail.detail}
+                        defaultValue={DUMMY_DATA.description}
                         className="w-full form-control"
                         placeholder="Mô tả đơn hàng"
                         readOnly
@@ -272,7 +200,7 @@ const TripDetail = () => {
                     <label htmlFor="customer-name">Họ và tên</label>
                     <input
                       id="customer-name"
-                      defaultValue={tripDetail.recipientName}
+                      defaultValue={DUMMY_DATA.customer_name}
                       type="text"
                       className="form-control"
                       placeholder="Họ và tên"
@@ -285,7 +213,7 @@ const TripDetail = () => {
 
                     <input
                       id="email"
-                      defaultValue={tripDetail.recipientEmail}
+                      defaultValue={DUMMY_DATA.email}
                       type="email"
                       className="form-control"
                       placeholder="Email"
@@ -299,7 +227,7 @@ const TripDetail = () => {
                     <label htmlFor="phone-number">Số điện thoại</label>
                     <input
                       id="phone-number"
-                      defaultValue={tripDetail.recipientPhone}
+                      defaultValue={DUMMY_DATA.phone_number}
                       type="tel"
                       className="form-control"
                       placeholder="Số điện thoại"
@@ -313,76 +241,6 @@ const TripDetail = () => {
             </div>
           </div>
         </div>
-
-        {isShowModal && (
-          <div
-            class="modal fade show"
-            id="exampleModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content ">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">
-                    Đánh giá chuyến hàng
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body flex-column">
-                  <div className="">
-                    <div className="d-flex justify-content-center mb-3">
-                      {[...Array(5)].map((star, index) => {
-                        const value = index + 1
-                        return (
-                          <div
-                            key={index}
-                            className="cursor-pointer"
-                            onClick={() => handleRatingClick(value)}
-                            onMouseEnter={() => setHover(value)}
-                            onMouseLeave={() => setHover(null)}
-                          >
-                            {value <= (hover || rating) ? (
-                              <FaStar size={30} color="yellow" /> // Ngôi sao màu trắng trên nền vàng
-                            ) : (
-                              <CiStar size={30} color="#000" /> // Ngôi sao rỗng màu đen
-                            )}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                  <textarea
-                    className="form-control"
-                    placeholder="Đánh giá"
-                    rows="4"
-                    value={feedback}
-                    onChange={handleFeedback}
-                  />
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                    onClick={handleCloseModal}
-                  >
-                    Đóng
-                  </button>
-                  <button type="button" class="btn btn-primary">
-                    Gủi
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="col-4 pl-2">
           <div className="border rounded-12 p-3">
@@ -404,7 +262,13 @@ const TripDetail = () => {
                   <div className="fw-600">Nguyễn Xuân Tùng</div>
                   <tel className="fs-14 text-secondary">0987654321</tel>
                   <div>
-                    <button onClick={handleFavoriteDriver}>Yêu Thích</button>
+                    <a
+                      onClick={handleFavoriteDriver}
+                      style={{ fontSize: "30px" }}
+                    >
+                      {" "}
+                      <CiHeart />{" "}
+                    </a>
                   </div>
                 </div>
               </div>
@@ -414,12 +278,12 @@ const TripDetail = () => {
 
                 <div className="mb-3 d-flex justify-content-between">
                   <span>Tên người nhận hàng</span>
-                  <span className="fw-600">{tripDetail.recipientName}</span>
+                  <span className="fw-600">Nguyen Van A</span>
                 </div>
 
                 <div className="mb-3 d-flex justify-content-between">
                   <span>SĐT người nhận</span>
-                  <span className="fw-600">{tripDetail.recipientPhone}</span>
+                  <span className="fw-600">0987654321</span>
                 </div>
 
                 <div className="mb-3 d-flex justify-content-between">
@@ -439,7 +303,7 @@ const TripDetail = () => {
 
                 <div className="mb-3 d-flex justify-content-between">
                   <span>Đơn giá hàng</span>
-                  <span className="fw-600">803,600 VND</span>
+                  <span className="fw-600">803,600 vnd</span>
                 </div>
               </div>
             </div>
@@ -447,7 +311,7 @@ const TripDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TripDetail
+export default TripDetail;

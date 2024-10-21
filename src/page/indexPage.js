@@ -34,6 +34,7 @@ const IndexPage = () => {
   return (
     <>
       <HomeBanner />
+      <GetSchedule />
       <LogisticsService />
       <HomeAbout />
       <OurAdvantage />
