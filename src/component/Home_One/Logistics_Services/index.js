@@ -38,6 +38,7 @@ const LogisticsService = () => {
                     {post &&
                       post?.salePosts?.map((data) => (
                         <ServiceCard
+                          key={data._id}
                           id={data._id}
                           img={
                             data.images && data.images.length > 0

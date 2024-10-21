@@ -22,6 +22,9 @@ const ServiceDetail = () => {
   const [loading, setLoading] = useState(true);
   const [postId, setPostId] = useState(null);
   const [driverId, setDriverId] = useState(null);
+  const [dealId, setDealId] = useState(null);
+  const [isOrderAccepted, setIsOrderAccepted] = useState(false);
+
   useEffect(() => {
     const decodeToken = () => {
       const token = localStorage.getItem("accessToken");
@@ -51,9 +54,13 @@ const ServiceDetail = () => {
     const getPostById = async () => {
       try {
         const response = await axiosInstance.get(`/posts/${id}`);
-        console.log("Data post", response.data);
-        console.log("DealId", response.data.dealId);
         setPostData(response.data);
+        if (response.data.dealId && response.data.dealId.driverId) {
+          setDealId(response.data.dealId.driverId._id);
+        } else {
+          setDealId(null);
+        }
+
         if (response.data.creator && response.data.creator._id) {
           setIdPoster(response.data.creator._id);
           setPostId(response.data._id);
@@ -126,16 +133,42 @@ const ServiceDetail = () => {
       return;
     }
 
-    const response = await axiosInstance.patch(`/posts/${postId}/deal`, {
-      driverId,
-      status: "approve",
-    });
-    if (response.status === 200) {
-      setShowModal(false);
-      toast.success("Chấp nhận đơn hàng thành công", { autoClose: 2000 });
-    } else {
-      console.error("Lỗi khi Chấp nhận đơn hàng:", response.data);
-      toast.error("Chấp nhận đơn hàng thất bại");
+    const currentTime = new Date();
+    if (new Date(deliveryTime) <= currentTime) {
+      toast.error(
+        "Thời gian giao hàng dự kiến không được ở quá khứ hoặc bằng hiện tại"
+      );
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.patch(`/posts/${postId}/deal`, {
+        driverId,
+        status: "approve",
+        deliveryTime,
+        dealPrice: postData.price,
+      });
+
+      if (response.status === 200) {
+        setShowModal(false);
+        setIsOrderAccepted(true);
+        toast.success("Chấp nhận đơn hàng thành công", { autoClose: 2000 });
+
+        const sendEmail = await axiosInstance.post("/send/email", {
+          to: postData.email,
+          subject: "Chấp Nhận Đơn Hàng",
+          text: `Đơn hàng ${postData._id} của bạn đã được chấp nhận, vui lòng chuẩn bị hàng để tài xế đến nhận.`,
+        });
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.error(
+          "Thời gian giao hàng dự kiến không được ở quá khứ và bằng hiện tại!"
+        );
+      } else {
+        console.error("Lỗi khi Chấp nhận đơn hàng:", error.response.data);
+        toast.error("Chấp nhận đơn hàng thất bại");
+      }
     }
   };
 
@@ -144,13 +177,31 @@ const ServiceDetail = () => {
       toast.error("Vui lòng chọn thời gian dự kiến giao hàng");
       return;
     }
+
+    const currentTime = new Date();
+    if (new Date(deliveryTime) <= currentTime) {
+      toast.error(
+        "Thời gian giao hàng dự kiến không được ở quá khứ hoặc bằng hiện tại"
+      );
+      return;
+    }
+
     const response = await axiosInstance.patch(`/posts/${postId}/deal`, {
       driverId,
       status: "wait",
+      deliveryTime,
+      dealPrice: negotiatedPrice,
     });
     if (response.status === 200) {
       setShowModal(false);
+      setIsOrderAccepted(true);
       toast.success("Thương lượng giá thành công", { autoClose: 2000 });
+
+      const sendEmail = await axiosInstance.post("/send/email", {
+        to: postData.email,
+        subject: "Chấp Nhận Đơn Hàng",
+        text: `Đơn hàng ${postData._id} của bạn đã được chấp nhận, vui lòng chuẩn bị hàng để tài xế đến nhận.`,
+      });
     } else {
       console.error("Lỗi khi thương lượng giá:", response.data);
       toast.error("Thương lượng giá thất bại");
@@ -204,6 +255,7 @@ const ServiceDetail = () => {
                         height: "140px",
                         objectFit: "cover",
                         borderRadius: "5px",
+                        cursor: "pointer",
                       }}
                     />
                   ))}
@@ -366,14 +418,16 @@ const ServiceDetail = () => {
               </div>
             </div>
             <div className="mt-3 d-flex justify-content-end">
-              {(userRole === "personal" || userRole === "business") && (
-                <button
-                  className="btn btn-accept-order"
-                  onClick={handleAcceptOrder}
-                >
-                  Chấp nhận đơn hàng
-                </button>
-              )}
+              {(userRole === "personal" || userRole === "business") &&
+                dealId !== driverId &&
+                !isOrderAccepted && (
+                  <button
+                    className="btn btn-accept-order"
+                    onClick={handleAcceptOrder}
+                  >
+                    Chấp nhận đơn hàng
+                  </button>
+                )}
               <button className="btn btn-close-order" onClick={handleClose}>
                 Đóng
               </button>
