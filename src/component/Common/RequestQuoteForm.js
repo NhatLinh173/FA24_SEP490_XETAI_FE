@@ -48,13 +48,13 @@ const RequestQuoteForm = () => {
 
   const getCity = async () => {
     try {
-      const res = await axios.get("");
+      const res = await axios.get("https://provinces.open-api.vn/api/");
+
       setCities(res.data);
     } catch (error) {
       console.error("Error fetching cities:", error);
     }
   };
-  // https://provinces.open-api.vn/api/
 
   useEffect(() => {
     setNewEmail(email);
@@ -296,7 +296,18 @@ const RequestQuoteForm = () => {
         setEmailError("");
         setRecipientEmailError("");
         setNewCost("");
+
       } else if (error.response?.status === 400) {
+
+      }
+      if (response.status === 402) {
+        toast.error(
+          "Số dư tài khoản không đủ để đăng bài! Vui lòng nạp thêm tiền để đăng bài"
+        );
+      }
+    } catch (error) {
+      if (error.response?.status === 400) {
+
         toast.error("Vui lòng điền đầy đủ thông tin!");
       } else if (error.response?.status === 402) {
         toast.error(
@@ -387,82 +398,83 @@ const RequestQuoteForm = () => {
                     </div>
                   )}
 
-                  <div class="container d-flex justify-content-center mb-3"></div>
-                  <div className="col-lg-6 d-flex w-100 addressFrom-input ">
-                    <div className="form-group align-self-end">
-                      <label className="font-weight-bold">
-                        Địa chỉ nhận hàng
-                      </label>
-                      <select
-                        className="form-control first_null"
-                        onChange={handleCityFrom}
-                        defaultValue=""
-                      >
-                        <option value="" disabled>
-                          Chọn Tỉnh/Thành
-                        </option>
-                        {cities.map((city) => (
-                          <option value={city.name}>{city.name}</option>
-                        ))}
-                      </select>
+                  <div class="container d-flex justify-content-center mb-3">
+                    <div className="col-lg-6 d-flex w-100 addressFrom-input  pl-0">
+                      <div className="form-group align-self-end">
+                        <label className="font-weight-bold">
+                          Địa chỉ nhận hàng
+                        </label>
+                        <select
+                          className="form-control first_null"
+                          onChange={handleCityFrom}
+                          defaultValue=""
+                        >
+                          <option value="" disabled>
+                            Chọn Tỉnh/Thành
+                          </option>
+                          {cities.map((city) => (
+                            <option value={city.name}>{city.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-1 custom-input">
+                        <FormInput
+                          tag={"input"}
+                          type={"text"}
+                          name={"departure"}
+                          id={"departure"}
+                          classes={
+                            "form-control align-self-end position-relative"
+                          }
+                          placeholder={"Địa Chỉ Nhận Hàng"}
+                          label="Địa Chỉ Nhận Hàng"
+                          value={addressFrom}
+                          onChange={handleAddressFromChange}
+                        />
+                        {AddressFromChangeError && (
+                          <div className="text-danger position-absolute bottom-error">
+                            {AddressFromChangeError}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex-1 custom-input">
-                      <FormInput
-                        tag={"input"}
-                        type={"text"}
-                        name={"departure"}
-                        id={"departure"}
-                        classes={
-                          "form-control align-self-end position-relative"
-                        }
-                        placeholder={"Địa Chỉ Nhận Hàng"}
-                        label="Địa Chỉ Nhận Hàng"
-                        value={addressFrom}
-                        onChange={handleAddressFromChange}
-                      />
-                      {AddressFromChangeError && (
-                        <div className="text-danger position-absolute bottom-error">
-                          {AddressFromChangeError}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-lg-6 d-flex w-100 addressTo-input">
-                    <div className="form-group align-self-end">
-                      <label className="font-weight-bold">
-                        Địa chỉ giao hàng
-                      </label>
-                      <select
-                        className="form-control first_null"
-                        onChange={handleCityTo}
-                        defaultValue=""
-                      >
-                        <option value="" disabled>
-                          Chọn Tỉnh/Thành
-                        </option>
-                        {cities.map((city) => (
-                          <option value={city.name}>{city.name}</option>
-                        ))}
-                      </select>
-                    </div>
+                    <div className="col-lg-6 d-flex w-100 addressTo-input pr-0">
+                      <div className="form-group align-self-end">
+                        <label className="font-weight-bold">
+                          Địa chỉ giao hàng
+                        </label>
+                        <select
+                          className="form-control first_null"
+                          onChange={handleCityTo}
+                          defaultValue=""
+                        >
+                          <option value="" disabled>
+                            Chọn Tỉnh/Thành
+                          </option>
+                          {cities.map((city) => (
+                            <option value={city.name}>{city.name}</option>
+                          ))}
+                        </select>
+                      </div>
 
-                    <div className="flex-1 custom-input">
-                      <FormInput
-                        tag={"input"}
-                        type={"text"}
-                        name={"city"}
-                        id={"city"}
-                        classes={"form-control position-relative"}
-                        placeholder={"Địa Chỉ Giao Hàng"}
-                        label="Địa Chỉ Giao Hàng"
-                        value={addressTo}
-                        onChange={handleAddressToChange}
-                      />
-                      {AddressToChangeError && (
-                        <div className="text-danger position-absolute bottom-error">
-                          {AddressToChangeError}
-                        </div>
-                      )}
+                      <div className="flex-1 custom-input">
+                        <FormInput
+                          tag={"input"}
+                          type={"text"}
+                          name={"city"}
+                          id={"city"}
+                          classes={"form-control position-relative"}
+                          placeholder={"Địa Chỉ Giao Hàng"}
+                          label="Địa Chỉ Giao Hàng"
+                          value={addressTo}
+                          onChange={handleAddressToChange}
+                        />
+                        {AddressToChangeError && (
+                          <div className="text-danger position-absolute bottom-error">
+                            {AddressToChangeError}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="col-lg-6">

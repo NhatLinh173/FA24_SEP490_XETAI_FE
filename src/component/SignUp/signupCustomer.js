@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import regexPattern from "../../config/regexConfig";
 import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF } from "react-icons/fa";
 
 const SignUpCustomer = () => {
   const [email, setEmail] = useState("");

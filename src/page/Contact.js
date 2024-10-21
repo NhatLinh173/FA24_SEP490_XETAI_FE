@@ -1,15 +1,13 @@
 import React from 'react'
 import CommonBanner from '../component/Common/Banner'
 import ContactDetails from '../component/Contact'
-import OurPartner from '../component/Common/OurPartner'
 
 const Contact = () => {
     return (
-        <>
-            <CommonBanner heading="Contact Us" page="Contact Us"/>
+        <div className='pb-5'>
+            <CommonBanner heading="Liên hệ" page="Liên hệ"/>
             <ContactDetails/>
-            <OurPartner/>
-        </>
+        </div>
     )
 }
 

@@ -115,6 +115,7 @@ const App = () => {
             <Route path="/chat" exact component={Chat} />
        
             <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
+            <Route path="/vehical/add" exact component={VehicalAdd} />
             <Route path="/dashboard-admin" exact component={AdminDashboard} />
           </Switch>
           <Footer />
