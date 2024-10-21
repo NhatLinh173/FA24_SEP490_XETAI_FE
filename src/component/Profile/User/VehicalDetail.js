@@ -89,7 +89,7 @@ const VehicalDetail = () => {
             <div className="mt-4 d-flex justify-content-center gap-3">
               <button
                 type="button"
-                class={`btn ${editable ? "" : "btn-theme"}`}
+                class={`btn ${editable ? "shadow-sm" : "btn-theme"}`}
                 disabled={loading}
                 onClick={() => {
                   setEditable((prev) => !prev)
