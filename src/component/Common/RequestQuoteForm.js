@@ -48,13 +48,13 @@ const RequestQuoteForm = () => {
 
   const getCity = async () => {
     try {
-      const res = await axios.get("");
+      const res = await axios.get("https://provinces.open-api.vn/api/");
+
       setCities(res.data);
     } catch (error) {
       console.error("Error fetching cities:", error);
     }
   };
-  // https://provinces.open-api.vn/api/
 
   useEffect(() => {
     setNewEmail(email);
@@ -296,6 +296,11 @@ const RequestQuoteForm = () => {
         setEmailError("");
         setRecipientEmailError("");
         setNewCost("");
+      }
+      if (response.status === 402) {
+        toast.error(
+          "Số dư tài khoản không đủ để đăng bài! Vui lòng nạp thêm tiền để đăng bài"
+        );
       }
     } catch (error) {
       if (error.response?.status === 400) {

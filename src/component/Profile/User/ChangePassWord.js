@@ -58,7 +58,7 @@ const ChangePassWord = () => {
       <div>
         <form>
           <div className=" row align-items-center">
-            <div className="col-3">
+            <div className="col-3 font-weight-bold">
               <label for="current_password">Mật khẩu hiện tại:</label>
             </div>
             <div className="col-9">
@@ -76,7 +76,7 @@ const ChangePassWord = () => {
           </div>
           <br />
           <div className="row align-items-center">
-            <div className="col-3">
+            <div className="col-3 font-weight-bold">
               <label for="new_password">Mật khẩu mới</label>
             </div>
             <div className="col-9">
@@ -94,7 +94,7 @@ const ChangePassWord = () => {
           </div>
           <br />
           <div className="row align-items-center">
-            <div className="col-3">
+            <div className="col-3 font-weight-bold">
               <label for="confirm_password">Xác nhận mật khẩu:</label>
             </div>
             <div className="col-9">
