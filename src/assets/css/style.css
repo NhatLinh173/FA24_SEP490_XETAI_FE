@@ -5218,7 +5218,10 @@ input[type="number"]::-webkit-inner-spin-button {
   color: orange;
   /* Màu chữ khi hover */
 }
-
+.fix-img {
+  width: 100%;
+  height: 400px;
+}
 /* =============================
        BlogDetail End
 ============================== */

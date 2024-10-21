@@ -20,12 +20,16 @@ const HistoryPost = () => {
 
   console.log(postID);
   const userId = localStorage.getItem("userId");
+  const driverId = localStorage.getItem("driverId");
+
   const {
     data: posts,
     loading,
     error,
     refetch,
   } = useInstanceData(`/posts/${userId}/users`);
+  const { data: driver } = useInstanceData(`/posts/${driverId}/driver`);
+  console.log(driver);
 
   const handleDelete = async () => {
     try {
@@ -34,7 +38,6 @@ const HistoryPost = () => {
       setIsShowModal(false);
       toast.success("Đơn hàng đã được xóa thành công");
     } catch (error) {
-      console.error("Error deleting post:", error);
       toast.error("Có lỗi xảy ra khi xóa đơn hàng!");
     }
   };
@@ -53,13 +56,16 @@ const HistoryPost = () => {
   const postsPerPage = 3;
 
   const offset = currentPage * postsPerPage;
-  console.log(offset);
-  const currentPosts = posts?.salePosts?.slice(offset, offset + postsPerPage);
+  let currentPosts = [];
+  if (posts.length === 0) {
+    currentPosts = posts?.salePosts?.slice(offset, offset + postsPerPage);
+  } else {
+    currentPosts = driver?.data?.slice(offset, offset + postsPerPage);
+  }
 
   const handlePageClick = (event) => {
     const selectedPage = event.selected;
     setCurrentPage(selectedPage);
-    console.log(event);
   };
 
   return (
@@ -117,7 +123,7 @@ const HistoryPost = () => {
                   {post.load}
                 </div>
                 <div className="fs-18 font-weight-bold">
-                  Tổng tiền: {post.price.toLocaleString()} vnd
+                  Giá vận chuyển: {post.price.toLocaleString()} vnd
                 </div>
                 {post.status === "approve" && (
                   <button className="btn-sm btn-secondary mt-3 border-0">

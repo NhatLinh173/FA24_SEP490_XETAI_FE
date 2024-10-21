@@ -438,7 +438,7 @@ const HistoryPostDetail = () => {
               post.status === "inprogress" ||
               post.status === "finish" ||
               post.status === "approve") && (
-              <div className="d-flex border-bottom pb-3 mb-3">
+              <div className="w-100 border-bottom pb-3 mb-3">
                 <div
                   id="carouselExampleControls"
                   className="carousel slide"
@@ -448,20 +448,11 @@ const HistoryPostDetail = () => {
                     {images &&
                       images.map((img, index) => (
                         <div
-                          className={`carousel-item ${
+                          className={`carousel-item text-center ${
                             index === activeIndex ? "active" : ""
                           }`}
                         >
-                          <img
-                            src={img}
-                            alt="service"
-                            className="img-fluid rounded"
-                            style={{
-                              width: "100%",
-                              height: "auto",
-                              objectFit: "flex",
-                            }}
-                          />
+                          <img src={img} className="fix-img" alt="service" />
                         </div>
                       ))}
                   </div>
@@ -1071,42 +1062,48 @@ const HistoryPostDetail = () => {
               <div className="card-header">
                 <h3>Tài xế đang thương lượng</h3>
               </div>
-              <ul className="list-group list-group-flush">
-                {deals.map((deal, index) => (
-                  <li
-                    key={index}
-                    className="list-group-item d-flex justify-content-between align-items-center"
-                  >
-                    <div>
-                      <strong>Tài xế: </strong>
-                      <span>{deal.driverId.userId.fullName}</span>
-                      <br />
-                      <strong>Giá: </strong>
-                      <span>{deal.dealPrice} VND</span>
-                      <br />
-                      {/* Hiển thị đánh giá với biểu tượng ngôi sao */}
-                      <strong>Đánh giá: </strong>
-                      <span style={{ color: "gold" }}>
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStarHalfAlt /> {/* Ngôi sao nửa */}
-                      </span>
-                      <br />
-                      <strong>Ngày giao dự kiến:</strong>
-                      <span className="mr-1"> 2/2/2024</span>
-                    </div>
-                    <button
-                      className="btn-success btn-sm"
-                      style={{ border: "none" }}
-                      onClick={() => handleOpenModal(deal._id)}
+              <div className="overflow-auto" style={{ maxHeight: "350px" }}>
+                <ul className="list-group list-group-flush">
+                  {deals.map((deal, index) => (
+                    <li
+                      key={index}
+                      className="list-group-item d-flex justify-content-between align-items-center"
                     >
-                      Xác nhận
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                      <div className="flex-grow-1">
+                        <strong>Tài xế: </strong>
+                        <span>{deal.driverId.userId.fullName}</span>
+                        <br />
+                        <strong>Giá: </strong>
+                        <span>{deal.dealPrice} VND</span>
+                        <br />
+                        {/* Hiển thị đánh giá với biểu tượng ngôi sao */}
+                        <strong>Đánh giá: </strong>
+                        <span style={{ color: "gold" }}>
+                          <FaStar />
+                          <FaStar />
+                          <FaStar />
+                          <FaStar />
+                          <FaStarHalfAlt /> {/* Ngôi sao nửa */}
+                        </span>
+                        <br />
+                        <strong>Ngày giao dự kiến:</strong>
+                        <span className="mr-1"> 2/2/2024</span>
+                      </div>
+                      <button
+                        className="btn-success btn-sm"
+                        style={{
+                          border: "none",
+                          width: "80px",
+                          padding: "0.2rem 0.5rem",
+                        }}
+                        onClick={() => handleOpenModal(deal._id)}
+                      >
+                        Xác nhận
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         )}
