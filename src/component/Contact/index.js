@@ -3,8 +3,6 @@ import React from 'react'
 import ContactForm from '../Contact/ContactForm'
 // Import ContactInfo Area
 import ContactInfo from '../Contact/ContactInfo'
-// Import ContactMap Area
-import ContactMap from '../Contact/ContactMap'
 
 //ContactArea Area
 const ContactDetails = () => {
@@ -31,9 +29,6 @@ const ContactDetails = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="map_area">
-                    <ContactMap/>
                 </div>
             </section>
         </>
