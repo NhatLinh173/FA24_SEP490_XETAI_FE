@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { CiStar } from "react-icons/ci"
 import { FaStar } from "react-icons/fa"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import { toast } from "react-toastify"
 import axiosInstance from "../../../config/axiosConfig"
+import { Rating } from "react-simple-star-rating"
+import { jwtDecode } from "jwt-decode"
 
 const TripDetail = () => {
   const [tripDetail, setTripDetail] = useState(null)
@@ -11,6 +13,16 @@ const TripDetail = () => {
   const [hover, setHover] = useState(null) // Trạng thái sao khi người dùng hover
   const [feedback, setfeedback] = useState("")
   const [isShowModal, setIsShowModal] = useState(false)
+  const [isEditRating, setIsEditRating] = useState(true)
+
+  const role = localStorage.getItem("accessToken")
+    ? jwtDecode(localStorage.getItem("accessToken")).role
+    : ""
+
+  const isDriverRole = useMemo(
+    () => role === "personal" || role === "business",
+    [role]
+  )
 
   const { id } = useParams()
   const driverId = localStorage.getItem("driverId")
@@ -386,62 +398,43 @@ const TripDetail = () => {
 
         <div className="col-4 pl-2">
           <div className="border rounded-12 p-3">
-            <div>
-              <div className="d-flex align-items-center border-bottom pt-2 pb-3">
-                <img
-                  src="https://bizweb.dktcdn.net/100/084/618/products/ben-howo-3-chan-ban-full-nhap-khau.jpg?v=1629107651767"
-                  className="border rounded-circle mr-3"
-                  style={{
-                    width: "118px",
-                    height: "118px",
-                    objectFit: "cover",
-                  }}
-                  alt="avatar"
-                />
+            <div className="d-flex justify-content-between border-bottom pb-3">
+              <h5 className="font-weight-bold">Đánh giá</h5>
+              <Rating
+                onClick={handleRatingClick}
+                initialValue={rating}
+                size={26}
+                readonly={isDriverRole || !isEditRating}
+              />
+            </div>
 
+            <div className="mt-3">
+              {isDriverRole ? (
                 <div>
-                  <div className="fs-14 text-secondaryv">Tài xế</div>
-                  <div className="fw-600">Nguyễn Xuân Tùng</div>
-                  <tel className="fs-14 text-secondary">0987654321</tel>
-                  <div>
-                    <button onClick={handleFavoriteDriver}>Yêu Thích</button>
+                  <i>
+                    Dịch vụ chất lượng tuyệt vời, thời gian giao rất nhanh, hơn
+                    cả những gì tôi mong đợi
+                  </i>
+                </div>
+              ) : (
+                <div>
+                  <textarea
+                    className="form-control"
+                    disabled={!isEditRating}
+                    rows={7}
+                    placeholder="Vui lòng điền đánh giá của bạn"
+                  ></textarea>
+
+                  <div className="mt-3 d-flex justify-content-center">
+                    <button
+                      className="btn btn-theme"
+                      onClick={() => setIsEditRating(!isEditRating)}
+                    >
+                      {isEditRating ? "Gửi đánh giá" : "Chỉnh sửa"}
+                    </button>
                   </div>
                 </div>
-              </div>
-
-              <div className="pt-3">
-                <div className="pb-3 fw-600">Bảng tính giá</div>
-
-                <div className="mb-3 d-flex justify-content-between">
-                  <span>Tên người nhận hàng</span>
-                  <span className="fw-600">{tripDetail.recipientName}</span>
-                </div>
-
-                <div className="mb-3 d-flex justify-content-between">
-                  <span>SĐT người nhận</span>
-                  <span className="fw-600">{tripDetail.recipientPhone}</span>
-                </div>
-
-                <div className="mb-3 d-flex justify-content-between">
-                  <span>Địa chỉ nhận Hàng</span>
-                  <span className="fw-600">Đà Nẵng</span>
-                </div>
-
-                <div className="mb-3 d-flex justify-content-between">
-                  <span>Địa chỉ giao hàng</span>
-                  <span className="fw-600">Hải Phòng</span>
-                </div>
-
-                <div className="mb-3 d-flex justify-content-between">
-                  <span>Loại hàng</span>
-                  <span className="fw-600">Điện tử</span>
-                </div>
-
-                <div className="mb-3 d-flex justify-content-between">
-                  <span>Đơn giá hàng</span>
-                  <span className="fw-600">803,600 VND</span>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
