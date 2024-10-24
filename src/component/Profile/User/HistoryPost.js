@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBoxArchive, FaCheck, FaHourglassHalf } from "react-icons/fa6";
 import { FaWeightHanging } from "react-icons/fa";
 import { FaMapLocation } from "react-icons/fa6";
@@ -17,8 +17,9 @@ import { toast } from "react-toastify";
 const HistoryPost = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [postID, setPostID] = useState(null);
+  const [isDriverExist, setIsDriverExist] = useState(null);
+  const [currentPosts, setCurrentPost] = useState([]);
 
-  console.log(postID);
   const userId = localStorage.getItem("userId");
   const driverId = localStorage.getItem("driverId");
 
@@ -28,8 +29,10 @@ const HistoryPost = () => {
     error,
     refetch,
   } = useInstanceData(`/posts/${userId}/users`);
-  const { data: driver } = useInstanceData(`/posts/${driverId}/driver`);
-  console.log(driver);
+  const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
+  const { data: dealPriceDriver } = useInstanceData(
+    `/dealPrice/driver/${driverId}`
+  );
 
   const handleDelete = async () => {
     try {
@@ -56,21 +59,128 @@ const HistoryPost = () => {
   const postsPerPage = 3;
 
   const offset = currentPage * postsPerPage;
-  let currentPosts = [];
-  if (posts.length === 0) {
-    currentPosts = posts?.salePosts?.slice(offset, offset + postsPerPage);
-  } else {
-    currentPosts = driver?.data?.slice(offset, offset + postsPerPage);
-  }
+  useEffect(() => {
+    if (driverId !== "undefined") {
+      setIsDriverExist(true);
+      setCurrentPost(postdriver?.data?.slice(offset, offset + postsPerPage));
+    } else {
+      setIsDriverExist(false);
+      setCurrentPost(posts?.salePosts?.slice(offset, offset + postsPerPage));
+    }
+  }, [driverId, offset, posts, postdriver]);
 
   const handlePageClick = (event) => {
     const selectedPage = event.selected;
     setCurrentPage(selectedPage);
   };
+  const handleFilterWaitPosts = () => {
+    setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    if (driverId !== "undefined") {
+      const filter = dealPriceDriver.filter((dealPriceDriver) => {
+        return dealPriceDriver.status === "wait";
+      });
+      const mapWait = filter.map((deal) => {
+        return deal.postId;
+      });
+      setCurrentPost(mapWait);
+    } else {
+      setCurrentPost(
+        posts?.salePosts?.filter((post) => post.status === "wait")
+      );
+    }
+  };
 
+  const handleFilterApprovePosts = () => {
+    setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    if (driverId !== "undefined") {
+      const filter = dealPriceDriver.filter((dealPriceDriver) => {
+        return dealPriceDriver.status === "approve";
+      });
+      console.log(filter);
+
+      const mapWait = filter.map((deal) => {
+        return deal.postId;
+      });
+      console.log(mapWait);
+
+      setCurrentPost(mapWait);
+    } else {
+      setCurrentPost(
+        posts?.salePosts?.filter((post) => post.status === "approve")
+      );
+    }
+  };
+
+  const handleFilterInprogressPosts = () => {
+    setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    if (driverId !== "undefined") {
+      const filter = dealPriceDriver.filter((dealPriceDriver) => {
+        return dealPriceDriver.status === "approve";
+      });
+      console.log(filter);
+
+      const mapWait = filter.map((deal) => {
+        return deal.postId;
+      });
+      console.log(mapWait);
+
+      setCurrentPost(mapWait);
+    } else {
+      setCurrentPost(
+        posts?.salePosts?.filter((post) => post.status === "inprogress")
+      );
+    }
+  };
+  const handleFilterCancelPosts = () => {
+    setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    if (driverId !== "undefined") {
+      const filter = dealPriceDriver.filter((dealPriceDriver) => {
+        return dealPriceDriver.status === "cancel";
+      });
+      const mapWait = filter.map((deal) => {
+        return deal.postId;
+      });
+      setCurrentPost(mapWait);
+    } else {
+      setCurrentPost(
+        posts?.salePosts?.filter((post) => post.status === "cancel")
+      );
+    }
+  };
   return (
     <div>
       <h2>Đơn Hàng</h2>
+      <div className="mb-3 mt-2 d-flex justify-content-center gap-2">
+        <button
+          className="btn btn-warning btn-custom mx-1 d-flex align-items-center"
+          onClick={handleFilterWaitPosts}
+        >
+          <CiNoWaitingSign className="mr-1" /> Đang chờ
+        </button>
+        <button
+          className="btn btn-secondary btn-custom mx-1 d-flex align-items-center"
+          onClick={handleFilterApprovePosts}
+        >
+          <FaCheck className="mr-1" /> Đã nhận đơn
+        </button>
+        <button
+          className="btn btn-primary  btn-custom mx-1 d-flex align-items-center"
+          onClick={handleFilterInprogressPosts}
+        >
+          <FaCarSide className="mr-1" /> Đang giao
+        </button>
+        <button
+          className="btn btn-danger btn-custom mx-1 d-flex align-items-center"
+          onClick={handleFilterCancelPosts}
+        >
+          <MdOutlinePersonAdd className="mr-1" /> Đã hủy
+        </button>
+        {!isDriverExist && (
+          <button className="btn btn-dark btn-custom mx-1 d-flex align-items-center">
+            <GrHide className="mr-1" /> Tạm ẩn
+          </button>
+        )}
+      </div>
       {currentPosts?.map((post) => (
         <Link
           to={`/history-post/${post._id}`}
@@ -125,12 +235,19 @@ const HistoryPost = () => {
                 <div className="fs-18 font-weight-bold">
                   Giá vận chuyển: {post.price.toLocaleString()} vnd
                 </div>
-                {post.status === "approve" && (
+                {post.status === "approve" && isDriverExist && (
+                  <button className="btn-sm btn-secondary mt-3 border-0">
+                    <MdOutlinePersonAdd className="mr-2" />
+                    Đã nhận đơn
+                  </button>
+                )}
+                {post.status === "approve" && !isDriverExist && (
                   <button className="btn-sm btn-secondary mt-3 border-0">
                     <MdOutlinePersonAdd className="mr-2" />
                     Tài xế đã nhận đơn
                   </button>
                 )}
+
                 {post.status === "finish" && (
                   <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
                     <FaCheck className="mr-2" />
@@ -180,6 +297,7 @@ const HistoryPost = () => {
           </div>
         </Link>
       ))}
+
       <ReactPaginate
         pageCount={Math.ceil(posts?.salePosts?.length / 3)}
         onPageChange={handlePageClick}
