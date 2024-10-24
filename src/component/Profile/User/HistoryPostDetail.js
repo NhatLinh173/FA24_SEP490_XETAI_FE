@@ -71,7 +71,7 @@ const HistoryPostDetail = () => {
   const driverId = localStorage.getItem("driverId");
   const { data: post } = useInstanceData(`/posts/${id}`);
 
-  const { data: deals } = useInstanceData(`/dealPrice`);
+  const { data: deals } = useInstanceData(`/dealPrice/${id}`);
   console.log(deals);
 
   const handleConfirmDriver = async () => {
@@ -1200,7 +1200,7 @@ const HistoryPostDetail = () => {
           </div>
         </div>
         {/* Right Side: Contact Info */}
-        {post.status === "wait" && !driverId && (
+        {post.status === "wait" && driverId === "undefined" && (
           <div className="col-md-4" style={{ right: "20px", width: "300px" }}>
             <div className="card border">
               <div className="card-header">

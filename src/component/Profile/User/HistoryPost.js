@@ -82,6 +82,7 @@ const HistoryPost = () => {
       const mapWait = filter.map((deal) => {
         return deal.postId;
       });
+      console.log(mapWait);
       setCurrentPost(mapWait);
     } else {
       setCurrentPost(
@@ -94,15 +95,12 @@ const HistoryPost = () => {
     setCurrentPage(0); // Đặt lại trang hiện tại về 0
     if (driverId !== "undefined") {
       const filter = dealPriceDriver.filter((dealPriceDriver) => {
-        return dealPriceDriver.status === "approve";
+        return (
+          dealPriceDriver.status === "approve" &&
+          dealPriceDriver.postId.status === "approve"
+        );
       });
-      console.log(filter);
-
-      const mapWait = filter.map((deal) => {
-        return deal.postId;
-      });
-      console.log(mapWait);
-
+      const mapWait = filter.map((deal) => deal.postId);
       setCurrentPost(mapWait);
     } else {
       setCurrentPost(
@@ -115,15 +113,12 @@ const HistoryPost = () => {
     setCurrentPage(0); // Đặt lại trang hiện tại về 0
     if (driverId !== "undefined") {
       const filter = dealPriceDriver.filter((dealPriceDriver) => {
-        return dealPriceDriver.status === "approve";
+        return (
+          dealPriceDriver.status === "approve" &&
+          dealPriceDriver.postId.status === "inprogress"
+        );
       });
-      console.log(filter);
-
-      const mapWait = filter.map((deal) => {
-        return deal.postId;
-      });
-      console.log(mapWait);
-
+      const mapWait = filter.map((deal) => deal.postId);
       setCurrentPost(mapWait);
     } else {
       setCurrentPost(
@@ -181,122 +176,123 @@ const HistoryPost = () => {
           </button>
         )}
       </div>
-      {currentPosts?.map((post) => (
-        <Link
-          to={`/history-post/${post._id}`}
-          rel="noreferrer"
-          className="text-decoration-none"
-          key={post._id}
-        >
-          <div className="my-4 border rounded-12 card-hover position-relative">
-            <div className="p-3 d-flex">
-              <div className="image-container">
-                <img
-                  src={post.images[0]}
-                  alt="anh hang hoa"
-                  className="rounded-12 cursor-pointer zoom-image"
-                  style={{
-                    width: "360px",
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
-
-              <div className="ml-3">
-                <div className="mb-2 text-secondary d-flex align-items-center">
-                  <FaMapLocation className="mr-2" />
-                  <div className="font-weight-bold text-nowrap">
-                    Địa điểm đi:
-                  </div>
-                  <div className="w-75 ml-2 text-truncate">
-                    {post.startPointCity}
-                  </div>
-                </div>
-                <div className="mb-2 text-secondary d-flex align-items-center">
-                  <FaMapLocation className="mr-2" />
-                  <div className="font-weight-bold text-nowrap">
-                    Địa điểm đến:
-                  </div>
-                  <div className="w-75 ml-2 text-truncate">
-                    {post.destinationCity}
-                  </div>
-                </div>
-                <div className="mb-2 text-secondary d-flex align-items-center">
-                  <FaBoxArchive className="mr-2" />
-                  <div className="font-weight-bold mr-2">Loại hàng:</div>
-                  {post.title}
+      {currentPosts &&
+        currentPosts?.map((post) => (
+          <Link
+            to={`/history-post/${post._id}`}
+            rel="noreferrer"
+            className="text-decoration-none"
+            key={post._id}
+          >
+            <div className="my-4 border rounded-12 card-hover position-relative">
+              <div className="p-3 d-flex">
+                <div className="image-container">
+                  <img
+                    src={post.images[0]}
+                    alt="anh hang hoa"
+                    className="rounded-12 cursor-pointer zoom-image"
+                    style={{
+                      width: "360px",
+                      objectFit: "cover",
+                    }}
+                  />
                 </div>
 
-                <div className="mb-4 text-secondary d-flex align-items-center">
-                  <FaWeightHanging className="mr-2" />
-                  <div className="font-weight-bold mr-2">Khối lượng:</div>
-                  {post.load}
-                </div>
-                <div className="fs-18 font-weight-bold">
-                  Giá vận chuyển: {post.price.toLocaleString()} vnd
-                </div>
-                {post.status === "approve" && isDriverExist && (
-                  <button className="btn-sm btn-secondary mt-3 border-0">
-                    <MdOutlinePersonAdd className="mr-2" />
-                    Đã nhận đơn
-                  </button>
-                )}
-                {post.status === "approve" && !isDriverExist && (
-                  <button className="btn-sm btn-secondary mt-3 border-0">
-                    <MdOutlinePersonAdd className="mr-2" />
-                    Tài xế đã nhận đơn
-                  </button>
-                )}
+                <div className="ml-3">
+                  <div className="mb-2 text-secondary d-flex align-items-center">
+                    <FaMapLocation className="mr-2" />
+                    <div className="font-weight-bold text-nowrap">
+                      Địa điểm đi:
+                    </div>
+                    <div className="w-75 ml-2 text-truncate">
+                      {post.startPointCity}
+                    </div>
+                  </div>
+                  <div className="mb-2 text-secondary d-flex align-items-center">
+                    <FaMapLocation className="mr-2" />
+                    <div className="font-weight-bold text-nowrap">
+                      Địa điểm đến:
+                    </div>
+                    <div className="w-75 ml-2 text-truncate">
+                      {post.destinationCity}
+                    </div>
+                  </div>
+                  <div className="mb-2 text-secondary d-flex align-items-center">
+                    <FaBoxArchive className="mr-2" />
+                    <div className="font-weight-bold mr-2">Loại hàng:</div>
+                    {post.title}
+                  </div>
 
-                {post.status === "finish" && (
-                  <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
-                    <FaCheck className="mr-2" />
-                    Đã giao hàng
-                  </button>
-                )}
-                {post.status === "inprogress" && (
-                  <button className="btn-sm btn-primary mt-3 border-0 d-flex align-items-center">
-                    <FaCarSide className="mr-2" />
-                    Đang giao hàng
-                  </button>
-                )}
-                {post.status === "cancel" && (
-                  <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
-                    <GiCancel className="mr-2" />
-                    Đã hủy
-                  </button>
-                )}
-                {post.status === "wait" && (
-                  <button className="btn-sm btn-warning mt-3 border-0 d-flex align-items-center">
-                    <CiNoWaitingSign className="mr-2" />
-                    Đang chờ duyệt
-                  </button>
-                )}
-                {post.status === "hide" && (
-                  <button className="btn-sm btn-bg-secondary mt-3 border-0 d-flex align-items-center">
-                    <GrHide className="mr-2" />
-                    Tạm ẩn
-                  </button>
-                )}
-              </div>
-              <div
-                className="position-absolute"
-                style={{ right: "10px", top: "10px" }}
-              >
-                <button
-                  className="btn-danger btn-sm align-self-start border-0"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleOpenModal(post._id);
-                  }}
+                  <div className="mb-4 text-secondary d-flex align-items-center">
+                    <FaWeightHanging className="mr-2" />
+                    <div className="font-weight-bold mr-2">Khối lượng:</div>
+                    {post.load}
+                  </div>
+                  <div className="fs-18 font-weight-bold">
+                    Giá vận chuyển: {post.price.toLocaleString()} vnd
+                  </div>
+                  {post.status === "approve" && isDriverExist && (
+                    <button className="btn-sm btn-secondary mt-3 border-0">
+                      <MdOutlinePersonAdd className="mr-2" />
+                      Đã nhận đơn
+                    </button>
+                  )}
+                  {post.status === "approve" && !isDriverExist && (
+                    <button className="btn-sm btn-secondary mt-3 border-0">
+                      <MdOutlinePersonAdd className="mr-2" />
+                      Tài xế đã nhận đơn
+                    </button>
+                  )}
+
+                  {post.status === "finish" && (
+                    <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
+                      <FaCheck className="mr-2" />
+                      Đã giao hàng
+                    </button>
+                  )}
+                  {post.status === "inprogress" && (
+                    <button className="btn-sm btn-primary mt-3 border-0 d-flex align-items-center">
+                      <FaCarSide className="mr-2" />
+                      Đang giao hàng
+                    </button>
+                  )}
+                  {post.status === "cancel" && (
+                    <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
+                      <GiCancel className="mr-2" />
+                      Đã hủy
+                    </button>
+                  )}
+                  {post.status === "wait" && (
+                    <button className="btn-sm btn-warning mt-3 border-0 d-flex align-items-center">
+                      <CiNoWaitingSign className="mr-2" />
+                      Đang chờ duyệt
+                    </button>
+                  )}
+                  {post.status === "hide" && (
+                    <button className="btn-sm btn-bg-secondary mt-3 border-0 d-flex align-items-center">
+                      <GrHide className="mr-2" />
+                      Tạm ẩn
+                    </button>
+                  )}
+                </div>
+                <div
+                  className="position-absolute"
+                  style={{ right: "10px", top: "10px" }}
                 >
-                  <MdDelete />
-                </button>
+                  <button
+                    className="btn-danger btn-sm align-self-start border-0"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleOpenModal(post._id);
+                    }}
+                  >
+                    <MdDelete />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        ))}
 
       <ReactPaginate
         pageCount={Math.ceil(posts?.salePosts?.length / 3)}
