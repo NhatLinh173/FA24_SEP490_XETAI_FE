@@ -4771,6 +4771,20 @@ input[type="number"]::-webkit-inner-spin-button {
   height: 400px;
 }
 
+.btn-custom {
+  font-size: 0.9rem; /* Tăng kích thước chữ */
+  padding: 0.35rem 0.75rem; /* Tăng padding */
+  height: 40px;
+}
+.custom-select-arrow {
+  appearance: none; /* Ẩn mũi tên mặc định */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  padding-right: 30px; /* Tạo khoảng trống cho mũi tên */
+}
+
 /* =============================
        BlogDetail End
 ============================== */
