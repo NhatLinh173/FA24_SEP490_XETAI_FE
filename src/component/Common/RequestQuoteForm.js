@@ -296,6 +296,9 @@ const RequestQuoteForm = () => {
         setEmailError("");
         setRecipientEmailError("");
         setNewCost("");
+
+      } else if (error.response?.status === 400) {
+
       }
       if (response.status === 402) {
         toast.error(
@@ -304,6 +307,7 @@ const RequestQuoteForm = () => {
       }
     } catch (error) {
       if (error.response?.status === 400) {
+
         toast.error("Vui lòng điền đầy đủ thông tin!");
       } else if (error.response?.status === 402) {
         toast.error(
@@ -328,31 +332,27 @@ const RequestQuoteForm = () => {
                   </div>
                   {imgs && imgs.length > 0 && (
                     <div
-                      className={`d-flex image-form align-items-center mb-3 ${
-                        imgs.length === 1
+                      className={`d-flex image-form align-items-center mb-3 ${imgs.length === 1
                           ? "justify-content-center"
                           : imgs.length === 2
-                          ? "justify-content-center w-100"
-                          : "justify-content-between w-100"
-                      }`}
+                            ? "justify-content-center w-100"
+                            : "justify-content-between w-100"
+                        }`}
                     >
                       {imgs.map((img, index) => (
                         <div
-                          className={`position-relative border rounded-12 p-3 d-inline-block ${
-                            imgs.length === 1 ? "w-100" : ""
-                          }`}
+                          className={`position-relative border rounded-12 p-3 d-inline-block ${imgs.length === 1 ? "w-100" : ""
+                            }`}
                         >
                           <img
                             src={img.url}
                             alt=""
-                            className={`rounded-12  ${
-                              imgs.length === 1 ? "w-100" : ""
-                            }`}
+                            className={`rounded-12  ${imgs.length === 1 ? "w-100" : ""
+                              }`}
                           />
                           <IoCloseCircleOutline
-                            className={`position-absolute ${
-                              imgs.length === 1 ? "delete-img" : "delete-imgs"
-                            }`}
+                            className={`position-absolute ${imgs.length === 1 ? "delete-img" : "delete-imgs"
+                              }`}
                             onClick={() => handleDeleteImage(index)} // Hàm để xóa ảnh
                           />
                         </div>
@@ -654,11 +654,10 @@ const RequestQuoteForm = () => {
                   <div className="col-lg-12">
                     <div className="quote_submit_button d-flex justify-content-center">
                       <button
-                        className={`btn ${
-                          isDisable
+                        className={`btn ${isDisable
                             ? "btn-secondary cursor-disable"
                             : "btn-theme"
-                        }`}
+                          }`}
                         onClick={handleSubmit}
                         disabled={isDisable}
                       >

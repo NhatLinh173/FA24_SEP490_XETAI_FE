@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// Import Blog Sidebar if needed (commented for now)
-// import BlogSidebar from '../Common/BlogSidebar';
+import { BlogData } from '../Common/Blog/BlogData'
+import ReactPaginate from 'react-paginate';
 
 const BlogDetailsArea = () => {
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemsPerPage = 6;
+
+    // Tính toán tổng số trang
+    const pageCount = Math.ceil(BlogData.length / itemsPerPage);
+
+    // Lấy các bài viết hiện tại dựa trên trang hiện tại
+    const currentBlogs = BlogData.slice(
+        currentPage * itemsPerPage,
+        (currentPage + 1) * itemsPerPage
+    );
+
+    // Xử lý sự kiện khi người dùng chuyển trang
+    const handlePageClick = (event) => {
+        setCurrentPage(event.selected);
+    };
 
     return (
         <div className="container mt-5 blog-details-section">
@@ -16,7 +32,7 @@ const BlogDetailsArea = () => {
                             src="https://interlogistics.com.vn/static/2722/2024/10/15/d%E1%BB%B1%20b%C3%A1o%20c%C6%B0%E1%BB%9Bc%20q4.2024.png"
                             className="card-img-top"
                             alt="Main blog content"
-                            style={{ height: '400px', objectFit: 'cover' }}
+                            style={{ height: '412px', objectFit: 'cover' }}
                         />
                         <div className="card-body">
                             <h5 className="card-title blog-card-title text-truncate">
@@ -65,49 +81,50 @@ const BlogDetailsArea = () => {
             </div>
 
             {/* Related Blog Posts Section */}
-            <div className="row mt-5 related-blogs-section">
-                {[
-                    {
-                        img: "https://interlogistics.com.vn/static/2591/2024/09/16/%C4%91i%E1%BB%87n.jpg",
-                        title: "Bão Yagi đã gây thiệt hại khoảng 40,000 tỷ đồng...",
-                    },
-                    {
-                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
-                        title: "Giải pháp vận chuyển hàng LTL Bắc Nam...",
-                    },
-                    {
-                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
-                        title: "Vận chuyển hàng vào kho Amazon...",
-                    },
-                    {
-                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
-                        title: "Vận chuyển hàng vào kho Amazon...",
-                    }, {
-                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
-                        title: "Vận chuyển hàng vào kho Amazon...",
-                    }, {
-                        img: "https://interlogistics.com.vn/static/2586/2024/09/14/ldp-1c.jpg",
-                        title: "Vận chuyển hàng vào kho Amazon...",
-                    },
-                ].map((post, idx) => (
-                    <div className="col-md-4" key={idx}>
-                        <div className="card mb-4 blog-related-card shadow-effect">
-                            <img
-                                src={post.img}
-                                className="card-img-top card-img"
-                                alt={`Related post ${idx + 1}`}
-                            />
-                            <div className="card-body">
-                                <h6 className="card-title text-truncate blog-card-title">
-                                    {post.title}
-                                </h6>
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <span className="text-primary font-weight-bold">Xem thêm</span>
+            <div className="blog-container">
+                <div className="row">
+                    {currentBlogs.map((data, index) => (
+                        <div className="col-lg-4 col-md-6 col-sm-12 col-12 mb-4" key={index}>
+                            <div className="blog-card zoom-effect">
+                                <div className="blog-image-wrapper">
+                                    <Link to="/blog_details">
+                                        <img src={data.img} alt="blog" className="blog-image" />
+                                    </Link>
+                                    <div className="blog-date">
+                                        <small className="blog-month">{data.month}</small>
+                                        <span className="blog-day">{data.day}</span>
+                                    </div>
+                                </div>
+                                <div className="blog-content">
+                                    <h6 className="blog-time"><i className="far fa-clock"></i> {data.date}</h6>
+                                    <h5 className="blog-heading">
+                                        <Link to="/blog_details">{data.heading}</Link>
+                                    </h5>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+
+                {/* Phân trang */}
+                <div className="pagination-controls-services text-center">
+                    <ReactPaginate
+                        pageCount={pageCount}
+                        onPageChange={handlePageClick}
+                        containerClassName={"pagination"}
+                        pageClassName={"page-item"}
+                        pageLinkClassName={"page-link"}
+                        previousClassName={"page-item"}
+                        previousLinkClassName={"page-link"}
+                        nextClassName={"page-item"}
+                        nextLinkClassName={"page-link"}
+                        breakClassName={"page-item"}
+                        breakLinkClassName={"page-link"}
+                        activeClassName={"active"}
+                        previousLabel={"<<"}
+                        nextLabel={">>"}
+                    />
+                </div>
             </div>
         </div>
     );
