@@ -9,20 +9,20 @@ Modal styles
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1001;
   }
   
   .modal-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  z-index: 1001; 
-  max-width: 500px;
-  width: 100%;
+  position: fixed !important ;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: white !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  z-index: 1001 !important; 
+  max-width: 500px !important ;
+  width: 100% !important;
   }
   
   .modal-header {

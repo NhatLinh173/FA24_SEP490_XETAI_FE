@@ -8,6 +8,7 @@ import { MdAccessTime } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdDirectionsCar } from "react-icons/md";
 import { PiPackage } from "react-icons/pi";
+import { FaChartLine } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
 
 const Tab = ({ tab1, setTab1 }) => {
@@ -120,14 +121,26 @@ const Tab = ({ tab1, setTab1 }) => {
               <span className="px-2">Ví của bạn</span>
             </button>
           </li>
+
           {(role === "personal" || role === "business") && (
-            <li>
+            <li className="my-3">
               <button
                 className={`btn-tab ${tab1 === "vehicals" ? "active" : ""}`}
                 onClick={() => setTab1("vehicals")}
               >
                 <MdDirectionsCar />
                 <span className="px-2">Xe của tôi</span>
+              </button>
+            </li>
+          )}
+          {(role === "personal" || role === "business") && (
+            <li className="my-3">
+              <button
+                className={`btn-tab ${tab1 === "statistical" ? "active" : ""}`}
+                onClick={() => setTab1("statistical")}
+              >
+                <FaChartLine />
+                <span className="px-2">Thống Kê </span>
               </button>
             </li>
           )}

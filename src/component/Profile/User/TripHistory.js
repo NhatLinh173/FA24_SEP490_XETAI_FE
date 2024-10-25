@@ -20,9 +20,7 @@ export const TripHistory = () => {
 
   const getTripHistory = async () => {
     try {
-      const response = await axiosInstance.get(
-        `/posts/${userId}/users/history`
-      );
+      const response = await axiosInstance.get(`/posts/${userId}/users`);
       setTripHistories(response.data.salePosts);
     } catch (error) {}
   };
@@ -33,7 +31,9 @@ export const TripHistory = () => {
 
   if (!tripHistories.length)
     return (
-      <div className="mt-5 text-center font-weight-bold">Không có data</div>
+      <div className="mt-5 text-center font-weight-bold">
+        Chưa có lịch sử chuyến
+      </div>
     );
 
   return (

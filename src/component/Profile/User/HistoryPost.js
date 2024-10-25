@@ -18,7 +18,6 @@ const HistoryPost = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [postID, setPostID] = useState(null);
 
-  console.log(postID);
   const userId = localStorage.getItem("userId");
   const driverId = localStorage.getItem("driverId");
 
@@ -29,12 +28,11 @@ const HistoryPost = () => {
     refetch,
   } = useInstanceData(`/posts/${userId}/users`);
   const { data: driver } = useInstanceData(`/posts/${driverId}/driver`);
-  console.log(driver);
 
   const handleDelete = async () => {
     try {
       await axios.delete(`/posts/${postID}`);
-      refetch(); // Gọi lại API để cập nhật danh sách bài đăng
+      refetch();
       setIsShowModal(false);
       toast.success("Đơn hàng đã được xóa thành công");
     } catch (error) {

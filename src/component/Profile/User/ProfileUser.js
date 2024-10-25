@@ -3,7 +3,7 @@ import { CiCamera } from "react-icons/ci";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../config/axiosConfig";
 import axios from "axios";
-
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 const ProfileUser = ({ data, refetch }) => {
   const { email, fullName, phone, address, _id, avatar } = data;
   const [isName, setIsName] = useState(true);
@@ -70,7 +70,8 @@ const ProfileUser = ({ data, refetch }) => {
 
   useEffect(() => {
     const handleAvatarUpdate = () => {
-      const avatarFromLocalStorage = localStorage.getItem("avatar");
+      const avatarFromLocalStorage =
+        localStorage.getItem("avatar") || avatarDefault;
       setNewAvatar(avatarFromLocalStorage);
     };
 
@@ -83,7 +84,6 @@ const ProfileUser = ({ data, refetch }) => {
     };
   }, []);
 
-  // dùng để sửa lại giá trị trong ô input
   const handlenewAddress = (e) => {
     setNewAddress(e.target.value);
   };
@@ -192,12 +192,12 @@ const ProfileUser = ({ data, refetch }) => {
                 src={
                   newAvatar instanceof File
                     ? URL.createObjectURL(newAvatar)
-                    : avatar
+                    : avatar || avatarDefault
                 }
                 alt="avatar"
                 style={{ width: "100px", height: "100px" }}
                 onError={(e) => {
-                  e.target.src = avatar;
+                  e.target.src = avatarDefault;
                 }}
               />
               <label

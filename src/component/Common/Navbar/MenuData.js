@@ -22,8 +22,8 @@ export const getMenuData = () => {
       has_children: false,
     },
     {
-      name: isLoggedIn ? "" : "Đăng Nhập", // Xóa "Thông Tin" khi đã đăng nhập
-      href: isLoggedIn ? "#" : "/signIn", // Đổi href thành "#" khi đã đăng nhập
+      name: isLoggedIn ? "" : "Đăng Nhập",
+      href: isLoggedIn ? "#" : "/signIn",
       has_children: false,
     },
     ...(!isLoggedIn
