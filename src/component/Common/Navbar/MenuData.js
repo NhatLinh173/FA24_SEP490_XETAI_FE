@@ -12,7 +12,7 @@ export const getMenuData = () => {
       has_children: false,
     },
     {
-      name: "Blog",
+      name: "Tin tức",
       href: "/blog_details",
       has_children: false,
     },

@@ -115,7 +115,7 @@ const Navbar = ({ openModal }) => {
             <div className="container">
               <nav className="navbar navbar-expand-md navbar-light">
                 <Link className="navbar-brand" to="/">
-                  <img src={logo} alt="logo" />
+                  {/* <img src={logo} alt="logo" /> */}
                 </Link>
 
                 <div className="mean-menu" id="navbarSupportedContent">
