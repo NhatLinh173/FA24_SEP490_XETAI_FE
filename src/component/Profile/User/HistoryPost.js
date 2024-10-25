@@ -19,6 +19,8 @@ const HistoryPost = () => {
   const [postID, setPostID] = useState(null);
   const [isDriverExist, setIsDriverExist] = useState(null);
   const [currentPosts, setCurrentPost] = useState([]);
+  const [noPostsMessage, setNoPostsMessage] = useState("");
+  const [pageCount, setPageCount] = useState(0);
 
   const userId = localStorage.getItem("userId");
   const driverId = localStorage.getItem("driverId");
@@ -61,9 +63,11 @@ const HistoryPost = () => {
   const offset = currentPage * postsPerPage;
   useEffect(() => {
     if (driverId !== "undefined") {
+      setPageCount(Math.ceil(postdriver?.data?.length / 3));
       setIsDriverExist(true);
       setCurrentPost(postdriver?.data?.slice(offset, offset + postsPerPage));
     } else {
+      setPageCount(Math.ceil(posts?.salePosts?.length / 3));
       setIsDriverExist(false);
       setCurrentPost(posts?.salePosts?.slice(offset, offset + postsPerPage));
     }
@@ -75,72 +79,94 @@ const HistoryPost = () => {
   };
   const handleFilterWaitPosts = () => {
     setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    let filteredPosts = [];
     if (driverId !== "undefined") {
       const filter = dealPriceDriver.filter((dealPriceDriver) => {
-        return dealPriceDriver.status === "wait";
+        return (
+          dealPriceDriver.status === "wait" && dealPriceDriver.postId != null
+        );
       });
-      const mapWait = filter.map((deal) => {
-        return deal.postId;
-      });
-      console.log(mapWait);
-      setCurrentPost(mapWait);
+      filteredPosts = filter.map((deal) => deal.postId);
     } else {
-      setCurrentPost(
-        posts?.salePosts?.filter((post) => post.status === "wait")
+      filteredPosts = posts?.salePosts?.filter(
+        (post) => post.status === "wait"
       );
     }
+    setPageCount(Math.ceil(filteredPosts?.length / 3));
+    setCurrentPost(filteredPosts);
+    setNoPostsMessage(
+      filteredPosts.length === 0 ? "Không có bài post nào đang chờ." : ""
+    );
   };
 
   const handleFilterApprovePosts = () => {
     setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    let filteredPosts = [];
     if (driverId !== "undefined") {
       const filter = dealPriceDriver.filter((dealPriceDriver) => {
+        // Sử dụng optional chaining để tránh lỗi khi postId là null
         return (
           dealPriceDriver.status === "approve" &&
-          dealPriceDriver.postId.status === "approve"
+          dealPriceDriver.postId?.status === "approve" &&
+          dealPriceDriver.postId != null
         );
       });
-      const mapWait = filter.map((deal) => deal.postId);
-      setCurrentPost(mapWait);
+      filteredPosts = filter.map((deal) => deal.postId);
     } else {
-      setCurrentPost(
-        posts?.salePosts?.filter((post) => post.status === "approve")
+      filteredPosts = posts?.salePosts?.filter(
+        (post) => post.status === "approve"
       );
     }
+    setPageCount(Math.ceil(filteredPosts?.length / 3));
+    setCurrentPost(filteredPosts);
+    setNoPostsMessage(
+      filteredPosts.length === 0 ? "Không có đơn hàng nào đã nhận đơn." : ""
+    );
   };
-
   const handleFilterInprogressPosts = () => {
     setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    let filteredPosts = [];
     if (driverId !== "undefined") {
       const filter = dealPriceDriver.filter((dealPriceDriver) => {
+        // Sử dụng optional chaining để tránh lỗi khi postId là null
         return (
           dealPriceDriver.status === "approve" &&
-          dealPriceDriver.postId.status === "inprogress"
+          dealPriceDriver.postId?.status === "inprogress" &&
+          dealPriceDriver.postId != null
         );
       });
-      const mapWait = filter.map((deal) => deal.postId);
-      setCurrentPost(mapWait);
+      filteredPosts = filter.map((deal) => deal.postId);
     } else {
-      setCurrentPost(
-        posts?.salePosts?.filter((post) => post.status === "inprogress")
+      filteredPosts = posts?.salePosts?.filter(
+        (post) => post.status === "inprogress"
       );
     }
+    setPageCount(Math.ceil(filteredPosts?.length / 3));
+    setCurrentPost(filteredPosts);
+    setNoPostsMessage(
+      filteredPosts.length === 0 ? "Không có đơn hàng nào đang giao." : ""
+    );
   };
   const handleFilterCancelPosts = () => {
     setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    let filteredPosts = [];
     if (driverId !== "undefined") {
       const filter = dealPriceDriver.filter((dealPriceDriver) => {
-        return dealPriceDriver.status === "cancel";
+        return (
+          dealPriceDriver.status === "cancel" && dealPriceDriver.postId != null
+        );
       });
-      const mapWait = filter.map((deal) => {
-        return deal.postId;
-      });
-      setCurrentPost(mapWait);
+      filteredPosts = filter.map((deal) => deal.postId);
     } else {
-      setCurrentPost(
-        posts?.salePosts?.filter((post) => post.status === "cancel")
+      filteredPosts = posts?.salePosts?.filter(
+        (post) => post.status === "cancel"
       );
     }
+    setPageCount(Math.ceil(filteredPosts?.length / 3));
+    setCurrentPost(filteredPosts);
+    setNoPostsMessage(
+      filteredPosts.length === 0 ? "Không có đơn hàng nào đã hủy." : ""
+    );
   };
   return (
     <div>
@@ -176,6 +202,7 @@ const HistoryPost = () => {
           </button>
         )}
       </div>
+      {noPostsMessage && <div>{noPostsMessage}</div>}
       {currentPosts &&
         currentPosts?.map((post) => (
           <Link
@@ -294,22 +321,24 @@ const HistoryPost = () => {
           </Link>
         ))}
 
-      <ReactPaginate
-        pageCount={Math.ceil(posts?.salePosts?.length / 3)}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        pageClassName={"page-item"}
-        pageLinkClassName={"page-link"}
-        previousClassName={"page-item"}
-        previousLinkClassName={"page-link"}
-        nextClassName={"page-item"}
-        nextLinkClassName={"page-link"}
-        breakClassName={"page-item"}
-        breakLinkClassName={"page-link"}
-        activeClassName={"active"}
-        previousLabel={"<<"}
-        nextLabel={">>"}
-      />
+      {pageCount >= 1 && (
+        <ReactPaginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          activeClassName={"active"}
+          previousLabel={"<<"}
+          nextLabel={">>"}
+        />
+      )}
       {isShowModal && (
         <div
           className="modal fade show"
