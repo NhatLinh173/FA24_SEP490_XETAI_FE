@@ -20,7 +20,7 @@ const LogisticsService = () => {
                 <div className="logistic_tabs_button">
                   <ul>
                     <li>
-                      <button className="active mb-4 ">Đơn Hàng</button>
+                      <h2 className="mb-5">Đơn Hàng</h2>
                     </li>
                   </ul>
                 </div>
