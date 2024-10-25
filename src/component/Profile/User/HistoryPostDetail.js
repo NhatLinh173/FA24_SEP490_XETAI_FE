@@ -69,10 +69,11 @@ const HistoryPostDetail = () => {
     } catch (error) {}
   };
   const driverId = localStorage.getItem("driverId");
+
   const { data: post } = useInstanceData(`/posts/${id}`);
+  console.log(post);
 
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
-  console.log(deals);
 
   const handleConfirmDriver = async () => {
     try {
@@ -723,14 +724,16 @@ const HistoryPostDetail = () => {
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                           } // Kiểm tra trạng thái đơn
                           style={{
                             cursor:
                               post.status === "approve" ||
                               post.status === "inprogress" ||
                               post.status === "finish" ||
-                              post.status === "cancel"
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist)
                                 ? "not-allowed"
                                 : "auto",
                           }}
@@ -750,14 +753,16 @@ const HistoryPostDetail = () => {
                               post.status === "approve" ||
                               post.status === "inprogress" ||
                               post.status === "finish" ||
-                              post.status === "cancel"
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist)
                             } // Kiểm tra trạng thái đơn
                             style={{
                               cursor:
                                 post.status === "approve" ||
                                 post.status === "inprogress" ||
                                 post.status === "finish" ||
-                                post.status === "cancel"
+                                post.status === "cancel" ||
+                                (post.status === "wait" && isDriverExist)
                                   ? "not-allowed"
                                   : "auto",
                             }}
@@ -786,14 +791,16 @@ const HistoryPostDetail = () => {
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                           } // Kiểm tra trạng thái đơn
                           style={{
                             cursor:
                               post.status === "approve" ||
                               post.status === "inprogress" ||
                               post.status === "finish" ||
-                              post.status === "cancel"
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist)
                                 ? "not-allowed"
                                 : "auto",
                           }}
@@ -813,14 +820,16 @@ const HistoryPostDetail = () => {
                               post.status === "approve" ||
                               post.status === "inprogress" ||
                               post.status === "finish" ||
-                              post.status === "cancel"
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist)
                             } // Kiểm tra trạng thái đơn
                             style={{
                               cursor:
                                 post.status === "approve" ||
                                 post.status === "inprogress" ||
                                 post.status === "finish" ||
-                                post.status === "cancel"
+                                post.status === "cancel" ||
+                                (post.status === "wait" && isDriverExist)
                                   ? "not-allowed"
                                   : "auto",
                             }}
@@ -847,14 +856,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -888,7 +899,8 @@ const HistoryPostDetail = () => {
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -913,14 +925,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -946,14 +960,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -988,14 +1004,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -1020,14 +1038,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -1052,14 +1072,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -1095,14 +1117,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -1127,14 +1151,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -1159,14 +1185,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -1188,7 +1216,7 @@ const HistoryPostDetail = () => {
                     disabled={
                       isDisable ||
                       post.status === "finish" ||
-                      post.status === "inprogress" ||
+                      (post.status === "inprogress" && !isDriverExist) ||
                       post.status === "cancel"
                     }
                   >
@@ -1200,57 +1228,60 @@ const HistoryPostDetail = () => {
           </div>
         </div>
         {/* Right Side: Contact Info */}
-        {post.status === "wait" && driverId === "undefined" && (
-          <div className="col-md-4" style={{ right: "20px", width: "300px" }}>
-            <div className="card border">
-              <div className="card-header">
-                <h3>Tài xế đang thương lượng</h3>
-              </div>
-              <div className="overflow-auto" style={{ maxHeight: "350px" }}>
-                <ul className="list-group list-group-flush">
-                  {deals.map((deal, index) => (
-                    <li
-                      key={index}
-                      className="list-group-item d-flex justify-content-between align-items-center"
-                    >
-                      <div className="flex-grow-1">
-                        <strong>Tài xế: </strong>
-                        <span>{deal.driverId.userId.fullName}</span>
-                        <br />
-                        <strong>Giá: </strong>
-                        <span>{deal.dealPrice} VND</span>
-                        <br />
-                        {/* Hiển thị đánh giá với biểu tượng ngôi sao */}
-                        <strong>Đánh giá: </strong>
-                        <span style={{ color: "gold" }}>
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStarHalfAlt /> {/* Ngôi sao nửa */}
-                        </span>
-                        <br />
-                        <strong>Ngày giao dự kiến:</strong>
-                        <span className="mr-1"> 2/2/2024</span>
-                      </div>
-                      <button
-                        className="btn-success btn-sm"
-                        style={{
-                          border: "none",
-                          width: "80px",
-                          padding: "0.2rem 0.5rem",
-                        }}
-                        onClick={() => handleOpenModal(deal._id)}
+
+        {post.status === "wait" &&
+          driverId === "undefined" &&
+          deals.length > 0 && (
+            <div className="col-md-4" style={{ right: "20px", width: "300px" }}>
+              <div className="card border">
+                <div className="card-header">
+                  <h3>Tài xế đang thương lượng</h3>
+                </div>
+                <div className="overflow-auto" style={{ maxHeight: "350px" }}>
+                  <ul className="list-group list-group-flush">
+                    {deals.map((deal, index) => (
+                      <li
+                        key={index}
+                        className="list-group-item d-flex justify-content-between align-items-center"
                       >
-                        Xác nhận
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                        <div className="flex-grow-1">
+                          <strong>Tài xế: </strong>
+                          <span>{deal.driverId.userId.fullName}</span>
+                          <br />
+                          <strong>Giá: </strong>
+                          <span>{deal.dealPrice} VND</span>
+                          <br />
+                          {/* Hiển thị đánh giá với biểu tượng ngôi sao */}
+                          <strong>Đánh giá: </strong>
+                          <span style={{ color: "gold" }}>
+                            <FaStar />
+                            <FaStar />
+                            <FaStar />
+                            <FaStar />
+                            <FaStarHalfAlt /> {/* Ngôi sao nửa */}
+                          </span>
+                          <br />
+                          <strong>Ngày giao dự kiến:</strong>
+                          <span className="mr-1"> 2/2/2024</span>
+                        </div>
+                        <button
+                          className="btn-success btn-sm"
+                          style={{
+                            border: "none",
+                            width: "80px",
+                            padding: "0.2rem 0.5rem",
+                          }}
+                          onClick={() => handleOpenModal(deal._id)}
+                        >
+                          Xác nhận
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
         {isShowModal && (
           <div
             className="modal fade show"
