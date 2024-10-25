@@ -1,5 +1,3 @@
-import img9 from '../../../assets/img/blog/blog9.jpg'
-
 export const BlogData = [
     {
         img: "https://interlogistics.com.vn/static/2458/2024/07/05/Beige%20Minimalist%20Money%20Management%20Tips%20Graph%20(1).png",
@@ -47,7 +45,7 @@ export const BlogData = [
     },
     {
         img: "https://interlogistics.com.vn/static/2237/2024/04/03/1.jpg",
-        heading: "Xuất nhập khẩu tấp nập trong 4 tháng đầu năm 2024",
+        heading: "Công nghiệp hỗ trợ ngành cơ khí còn nhiều dư địa để phát triển",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Tren Mark",
