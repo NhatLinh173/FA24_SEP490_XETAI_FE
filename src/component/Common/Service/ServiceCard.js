@@ -14,7 +14,6 @@ const ServiceCard = ({
   weight,
   price,
 }) => {
-  console.log("Title:", );
   return (
     <div className="service-card ">
       <img src={img} alt={title} className="service-card-image zoom-image" />

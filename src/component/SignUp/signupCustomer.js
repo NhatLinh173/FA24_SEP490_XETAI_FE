@@ -38,10 +38,10 @@ const SignUpCustomer = () => {
   };
 
   const handleRegister = async () => {
-    if (!validateField("fullName", fullName)) return;
-    if (!validateField("email", email)) return;
-    if (!validateField("password", password)) return;
-    if (!validateField("phone", phone)) return;
+    // if (!validateField("fullName", fullName)) return;
+    // if (!validateField("email", email)) return;
+    // if (!validateField("password", password)) return;
+    // if (!validateField("phone", phone)) return;
 
     if (!isChecked) {
       toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
@@ -80,7 +80,10 @@ const SignUpCustomer = () => {
   };
 
   const handleGoogleLogin = () => {
-    console.log("Redirecting to:");
+    if (!isChecked) {
+      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
+      return;
+    }
     const role = "customer";
     const url = `http://localhost:3005/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
@@ -88,9 +91,12 @@ const SignUpCustomer = () => {
   };
 
   const handleFacebookLogin = () => {
+    if (!isChecked) {
+      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
+      return;
+    }
     const role = "customer";
     const url = `http://localhost:3005/auth/facebook?state=${role}`;
-
     window.open(url, "_self");
   };
 
@@ -192,7 +198,7 @@ const SignUpCustomer = () => {
                       <div className="submit_button">
                         <FormInput
                           tag={"button"}
-                          val={"Đăng Nhập"}
+                          val={"Đăng Ký"}
                           className="btn btn-primary btn-block"
                           style={{
                             height: "50px",
@@ -203,6 +209,7 @@ const SignUpCustomer = () => {
                             cursor: "pointer",
                             width: "100%",
                           }}
+                          disabled={!isChecked}
                         />
                       </div>
                     </div>
@@ -227,6 +234,7 @@ const SignUpCustomer = () => {
                           justifyContent: "center",
                         }}
                         onClick={handleGoogleLogin}
+                        disabled={!isChecked}
                       >
                         <FcGoogle
                           style={{
@@ -254,6 +262,7 @@ const SignUpCustomer = () => {
                           justifyContent: "center",
                         }}
                         onClick={handleFacebookLogin}
+                        disabled={!isChecked}
                       >
                         <FaFacebookF
                           style={{ marginRight: "10px", fontSize: "18px" }}

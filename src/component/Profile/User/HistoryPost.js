@@ -31,15 +31,19 @@ const HistoryPost = () => {
     error,
     refetch,
   } = useInstanceData(`/posts/${userId}/users`);
-  const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
+
+  const { data: driver } = useInstanceData(`/posts/${driverId}/driver`);
+
+
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
 
+
   const handleDelete = async () => {
     try {
       await axios.delete(`/posts/${postID}`);
-      refetch(); // Gọi lại API để cập nhật danh sách bài đăng
+      refetch();
       setIsShowModal(false);
       toast.success("Đơn hàng đã được xóa thành công");
     } catch (error) {

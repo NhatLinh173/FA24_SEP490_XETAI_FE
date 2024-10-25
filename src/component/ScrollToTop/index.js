@@ -12,7 +12,8 @@ const ScrollToTop = (props) => {
     ) {
       localStorage.removeItem("tabHistory");
     }
-  });
+  }, [location]);
+
   return props.children;
 };
 

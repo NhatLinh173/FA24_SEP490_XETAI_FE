@@ -5,7 +5,9 @@ const MenuItems = ({ item, openModal }) => {
   const handleClick = (event) => {
     if (item.name === "Đăng Ký") {
       event.preventDefault();
+      console.log(item.name);
       openModal();
+      console.log(openModal);
     }
   };
 
