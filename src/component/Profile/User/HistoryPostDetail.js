@@ -51,6 +51,7 @@ const HistoryPostDetail = () => {
   const [isDisable, setIsDisable] = useState(false);
   const [newImages, setNewImages] = useState([]);
   const [totalImage, setTotalImage] = useState([]);
+  const [isDriverExist, setIsDriverExist] = useState(false);
 
   const nextSlide = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -67,9 +68,13 @@ const HistoryPostDetail = () => {
       setCities(res.data);
     } catch (error) {}
   };
-  const { data: post } = useInstanceData(`/posts/${id}`);
+  const driverId = localStorage.getItem("driverId");
 
-  const { data: deals } = useInstanceData(`/dealPrice`);
+  const { data: post } = useInstanceData(`/posts/${id}`);
+  console.log(post);
+
+  const { data: deals } = useInstanceData(`/dealPrice/${id}`);
+
   const handleConfirmDriver = async () => {
     try {
       const res = await axiosInstance.patch(`/dealPrice/status/${id}`, {
@@ -84,6 +89,14 @@ const HistoryPostDetail = () => {
       }
     } catch (error) {}
   };
+  useEffect(() => {
+    if (driverId !== "undefined" && driverId) {
+      setIsDriverExist(true);
+    } else {
+      setIsDriverExist(false);
+    }
+  }, [driverId]);
+
   useEffect(() => {
     if (post) {
       if (!Array.isArray(images) || images.length === 0) {
@@ -374,63 +387,64 @@ const HistoryPostDetail = () => {
       <div className="row">
         {/* Left Side: Service Details */}
         <div className="col-md-8">
-          {(post.status === "wait" || post.status === "hide") && (
-            <div>
-              {totalImage.length > 0 && (
-                <div>
-                  {/* Hiển thị ảnh đã tải lên */}
-                  <div
-                    className={`d-flex image-form align-items-center mb-3 ${
-                      totalImage.length === 1
-                        ? "justify-content-center"
-                        : totalImage.length === 2
-                        ? "justify-content-center w-100"
-                        : "justify-content-between w-100"
-                    }`}
-                  >
-                    {totalImage.map((image, index) => (
-                      <div
-                        className={`position-relative border rounded-12 p-3 d-inline-block ${
-                          totalImage.length === 1 ? "w-75" : ""
-                        }`}
-                      >
-                        <img
-                          src={image}
-                          alt=""
-                          className={`rounded-12 ${
-                            totalImage.length === 1 ? "w-100" : ""
+          {(post.status === "wait" || post.status === "hide") &&
+            !isDriverExist && (
+              <div>
+                {totalImage.length > 0 && (
+                  <div>
+                    {/* Hiển thị ảnh đã tải lên */}
+                    <div
+                      className={`d-flex image-form align-items-center mb-3 ${
+                        totalImage.length === 1
+                          ? "justify-content-center"
+                          : totalImage.length === 2
+                          ? "justify-content-center w-100"
+                          : "justify-content-between w-100"
+                      }`}
+                    >
+                      {totalImage.map((image, index) => (
+                        <div
+                          className={`position-relative border rounded-12 p-3 d-inline-block ${
+                            totalImage.length === 1 ? "w-75" : ""
                           }`}
-                        />
-                        <IoCloseCircleOutline
-                          className={`position-absolute ${
-                            totalImage.length === 1
-                              ? "delete-img"
-                              : "delete-imgs"
-                          }`}
-                          onClick={() => handleDeleteImage(index)}
-                        />
-                      </div>
-                    ))}
+                        >
+                          <img
+                            src={image}
+                            alt=""
+                            className={`rounded-12 ${
+                              totalImage.length === 1 ? "w-100" : ""
+                            }`}
+                          />
+                          <IoCloseCircleOutline
+                            className={`position-absolute ${
+                              totalImage.length === 1
+                                ? "delete-img"
+                                : "delete-imgs"
+                            }`}
+                            onClick={() => handleDeleteImage(index)}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
+                )}
+                <div className="text-center">
+                  <input
+                    className="input-custom"
+                    id="file-upload"
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                  <label
+                    className="border rounded-12 p-3 pointer img-upload width-img"
+                    htmlFor="file-upload"
+                  >
+                    <img src={imgUpload} alt="upload" />
+                  </label>
+                  <p className="font-weight-bold">Tải ảnh lên</p>
                 </div>
-              )}
-              <div className="text-center">
-                <input
-                  className="input-custom"
-                  id="file-upload"
-                  type="file"
-                  onChange={handleFileChange}
-                />
-                <label
-                  className="border rounded-12 p-3 pointer img-upload width-img"
-                  htmlFor="file-upload"
-                >
-                  <img src={imgUpload} alt="upload" />
-                </label>
-                <p className="font-weight-bold">Tải ảnh lên</p>
               </div>
-            </div>
-          )}
+            )}
 
           <div className="border rounded p-3 shadow-sm">
             {/* Service Information */}
@@ -438,6 +452,54 @@ const HistoryPostDetail = () => {
               post.status === "inprogress" ||
               post.status === "finish" ||
               post.status === "approve") && (
+              <div className="w-100 border-bottom pb-3 mb-3">
+                <div
+                  id="carouselExampleControls"
+                  className="carousel slide"
+                  data-ride="carousel"
+                >
+                  <div className="carousel-inner">
+                    {images &&
+                      images.map((img, index) => (
+                        <div
+                          className={`carousel-item text-center ${
+                            index === activeIndex ? "active" : ""
+                          }`}
+                        >
+                          <img src={img} className="fix-img" alt="service" />
+                        </div>
+                      ))}
+                  </div>
+                  <button
+                    className="carousel-control-prev border-0 carousel-bg"
+                    type="button"
+                    data-target="#carouselExampleControls"
+                    data-slide="prev"
+                    onClick={prevSlide}
+                  >
+                    <span
+                      className="carousel-control-prev-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="sr-only">Previous</span>
+                  </button>
+                  <button
+                    className="carousel-control-next border-0  carousel-bg"
+                    type="button"
+                    data-target="#carouselExampleControls"
+                    data-slide="next"
+                    onClick={nextSlide}
+                  >
+                    <span
+                      className="carousel-control-next-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="sr-only">Next</span>
+                  </button>
+                </div>
+              </div>
+            )}
+            {post.status === "wait" && isDriverExist && (
               <div className="w-100 border-bottom pb-3 mb-3">
                 <div
                   id="carouselExampleControls"
@@ -496,14 +558,39 @@ const HistoryPostDetail = () => {
                 </button>
               )}
 
-              {(post.status === "wait" || post.status === "hide") && (
+              {(post.status === "wait" || post.status === "hide") &&
+                !isDriverExist && (
+                  <select
+                    id="orderAction"
+                    className={`form-control custom-select-arrow w-75 ${
+                      status === "cancel"
+                        ? "bg-danger text-white "
+                        : status === "hide"
+                        ? "bg-secondary text-white "
+                        : status === "wait"
+                        ? "bg-warning text-Black"
+                        : ""
+                    } `}
+                    value={status}
+                    onChange={handleStatus}
+                  >
+                    <option value="hide" class="bg-white options-text">
+                      Tạm ẩn đơn hàng
+                    </option>
+                    <option value="cancel" class="bg-white options-text">
+                      Hủy đơn hàng
+                    </option>
+                    <option value="wait" class="bg-white options-text">
+                      Đang chờ duyệt
+                    </option>
+                  </select>
+                )}
+              {post.status === "wait" && isDriverExist && (
                 <select
                   id="orderAction"
-                  className={`form-control w-75 ${
+                  className={`form-control custom-select-arrow w-75 ${
                     status === "cancel"
                       ? "bg-danger text-white "
-                      : status === "hide"
-                      ? "bg-secondary text-white "
                       : status === "wait"
                       ? "bg-warning text-Black"
                       : ""
@@ -511,27 +598,49 @@ const HistoryPostDetail = () => {
                   value={status}
                   onChange={handleStatus}
                 >
-                  <option value="hide" class="bg-white options-text">
-                    Tạm ẩn đơn hàng
+                  <option
+                    value="wait"
+                    disabled
+                    className="bg-white options-text"
+                  >
+                    Đang chờ duyệt
                   </option>
                   <option value="cancel" class="bg-white options-text">
                     Hủy đơn hàng
                   </option>
-                  <option value="wait" class="bg-white options-text">
-                    Đang chờ duyệt
-                  </option>
                 </select>
               )}
-              {post.status === "inprogress" && (
-                <button className="btn-sm btn-primary mt-3 border-0 d-flex align-items-center">
+              {post.status === "inprogress" && !isDriverExist && (
+                <button className="btn-sm btn-primary  mt-3 border-0 d-flex align-items-center">
                   <FaCarSide className="mr-2" />
                   Đang giao hàng
                 </button>
               )}
-              {post.status === "approve" && (
+              {post.status === "inprogress" && isDriverExist && (
                 <select
                   id="orderAction"
-                  className={`form-control w-75 ${
+                  className={`form-control custom-select-arrow w-75 ${
+                    status === "inprogress"
+                      ? "bg-primary text-white "
+                      : status === "finish"
+                      ? "bg-success text-white"
+                      : ""
+                  } `}
+                  value={status}
+                  onChange={handleStatus}
+                >
+                  <option value="inprogress" className="bg-white options-text">
+                    Đang giao hàng
+                  </option>
+                  <option value="finish" class="bg-white options-text">
+                    Đã giao hàng
+                  </option>
+                </select>
+              )}
+              {post.status === "approve" && !isDriverExist && (
+                <select
+                  id="orderAction"
+                  className={`form-control custom-select-arrow w-75 ${
                     status === "cancel"
                       ? "bg-danger text-white "
                       : status === "approve"
@@ -546,6 +655,41 @@ const HistoryPostDetail = () => {
                   </option>
                   <option value="approve" class="bg-white options-text">
                     Tài xế đã nhận đơn
+                  </option>
+                </select>
+              )}
+              {post.status === "approve" && isDriverExist && (
+                <select
+                  id="orderAction"
+                  className={`form-control custom-select-arrow w-75  ${
+                    status === "cancel"
+                      ? "bg-danger text-white "
+                      : status === "approve"
+                      ? "bg-secondary text-white"
+                      : status === "inprogress"
+                      ? "bg-primary text-white "
+                      : status === "finish"
+                      ? "bg-success text-white"
+                      : ""
+                  } `}
+                  value={status}
+                  onChange={handleStatus}
+                >
+                  <option
+                    value="approve"
+                    disabled
+                    class="bg-white options-text"
+                  >
+                    Đã nhận đơn
+                  </option>
+                  <option value="inprogress" className="bg-white options-text">
+                    Đang giao hàng
+                  </option>
+                  <option value="finish" class="bg-white options-text">
+                    Đã giao hàng
+                  </option>
+                  <option value="cancel" class="bg-white options-text">
+                    Hủy đơn hàng
                   </option>
                 </select>
               )}
@@ -580,14 +724,16 @@ const HistoryPostDetail = () => {
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                           } // Kiểm tra trạng thái đơn
                           style={{
                             cursor:
                               post.status === "approve" ||
                               post.status === "inprogress" ||
                               post.status === "finish" ||
-                              post.status === "cancel"
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist)
                                 ? "not-allowed"
                                 : "auto",
                           }}
@@ -607,14 +753,16 @@ const HistoryPostDetail = () => {
                               post.status === "approve" ||
                               post.status === "inprogress" ||
                               post.status === "finish" ||
-                              post.status === "cancel"
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist)
                             } // Kiểm tra trạng thái đơn
                             style={{
                               cursor:
                                 post.status === "approve" ||
                                 post.status === "inprogress" ||
                                 post.status === "finish" ||
-                                post.status === "cancel"
+                                post.status === "cancel" ||
+                                (post.status === "wait" && isDriverExist)
                                   ? "not-allowed"
                                   : "auto",
                             }}
@@ -643,14 +791,16 @@ const HistoryPostDetail = () => {
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                           } // Kiểm tra trạng thái đơn
                           style={{
                             cursor:
                               post.status === "approve" ||
                               post.status === "inprogress" ||
                               post.status === "finish" ||
-                              post.status === "cancel"
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist)
                                 ? "not-allowed"
                                 : "auto",
                           }}
@@ -670,14 +820,16 @@ const HistoryPostDetail = () => {
                               post.status === "approve" ||
                               post.status === "inprogress" ||
                               post.status === "finish" ||
-                              post.status === "cancel"
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist)
                             } // Kiểm tra trạng thái đơn
                             style={{
                               cursor:
                                 post.status === "approve" ||
                                 post.status === "inprogress" ||
                                 post.status === "finish" ||
-                                post.status === "cancel"
+                                post.status === "cancel" ||
+                                (post.status === "wait" && isDriverExist)
                                   ? "not-allowed"
                                   : "auto",
                             }}
@@ -704,14 +856,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -737,14 +891,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -769,14 +925,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -802,14 +960,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -844,14 +1004,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -876,14 +1038,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -908,14 +1072,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -951,14 +1117,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -983,14 +1151,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -1015,14 +1185,16 @@ const HistoryPostDetail = () => {
                           post.status === "approve" ||
                           post.status === "inprogress" ||
                           post.status === "finish" ||
-                          post.status === "cancel"
+                          post.status === "cancel" ||
+                          (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
                             post.status === "finish" ||
-                            post.status === "cancel"
+                            post.status === "cancel" ||
+                            (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
                         }}
@@ -1044,7 +1216,7 @@ const HistoryPostDetail = () => {
                     disabled={
                       isDisable ||
                       post.status === "finish" ||
-                      post.status === "inprogress" ||
+                      (post.status === "inprogress" && !isDriverExist) ||
                       post.status === "cancel"
                     }
                   >
@@ -1056,57 +1228,60 @@ const HistoryPostDetail = () => {
           </div>
         </div>
         {/* Right Side: Contact Info */}
-        {post.status === "wait" && (
-          <div className="col-md-4" style={{ right: "20px", width: "300px" }}>
-            <div className="card border">
-              <div className="card-header">
-                <h3>Tài xế đang thương lượng</h3>
-              </div>
-              <div className="overflow-auto" style={{ maxHeight: "350px" }}>
-                <ul className="list-group list-group-flush">
-                  {deals.map((deal, index) => (
-                    <li
-                      key={index}
-                      className="list-group-item d-flex justify-content-between align-items-center"
-                    >
-                      <div className="flex-grow-1">
-                        <strong>Tài xế: </strong>
-                        <span>{deal.driverId.userId.fullName}</span>
-                        <br />
-                        <strong>Giá: </strong>
-                        <span>{deal.dealPrice} VND</span>
-                        <br />
-                        {/* Hiển thị đánh giá với biểu tượng ngôi sao */}
-                        <strong>Đánh giá: </strong>
-                        <span style={{ color: "gold" }}>
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStar />
-                          <FaStarHalfAlt /> {/* Ngôi sao nửa */}
-                        </span>
-                        <br />
-                        <strong>Ngày giao dự kiến:</strong>
-                        <span className="mr-1"> 2/2/2024</span>
-                      </div>
-                      <button
-                        className="btn-success btn-sm"
-                        style={{
-                          border: "none",
-                          width: "80px",
-                          padding: "0.2rem 0.5rem",
-                        }}
-                        onClick={() => handleOpenModal(deal._id)}
+
+        {post.status === "wait" &&
+          driverId === "undefined" &&
+          deals.length > 0 && (
+            <div className="col-md-4" style={{ right: "20px", width: "300px" }}>
+              <div className="card border">
+                <div className="card-header">
+                  <h3>Tài xế đang thương lượng</h3>
+                </div>
+                <div className="overflow-auto" style={{ maxHeight: "350px" }}>
+                  <ul className="list-group list-group-flush">
+                    {deals.map((deal, index) => (
+                      <li
+                        key={index}
+                        className="list-group-item d-flex justify-content-between align-items-center"
                       >
-                        Xác nhận
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                        <div className="flex-grow-1">
+                          <strong>Tài xế: </strong>
+                          <span>{deal.driverId.userId.fullName}</span>
+                          <br />
+                          <strong>Giá: </strong>
+                          <span>{deal.dealPrice} VND</span>
+                          <br />
+                          {/* Hiển thị đánh giá với biểu tượng ngôi sao */}
+                          <strong>Đánh giá: </strong>
+                          <span style={{ color: "gold" }}>
+                            <FaStar />
+                            <FaStar />
+                            <FaStar />
+                            <FaStar />
+                            <FaStarHalfAlt /> {/* Ngôi sao nửa */}
+                          </span>
+                          <br />
+                          <strong>Ngày giao dự kiến:</strong>
+                          <span className="mr-1"> 2/2/2024</span>
+                        </div>
+                        <button
+                          className="btn-success btn-sm"
+                          style={{
+                            border: "none",
+                            width: "80px",
+                            padding: "0.2rem 0.5rem",
+                          }}
+                          onClick={() => handleOpenModal(deal._id)}
+                        >
+                          Xác nhận
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
         {isShowModal && (
           <div
             className="modal fade show"
@@ -1154,7 +1329,7 @@ const HistoryPostDetail = () => {
           </div>
         )}
         {/* Hiển thị tài xế nếu đơn hàng đã được approve */}
-        {post?.dealId && (
+        {post?.dealId && !isDriverExist && (
           <div className="col-md-4">
             <div className="border rounded p-3 shadow-sm ">
               <h3 className="text-center border-bottom pb-2 mb-3 ">
@@ -1199,6 +1374,44 @@ const HistoryPostDetail = () => {
                       Đánh giá
                     </button>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {post?.creator && isDriverExist && (
+          <div className="col-md-4">
+            <div className="border rounded p-3 shadow-sm ">
+              <h3 className="text-center border-bottom pb-2 mb-3 ">
+                Thông tin người tạo đơn
+              </h3>
+              <div className="contact-info">
+                <div className="contact-avatar-wrapper rounded-circle">
+                  {post?.creator.avatar && (
+                    <img
+                      src={post.creator.avatar}
+                      className="contact-avatar rounded-circle"
+                      alt="contact avatar"
+                    />
+                  )}
+                </div>
+                <div className="contact-details">
+                  <ul className="list-group">
+                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                      <strong>Tên:</strong>
+                      <span className="text-muted">
+                        {post?.creator.fullName}
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                      <strong>Số điện thoại:</strong>
+                      <span className="text-muted">{post?.creator.phone}</span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                      <strong>Email:</strong>
+                      <span className="text-muted">{post?.creator.email}</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

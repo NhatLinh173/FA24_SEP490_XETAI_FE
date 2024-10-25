@@ -1,30 +1,27 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Blog Card 
-const BlogCard = props => {
+const BlogCard = ({ img, month, day, date, heading }) => {
     return (
-        <>
-            <div className="blog_wrapper zoom">
-                <div className="news-img">
-                    <Link to="/blog_details">
-                        <img src={props.img} alt="img "/>
-                    </Link>
-                    <div className="date">
-                        <small>{props.month}</small><span>{props.day}</span>
-                    </div>
-                </div>
-                <div className="blog_text">
-                    <h6><i className="far fa-clock"></i>{props.date}</h6>
-                    <h5><Link to="/blog_details">{props.heading}</Link></h5>
-                    <p>{props.para}</p>
-                    <Link to="/blog_details" className="author_name"><i className="far fa-user"></i>{props.name} </Link>
-                    <Link to="/blog_details" className="blog_comments"><i
-                        className="far fa-comment">{props.comment}</i></Link>
+        <div className="blog-card zoom-effect">
+            <div className="blog-image-wrapper">
+                <Link to="/blog_details">
+                    <img src={img} alt="blog" className="blog-image" />
+                </Link>
+                <div className="blog-date">
+                    <small className="blog-month">{month}</small>
+                    <span className="blog-day">{day}</span>
                 </div>
             </div>
-        </>
-    )
-}
+            <div className="blog-content">
+                <h6 className="blog-time"><i className="far fa-clock"></i> {date}</h6>
+                <h5 className="blog-heading">
+                    <Link to="/blog_details">{heading}</Link>
+                </h5>
+            </div>
+        </div>
+    );
+};
 
-export default BlogCard
+export default BlogCard;

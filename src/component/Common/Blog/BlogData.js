@@ -1,111 +1,101 @@
-import img1 from '../../../assets/img/blog/blog1.jpg'
-import img2 from '../../../assets/img/blog/blog2.jpg'
-import img3 from '../../../assets/img/blog/blog3.jpg'
-import img4 from '../../../assets/img/blog/blog4.jpg'
-import img5 from '../../../assets/img/blog/blog5.jpg'
-import img6 from '../../../assets/img/blog/blog6.jpg'
-import img7 from '../../../assets/img/blog/blog7.jpg'
-import img8 from '../../../assets/img/blog/blog8.jpg'
-import img9 from '../../../assets/img/blog/blog9.jpg'
-
 export const BlogData = [
     {
-        img: img1,
-        heading: "WE HAVE STARTED NEW SECTION IN GROUND SHIPPING",
+        img: "https://interlogistics.com.vn/static/2458/2024/07/05/Beige%20Minimalist%20Money%20Management%20Tips%20Graph%20(1).png",
+        heading: "Tránh “sảy chân” tiền triệu với các sai phạm về mã HS khi kiểm tra sau thông quan",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Khorshad DOE",
         comment: " 6 comments",
-        date: "3 july 2020",
-        month: "july",
+        date: "03/10/2024",
+        month: "Oct",
         day: "03"
     },
     {
-        img: img2,
-        heading: "Fleet Management Comes into Focus",
+        img: "https://interlogistics.com.vn/static/2437/2024/06/18/Picture1.jpg",
+        heading: "Vận tải biển có nhiều biến động khiến các chủ hàng phải thật linh hoạt",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Jon DOE",
         comment: " 4 comments",
-        date: "23 Jan 2020",
-        month: "jan",
+        date: "23/01/2024",
+        month: "Jan",
         day: "23"
     },
     {
-        img: img3,
-        heading: "New Warehouse Now Operational",
+        img: "https://interlogistics.com.vn/static/2399/2024/06/14/2.jpg",
+        heading: "Những lưu ý về chứng nhận xuất xứ hàng hóa (C/O) khi kiểm tra sau thông quan",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Harish Mondol",
         comment: "36 comments",
-        date: "31 july 2020",
-        month: "july",
+        date: "31/07/2024",
+        month: "Jul",
         day: "31"
     },
     {
-        img: img4,
-        heading: "For European sustainable development week",
+        img: "https://interlogistics.com.vn/static/2726/2024/10/22/0625_IMG_1239.jpg",
+        heading: "Vận chuyển hàng lẻ từ Trung Quốc về Việt Nam với giá cước refund 20$",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Morgan las",
         comment: " 62 comments",
-        date: "8 May 2020",
+        date: "08/05/2024",
         month: "May",
         day: "08"
     },
     {
-        img: img5,
-        heading: "Logistics Should Brace for Changes in Air Cargo",
+        img: "https://interlogistics.com.vn/static/2237/2024/04/03/1.jpg",
+        heading: "Công nghiệp hỗ trợ ngành cơ khí còn nhiều dư địa để phát triển",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Tren Mark",
         comment: "12 comments",
-        date: "23 Aug 2020",
+        date: "23/08/2024",
         month: "Aug",
         day: "23"
     },
     {
-        img: img6,
-        heading: "Distinctively promote real-time strategic warehouses",
+        img: "https://interlogistics.com.vn/static/2235/2024/04/01/2.png",
+        heading: "Thuế phát thải carbon được áp dụng toàn cầu cho ngành vận tải biển",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Mela Jes",
         comment: "54 comments",
-        date: "30 March 2020",
-        month: "March",
+        date: "30/03/2024",
+        month: "Mar",
         day: "30"
     },
     {
-        img: img7,
-        heading: "Project Logistics: Going the Distance",
+        img: "https://interlogistics.com.vn/static/1993/2024/01/10/houthi-050124.jpg",
+        heading: "Căng thẳng tại Biển Đỏ ngày càng gay gắt khiến các hãng tàu dè chừng",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Mark Juris",
         comment: "39 comments",
-        date: "8 july 2020",
-        month: "july",
+        date: "08/07/2024",
+        month: "Jul",
         day: "08"
     },
     {
-        img: img8,
-        heading: "SHIPMENTS DELIVERED ON TIME WITH NO HASSLE.",
+        img: "https://interlogistics.com.vn/static/images/2022/05/22/mceu_67273247551653188331932.jpg",
+        heading: "Công nghiệp hỗ trợ ngành cơ khí còn nhiều dư địa để phát triển",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Aliza anne",
         comment: "52 comments",
-        date: "5 july 2020",
-        month: "july",
+        date: "05/07/2024",
+        month: "Jul",
         day: "05"
     },
     {
-        img: img9,
-        heading: "SPECIAL HANDLING. EXTRA SERVICE",
+        img: "https://interlogistics.com.vn/static/154/2022/05/26/mceu_12880271111653540392610.jpg",
+        heading: "Trung Quốc mở rộng giao thương bằng đường sắt",
         para: `Lorem ipsum dolor sit amet, consctetur adip
   iscing elit. Aenean in ante magna.`,
         name: "Robin Kera",
         comment: " 6 comments",
-        date: "3 April 2020",
-        month: "April",
+        date: "03/04/2024",
+        month: "Apr",
         day: "03"
     }
 

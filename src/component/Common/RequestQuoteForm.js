@@ -248,6 +248,13 @@ const RequestQuoteForm = () => {
     const updatedImgs = imgs.filter((_, i) => i !== index);
     setImgs(updatedImgs);
   };
+  useEffect(() => {
+    if (imgs.length === 0) {
+      setIsDisable(true);
+    } else {
+      setIsDisable(false);
+    }
+  }, [imgs]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -294,7 +301,9 @@ const RequestQuoteForm = () => {
         setRecipientEmailError("");
         setNewCost("");
       } else if (error.response?.status === 400) {
+
         toast.error("Vui lòng điền đầy đủ thông tin");
+
       }
       if (response.status === 402) {
         toast.error(
@@ -302,7 +311,17 @@ const RequestQuoteForm = () => {
         );
       }
     } catch (error) {
+
       console.log(error);
+
+      if (error.response?.status === 400) {
+        toast.error("Vui lòng điền đầy đủ thông tin!");
+      } else if (error.response?.status === 402) {
+        toast.error(
+          "Số dư tài khoản không đủ để đăng bài! Vui lòng nạp thêm tiền để đăng bài"
+        );
+      }
+
     }
   };
 
