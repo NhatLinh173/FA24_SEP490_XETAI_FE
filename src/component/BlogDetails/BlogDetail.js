@@ -68,7 +68,7 @@ const BlogDetail = () => {
                 {/* Phần nội dung blog */}
                 <div className="col-md-8">
                     <div className="breadcrumb mb-3">
-                        <a href="/">Trang chủ</a> / <a href="/blog">Blog</a> / {blogPost.title}
+                        <a href="/">Trang chủ</a> / <a href="/blog_details">Blog</a> / {blogPost.title}
                     </div>
                     <div className="card blog-detail-card shadow-effect mb-4">
                         <img
@@ -91,7 +91,7 @@ const BlogDetail = () => {
                 {/* Phần các bài blog liên quan */}
                 <div className="col-md-4">
                     <div className="card-header related-blogs-header">
-                        <h5>Các bài blog liên quan</h5>
+                        <h3>Tin tức liên quan</h3>
                     </div>
                     <div className="card related-blogs-card shadow-effect mb-4">
                         <div className="card-body">
