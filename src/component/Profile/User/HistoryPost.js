@@ -38,6 +38,7 @@ const HistoryPost = () => {
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
+  console.log(dealPriceDriver);
 
 
   const handleDelete = async () => {
@@ -172,6 +173,27 @@ const HistoryPost = () => {
       filteredPosts.length === 0 ? "Không có đơn hàng nào đã hủy." : ""
     );
   };
+  const handleFilterHidePosts = () => {
+    setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    let filteredPosts = [];
+    if (driverId !== "undefined") {
+      const filter = dealPriceDriver.filter((dealPriceDriver) => {
+        return (
+          dealPriceDriver.status === "hide" && dealPriceDriver.postId != null
+        );
+      });
+      filteredPosts = filter.map((deal) => deal.postId);
+    } else {
+      filteredPosts = posts?.salePosts?.filter(
+        (post) => post.status === "hide"
+      );
+    }
+    setPageCount(Math.ceil(filteredPosts?.length / 3));
+    setCurrentPost(filteredPosts);
+    setNoPostsMessage(
+      filteredPosts.length === 0 ? "Không có đơn hàng nào đã hủy." : ""
+    );
+  };
   return (
     <div>
       <h2>Đơn Hàng</h2>
@@ -201,7 +223,10 @@ const HistoryPost = () => {
           <MdOutlinePersonAdd className="mr-1" /> Đã hủy
         </button>
         {!isDriverExist && (
-          <button className="btn btn-dark btn-custom mx-1 d-flex align-items-center">
+          <button
+            className="btn btn-dark btn-custom mx-1 d-flex align-items-center"
+            onClick={handleFilterHidePosts}
+          >
             <GrHide className="mr-1" /> Tạm ẩn
           </button>
         )}
