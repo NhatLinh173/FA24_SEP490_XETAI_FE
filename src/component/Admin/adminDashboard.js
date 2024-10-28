@@ -1,186 +1,239 @@
-import React, { useState } from "react";
+import React from 'react';
+import { Container, Row, Col, Card, Navbar, Nav, Button, NavDropdown } from 'react-bootstrap';
+import { FaTachometerAlt, FaCog, FaUserCircle, FaSignOutAlt, FaKey, FaUsers, FaCar, FaUserTie, FaClipboardList, FaChartLine, FaNewspaper, FaFileSignature } from 'react-icons/fa';
 import {
+  PieChart,
+  Pie,
+  Cell,
   BarChart,
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts";
-import { Bell, Settings, User, LogOut, Menu } from "lucide-react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../../assets/css/adminDashboard.css";
+  LineChart,
+  CartesianGrid,
+  Line,
+} from 'recharts';
 
-const data = [
-  { name: "Jan", uv: 4000, pv: 2400, amt: 2400 },
-  { name: "Feb", uv: 3000, pv: 1398, amt: 2210 },
-  { name: "Mar", uv: 2000, pv: 9800, amt: 2290 },
-  { name: "Apr", uv: 2780, pv: 3908, amt: 2000 },
-  { name: "May", uv: 1890, pv: 4800, amt: 2181 },
-  { name: "Jun", uv: 2390, pv: 3800, amt: 2500 },
-];
+function AdminDashboard() {
+  // Dữ liệu mẫu cho biểu đồ
+  const dataVisitors = [
+    { name: 'Jan', visitors: 4000 },
+    { name: 'Feb', visitors: 3000 },
+    { name: 'Mar', visitors: 2000 },
+    { name: 'Apr', visitors: 2780 },
+    { name: 'May', visitors: 1890 },
+    { name: 'Jun', visitors: 2390 },
+    { name: 'Jul', visitors: 3490 },
+  ];
 
-export default function AdminDashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const dataCustomers = [
+    { name: 'New', value: 674 },
+    { name: 'Return', value: 182 },
+  ];
 
   return (
-    <div className="admin-dashboard d-flex h-100">
-      {/* Sidebar */}
-      <aside className={`admin-sidebar bg-light ${sidebarOpen ? "show" : ""}`}>
-        <div className="admin-sidebar-header p-3">
-          <h1 className="admin-sidebar-title h4 mb-0">Admin Panel</h1>
-        </div>
-        <nav className="admin-sidebar-nav mt-3">
-          <div className="list-group list-group-flush">
-            <a
-              href="#"
-              className="admin-sidebar-link list-group-item list-group-item-action"
-            >
-              Dashboard
-            </a>
-            <a
-              href="#"
-              className="admin-sidebar-link list-group-item list-group-item-action"
-            >
-              Users
-            </a>
-            <a
-              href="#"
-              className="admin-sidebar-link list-group-item list-group-item-action"
-            >
-              Staff
-            </a>
-            <a
-              href="#"
-              className="admin-sidebar-link list-group-item list-group-item-action"
-            >
-              Products
-            </a>
-            <a
-              href="#"
-              className="admin-sidebar-link list-group-item list-group-item-action"
-            >
-              Orders
-            </a>
-          </div>
-        </nav>
-      </aside>
+    <div className="admin-dashboard-body">
+      <Navbar bg="primary" variant="dark" expand="lg" className="mb-4 admin-dashboard-navbar">
+        <Navbar.Brand href="#home" className="admin-dashboard-navbar-brand">
+          <span className="brand-icon">&#9733;</span>
+          Admin Dashboard
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto admin-dashboard-navbar-nav">
+          </Nav>
+          <NavDropdown
+            title={
+              <>
+                <img
+                  src="https://ispacedanang.edu.vn/wp-content/uploads/2024/05/hinh-anh-dep-ve-hoc-sinh-cap-3-1.jpg"
+                  alt="Admin Avatar"
+                  style={{ width: '40px', height: '40px', borderRadius: '50%', marginRight: '8px' }}
+                />
+                Quốc Khánh
+              </>
+            }
+            id="admin-avatar-dropdown"
+            align="end"
+          >
+            <NavDropdown.Item disabled>
+              <strong>Quản lý thông tin</strong>
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="#profile">
+              <FaUserCircle className="icon" /> Thông tin tài khoản
+            </NavDropdown.Item>
+            <NavDropdown.Item href="#change-password">
+              <FaKey className="icon" /> Đổi mật khẩu
+            </NavDropdown.Item>
+            <NavDropdown.Item href="#settings">
+              <FaCog className="icon" /> Cài Đặt
+            </NavDropdown.Item>
+            <NavDropdown.Item href="#logout">
+              <FaSignOutAlt className="icon" /> Đăng xuất
+            </NavDropdown.Item>
+          </NavDropdown>
+        </Navbar.Collapse>
+      </Navbar>
 
-      {/* Main Content */}
-      <main className="admin-main flex-grow-1 p-3 overflow-auto">
-        <div className="admin-header d-flex justify-content-between align-items-center mb-4">
-          <div className="d-flex align-items-center">
-            <button
-              className="admin-sidebar-toggle btn btn-light d-md-none me-2"
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-            >
-              <Menu size={24} />
-            </button>
-            <h2 className="admin-header-title h3 mb-0">Dashboard</h2>
-          </div>
-          <div className="admin-header-actions d-flex align-items-center">
-            <button className="admin-header-action btn btn-light me-2">
-              <Bell size={20} />
-            </button>
-            <button className="admin-header-action btn btn-light me-2">
-              <Settings size={20} />
-            </button>
-            <div className="admin-user-menu dropdown">
-              <button
-                className="admin-user-menu-toggle btn btn-light dropdown-toggle"
-                type="button"
-                id="dropdownMenuButton"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <User size={20} />
-              </button>
-              <ul
-                className="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownMenuButton"
-              >
-                <li>
-                  <h6 className="dropdown-header">My Account</h6>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Profile
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    <LogOut className="me-2" size={16} /> Log out
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      <Container fluid>
+        <Row>
+          <Col md={2} className="admin-dashboard-sidebar">
+            <Nav className="flex-column">
+              <h2 className="sidebar-title text-uppercase fw-bold">Điều hướng</h2>
+              <Nav.Link href="#dashboard" className="sidebar-link active">
+                <FaTachometerAlt className="icon" /> Trang chủ
+              </Nav.Link>
 
-        {/* Stats */}
-        <div className="admin-stats row g-4 mb-4">
-          <div className="col-md-6 col-lg-3">
-            <div className="admin-stat-card card">
-              <div className="card-body">
-                <h5 className="admin-stat-title card-title">Total Users</h5>
-                <p className="admin-stat-value card-text h3">1,234</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <div className="admin-stat-card card">
-              <div className="card-body">
-                <h5 className="admin-stat-title card-title">Total Orders</h5>
-                <p className="admin-stat-value card-text h3">5,678</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <div className="admin-stat-card card">
-              <div className="card-body">
-                <h5 className="admin-stat-title card-title">Revenue</h5>
-                <p className="admin-stat-value card-text h3">$12,345</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <div className="admin-stat-card card">
-              <div className="card-body">
-                <h5 className="admin-stat-title card-title">Conversion Rate</h5>
-                <p className="admin-stat-value card-text h3">2.34%</p>
-              </div>
-            </div>
-          </div>
-        </div>
+              <h2 className="sidebar-title text-uppercase fw-bold">Quản lý tài khoản</h2>
+              <Nav.Link href="#customers" className="sidebar-link">
+                <FaUsers className="icon" /> Quản lý khách hàng
+              </Nav.Link>
+              <Nav.Link href="#drivers" className="sidebar-link">
+                <FaCar className="icon" /> Quản lý tài xế
+              </Nav.Link>
+              <Nav.Link href="#employees" className="sidebar-link">
+                <FaUserTie className="icon" /> Quản lý nhân viên
+              </Nav.Link>
 
-        {/* Chart */}
-        <div className="admin-chart card">
-          <div className="card-body">
-            <h5 className="admin-chart-title card-title">Sales Overview</h5>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="pv" fill="#007bff" />
-                <Bar dataKey="uv" fill="#28a745" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </main>
+              <h2 className="sidebar-title text-uppercase fw-bold">Quản lý hệ thống</h2>
+              <Nav.Link href="#orders" className="sidebar-link">
+                <FaClipboardList className="icon" /> Quản lý đơn hàng
+              </Nav.Link>
+              <Nav.Link href="#reports" className="sidebar-link">
+                <FaChartLine className="icon" /> Quản lý báo cáo
+              </Nav.Link>
+              <Nav.Link href="#news" className="sidebar-link">
+                <FaNewspaper className="icon" /> Quản lý tin tức
+              </Nav.Link>
+              <Nav.Link href="#vehicle-registration" className="sidebar-link">
+                <FaFileSignature className="icon" /> Quản lý đăng ký xe
+              </Nav.Link>
+            </Nav>
+          </Col>
+
+          <Col md={10}>
+            <Row className="mb-4">
+              <Col md={3}>
+                <Card className="admin-dashboard-card text-center admin-dashboard-bg-info text-white">
+                  <Card.Body>
+                    <Card.Title className="admin-dashboard-card-title">Orders Received</Card.Title>
+                    <Card.Text className="admin-dashboard-card-text">486</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={3}>
+                <Card className="admin-dashboard-card text-center admin-dashboard-bg-success text-white">
+                  <Card.Body>
+                    <Card.Title className="admin-dashboard-card-title">Total Sales</Card.Title>
+                    <Card.Text className="admin-dashboard-card-text">1,641</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={3}>
+                <Card className="admin-dashboard-card text-center admin-dashboard-bg-warning text-white">
+                  <Card.Body>
+                    <Card.Title className="admin-dashboard-card-title">Revenue</Card.Title>
+                    <Card.Text className="admin-dashboard-card-text">$42,562</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={3}>
+                <Card className="admin-dashboard-card text-center admin-dashboard-bg-danger text-white">
+                  <Card.Body>
+                    <Card.Title className="admin-dashboard-card-title">Total Profit</Card.Title>
+                    <Card.Text className="admin-dashboard-card-text">$9,562</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+
+            <Row className="mb-4">
+              <Col md={6}>
+                <Card className="admin-dashboard-card">
+                  <Card.Body>
+                    <Card.Title className="admin-dashboard-card-title">Unique Visitor</Card.Title>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <LineChart data={dataVisitors}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="visitors" stroke="#8884d8" />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={6}>
+                <Card className="admin-dashboard-card">
+                  <Card.Body>
+                    <Card.Title className="admin-dashboard-card-title">Customers</Card.Title>
+                    <div className="d-flex justify-content-between">
+                      <div>New: 674</div>
+                      <div>Return: 182</div>
+                    </div>
+                    <div className="admin-dashboard-chart-placeholder" style={{ marginTop: '20px', height: '300x' }}>
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={dataCustomers}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={40}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            paddingAngle={5}
+                            dataKey="value"
+                          >
+                            {dataCustomers.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={index === 0 ? "#82ca9d" : "#ff6384"} />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6}>
+                <Card className="admin-dashboard-card">
+                  <Card.Body>
+                    <Card.Title className="admin-dashboard-card-title">Subscribers</Card.Title>
+                    <Card.Text className="admin-dashboard-card-text">8.62k Subscribers</Card.Text>
+                    <Button className="admin-dashboard-btn-primary">Manage List</Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={6}>
+                <Card className="admin-dashboard-card">
+                  <Card.Body>
+                    <Card.Title className="admin-dashboard-card-title">Activity Feed</Card.Title>
+                    <div>
+                      <strong>Eddie uploaded new files</strong>
+                      <p>10 min ago</p>
+                      <strong>Jhon updated his profile</strong>
+                      <p>30 min ago</p>
+                      <strong>David commented on your post</strong>
+                      <p>1 hour ago</p>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
+
+export default AdminDashboard;
