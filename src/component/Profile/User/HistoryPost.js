@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaBoxArchive, FaCheck, FaHourglassHalf } from "react-icons/fa6";
+import { FaBoxArchive, FaCheck } from "react-icons/fa6";
 import { FaWeightHanging } from "react-icons/fa";
 import { FaMapLocation } from "react-icons/fa6";
 import { FaCarSide } from "react-icons/fa6";
@@ -25,12 +25,7 @@ const HistoryPost = () => {
   const userId = localStorage.getItem("userId");
   const driverId = localStorage.getItem("driverId");
 
-  const {
-    data: posts,
-    loading,
-    error,
-    refetch,
-  } = useInstanceData(`/posts/${userId}/users`);
+  const { data: posts, refetch } = useInstanceData(`/posts/${userId}/users`);
 
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
 
@@ -38,7 +33,6 @@ const HistoryPost = () => {
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
-  console.log(dealPriceDriver);
 
 
   const handleDelete = async () => {
@@ -386,6 +380,7 @@ const HistoryPost = () => {
           nextLabel={">>"}
         />
       )}
+
       {isShowModal && (
         <div
           className="modal fade show"
