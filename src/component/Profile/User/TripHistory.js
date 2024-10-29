@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
 import ReactPaginate from "react-paginate"
 import axiosInstance from "../../../config/axiosConfig"
+import { jwtDecode } from "jwt-decode"
 
 export const TripHistory = () => {
   const [currentPage, setCurrentPage] = useState(0)
@@ -13,6 +14,15 @@ export const TripHistory = () => {
   const offset = currentPage * itemPerPage
 
   const currentPageItems = tripHistories.slice(offset, offset + itemPerPage)
+
+  const role = localStorage.getItem("accessToken")
+    ? jwtDecode(localStorage.getItem("accessToken")).role
+    : ""
+
+  const isDriverRole = useMemo(
+    () => role === "personal" || role === "business",
+    [role]
+  )
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected)
@@ -32,13 +42,15 @@ export const TripHistory = () => {
   if (!tripHistories.length)
     return (
       <div className="mt-5 text-center font-weight-bold">
-        Chưa có lịch sử chuyến
+        {isDriverRole ? "Chưa có lịch sử chuyến" : "Chưa có đơn hoàn thành"}
       </div>
     )
 
   return (
     <div className="delivery-history-list">
-      <h2 className="mb-4">Lịch sử chuyến</h2>
+      <h2 className="mb-4">
+        {isDriverRole ? "Lịch sử chuyến" : "Đơn hoàn thành"}
+      </h2>
 
       {currentPageItems.map((item) => (
         <div key={item._id} className="my-4 border rounded-12 item-card">

@@ -109,7 +109,11 @@ const Tab = ({ tab1, setTab1 }) => {
               onClick={handleClickTripHistory}
             >
               <MdAccessTime />
-              <span className="px-2">Lịch sử chuyến</span>
+              <span className="px-2">
+                {role === "personal" || role === "business"
+                  ? "Lịch sử chuyến"
+                  : "Đơn hoàn thành"}
+              </span>
             </button>
           </li>
           <li className="my-3">
