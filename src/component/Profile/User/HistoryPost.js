@@ -32,13 +32,10 @@ const HistoryPost = () => {
     refetch,
   } = useInstanceData(`/posts/${userId}/users`);
 
-  const { data: driver } = useInstanceData(`/posts/${driverId}/driver`);
-
-
+  const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
-
 
   const handleDelete = async () => {
     try {

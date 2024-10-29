@@ -48,6 +48,7 @@ import { WebSocketProvider } from "./hooks/WebSocketContext";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
 import AdminDashboard from "../src/component/Admin/adminDashboard";
+import Unauthorized from "./component/Unauthorized/unauthorized";
 const App = () => {
   const { isOpen, openModal, closeModal } = useModal();
   return (
@@ -109,10 +110,22 @@ const App = () => {
             <Route path="/trip/detail/:id" exact component={TripDetail} />
             <Route path="/payment/success" exact component={PaymentSuccess} />
             <Route path="/payment/failed" exact component={PaymentFailed} />
-            <Route path="/chat" exact component={Chat} />
+            <Route path="/chat/:id?" exact component={Chat} />
+
             <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
-            <Route path="/vehical/add" exact component={VehicalAdd} />
-            <Route path="/dashboard-admin" exact component={AdminDashboard} />
+            <ProtectedRoute
+              path="/vehical/add"
+              exact
+              component={VehicalAdd}
+              allowedRoles={["personal", "business"]}
+            />
+            <ProtectedRoute
+              path="/dashboard-admin"
+              exact
+              component={AdminDashboard}
+              allowedRoles={["admin", "staff"]}
+            />
+            <Route path="/unauthorized" exact component={Unauthorized} />
           </Switch>
           <CustomModal isOpen={isOpen} closeModal={closeModal} />
           <Footer />

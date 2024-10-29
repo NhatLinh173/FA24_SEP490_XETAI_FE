@@ -1,4 +1,4 @@
-import img1 from "../../../assets/img/home1/client1.png";
+import img1 from "../../../assets/img/icon/avatarDefault.jpg";
 import logo1 from "../../../assets/img/home1/partner-1.png";
 import logo2 from "../../../assets/img/home1/partner-2.png";
 import logo3 from "../../../assets/img/home1/partner-3.png";

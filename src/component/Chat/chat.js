@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { useWebSocket } from "../../hooks/WebSocketContext";
 import axios from "axios";
 import { IoSend } from "react-icons/io5";
@@ -12,9 +13,44 @@ const Chat = () => {
   const [receiverId, setReceiverId] = useState("");
   const [receiver, setReceiver] = useState(null);
   const [chatUsers, setChatUsers] = useState([]);
+  const [userEmail, setUserEmail] = useState(""); // New state for user email
   const senderId = localStorage.getItem("userId");
   const messageContainerRef = useRef(null);
   const socket = useWebSocket();
+  const { id } = useParams(); // Destructure id from useParams
+
+  useEffect(() => {
+    if (id) {
+      const fetchUserEmail = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:3005/auth/user/${id}`
+          );
+          const user = response.data;
+          console.log("User data:", user);
+          setUserEmail(user.email);
+          setReceiverId(user._id);
+          setReceiver(user);
+
+          const conversationResponse = await axios.post(
+            `http://localhost:3005/conversation`,
+            {
+              senderId,
+              receiverId: user._id,
+            }
+          );
+          const newConversationId = conversationResponse.data.conversationId;
+          setConversationId(newConversationId);
+          socket.emit("joinConversation", newConversationId);
+          loadMessages(newConversationId);
+        } catch (error) {
+          console.error("Error fetching user email:", error);
+        }
+      };
+
+      fetchUserEmail();
+    }
+  }, [id, senderId, socket]);
 
   useEffect(() => {
     if (socket) {
@@ -42,7 +78,6 @@ const Chat = () => {
         });
 
         socket.on("receiveMessage", (newMessage) => {
-          console.log("Received new message:", newMessage);
           setMessages((prevMessages) => [...prevMessages, newMessage]);
           updateChatUserWithLatestMessage(newMessage);
         });
@@ -110,9 +145,20 @@ const Chat = () => {
     }
   }, [chatUsers]);
 
+  // New useEffect to select the user based on email
+  useEffect(() => {
+    if (userEmail && chatUsers.length > 0) {
+      const user = chatUsers.find(
+        (user) => user.participant.email === userEmail
+      );
+      if (user) {
+        handleUserClick(user.participant);
+      }
+    }
+  }, [userEmail, chatUsers]);
+
   const loadMessages = (conversationId) => {
     socket.emit("getMessages", { conversationId });
-    console.log("Requested messages for conversation:", conversationId);
   };
 
   const sendMessage = () => {
@@ -152,15 +198,18 @@ const Chat = () => {
       );
       const users = Array.isArray(response.data) ? response.data : [];
       setSearchResults(users);
-      console.log("Search results:", users);
     } catch (error) {
       console.error("Error searching users:", error);
     }
   };
 
   const handleUserClick = async (user) => {
-    setReceiverId(user._id.toString());
-    setReceiver(user);
+    if (user && user._id) {
+      setReceiverId(user._id.toString());
+      setReceiver(user);
+    } else {
+      setReceiverId(id);
+    }
 
     try {
       const response = await axios.post(`http://localhost:3005/conversation`, {
@@ -169,7 +218,6 @@ const Chat = () => {
       });
       const newConversationId = response.data.conversationId;
       setConversationId(newConversationId);
-      console.log("Conversation loaded/created:", newConversationId);
 
       socket.emit("joinConversation", newConversationId);
       loadMessages(newConversationId);
