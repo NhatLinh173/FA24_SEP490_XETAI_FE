@@ -34,12 +34,10 @@ const HistoryPost = () => {
 
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
 
-
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
   console.log(dealPriceDriver);
-
 
   const handleDelete = async () => {
     try {
@@ -194,10 +192,28 @@ const HistoryPost = () => {
       filteredPosts.length === 0 ? "Không có đơn hàng nào đã hủy." : ""
     );
   };
+  const handleShowAllPosts = () => {
+    setCurrentPage(0);
+    if (driverId !== "undefined") {
+      setPageCount(Math.ceil(postdriver?.data?.length / postsPerPage));
+      setCurrentPost(postdriver?.data?.slice(0, postsPerPage));
+    } else {
+      setPageCount(Math.ceil(posts?.salePosts?.length / postsPerPage));
+      setCurrentPost(posts?.salePosts?.slice(0, postsPerPage));
+    }
+    setNoPostsMessage("");
+  };
+
   return (
     <div>
       <h2>Đơn Hàng</h2>
       <div className="mb-3 mt-2 d-flex justify-content-center gap-2">
+        <button
+          className="btn btn-info btn-custom mx-1 d-flex align-items-center"
+          onClick={handleShowAllPosts}
+        >
+          Hiện tất cả
+        </button>
         <button
           className="btn btn-warning btn-custom mx-1 d-flex align-items-center"
           onClick={handleFilterWaitPosts}
