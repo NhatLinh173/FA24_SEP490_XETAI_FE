@@ -280,10 +280,7 @@ const RequestQuoteForm = () => {
 
     try {
       const response = await axiosInstance.post("/posts", formData);
-      if (response.status === 200) {
-        toast.success("Đăng Bài thành công");
-        refetch();
-      }
+
       if (response.status === 201) {
         toast.success("Tạo đơn hàng thành công");
         setNewOrderType("");
@@ -300,10 +297,9 @@ const RequestQuoteForm = () => {
         setEmailError("");
         setRecipientEmailError("");
         setNewCost("");
+        refetch();
       } else if (error.response?.status === 400) {
-
         toast.error("Vui lòng điền đầy đủ thông tin");
-
       }
       if (response.status === 402) {
         toast.error(
@@ -311,7 +307,6 @@ const RequestQuoteForm = () => {
         );
       }
     } catch (error) {
-
       console.log(error);
 
       if (error.response?.status === 400) {
@@ -321,7 +316,6 @@ const RequestQuoteForm = () => {
           "Số dư tài khoản không đủ để đăng bài! Vui lòng nạp thêm tiền để đăng bài"
         );
       }
-
     }
   };
 

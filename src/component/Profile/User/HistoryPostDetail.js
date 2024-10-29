@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import useInstanceData from "../../../config/useInstanceData";
 import axios from "axios";
 import axiosInstance from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
 import { GiCancel } from "react-icons/gi";
+import { GrHide } from "react-icons/gr";
 import { FaCarSide, FaCheck } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import imgUpload from "../../../assets/img/homepage/output-onlinepngtools.png";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 const HistoryPostDetail = () => {
+  const history = useHistory();
   const { id } = useParams();
   const userId = localStorage.getItem("userId");
+  const [receiverId, setReceiverId] = useState(null);
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
   const [cityTo, setCityTo] = useState("");
@@ -35,6 +37,8 @@ const HistoryPostDetail = () => {
   const [isShowModalCancel, setIsShowModalCancel] = useState(false);
   const [images, setImages] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [formData, setFormData] = useState(null);
+
   // các biến lỗi
   const [titleError, setTitleError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -73,6 +77,22 @@ const HistoryPostDetail = () => {
   const { data: post } = useInstanceData(`/posts/${id}`);
 
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
+  console.log(deals);
+
+  useEffect(() => {
+    if (deals && deals.length > 0) {
+      const deal = deals[0];
+      if (deal && deal.driverId && deal.driverId.userId) {
+        setReceiverId(deal.driverId.userId._id);
+      } else {
+        console.warn("Deal data not ready or structure is incorrect:", deal);
+      }
+    }
+  }, [deals]);
+  const handleClickChat = () => {
+    const id = receiverId;
+    history.push(`/chat/${id}`);
+  };
 
   const handleConfirmDriver = async () => {
     try {
@@ -119,62 +139,91 @@ const HistoryPostDetail = () => {
       setRecipentPhone(post.recipientPhone);
       setStatus(post.status);
     }
-  }, [post, images]);
+  }, [post]);
 
-  // Tách logic cập nhật totalImage ra khỏi useEffect
   useEffect(() => {
     if (Array.isArray(images) && Array.isArray(newImages)) {
       let total = [...images, ...newImages.map((img) => img.url)];
       setTotalImage(total);
     }
   }, [images, newImages]);
+
   const handleSubmitForm = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    newImages.forEach((img) => {
+      formData.append("newImages", img.file);
+    });
+    formData.append("creator", userId);
+    formData.append("email", newEmail);
+    formData.append("phone", newPhone);
+    formData.append("fullname", newFullName);
+    formData.append("title", newtitle);
+    formData.append("startPoint", newStartPoint);
+    formData.append("destination", newDestination);
+    formData.append("load", newWeight);
+    formData.append("price", newPrice);
+    formData.append("detail", newDetail);
+    formData.append("startPointCity", cityFrom);
+    formData.append("destinationCity", cityTo);
+    formData.append("recipientEmail", recipientEmail);
+    formData.append("recipientName", recipientName);
+    formData.append("recipientPhone", recipientPhone);
+    formData.append("status", status);
+    formData.append("oldImages", images);
     if (status === "cancel") {
+      setFormData(formData);
       setIsShowModalCancel(true);
     } else {
-      const formData = new FormData();
-      newImages.forEach((img) => {
-        formData.append("newImages", img.file);
-      });
-      formData.append("creator", userId);
-      formData.append("email", newEmail);
-      formData.append("phone", newPhone);
-      formData.append("fullname", newFullName);
-      formData.append("title", newtitle);
-      formData.append("startPoint", newStartPoint);
-      formData.append("destination", newDestination);
-      formData.append("load", newWeight);
-      formData.append("price", newPrice);
-      formData.append("detail", newDetail);
-      formData.append("startPointCity", cityFrom);
-      formData.append("destinationCity", cityTo);
-      formData.append("recipientEmail", recipientEmail);
-      formData.append("recipientName", recipientName);
-      formData.append("recipientPhone", recipientPhone);
-      formData.append("status", status);
-      formData.append("oldImages", images);
-
-      try {
-        const res = await axiosInstance.patch(`/posts/${id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        if (res.status === 200) {
-          toast.success("Cập nhật thành công!");
-        }
-      } catch (error) {
-        toast.error("Cập nhật không thành công!");
-      }
+      await submitFormData(formData);
     }
   };
+
+  const submitFormData = async (formData) => {
+    try {
+      const res = await axiosInstance.patch(`/posts/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (res.status === 200) {
+        toast.success("Cập nhật thành công!");
+
+        const driverId = localStorage.getItem("driverId");
+        if (driverId !== null && status === "finish") {
+          const priceValue = formData
+            .get("price")
+            .replace(/\./g, "")
+            .replace(/\,/g, "");
+
+          const earnings = priceValue;
+          const trips = 1;
+
+          console.log("Payload being sent:", { earnings, trips });
+          const response = await axiosInstance.put(
+            `/driver/statistics/${driverId}`,
+            { earnings, trips }
+          );
+        }
+      }
+    } catch (error) {
+      toast.error("Cập nhật không thành công!");
+    }
+  };
+
+  const handleConfirmModalCancel = async () => {
+    setIsShowModalCancel(false);
+    if (formData) {
+      await submitFormData(formData);
+      setFormData(null);
+    }
+  };
+
   const handleCloseModalCancel = () => {
     setIsShowModalCancel(false);
   };
-  const handleConfirmModalCancel = () => {
-    setIsShowModalCancel(false);
-  };
+
   const handleOpenModal = (dealId) => {
     setIsShowModal(true);
     setDealIdUpdate(dealId);
@@ -1205,7 +1254,7 @@ const HistoryPostDetail = () => {
                 <div className="w-70 d-flex justify-content-center mt-3">
                   <button
                     type="submit"
-                    className="btn btn-primary btn-lg w-25  cursor-disable"
+                    className="btn btn-primary btn-lg w-25 cursor-disable"
                     onClick={handleSubmitForm}
                     disabled={
                       isDisable ||
@@ -1240,12 +1289,14 @@ const HistoryPostDetail = () => {
                       >
                         <div className="flex-grow-1">
                           <strong>Tài xế: </strong>
+
                           <span>{deal.driverId.userId.fullName}</span>
                           <br />
+
                           <strong>Giá: </strong>
                           <span>{deal.dealPrice} VND</span>
                           <br />
-                          {/* Hiển thị đánh giá với biểu tượng ngôi sao */}
+
                           <strong>Đánh giá: </strong>
                           <span style={{ color: "gold" }}>
                             <FaStar />
@@ -1258,17 +1309,30 @@ const HistoryPostDetail = () => {
                           <strong>Ngày giao dự kiến:</strong>
                           <span className="mr-1"> 2/2/2024</span>
                         </div>
-                        <button
-                          className="btn-success btn-sm"
-                          style={{
-                            border: "none",
-                            width: "80px",
-                            padding: "0.2rem 0.5rem",
-                          }}
-                          onClick={() => handleOpenModal(deal._id)}
-                        >
-                          Xác nhận
-                        </button>
+                        <div className="d-flex flex-column">
+                          <button
+                            className="btn-success btn-sm mb-2"
+                            style={{
+                              border: "none",
+                              width: "90px",
+                              padding: "0.2rem 0.5rem",
+                            }}
+                            onClick={() => handleOpenModal(deal._id)}
+                          >
+                            Xác nhận
+                          </button>
+                          <button
+                            className="btn-primary btn-sm"
+                            style={{
+                              border: "none",
+                              width: "90px",
+                              padding: "0.2rem 0.5rem",
+                            }}
+                            onClick={handleClickChat}
+                          >
+                            Trò chuyện
+                          </button>
+                        </div>
                       </li>
                     ))}
                   </ul>
@@ -1323,58 +1387,56 @@ const HistoryPostDetail = () => {
           </div>
         )}
         {/* Hiển thị tài xế nếu đơn hàng đã được approve */}
-        {post?.status === "approve" ||
-          post?.status === "inprogress" ||
-          (post?.status === "finish" && !isDriverExist && (
-            <div className="col-md-4">
-              <div className="border rounded p-3 shadow-sm ">
-                <h3 className="text-center border-bottom pb-2 mb-3 ">
-                  Thông tin tài xế
-                </h3>
-                <div className="contact-info">
-                  <div className="contact-avatar-wrapper rounded-circle">
-                    {post?.dealId.driverId.userId.avatar && (
-                      <img
-                        src={post.dealId.driverId.userId.avatar}
-                        className="contact-avatar rounded-circle"
-                        alt="contact avatar"
-                      />
-                    )}
-                  </div>
-                  <div className="contact-details">
-                    <ul className="list-group">
-                      <li className="list-group-item d-flex justify-content-between align-items-center">
-                        <strong>Tài xế:</strong>
-                        <span className="text-muted">
-                          {post?.dealId.driverId.userId.fullName}
-                        </span>
-                      </li>
-                      <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                        <strong>Số điện thoại:</strong>
-                        <span className="text-muted">
-                          {post?.dealId.driverId.userId.phone}
-                        </span>
-                      </li>
-                      <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                        <strong>Email:</strong>
-                        <span className="text-muted">
-                          {post?.dealId.driverId.userId.email}
-                        </span>
-                      </li>
-                    </ul>
-                    <div className="mt-2 d-flex flex-column align-items-center w-100">
-                      <Link
-                        to={`/driver/${post.dealId.driverId.userId._id}`}
-                        className="btn-success  rounded border-0 text-white w-50 mb-2 "
-                      >
-                        Xem chi tiết
-                      </Link>
-                    </div>
+        {post?.dealId && !isDriverExist && (
+          <div className="col-md-4">
+            <div className="border rounded p-3 shadow-sm ">
+              <h3 className="text-center border-bottom pb-2 mb-3 ">
+                Thông tin tài xế
+              </h3>
+              <div className="contact-info">
+                <div className="contact-avatar-wrapper rounded-circle">
+                  {post?.dealId.driverId.userId.avatar && (
+                    <img
+                      src={post.dealId.driverId.userId.avatar}
+                      className="contact-avatar rounded-circle"
+                      alt="contact avatar"
+                    />
+                  )}
+                </div>
+                <div className="contact-details">
+                  <ul className="list-group">
+                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                      <strong>Tài xế:</strong>
+                      <span className="text-muted">
+                        {post?.dealId.driverId.userId.fullName}
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                      <strong>Số điện thoại:</strong>
+                      <span className="text-muted">
+                        {post?.dealId.driverId.userId.phone}
+                      </span>
+                    </li>
+                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                      <strong>Email:</strong>
+                      <span className="text-muted">
+                        {post?.dealId.driverId.userId.email}
+                      </span>
+                    </li>
+                  </ul>
+                  <div className="mt-2 d-flex flex-column align-items-center w-100">
+                    <button className="btn-success  rounded border-0 text-white w-50 mb-2 ">
+                      Xem chi tiết
+                    </button>
+                    <button className="btn-warning rounded border-0 w-50 text-white">
+                      Đánh giá
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+        )}
         {post?.creator && isDriverExist && (
           <div className="col-md-4">
             <div className="border rounded p-3 shadow-sm ">

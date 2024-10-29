@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import axios from "axios";
 
 ChartJS.register(
   CategoryScale,
@@ -30,68 +31,230 @@ const Statistical = ({ driverId }) => {
     earnings: 0,
   });
   const [timeRange, setTimeRange] = useState("Hôm nay");
-  useEffect(() => {
-    const fetchStatistics = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3005/driver/statistics/${driverId}`
-        );
-        const data = await response.json();
-        setStatistics({
-          tripsThisWeek: data.tripsThisWeek,
-          tripsThisMonth: data.tripsThisMonth,
-          earnings: data.balance,
-        });
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu thống kê:", error);
-      }
-    };
+  const [labels, setLabels] = useState([]);
+  const [lineDataPoints, setLineDataPoints] = useState([]);
+  const [tripDataPoints, setTripDataPoints] = useState([]);
 
-    fetchStatistics();
-  }, [driverId]);
+  const timeRangeMapping = {
+    "Hôm qua": "yesterday",
+    "Hôm nay": "today",
+    "Tuần này": "week",
+    "Tháng này": "month",
+    "Tháng trước": "lastMonth",
+    "Năm này": "year",
+    "Năm trước": "lastYear",
+  };
+
+  const fetchStatistics = async (range) => {
+    try {
+      const mappedRange = timeRangeMapping[range] || range;
+      const response = await axios.get(
+        `http://localhost:3005/driver/${driverId}/statistics?range=${range}`
+      );
+      const data = response.data;
+      console.log("Dữ Liệu: ", data);
+      setStatistics({
+        tripsThisWeek: data.tripsThisWeek || 0,
+        tripsThisMonth: data.tripsThisMonth || 0,
+        earnings: data.balance || 0,
+      });
+
+      const selectedData = data[mappedRange];
+
+      if (selectedData) {
+        let newLabels = [];
+        let newTripDataPoints = [];
+        let newLineDataPoints = [];
+
+        switch (mappedRange) {
+          case "yesterday":
+          case "today":
+            newLabels = Array.from({ length: 24 }, (_, i) =>
+              i.toString().padStart(2, "0")
+            );
+            newTripDataPoints = newLabels.map((hour) => {
+              const hourData = selectedData.find((item) => item.hour === hour);
+              return hourData ? hourData.trips : 0;
+            });
+            newLineDataPoints = newLabels.map((hour) => {
+              const hourData = selectedData.find((item) => item.hour === hour);
+              return hourData ? hourData.earnings : 0;
+            });
+            break;
+
+          case "week":
+            const daysOfWeek = [
+              "Thứ 2",
+              "Thứ 3",
+              "Thứ 4",
+              "Thứ 5",
+              "Thứ 6",
+              "Thứ 7",
+              "CN",
+            ];
+
+            const currentDate = new Date();
+            const currentDay = (currentDate.getDay() + 6) % 7;
+
+            newTripDataPoints = daysOfWeek.map((day, index) => {
+              const targetDate = new Date(currentDate);
+              targetDate.setDate(currentDate.getDate() - (currentDay - index));
+
+              const formattedDate = `${targetDate.getDate()}-${
+                targetDate.getMonth() + 1
+              }`;
+              const dayData = selectedData.find(
+                (item) => item.day === formattedDate
+              );
+              return dayData ? dayData.trips : 0;
+            });
+
+            newLineDataPoints = daysOfWeek.map((day, index) => {
+              const targetDate = new Date(currentDate);
+              targetDate.setDate(currentDate.getDate() - (currentDay - index));
+
+              const formattedDate = `${targetDate.getDate()}-${
+                targetDate.getMonth() + 1
+              }`;
+              const dayData = selectedData.find(
+                (item) => item.day === formattedDate
+              );
+              return dayData ? dayData.earnings : 0;
+            });
+
+            newLabels = daysOfWeek;
+            break;
+
+          case "month":
+            const month = new Date().getMonth() + 1; // Current month (1-12)
+            const monthLabel = `Tháng ${month}`; // Label for the current month
+
+            // Generate labels for the days in the month
+            const totalDaysInMonth = new Date(
+              new Date().getFullYear(),
+              month,
+              0
+            ).getDate();
+
+            newLabels = Array.from({ length: totalDaysInMonth }, (_, i) =>
+              (i + 1).toString()
+            );
+
+            // Initialize data points
+            newTripDataPoints = Array(totalDaysInMonth).fill(0);
+            newLineDataPoints = Array(totalDaysInMonth).fill(0);
+
+            // Loop through selected data to fill in the trip and earnings data
+            selectedData.forEach((item) => {
+              const day = new Date(item.timestamp).getDate(); // Extract day from timestamp
+              if (item.date === monthLabel) {
+                newTripDataPoints[day - 1] += item.trips; // Day index is 0-based
+                newLineDataPoints[day - 1] += item.earnings; // Day index is 0-based
+              }
+            });
+
+            break;
+
+          case "lastMonth":
+            newLabels = Array.from(
+              {
+                length: new Date(
+                  new Date().getFullYear(),
+                  new Date().getMonth(),
+                  0
+                ).getDate(),
+              },
+              (_, i) => (i + 1).toString()
+            );
+            newTripDataPoints = newLabels.map((day) => {
+              const dayData = selectedData.find((item) => item.day === day);
+              return dayData ? dayData.trips : 0;
+            });
+            newLineDataPoints = newLabels.map((day) => {
+              const dayData = selectedData.find((item) => item.day === day);
+              return dayData ? dayData.earnings : 0;
+            });
+            break;
+
+          case "year":
+          case "lastYear":
+            // Tạo nhãn tháng
+            const monthNames = [
+              "Tháng 1",
+              "Tháng 2",
+              "Tháng 3",
+              "Tháng 4",
+              "Tháng 5",
+              "Tháng 6",
+              "Tháng 7",
+              "Tháng 8",
+              "Tháng 9",
+              "Tháng 10",
+              "Tháng 11",
+              "Tháng 12",
+            ];
+
+            newLabels = monthNames; // Sử dụng mảng tháng đã định nghĩa
+            newTripDataPoints = newLabels.map((month) => {
+              const monthData = selectedData.find(
+                (item) => item.month === month
+              );
+              return monthData ? monthData.trips : 0;
+            });
+            newLineDataPoints = newLabels.map((month) => {
+              const monthData = selectedData.find(
+                (item) => item.month === month
+              );
+              return monthData ? monthData.earnings : 0;
+            });
+            console.log(selectedData);
+            console.log(newTripDataPoints);
+            console.log(newLineDataPoints);
+            break;
+
+          default:
+            console.warn(`Không có dữ liệu cho phạm vi: ${range}`);
+        }
+
+        setLabels(newLabels);
+        setTripDataPoints(newTripDataPoints);
+        setLineDataPoints(newLineDataPoints);
+      } else {
+        console.warn(`Không có dữ liệu cho phạm vi: ${range}`);
+        setLabels([]);
+        setTripDataPoints([]);
+        setLineDataPoints([]);
+      }
+    } catch (error) {
+      console.error("Lỗi khi lấy dữ liệu thống kê:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStatistics(timeRange);
+  }, [timeRange, driverId]);
 
   const handleTimeRangeChange = (range) => {
     setTimeRange(range);
   };
+
   const barData = {
-    labels: ["Chuyến đi trong tuần", "Chuyến đi trong tháng"],
+    labels: labels.length > 0 ? labels : ["Không có dữ liệu"],
     datasets: [
       {
         label: "Số chuyến đi",
-        data: [statistics.tripsThisWeek, statistics.tripsThisMonth],
-        backgroundColor: ["#36a2eb", "#ffcd56"],
+        data: tripDataPoints.length > 0 ? tripDataPoints : [0],
+        backgroundColor: "#36a2eb",
       },
     ],
   };
 
   const lineData = {
-    labels: [
-      "Tháng 1",
-      "Tháng 2",
-      "Tháng 3",
-      "Tháng 4",
-      "Tháng 5",
-      "Tháng 6",
-      "Tháng 7",
-      "Tháng 8",
-      "Tháng 9",
-      "Tháng 10",
-      "Tháng 11",
-      "Tháng 12",
-    ],
+    labels: labels.length > 0 ? labels : ["Không có dữ liệu"],
     datasets: [
       {
-        label: "Số tiền (VND)",
-        data: [
-          1000000,
-          1500000,
-          1200000,
-          5000000,
-          1800000,
-          4000000,
-          10000000,
-          statistics.earnings,
-        ],
+        label: "Doanh thu (VND)",
+        data: lineDataPoints.length > 0 ? lineDataPoints : [0],
         borderColor: "#ff6384",
         fill: false,
         tension: 0.4,
@@ -99,36 +262,87 @@ const Statistical = ({ driverId }) => {
     ],
   };
 
-  const totalTrip = statistics.tripsThisWeek + statistics.tripsThisMonth;
+  const totalTrip = tripDataPoints.reduce((sum, value) => sum + value, 0);
 
   return (
     <div className="statistical-container">
       <h2>Thống Kê Tài Xế</h2>
+      <div className="time-range-buttons">
+        <button
+          onClick={() => handleTimeRangeChange("Hôm qua")}
+          style={{
+            backgroundColor: setTimeRange === "Hôm qua" ? "#007bff" : "#f0f0f0",
+            color: setTimeRange === "Hôm qua" ? "#fff" : "#000",
+          }}
+        >
+          Hôm qua
+        </button>
+        <button
+          onClick={() => handleTimeRangeChange("Hôm nay")}
+          style={{
+            backgroundColor: setTimeRange === "Hôm nay" ? "#007bff" : "#f0f0f0",
+            color: setTimeRange === "Hôm nay" ? "#fff" : "#000",
+          }}
+        >
+          Hôm nay
+        </button>
+        <button
+          onClick={() => handleTimeRangeChange("Tuần này")}
+          style={{
+            backgroundColor:
+              setTimeRange === "Tuần này" ? "#007bff" : "#f0f0f0",
+            color: setTimeRange === "Tuần này" ? "#fff" : "#000",
+          }}
+        >
+          Tuần này
+        </button>
+        <button
+          onClick={() => handleTimeRangeChange("Tháng này")}
+          style={{
+            backgroundColor:
+              setTimeRange === "Tháng này" ? "#007bff" : "#f0f0f0",
+            color: setTimeRange === "Tháng này" ? "#fff" : "#000",
+          }}
+        >
+          Tháng này
+        </button>
+        <button
+          onClick={() => handleTimeRangeChange("Tháng trước")}
+          style={{
+            backgroundColor:
+              setTimeRange === "Tháng trước" ? "#007bff" : "#f0f0f0",
+            color: setTimeRange === "Tháng trước" ? "#fff" : "#000",
+          }}
+        >
+          Tháng trước
+        </button>
+        <button
+          onClick={() => handleTimeRangeChange("Năm này")}
+          style={{
+            backgroundColor: setTimeRange === "Năm này" ? "#007bff" : "#f0f0f0",
+            color: setTimeRange === "Năm này" ? "#fff" : "#000",
+          }}
+        >
+          Năm này
+        </button>
+        <button
+          onClick={() => handleTimeRangeChange("Năm trước")}
+          style={{
+            backgroundColor:
+              setTimeRange === "Năm trước" ? "#007bff" : "#f0f0f0",
+            color: setTimeRange === "Năm trước" ? "#fff" : "#000",
+          }}
+        >
+          Năm trước
+        </button>
+      </div>
       <div className="chart-container">
         <h4 style={{ marginTop: "15px" }}>Số chuyến đi: {totalTrip}</h4>
-        <Bar data={barData} options={{ responsive: true }} />
+        <Bar key={timeRange} data={barData} options={{ responsive: true }} />
       </div>
-      <div className="chart-container" style={{ marginTop: "20px" }}>
-        <h4>Doanh thu</h4>
-        <div className="time-range-buttons">
-          <button onClick={() => handleTimeRangeChange("Hôm qua")}>
-            Hôm qua
-          </button>
-          <button onClick={() => handleTimeRangeChange("Hôm nay")}>
-            Hôm nay
-          </button>
-          <button onClick={() => handleTimeRangeChange("Tuần này")}>
-            Tuần này
-          </button>
-          <button onClick={() => handleTimeRangeChange("Tháng này")}>
-            Tháng này
-          </button>
-          <button onClick={() => handleTimeRangeChange("Năm này")}>
-            Năm này
-          </button>
-        </div>
-        <h3 style={{ marginTop: "15px" }}>Tổng doanh thu: </h3>
-        <Line data={lineData} options={{ responsive: true }} />
+      <div className="chart-container" style={{ marginTop: "30px" }}>
+        <h4>Doanh thu (VND)</h4>
+        <Line key={timeRange} data={lineData} options={{ responsive: true }} />
       </div>
     </div>
   );

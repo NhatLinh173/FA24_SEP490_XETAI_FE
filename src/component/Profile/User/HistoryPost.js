@@ -29,9 +29,11 @@ const HistoryPost = () => {
 
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
 
+
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
+
 
   const handleDelete = async () => {
     try {

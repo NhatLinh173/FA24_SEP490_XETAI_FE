@@ -32,8 +32,18 @@ const Wallet = ({ data }) => {
     setShowModal(true);
   };
 
+  const formatNumberWithCommas = (number) => {
+    return number.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const handleDepositAmountChange = (e) => {
+    const rawValue = e.target.value.replace(/,/g, ""); // Loại bỏ dấu phẩy cũ
+    const formattedValue = formatNumberWithCommas(rawValue);
+    setDepositAmount(formattedValue);
+  };
+
   const handleDepositSubmit = async () => {
-    const amount = parseInt(depositAmount, 10);
+    const amount = parseInt(depositAmount.replace(/,/g, ""), 10); // Loại bỏ dấu phẩy khi chuyển sang số
     if (amount < 5000 || amount > 1000000) {
       setError("Số tiền phải nằm trong khoảng 5,000 VND và 1,000,000 VND");
       return;
@@ -162,6 +172,8 @@ const Wallet = ({ data }) => {
                   <td>
                     {transaction.type === "POST_PAYMENT"
                       ? "Trừ phí đăng bài"
+                      : transaction.type === "CANCEL_ORDER"
+                      ? "Trừ phí hủy đơn hàng"
                       : "Nạp Tiền"}
                   </td>
                   <td>
@@ -174,14 +186,16 @@ const Wallet = ({ data }) => {
                   <td
                     style={{
                       color:
-                        transaction.type === "POST_PAYMENT"
+                        transaction.type === "POST_PAYMENT" ||
+                        transaction.type === "CANCEL_ORDER"
                           ? "red"
                           : transaction.type === "DEPOSIT"
                           ? "#00FF00"
                           : "inherit",
                     }}
                   >
-                    {transaction.type === "POST_PAYMENT"
+                    {transaction.type === "POST_PAYMENT" ||
+                    transaction.type === "CANCEL_ORDER"
                       ? `-${(transaction.amount || 0).toLocaleString()} đ`
                       : transaction.status === "PAID"
                       ? `+${(transaction.amount || 0).toLocaleString()} đ`
@@ -219,11 +233,11 @@ const Wallet = ({ data }) => {
                 <div className="form-group">
                   <label htmlFor="depositAmount">Nhập số tiền muốn nạp:</label>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="depositAmount"
                     value={depositAmount}
-                    onChange={(e) => setDepositAmount(e.target.value)}
+                    onChange={handleDepositAmountChange}
                     placeholder="Số tiền (VND)"
                   />
                   {error && <div className="text-danger mt-2">{error}</div>}
@@ -261,8 +275,6 @@ const Wallet = ({ data }) => {
         previousLinkClassName={"page-link"}
         nextClassName={"page-item"}
         nextLinkClassName={"page-link"}
-        breakClassName={"page-item"}
-        breakLinkClassName={"page-link"}
         activeClassName={"active"}
         previousLabel={"<<"}
         nextLabel={">>"}
