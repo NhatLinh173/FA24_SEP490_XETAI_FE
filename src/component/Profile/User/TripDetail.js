@@ -1,68 +1,72 @@
-import { useEffect, useState } from "react"
-import { CiStar } from "react-icons/ci"
-import { FaStar } from "react-icons/fa"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
-import { toast } from "react-toastify"
-import axiosInstance from "../../../config/axiosConfig"
+import { useEffect, useState } from "react";
+import { CiStar } from "react-icons/ci";
+import { FaStar } from "react-icons/fa";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { toast } from "react-toastify";
+import axiosInstance from "../../../config/axiosConfig";
 
 const TripDetail = () => {
-  const [tripDetail, setTripDetail] = useState(null)
-  const [rating, setRating] = useState(0) // Lưu trạng thái số sao được chọn
-  const [hover, setHover] = useState(null) // Trạng thái sao khi người dùng hover
-  const [feedback, setfeedback] = useState("")
-  const [isShowModal, setIsShowModal] = useState(false)
+  const [tripDetail, setTripDetail] = useState(null);
+  const [rating, setRating] = useState(0); // Lưu trạng thái số sao được chọn
+  const [hover, setHover] = useState(null); // Trạng thái sao khi người dùng hover
+  const [feedback, setfeedback] = useState("");
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [driver, setDriver] = useState("");
 
-  const { id } = useParams()
-  const driverId = localStorage.getItem("driverId")
-  const userId = localStorage.getItem("userId")
+  const { id } = useParams();
+  const driverId = localStorage.getItem("driverId");
+  const userId = localStorage.getItem("userId");
 
   const handleFavoriteDriver = async () => {
     try {
       const response = await axiosInstance.post("/favorites/add", {
         driverId,
         userId,
-      })
+      });
       if (response.status === 200) {
-        toast.success("Đã thêm tài xế vào danh sách yêu thích")
+        toast.success("Đã thêm tài xế vào danh sách yêu thích");
       } else {
-        toast.error("Thêm tài xế vào danh sách yêu thích thất bại")
+        toast.error("Thêm tài xế vào danh sách yêu thích thất bại");
       }
     } catch (error) {
-      console.error("Error adding favorite driver:", error)
-      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.")
+      console.error("Error adding favorite driver:", error);
+      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.");
     }
-  }
+  };
 
   const handleOpenModal = () => {
-    setIsShowModal(true)
-  }
+    setIsShowModal(true);
+  };
 
   const handleCloseModal = () => {
-    setIsShowModal(false)
-  }
+    setIsShowModal(false);
+  };
 
   const handleFeedback = (e) => {
-    setfeedback(e.target.value)
-  }
+    setfeedback(e.target.value);
+  };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axiosInstance.post("/rating", {
-  //       userId: 12312321,
-  //       rating: rating,
-  //       reviewerId: reviewerId,
-  //       comment: feedback,
-  //     });
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("/rating", {
+        value: rating,
+        comment: feedback,
+        userId: driver,
+        reviewerId: userId,
+      });
+      if (response.status === 200) {
+        toast.success("Đánh giá tài xế thành công");
+        setIsShowModal(false);
+      }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra!!");
+    }
+  };
 
   const handleRatingClick = (value) => {
-    setRating(value)
-  }
+    setRating(value);
+  };
 
   const DUMMY_DATA = {
     trip_name: "Đà Nẵng - Hải Phòng",
@@ -79,7 +83,7 @@ const TripDetail = () => {
     customer_name: "Nguyen Van A",
     email: "vana@gmail.com",
     phone_number: "098765432",
-  }
+  };
 
   const STATUS = {
     wait: "Đang chờ",
@@ -88,7 +92,7 @@ const TripDetail = () => {
     finish: "Đã giao",
     cancel: "Đã Huỷ",
     hide: "Ẩn",
-  }
+  };
 
   const STATUS_BADGE_CLASS = {
     wait: "status-wait", // "Đang chờ" - waiting
@@ -97,20 +101,22 @@ const TripDetail = () => {
     finish: "status-finish", // "Đã giao" - finished (may be considered as secondary)
     cancel: "status-cancel", // "Đã Huỷ" - canceled
     hide: "status-hide", // "Ẩn" - hidden
-  }
+  };
 
   const getTripHistoryDetail = async () => {
     try {
-      const response = await axiosInstance.get(`/posts/${id}`)
-      setTripDetail(response.data)
+      const response = await axiosInstance.get(`/posts/${id}`);
+      setTripDetail(response.data);
+      setDriver(response.data.dealId.driverId.userId._id);
+      console.log(response);
     } catch (error) {}
-  }
+  };
 
   useEffect(() => {
-    getTripHistoryDetail()
-  }, [])
+    getTripHistoryDetail();
+  }, []);
 
-  if (!tripDetail) return <div>Không có data</div>
+  if (!tripDetail) return <div>Không có data</div>;
 
   return (
     <div className="wrapper container pb-5">
@@ -328,18 +334,12 @@ const TripDetail = () => {
                   <h5 class="modal-title" id="exampleModalLabel">
                     Đánh giá chuyến hàng
                   </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
                 </div>
                 <div class="modal-body flex-column">
                   <div className="">
                     <div className="d-flex justify-content-center mb-3">
                       {[...Array(5)].map((star, index) => {
-                        const value = index + 1
+                        const value = index + 1;
                         return (
                           <div
                             key={index}
@@ -354,7 +354,7 @@ const TripDetail = () => {
                               <CiStar size={30} color="#000" /> // Ngôi sao rỗng màu đen
                             )}
                           </div>
-                        )
+                        );
                       })}
                     </div>
                   </div>
@@ -375,7 +375,11 @@ const TripDetail = () => {
                   >
                     Đóng
                   </button>
-                  <button type="button" class="btn btn-primary">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    onClick={handleSubmit}
+                  >
                     Gủi
                   </button>
                 </div>
@@ -447,7 +451,7 @@ const TripDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TripDetail
+export default TripDetail;
