@@ -6,7 +6,7 @@ import axiosInstance from "../../../config/axiosConfig";
 import Fuse from "fuse.js";
 
 const ServicesCard = () => {
-  const itemsPerPage = 9; // Số lượng bài viết mỗi trang
+  const itemsPerPage = 9;
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const sectionHeadingRef = useRef(null);
@@ -16,7 +16,6 @@ const ServicesCard = () => {
     const getDataPost = async () => {
       try {
         const response = await axiosInstance.get("/posts/");
-        console.log("Response từ API:", response.data.salePosts);
         setDataPost(response.data.salePosts || []);
         setFilteredData(response.data.salePosts || []);
       } catch (error) {

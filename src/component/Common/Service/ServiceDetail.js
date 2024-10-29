@@ -85,17 +85,11 @@ const ServiceDetail = () => {
           console.error("ID người đăng không hợp lệ:", idPoster);
           return;
         }
-
         const posterId =
           typeof idPoster === "string" ? idPoster : idPoster.toString();
-        console.log("Poster ID:", posterId);
-
         const response = await axiosInstance.get(`/auth/user/${posterId}`);
-        console.log("Phản hồi từ API:", response);
-
         if (response.data) {
           setInforPoster(response.data);
-          console.log("Thông tin người đăng:", response.data);
         } else {
           console.error("Dữ liệu trả về không hợp lệ:", response);
         }
@@ -157,17 +151,17 @@ const ServiceDetail = () => {
         const sendEmail = await axiosInstance.post("/send/email", {
           to: postData.email,
           subject: "Chấp Nhận Đơn Hàng",
-          text: `Đơn hàng ${postData._id} của bạn đã được chấp nhận, vui lòng chuẩn bị hàng để tài xế đến nhận.`,
+          templateName: "orderConfirmation",
+          templateArgs: [postData.fullname, postData._id],
         });
       }
     } catch (error) {
-      if (error.response && error.response.status === 400) {
+      if (error.response && error.response.status === 402) {
         toast.error(
           "Thời gian giao hàng dự kiến không được ở quá khứ và bằng hiện tại!"
         );
       } else {
-        console.error("Lỗi khi Chấp nhận đơn hàng:", error.response.data);
-        toast.error("Chấp nhận đơn hàng thất bại");
+        console.error(error);
       }
     }
   };
@@ -185,26 +179,36 @@ const ServiceDetail = () => {
       );
       return;
     }
-
-    const response = await axiosInstance.patch(`/posts/${postId}/deal`, {
-      driverId,
-      status: "wait",
-      deliveryTime,
-      dealPrice: negotiatedPrice,
-    });
-    if (response.status === 200) {
-      setShowModal(false);
-      setIsOrderAccepted(true);
-      toast.success("Thương lượng giá thành công", { autoClose: 2000 });
-
-      const sendEmail = await axiosInstance.post("/send/email", {
-        to: postData.email,
-        subject: "Chấp Nhận Đơn Hàng",
-        text: `Đơn hàng ${postData._id} của bạn đã được chấp nhận, vui lòng chuẩn bị hàng để tài xế đến nhận.`,
+    try {
+      const response = await axiosInstance.patch(`/posts/${postId}/deal`, {
+        driverId,
+        status: "wait",
+        deliveryTime,
+        dealPrice: negotiatedPrice,
       });
-    } else {
-      console.error("Lỗi khi thương lượng giá:", response.data);
-      toast.error("Thương lượng giá thất bại");
+      if (response.status === 200) {
+        setShowModal(false);
+        setIsOrderAccepted(true);
+        toast.success("Thương lượng giá thành công", { autoClose: 2000 });
+
+        const sendEmail = await axiosInstance.post("/send/email", {
+          to: postData.email,
+          subject: "Thương lượng giá vận chuyển",
+          templateName: "orderDealPrice",
+          templateArgs: [postData.fullname, postData._id, driverId],
+        });
+      } else {
+        console.error("Lỗi khi thương lượng giá:", response.data);
+        toast.error("Thương lượng giá thất bại");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 402) {
+        toast.error(
+          "Thời gian giao hàng dự kiến không được ở quá khứ và bằng hiện tại!"
+        );
+      } else {
+        console.error(error);
+      }
     }
   };
 
@@ -419,7 +423,7 @@ const ServiceDetail = () => {
             </div>
             <div className="mt-3 d-flex justify-content-end">
               {(userRole === "personal" || userRole === "business") &&
-                dealId !== driverId &&
+                // dealId !== driverId &&
                 !isOrderAccepted && (
                   <button
                     className="btn btn-accept-order"
@@ -466,10 +470,8 @@ const ServiceDetail = () => {
                 <>
                   <p>Nhập giá mong muốn:</p>
                   <div className="input-group mb-3">
-                    {" "}
-                    {/* Sử dụng input-group */}
                     <input
-                      type="text" // Đổi thành text để cho phép định dạng
+                      type="text"
                       className="form-control"
                       value={negotiatedPrice}
                       onChange={handlePriceChange}
@@ -479,7 +481,7 @@ const ServiceDetail = () => {
                   </div>
                   <p>Thời gian dự kiến giao hàng:</p>
                   <input
-                    type="datetime-local" // Sử dụng datetime-local
+                    type="datetime-local"
                     className="form-control mb-3"
                     value={deliveryTime}
                     onChange={(e) => setDeliveryTime(e.target.value)}
@@ -496,7 +498,7 @@ const ServiceDetail = () => {
                 <>
                   <p>Thời gian dự kiến giao hàng:</p>
                   <input
-                    type="datetime-local" // Sử dụng datetime-local
+                    type="datetime-local"
                     className="form-control mb-3"
                     value={deliveryTime}
                     onChange={(e) => setDeliveryTime(e.target.value)}

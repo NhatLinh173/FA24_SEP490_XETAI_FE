@@ -11,7 +11,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaArrowRightFromBracket, FaBell } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
 import useUserData from "../../../hooks/useUserData";
-
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 const Navbar = ({ openModal }) => {
   const { handleLogout, isAuthenticated } = useAuth();
   const { userData, loading } = useUserData();
@@ -19,11 +19,13 @@ const Navbar = ({ openModal }) => {
   const [avatar, setAvatar] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-
+  console.log(avatarDefault);
   useEffect(() => {
     if (userData && userData.avatar) {
       localStorage.setItem("avatar", userData.avatar);
       setAvatar(userData.avatar);
+    } else {
+      setAvatar(avatarDefault);
     }
   }, [userData]);
 
@@ -34,6 +36,8 @@ const Navbar = ({ openModal }) => {
       const avatarFromLocalStorage = localStorage.getItem("avatar");
       if (avatarFromLocalStorage) {
         setAvatar(avatarFromLocalStorage);
+      } else {
+        setAvatar(avatarDefault);
       }
     } else {
       setIsLoggedIn(false);
@@ -111,7 +115,7 @@ const Navbar = ({ openModal }) => {
             <div className="container">
               <nav className="navbar navbar-expand-md navbar-light">
                 <Link className="navbar-brand" to="/">
-                  <img src={logo} alt="logo" />
+                  {/* <img src={logo} alt="logo" /> */}
                 </Link>
 
                 <div className="mean-menu" id="navbarSupportedContent">
@@ -142,8 +146,11 @@ const Navbar = ({ openModal }) => {
                         <a href="/profile">
                           <img
                             className="rounded-circle"
-                            src={avatar || userData?.avatar}
+                            src={avatar || avatarDefault}
                             alt="avatar"
+                            onError={(e) => {
+                              e.target.src = avatarDefault;
+                            }}
                           />
                         </a>
                         <div

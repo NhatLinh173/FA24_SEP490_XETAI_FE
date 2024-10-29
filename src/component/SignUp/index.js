@@ -59,18 +59,18 @@ const SignUpForm = () => {
 
   const handleRegisterDriver = async () => {
     const role = activeTab === "personal" ? "personal" : "business";
-    if (role === "personal") {
-      if (!validateField("fullName", fullName)) return;
-      if (!validateField("email", email)) return;
-      if (!validateField("password", password)) return;
-      if (!validateField("phone", phone)) return;
-    } else {
-      if (!validateField("fullName", fullName)) return;
-      if (!validateField("email", email)) return;
-      if (!validateField("password", password)) return;
-      if (!validateField("phone", phone)) return;
-      if (!validateField("Name Company", nameCompany)) return;
-    }
+    // if (role === "personal") {
+    //   if (!validateField("fullName", fullName)) return;
+    //   if (!validateField("email", email)) return;
+    //   if (!validateField("password", password)) return;
+    //   if (!validateField("phone", phone)) return;
+    // } else {
+    //   if (!validateField("fullName", fullName)) return;
+    //   if (!validateField("email", email)) return;
+    //   if (!validateField("password", password)) return;
+    //   if (!validateField("phone", phone)) return;
+    //   if (!validateField("Name Company", nameCompany)) return;
+    // }
 
     const payloadPersonnal = {
       email,
@@ -135,6 +135,10 @@ const SignUpForm = () => {
   };
 
   const handleGoogleLogin = () => {
+    if (!isChecked) {
+      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
+      return;
+    }
     const role = activeTab === "personal" ? "personal" : "business";
     const url = `http://localhost:3005/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
@@ -142,6 +146,10 @@ const SignUpForm = () => {
   };
 
   const handleFacebookLogin = () => {
+    if (!isChecked) {
+      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
+      return;
+    }
     const role = "customer";
     const url = `http://localhost:3005/auth/facebook?state=${role}`;
 
@@ -343,7 +351,7 @@ const SignUpForm = () => {
                       <div className="submit_button">
                         <FormInput
                           tag={"button"}
-                          val={"Đăng Nhập"}
+                          val={"Đăng Ký"}
                           className="btn btn-primary btn-block"
                           style={{
                             height: "50px",
@@ -354,6 +362,7 @@ const SignUpForm = () => {
                             cursor: "pointer",
                             width: "100%",
                           }}
+                          disabled={!isChecked}
                         />
                       </div>
                     </div>
@@ -378,6 +387,7 @@ const SignUpForm = () => {
                           justifyContent: "center",
                         }}
                         onClick={handleGoogleLogin}
+                        disabled={!isChecked}
                       >
                         <FcGoogle
                           style={{
@@ -405,6 +415,7 @@ const SignUpForm = () => {
                           justifyContent: "center",
                         }}
                         onClick={handleFacebookLogin}
+                        disabled={!isChecked}
                       >
                         <FaFacebookF
                           style={{ marginRight: "10px", fontSize: "18px" }}

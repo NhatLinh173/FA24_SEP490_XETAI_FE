@@ -1962,7 +1962,7 @@ Search Overlay CSS
 
 /* --News Blog Aera Start-- */
 #news_blog_area {
-  padding: 120px 0;
+  padding: 40px 0;
 }
 
 .news-section .blog_wrapper {
@@ -3156,18 +3156,20 @@ Search Overlay CSS
   margin: 0;
 }
 
+
+
 /* Định kiểu cho modal */
 .order-acceptance-modal .modal-dialog {
   max-width: 800px;
-  /* Đặt chiều rộng tối đa cho modal */
+
   width: 100%;
-  /* Modal sẽ chiếm toàn bộ chiều rộng bên trong max-width */
+
 }
 
 /* Định kiểu cho nội dung của modal */
 .order-acceptance-modal .modal-content {
   padding: 20px;
-  /* Thêm padding cho nội dung */
+
 }
 
 /* Điều chỉnh chiều rộng cho các phần tử bên trong nếu cần */
@@ -3677,6 +3679,7 @@ textarea {
   background: #fff;
   box-shadow: 0px 0px 6px 5px #0032550f;
   padding: 30px 25px;
+  height: 583px;
 }
 
 .contact_item {
@@ -4771,6 +4774,334 @@ input[type="number"]::-webkit-inner-spin-button {
   height: 400px;
 }
 
+
+.time-range-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  /* Khoảng cách giữa các button */
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.time-range-buttons button {
+  background-color: #36a2eb;
+  /* Màu nền */
+  color: white;
+  /* Màu chữ */
+  border: none;
+  /* Xóa đường viền */
+  padding: 10px 20px;
+  /* Khoảng cách bên trong nút */
+  border-radius: 5px;
+  /* Góc bo tròn */
+  cursor: pointer;
+  /* Con trỏ chuột khi hover */
+  font-size: 16px;
+  /* Kích thước chữ */
+  transition: background-color 0.3s ease;
+  /* Hiệu ứng chuyển đổi màu nền */
+}
+
+.time-range-buttons button:hover {
+  background-color: #ffcd56;
+  /* Màu nền khi hover */
+}
+
+.time-range-buttons button:active {
+  background-color: #ff6384;
+  /* Màu nền khi nhấn */
+}
+
+.time-range-buttons button:focus {
+  outline: none;
+  /* Xóa viền mặc định khi focus */
+  box-shadow: 0 0 5px #36a2eb;
+  /* Thêm bóng cho button khi focus */
+}
+
+.btn-custom {
+  font-size: 0.9rem;
+  /* Tăng kích thước chữ */
+  padding: 0.35rem 0.75rem;
+  /* Tăng padding */
+  height: 40px;
+}
+
+.custom-select-arrow {
+  appearance: none;
+  /* Ẩn mũi tên mặc định */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  padding-right: 30px;
+  /* Tạo khoảng trống cho mũi tên */
+
+}
+
 /* =============================
        BlogDetail End
+============================== */
+
+/* =============================
+       Admin Dashboard Start
+============================== */
+.admin-dashboard-body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f9;
+}
+
+/* Navbar */
+/* Navbar Styles */
+.admin-dashboard-navbar {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Tạo bóng cho Navbar */
+}
+
+/* Avatar Styles */
+.admin-dashboard-navbar .dropdown-toggle {
+  border: none;
+  /* Bỏ viền cho avatar */
+  background: transparent;
+  /* Bỏ nền */
+  padding: 0;
+  /* Bỏ padding */
+}
+
+/* Avatar Styles */
+.admin-dashboard-navbar .dropdown-toggle {
+  border: none;
+  /* Bỏ viền cho avatar */
+  background: transparent;
+  /* Bỏ nền */
+  padding: 0;
+  /* Bỏ padding */
+  margin-left: auto;
+  /* Đẩy avatar về bên phải */
+}
+
+/* Dropdown Menu Styles */
+.admin-dashboard-navbar .dropdown-menu {
+  border-radius: 8px;
+  /* Bo góc cho menu dropdown */
+  min-width: 200px;
+  /* Đặt chiều rộng tối thiểu cho menu */
+  right: 0;
+  /* Đặt menu về bên phải */
+  left: auto;
+  /* Bỏ tự động căn chỉnh bên trái */
+}
+
+/* Dropdown Item Styles */
+.admin-dashboard-navbar .dropdown-item {
+  display: flex;
+  /* Sử dụng flexbox để căn giữa icon và văn bản */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  padding: 10px 15px;
+  /* Padding cho các mục trong menu */
+  transition: background-color 0.3s;
+  /* Hiệu ứng chuyển đổi màu nền */
+}
+
+.admin-dashboard-navbar .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  /* Màu nền khi hover */
+}
+
+/* Icon Styles */
+.admin-dashboard-navbar .dropdown-item .icon {
+  margin-right: 8px;
+  /* Khoảng cách giữa icon và văn bản */
+  font-size: 1.2rem;
+  /* Kích thước icon */
+}
+
+/* Ẩn dấu xổ xuống bên cạnh avatar */
+.admin-dashboard-navbar .dropdown-toggle::after {
+  display: none;
+  /* Ẩn dấu xổ xuống */
+}
+
+/* Sidebar */
+.admin-dashboard-sidebar {
+  min-height: 100vh;
+  padding-top: 20px;
+  padding-left: 15px;
+  background-color: #ffffff;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.admin-dashboard-sidebar .sidebar-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #343a40;
+  margin-bottom: 20px;
+}
+
+/* Navigation Links */
+.admin-dashboard-sidebar .admin-dashboard-nav-link {
+  font-size: 1rem;
+  color: #6c757d;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.admin-dashboard-sidebar .admin-dashboard-nav-link .icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.admin-dashboard-sidebar .admin-dashboard-nav-link:hover {
+  color: #ffffff;
+}
+
+/* Active Link */
+.admin-dashboard-sidebar .admin-dashboard-nav-link.active {
+  color: #ffffff;
+}
+
+/* Add spacing between links */
+.admin-dashboard-sidebar .admin-dashboard-nav-link+.admin-dashboard-nav-link {
+  margin-top: 10px;
+}
+
+/* Icon Style */
+.icon {
+  font-size: 1.2rem;
+  /* Thay đổi kích thước icon */
+  margin-right: 10px;
+  /* Khoảng cách bên phải icon */
+  color: #007bff;
+  /* Màu sắc cho icon */
+}
+
+/* Sidebar Link Style */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  /* Padding cho liên kết */
+  border-radius: 8px;
+  /* Bo góc cho liên kết */
+  color: #6c757d;
+  /* Màu chữ cho liên kết */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background-color: #007bff;
+  /* Màu nền khi hover */
+  color: #ffffff;
+  /* Màu chữ khi hover */
+}
+
+/* Title Style */
+.sidebar-title {
+  margin-top: 20px;
+  /* Khoảng cách trên các tiêu đề */
+  margin-bottom: 10px;
+  /* Khoảng cách dưới các tiêu đề */
+  color: #343a40;
+  /* Màu sắc tiêu đề */
+}
+
+
+
+/* Card Styles */
+.admin-dashboard-card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.admin-dashboard-card-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.admin-dashboard-card-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #002346;
+}
+
+/* Specific Card Background Colors */
+.admin-dashboard-bg-info {
+  background-color: #17a2b8 !important;
+}
+
+.admin-dashboard-bg-success {
+  background-color: #28a745 !important;
+}
+
+.admin-dashboard-bg-warning {
+  background-color: #ffc107 !important;
+}
+
+.admin-dashboard-bg-danger {
+  background-color: #dc3545 !important;
+}
+
+/* Button Styles */
+.admin-dashboard-btn-primary {
+  background-color: #007bff;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.admin-dashboard-btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Activity Feed Image */
+.admin-dashboard-activity-img {
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Chart Placeholder Styles */
+.admin-dashboard-chart-placeholder {
+  height: 200px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #adb5bd;
+  border-radius: 8px;
+  border: 1px dashed #ced4da;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .admin-dashboard-sidebar {
+    display: none;
+  }
+
+  .admin-dashboard-navbar {
+    padding: 15px;
+  }
+
+  .admin-dashboard-card {
+    margin-bottom: 20px;
+  }
+}
+
+/* =============================
+       Admin Dashboard End
 ============================== */

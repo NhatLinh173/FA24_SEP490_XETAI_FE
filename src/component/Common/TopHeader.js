@@ -13,7 +13,7 @@ const TopHeader = () => {
                 <li>
                   <a href="mailto:hello@transtics.com">
                     <i className="far fa-envelope"></i>
-                    hello@transtics.com
+                    RFTMS@gmail.com
                   </a>
                 </li>
                 <li>
