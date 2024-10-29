@@ -6,7 +6,6 @@ import axios from "axios";
 import axiosInstance from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
 import { GiCancel } from "react-icons/gi";
-import { GrHide } from "react-icons/gr";
 import { FaCarSide, FaCheck } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import imgUpload from "../../../assets/img/homepage/output-onlinepngtools.png";
@@ -72,7 +71,6 @@ const HistoryPostDetail = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: post } = useInstanceData(`/posts/${id}`);
-  console.log(post);
 
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
 
@@ -121,16 +119,13 @@ const HistoryPostDetail = () => {
       setRecipentPhone(post.recipientPhone);
       setStatus(post.status);
     }
-  }, [post]);
+  }, [post, images]);
 
   // Tách logic cập nhật totalImage ra khỏi useEffect
   useEffect(() => {
     if (Array.isArray(images) && Array.isArray(newImages)) {
       let total = [...images, ...newImages.map((img) => img.url)];
       setTotalImage(total);
-      console.log("hiển thị trên UI: ", total);
-      console.log("Ảnh cũ:", images);
-      console.log("Ảnh mới:", newImages);
     }
   }, [images, newImages]);
   const handleSubmitForm = async (e) => {
@@ -166,7 +161,6 @@ const HistoryPostDetail = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(res);
         if (res.status === 200) {
           toast.success("Cập nhật thành công!");
         }
@@ -179,7 +173,6 @@ const HistoryPostDetail = () => {
     setIsShowModalCancel(false);
   };
   const handleConfirmModalCancel = () => {
-    console.log("da tru tien");
     setIsShowModalCancel(false);
   };
   const handleOpenModal = (dealId) => {
