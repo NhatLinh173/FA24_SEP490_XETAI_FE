@@ -33,9 +33,13 @@ const HistoryPost = () => {
   } = useInstanceData(`/posts/${userId}/users`);
 
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
+
+
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
+  console.log(dealPriceDriver);
+
 
   const handleDelete = async () => {
     try {
@@ -169,10 +173,49 @@ const HistoryPost = () => {
       filteredPosts.length === 0 ? "Không có đơn hàng nào đã hủy." : ""
     );
   };
+  const handleFilterHidePosts = () => {
+    setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    let filteredPosts = [];
+    if (driverId !== "undefined") {
+      const filter = dealPriceDriver.filter((dealPriceDriver) => {
+        return (
+          dealPriceDriver.status === "hide" && dealPriceDriver.postId != null
+        );
+      });
+      filteredPosts = filter.map((deal) => deal.postId);
+    } else {
+      filteredPosts = posts?.salePosts?.filter(
+        (post) => post.status === "hide"
+      );
+    }
+    setPageCount(Math.ceil(filteredPosts?.length / 3));
+    setCurrentPost(filteredPosts);
+    setNoPostsMessage(
+      filteredPosts.length === 0 ? "Không có đơn hàng nào đã hủy." : ""
+    );
+  };
+  const handleShowAllPosts = () => {
+    setCurrentPage(0);
+    if (driverId !== "undefined") {
+      setPageCount(Math.ceil(postdriver?.data?.length / postsPerPage));
+      setCurrentPost(postdriver?.data?.slice(0, postsPerPage));
+    } else {
+      setPageCount(Math.ceil(posts?.salePosts?.length / postsPerPage));
+      setCurrentPost(posts?.salePosts?.slice(0, postsPerPage));
+    }
+    setNoPostsMessage("");
+  };
+
   return (
     <div>
       <h2>Đơn Hàng</h2>
       <div className="mb-3 mt-2 d-flex justify-content-center gap-2">
+        <button
+          className="btn btn-info btn-custom mx-1 d-flex align-items-center"
+          onClick={handleShowAllPosts}
+        >
+          Hiện tất cả
+        </button>
         <button
           className="btn btn-warning btn-custom mx-1 d-flex align-items-center"
           onClick={handleFilterWaitPosts}
@@ -198,7 +241,10 @@ const HistoryPost = () => {
           <MdOutlinePersonAdd className="mr-1" /> Đã hủy
         </button>
         {!isDriverExist && (
-          <button className="btn btn-dark btn-custom mx-1 d-flex align-items-center">
+          <button
+            className="btn btn-dark btn-custom mx-1 d-flex align-items-center"
+            onClick={handleFilterHidePosts}
+          >
             <GrHide className="mr-1" /> Tạm ẩn
           </button>
         )}

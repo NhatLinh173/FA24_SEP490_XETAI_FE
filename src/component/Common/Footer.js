@@ -5,7 +5,9 @@ import logo from "../../assets/img/logo.png";
 
 const FooterItems = [
   {
+
     title: "Liên kết",
+
     links: [
       { linkTitle: "Trang chủ", link: "/" },
       { linkTitle: "Chúng tôi", link: "/about" },
@@ -15,7 +17,9 @@ const FooterItems = [
     ],
   },
   {
+
     title: "Công Ty",
+
     links: [
       { linkTitle: "Đơn hàng", link: "/service" },
       { linkTitle: "Chứng thực", link: "/testimonials" },
@@ -34,7 +38,7 @@ const Footer = () => {
           <div className="row">
             <div className="col-lg-4 col-md-12 col-sm-12 col-12">
               <div className="footer_wedget">
-                <img src={logo} alt="logo_img" />
+                {/* <img src={logo} alt="logo_img" /> */}
                 <p>
                   Dẫn đầu trong dịch vụ vận tải kết nối tài xế và khách hàng.
                   Đội ngũ của chúng tôi "Luôn tận tâm, kết nối tài xế và khách
