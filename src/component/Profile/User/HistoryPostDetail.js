@@ -1370,9 +1370,6 @@ const HistoryPostDetail = () => {
                     <button className="btn-success  rounded border-0 text-white w-50 mb-2 ">
                       Xem chi tiết
                     </button>
-                    <button className="btn-warning rounded border-0 w-50 text-white">
-                      Đánh giá
-                    </button>
                   </div>
                 </div>
               </div>
