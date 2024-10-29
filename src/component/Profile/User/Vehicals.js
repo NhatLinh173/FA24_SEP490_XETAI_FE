@@ -1,63 +1,63 @@
-import { useEffect, useMemo, useState } from "react"
-import { MdDelete } from "react-icons/md"
-import ReactPaginate from "react-paginate"
-import { Link } from "react-router-dom/cjs/react-router-dom.min"
-import { toast } from "react-toastify"
-import axiosInstance from "../../../config/axiosConfig"
-import dayjs from "dayjs"
+import { useEffect, useMemo, useState } from "react";
+import { MdDelete } from "react-icons/md";
+import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { toast } from "react-toastify";
+import axiosInstance from "../../../config/axiosConfig";
+import dayjs from "dayjs";
 
 const Vehicals = () => {
-  const [currentPage, setCurrentPage] = useState(0)
-  const [isVisible, setIsVisible] = useState(false)
-  const [selectedId, setSelectedId] = useState(null)
-  const [vehicals, setVehicals] = useState([])
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [vehicals, setVehicals] = useState([]);
 
-  const itemPerPage = 5
-  const offset = currentPage * itemPerPage
-  const currentPageItems = vehicals.slice(offset, offset + itemPerPage)
+  const itemPerPage = 5;
+  const offset = currentPage * itemPerPage;
+  const currentPageItems = vehicals.slice(offset, offset + itemPerPage);
 
   const handlePageClick = (event) => {
-    setCurrentPage(event.selected)
-  }
+    setCurrentPage(event.selected);
+  };
 
   const selectedName = useMemo(() => {
-    const findedItem = vehicals.find((item) => item._id === selectedId)
-    if (!findedItem) return ""
+    const findedItem = vehicals.find((item) => item._id === selectedId);
+    if (!findedItem) return "";
 
-    return findedItem.nameCar
-  }, [selectedId])
+    return findedItem.nameCar;
+  }, [selectedId]);
 
   const onConfirmDelete = (event, selectedId) => {
-    event.preventDefault()
-    setSelectedId(selectedId)
-    setIsVisible(true)
-  }
+    event.preventDefault();
+    setSelectedId(selectedId);
+    setIsVisible(true);
+  };
 
   const onCloseModal = () => {
-    setIsVisible(false)
-  }
+    setIsVisible(false);
+  };
 
   const onDelete = async () => {
     try {
-      await axiosInstance.delete(`/car/${selectedId}`)
-      setIsVisible(false)
-      toast.success(`Xóa thành công ${selectedName}`)
-      getMyVehicals()
+      await axiosInstance.delete(`/car/${selectedId}`);
+      setIsVisible(false);
+      toast.success(`Xóa thành công ${selectedName}`);
+      getMyVehicals();
     } catch (error) {
-      toast.success("Có lỗi xảy ra")
+      toast.success("Có lỗi xảy ra");
     }
-  }
+  };
 
   const getMyVehicals = async () => {
     try {
-      const response = await axiosInstance.get("/car")
-      setVehicals(response.data)
+      const response = await axiosInstance.get("/car");
+      setVehicals(response.data);
     } catch (error) {}
-  }
+  };
 
   useEffect(() => {
-    getMyVehicals()
-  }, [])
+    getMyVehicals();
+  }, []);
 
   return (
     <div>
@@ -89,15 +89,29 @@ const Vehicals = () => {
               />
 
               <div className="ml-3">
-                <h4 className="mb-4 fw-600">{item.nameCar}</h4>
+                <h4 className="mb-4 fw-700 font-weight-bold">{item.nameCar}</h4>
 
-                <div className="mb-2">Biển số: {item.licensePlate}</div>
+                <div className="d-flex align-items-center custom-spacing">
+                  <p className="mb-0 col-form-label font-weight-bold mr-2">
+                    Biển số:
+                  </p>
+                  <span className="align-middle">{item.licensePlate}</span>
+                </div>
 
-                <div className="mb-2">Trọng tải: {item.load} Tấn</div>
+                <div className="d-flex align-items-center custom-spacing">
+                  <p className="mb-0 col-form-label font-weight-bold mr-2">
+                    Trọng tải:
+                  </p>
+                  <span className="align-middle">{item.load} Tấn</span>
+                </div>
 
-                <div className="">
-                  Ngày đăng kiểm:{" "}
-                  {dayjs(item.registrationDate).format("DD/MM/YYYY")}
+                <div className="d-flex align-items-center custom-spacing">
+                  <p className="mb-0 col-form-label font-weight-bold mr-2">
+                    Ngày đăng kiểm:
+                  </p>
+                  <span className="align-middle">
+                    {dayjs(item.registrationDate).format("DD/MM/YYYY")}
+                  </span>
                 </div>
               </div>
 
@@ -188,7 +202,7 @@ const Vehicals = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Vehicals
+export default Vehicals;
