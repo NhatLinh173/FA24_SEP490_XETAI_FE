@@ -52,7 +52,7 @@ import VehicalDetail from "./component/Profile/User/VehicalDetail";
 import { WebSocketProvider } from "./hooks/WebSocketContext";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
-import Admin from "./page/Admin";
+import Admin from "./page/AdminDashboard";
 
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
