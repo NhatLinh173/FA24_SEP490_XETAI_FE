@@ -52,7 +52,7 @@ import VehicalDetail from "./component/Profile/User/VehicalDetail";
 import { WebSocketProvider } from "./hooks/WebSocketContext";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
-import AdminDashboard from "./page/AdminDashboard";
+import Admin from "./page/Admin";
 
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -109,7 +109,7 @@ const AppContent = () => {
 
         <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
         <Route path="/vehical/add" exact component={VehicalAdd} />
-        <Route path="/dashboard-admin" exact component={AdminDashboard} />
+        <Route path="/dashboard-admin" exact component={Admin} />
       </Switch>
       {!isDashboardPage && <Footer />}
       {!isDashboardPage && <CopyRight />}

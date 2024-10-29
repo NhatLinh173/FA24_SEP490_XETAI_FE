@@ -5,7 +5,9 @@ import logo from "../../assets/img/logo.png";
 
 const FooterItems = [
   {
-    title: "Liên Kết Nhanh",
+
+    title: "Liên kết",
+
     links: [
       { linkTitle: "Trang chủ", link: "/" },
       { linkTitle: "Chúng tôi", link: "/about" },
@@ -15,7 +17,9 @@ const FooterItems = [
     ],
   },
   {
-    title: "Trang web",
+
+    title: "Công Ty",
+
     links: [
       { linkTitle: "Đơn hàng", link: "/service" },
       { linkTitle: "Chứng thực", link: "/testimonials" },
@@ -72,7 +76,7 @@ const Footer = () => {
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 col-12">
               <div className="footer_wedget">
-                <h4>Contact Info</h4>
+                <h4>Thông Tin Liên Hệ</h4>
                 <div className="contact-info-footer">
                   <ul>
                     <li>
@@ -82,10 +86,6 @@ const Footer = () => {
                     <li>
                       <i className="far fa-envelope"></i>{" "}
                       <a href="mailto:hello@demo.com"> RFTMS@gamil.com</a>
-                    </li>
-                    <li>
-                      <i className="far fa-envelope"></i>{" "}
-                      <a href="mailto:hello@demo.com">RFTMS@gamil.com</a>
                     </li>
                     <li>
                       <i className="fas fa-phone-volume"></i>{" "}

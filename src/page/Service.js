@@ -5,7 +5,7 @@ import ServicesCard from "../component/Common/Service/ServicesCard";
 const Service = () => {
   return (
     <>
-      <CommonBanner heading="Services" page="Services" />
+      <CommonBanner heading="Dịch Vụ" page="Dịch vụ" />
       <ServicesCard />
     </>
   );
