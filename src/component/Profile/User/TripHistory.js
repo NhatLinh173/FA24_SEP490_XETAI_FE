@@ -78,7 +78,7 @@ export const TripHistory = () => {
                 </div>
 
                 <div className="fs-18 font-weight-bold total-amount">
-                  Tổng tiền: {Number(item.price).toLocaleString()} VND
+                  Tổng tiền: {item.price} VND
                 </div>
               </div>
             </div>

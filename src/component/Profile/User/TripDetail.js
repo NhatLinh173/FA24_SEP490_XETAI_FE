@@ -13,7 +13,6 @@ const TripDetail = () => {
   const [hover, setHover] = useState(null) // Trạng thái sao khi người dùng hover
   const [feedback, setfeedback] = useState("")
   const [isShowModal, setIsShowModal] = useState(false)
-  const [isEditRating, setIsEditRating] = useState(true)
 
   const role = localStorage.getItem("accessToken")
     ? jwtDecode(localStorage.getItem("accessToken")).role
@@ -398,43 +397,40 @@ const TripDetail = () => {
 
         <div className="col-4 pl-2">
           <div className="border rounded-12 p-3">
-            <div className="d-flex justify-content-between border-bottom pb-3">
-              <h5 className="font-weight-bold">Đánh giá</h5>
-              <Rating
-                onClick={handleRatingClick}
-                initialValue={rating}
-                size={26}
-                readonly={isDriverRole || !isEditRating}
+            <div className="d-flex align-items-center border-bottom pt-2 pb-3">
+              <img
+                src="https://bizweb.dktcdn.net/100/084/618/products/ben-howo-3-chan-ban-full-nhap-khau.jpg?v=1629107651767"
+                className="border rounded-circle mr-3"
+                style={{
+                  width: "118px",
+                  height: "118px",
+                  objectFit: "cover",
+                }}
+                alt="avatar"
               />
+
+              <div>
+                <div className="fs-14 text-secondaryv">Tài xế</div>
+                <div className="fw-600">Nguyễn Xuân Tùng</div>
+                <tel className="fs-14 text-secondary">0987654321</tel>
+                <div>
+                  <button onClick={handleFavoriteDriver}>Yêu Thích</button>
+                </div>
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-between border-bottom py-3">
+              <h5 className="font-weight-bold">Đánh giá</h5>
+              <Rating initialValue={4} size={26} readonly />
             </div>
 
             <div className="mt-3">
-              {isDriverRole ? (
-                <div>
-                  <i>
-                    Dịch vụ chất lượng tuyệt vời, thời gian giao rất nhanh, hơn
-                    cả những gì tôi mong đợi
-                  </i>
-                </div>
-              ) : (
-                <div>
-                  <textarea
-                    className="form-control"
-                    disabled={!isEditRating}
-                    rows={7}
-                    placeholder="Vui lòng điền đánh giá của bạn"
-                  ></textarea>
-
-                  <div className="mt-3 d-flex justify-content-center">
-                    <button
-                      className="btn btn-theme"
-                      onClick={() => setIsEditRating(!isEditRating)}
-                    >
-                      {isEditRating ? "Gửi đánh giá" : "Chỉnh sửa"}
-                    </button>
-                  </div>
-                </div>
-              )}
+              <div>
+                <i>
+                  "Dịch vụ chất lượng tuyệt vời, thời gian giao rất nhanh, hơn
+                  cả những gì tôi mong đợi"
+                </i>
+              </div>
             </div>
           </div>
         </div>
