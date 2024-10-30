@@ -53,7 +53,7 @@ const ChangePassWord = () => {
   return (
     <div>
       <div>
-        <h2 className="mb-4">Thay đổi mật khẩu</h2>
+        <h2 className="mb-5">Thay đổi mật khẩu</h2>
       </div>
       <div>
         <form>
@@ -113,7 +113,7 @@ const ChangePassWord = () => {
           <br />
           <div className="row justify-content-center pb-3 ">
             <button
-              className="btn btn-primary btn-lg w-25 text-white  "
+              className="btn btn-primary btn-lg w-25 text-white mt-4  "
               onClick={handleSubmit}
             >
               <span>Cập Nhập</span>
