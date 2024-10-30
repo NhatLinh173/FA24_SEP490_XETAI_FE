@@ -78,7 +78,6 @@ const HistoryPostDetail = () => {
   const { data: post } = useInstanceData(`/posts/${id}`);
 
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
-  console.log(deals);
 
   useEffect(() => {
     if (deals && deals.length > 0) {
@@ -1294,6 +1293,9 @@ const HistoryPostDetail = () => {
                           <span>{deal.dealPrice} VND</span>
                           <br />
 
+                          <strong>Ngày giao dự kiến:</strong>
+                          <span className="mr-1">{deal.estimatedTime}</span>
+                          <br />
                           <strong>Đánh giá: </strong>
                           <span style={{ color: "gold" }}>
                             <FaStar />
@@ -1302,9 +1304,6 @@ const HistoryPostDetail = () => {
                             <FaStar />
                             <FaStarHalfAlt /> {/* Ngôi sao nửa */}
                           </span>
-                          <br />
-                          <strong>Ngày giao dự kiến:</strong>
-                          <span className="mr-1"> 2/2/2024</span>
                         </div>
                         <div className="d-flex flex-column">
                           <button
@@ -1384,9 +1383,10 @@ const HistoryPostDetail = () => {
           </div>
         )}
         {/* Hiển thị tài xế nếu đơn hàng đã được approve */}
-        {post?.status === "approve" ||
+        {(post?.status === "approve" ||
           post?.status === "inprogress" ||
-          (post?.status === "finish" && !isDriverExist && (
+          post?.status === "finish") &&
+          !isDriverExist && (
             <div className="col-md-4">
               <div className="border rounded p-3 shadow-sm ">
                 <h3 className="text-center border-bottom pb-2 mb-3 ">
@@ -1435,7 +1435,8 @@ const HistoryPostDetail = () => {
                 </div>
               </div>
             </div>
-          ))}
+          )}
+
         {post?.creator && isDriverExist && (
           <div className="col-md-4">
             <div className="border rounded p-3 shadow-sm ">
