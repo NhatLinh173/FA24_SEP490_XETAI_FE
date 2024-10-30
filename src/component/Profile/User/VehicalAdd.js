@@ -11,6 +11,7 @@ const DEFAULT_DATA = {
   registrationDate: "",
   licensePlate: "",
   load: "",
+  expirationDate: "",
 }
 
 const VehicalAdd = () => {

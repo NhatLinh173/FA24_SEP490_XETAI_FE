@@ -1,50 +1,64 @@
-import { useEffect, useMemo, useState } from "react";
-import ReactPaginate from "react-paginate";
-import axiosInstance from "../../../config/axiosConfig";
-import { jwtDecode } from "jwt-decode";
+import { useEffect, useMemo, useState } from "react"
+import ReactPaginate from "react-paginate"
+import axiosInstance from "../../../config/axiosConfig"
+import { jwtDecode } from "jwt-decode"
 
 export const TripHistory = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [tripHistories, setTripHistories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0)
+  const [tripHistories, setTripHistories] = useState([])
 
-  const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId")
+  const driverId = localStorage.getItem("driverId")
 
-  const itemPerPage = 5;
+  const itemPerPage = 5
 
-  const offset = currentPage * itemPerPage;
+  const offset = currentPage * itemPerPage
 
-  const currentPageItems = tripHistories.slice(offset, offset + itemPerPage);
+  const currentPageItems = tripHistories.slice(offset, offset + itemPerPage)
 
   const role = localStorage.getItem("accessToken")
     ? jwtDecode(localStorage.getItem("accessToken")).role
-    : "";
+    : ""
 
   const isDriverRole = useMemo(
     () => role === "personal" || role === "business",
     [role]
-  );
+  )
 
   const handlePageClick = (event) => {
-    setCurrentPage(event.selected);
-  };
+    setCurrentPage(event.selected)
+  }
+
+  const getFinishTrip = (data) => {
+    return data.filter((item) => item.status === "finish")
+  }
 
   const getTripHistory = async () => {
     try {
-      const response = await axiosInstance.get(`/posts/${userId}/users`);
-      setTripHistories(response.data.salePosts);
+      const url = isDriverRole
+        ? `/posts/${driverId}/driver`
+        : `/posts/${userId}/users`
+
+      const response = await axiosInstance.get(url)
+
+      if (isDriverRole) {
+        setTripHistories(getFinishTrip(response.data.data))
+      } else {
+        setTripHistories(getFinishTrip(response.data.salePosts))
+      }
     } catch (error) {}
-  };
+  }
 
   useEffect(() => {
-    getTripHistory();
-  }, []);
+    getTripHistory()
+  }, [])
 
   if (!tripHistories.length)
     return (
       <div className="mt-5 text-center font-weight-bold">
         {isDriverRole ? "Chưa có lịch sử chuyến" : "Chưa có đơn hoàn thành"}
       </div>
-    );
+    )
 
   return (
     <div className="delivery-history-list">
@@ -120,5 +134,5 @@ export const TripHistory = () => {
         nextLabel={">>"}
       />
     </div>
-  );
-};
+  )
+}
