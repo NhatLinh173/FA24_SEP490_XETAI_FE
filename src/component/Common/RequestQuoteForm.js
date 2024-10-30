@@ -234,7 +234,7 @@ const RequestQuoteForm = () => {
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     if (files.length + imgs.length > 3) {
-      toast.error("You can only upload up to 3 images.");
+      toast.error("Bạn chỉ được chọn 3 ảnh.");
       return;
     }
     const filePreviews = files.map((file) => ({
@@ -297,6 +297,7 @@ const RequestQuoteForm = () => {
         setEmailError("");
         setRecipientEmailError("");
         setNewCost("");
+        setImgs("");
         refetch();
       } else if (error.response?.status === 400) {
         toast.error("Vui lòng điền đầy đủ thông tin");
