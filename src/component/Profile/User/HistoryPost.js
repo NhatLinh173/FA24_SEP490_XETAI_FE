@@ -29,11 +29,9 @@ const HistoryPost = () => {
 
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
 
-
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
-
 
   const handleDelete = async () => {
     try {
@@ -185,7 +183,7 @@ const HistoryPost = () => {
     setPageCount(Math.ceil(filteredPosts?.length / 3));
     setCurrentPost(filteredPosts);
     setNoPostsMessage(
-      filteredPosts.length === 0 ? "Không có đơn hàng nào đã hủy." : ""
+      filteredPosts.length === 0 ? "Không có đơn hàng nào tạm ẩn." : ""
     );
   };
   const handleShowAllPosts = () => {
@@ -333,7 +331,7 @@ const HistoryPost = () => {
                   {post.status === "wait" && (
                     <button className="btn-sm btn-warning mt-3 border-0 d-flex align-items-center">
                       <CiNoWaitingSign className="mr-2" />
-                      Đang chờ duyệt
+                      Đang chờ xác nhận
                     </button>
                   )}
                   {post.status === "hide" && (
