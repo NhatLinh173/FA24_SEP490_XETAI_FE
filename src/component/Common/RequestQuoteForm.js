@@ -236,7 +236,7 @@ const RequestQuoteForm = () => {
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     if (files.length + imgs.length > 3) {
-      toast.error("You can only upload up to 3 images.");
+      toast.error("Bạn chỉ được chọn 3 ảnh.");
       return;
     }
     const filePreviews = files.map((file) => ({
@@ -260,6 +260,10 @@ const RequestQuoteForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!imgs || imgs.length === 0) {
+      toast.error("Vui lòng chọn ít nhất một ảnh!");
+      return; // Ngăn không cho gửi dữ liệu nếu imgs trống
+    }
     const formData = new FormData();
     imgs.forEach((img) => {
       formData.append("images", img.file);
@@ -299,6 +303,7 @@ const RequestQuoteForm = () => {
         setEmailError("");
         setRecipientEmailError("");
         setNewCost("");
+        setImgs("");
         refetch();
         history.pushState("/");
       } else if (error.response?.status === 400) {

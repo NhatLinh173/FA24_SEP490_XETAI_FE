@@ -51,6 +51,15 @@ const Tab = ({ tab1, setTab1 }) => {
     setTab1("wallet");
     localStorage.setItem("tabHistory", "wallet");
   };
+  const handleClickVehicals = () => {
+    setTab1("vehicals");
+    localStorage.setItem("tabHistory", "vehicals");
+  };
+
+  const handleClickStatistical = () => {
+    setTab1("statistical");
+    localStorage.setItem("tabHistory", "statistical");
+  };
 
   return (
     <div className="d-flex flex-column h-100">
@@ -130,7 +139,7 @@ const Tab = ({ tab1, setTab1 }) => {
             <li className="my-3">
               <button
                 className={`btn-tab ${tab1 === "vehicals" ? "active" : ""}`}
-                onClick={() => setTab1("vehicals")}
+                onClick={handleClickVehicals}
               >
                 <MdDirectionsCar />
                 <span className="px-2">Xe của tôi</span>
@@ -141,7 +150,7 @@ const Tab = ({ tab1, setTab1 }) => {
             <li className="my-3">
               <button
                 className={`btn-tab ${tab1 === "statistical" ? "active" : ""}`}
-                onClick={() => setTab1("statistical")}
+                onClick={handleClickStatistical}
               >
                 <FaChartLine />
                 <span className="px-2">Thống Kê </span>

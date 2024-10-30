@@ -11,6 +11,7 @@ import { FaCarSide, FaCheck } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import imgUpload from "../../../assets/img/homepage/output-onlinepngtools.png";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 const HistoryPostDetail = () => {
   const history = useHistory();
   const { id } = useParams();
@@ -76,6 +77,7 @@ const HistoryPostDetail = () => {
 
   const { data: post } = useInstanceData(`/posts/${id}`);
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
+
   useEffect(() => {
     if (deals && deals.length > 0) {
       const deal = deals[0];
@@ -729,8 +731,6 @@ const HistoryPostDetail = () => {
                       ? "bg-secondary text-white"
                       : status === "inprogress"
                       ? "bg-primary text-white "
-                      : status === "finish"
-                      ? "bg-success text-white"
                       : ""
                   } `}
                   value={status}
@@ -746,9 +746,7 @@ const HistoryPostDetail = () => {
                   <option value="inprogress" className="bg-white options-text">
                     Đang giao hàng
                   </option>
-                  <option value="finish" class="bg-white options-text">
-                    Đã giao hàng
-                  </option>
+
                   <option value="cancel" class="bg-white options-text">
                     Hủy đơn hàng
                   </option>
@@ -1315,6 +1313,9 @@ const HistoryPostDetail = () => {
                           <span>{deal.dealPrice} VND</span>
                           <br />
 
+                          <strong>Ngày giao dự kiến:</strong>
+                          <span className="mr-1">{deal.estimatedTime}</span>
+                          <br />
                           <strong>Đánh giá: </strong>
                           <span style={{ color: "gold" }}>
                             <FaStar />
@@ -1323,9 +1324,6 @@ const HistoryPostDetail = () => {
                             <FaStar />
                             <FaStarHalfAlt /> {/* Ngôi sao nửa */}
                           </span>
-                          <br />
-                          <strong>Ngày giao dự kiến:</strong>
-                          <span className="mr-1"> 2/2/2024</span>
                         </div>
                         <div className="d-flex flex-column">
                           <button
@@ -1405,56 +1403,60 @@ const HistoryPostDetail = () => {
           </div>
         )}
         {/* Hiển thị tài xế nếu đơn hàng đã được approve */}
-        {post?.dealId && !isDriverExist && (
-          <div className="col-md-4">
-            <div className="border rounded p-3 shadow-sm ">
-              <h3 className="text-center border-bottom pb-2 mb-3 ">
-                Thông tin tài xế
-              </h3>
-              <div className="contact-info">
-                <div className="contact-avatar-wrapper rounded-circle">
-                  {post?.dealId.driverId.userId.avatar && (
-                    <img
-                      src={post.dealId.driverId.userId.avatar}
-                      className="contact-avatar rounded-circle"
-                      alt="contact avatar"
-                    />
-                  )}
-                </div>
-                <div className="contact-details">
-                  <ul className="list-group">
-                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                      <strong>Tài xế:</strong>
-                      <span className="text-muted">
-                        {post?.dealId.driverId.userId.fullName}
-                      </span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                      <strong>Số điện thoại:</strong>
-                      <span className="text-muted">
-                        {post?.dealId.driverId.userId.phone}
-                      </span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                      <strong>Email:</strong>
-                      <span className="text-muted">
-                        {post?.dealId.driverId.userId.email}
-                      </span>
-                    </li>
-                  </ul>
-                  <div className="mt-2 d-flex flex-column align-items-center w-100">
-                    <button className="btn-success  rounded border-0 text-white w-50 mb-2 ">
-                      Xem chi tiết
-                    </button>
-                    <button className="btn-warning rounded border-0 w-50 text-white">
-                      Đánh giá
-                    </button>
+        {(post?.status === "approve" ||
+          post?.status === "inprogress" ||
+          post?.status === "finish") &&
+          !isDriverExist && (
+            <div className="col-md-4">
+              <div className="border rounded p-3 shadow-sm ">
+                <h3 className="text-center border-bottom pb-2 mb-3 ">
+                  Thông tin tài xế
+                </h3>
+                <div className="contact-info">
+                  <div className="contact-avatar-wrapper rounded-circle">
+                    {post?.dealId.driverId.userId.avatar && (
+                      <img
+                        src={post.dealId.driverId.userId.avatar}
+                        className="contact-avatar rounded-circle"
+                        alt="contact avatar"
+                      />
+                    )}
+                  </div>
+                  <div className="contact-details">
+                    <ul className="list-group">
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Tài xế:</strong>
+                        <span className="text-muted">
+                          {post?.dealId.driverId.userId.fullName}
+                        </span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                        <strong>Số điện thoại:</strong>
+                        <span className="text-muted">
+                          {post?.dealId.driverId.userId.phone}
+                        </span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                        <strong>Email:</strong>
+                        <span className="text-muted">
+                          {post?.dealId.driverId.userId.email}
+                        </span>
+                      </li>
+                    </ul>
+                    <div className="mt-2 d-flex flex-column align-items-center w-100">
+                      <Link
+                        to={`/driver/${post.dealId.driverId.userId._id}`}
+                        className="btn-success  rounded border-0 text-white w-50 mb-2 "
+                      >
+                        Xem chi tiết
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+
         {post?.creator && isDriverExist && (
           <div className="col-md-4">
             <div className="border rounded p-3 shadow-sm ">

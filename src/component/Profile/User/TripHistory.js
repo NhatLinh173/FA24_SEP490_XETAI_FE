@@ -1,50 +1,50 @@
-import { useEffect, useMemo, useState } from "react"
-import ReactPaginate from "react-paginate"
-import axiosInstance from "../../../config/axiosConfig"
-import { jwtDecode } from "jwt-decode"
+import { useEffect, useMemo, useState } from "react";
+import ReactPaginate from "react-paginate";
+import axiosInstance from "../../../config/axiosConfig";
+import { jwtDecode } from "jwt-decode";
 
 export const TripHistory = () => {
-  const [currentPage, setCurrentPage] = useState(0)
-  const [tripHistories, setTripHistories] = useState([])
+  const [currentPage, setCurrentPage] = useState(0);
+  const [tripHistories, setTripHistories] = useState([]);
 
-  const userId = localStorage.getItem("userId")
+  const userId = localStorage.getItem("userId");
 
-  const itemPerPage = 5
+  const itemPerPage = 5;
 
-  const offset = currentPage * itemPerPage
+  const offset = currentPage * itemPerPage;
 
-  const currentPageItems = tripHistories.slice(offset, offset + itemPerPage)
+  const currentPageItems = tripHistories.slice(offset, offset + itemPerPage);
 
   const role = localStorage.getItem("accessToken")
     ? jwtDecode(localStorage.getItem("accessToken")).role
-    : ""
+    : "";
 
   const isDriverRole = useMemo(
     () => role === "personal" || role === "business",
     [role]
-  )
+  );
 
   const handlePageClick = (event) => {
-    setCurrentPage(event.selected)
-  }
+    setCurrentPage(event.selected);
+  };
 
   const getTripHistory = async () => {
     try {
-      const response = await axiosInstance.get(`/posts/${userId}/users`)
-      setTripHistories(response.data.salePosts)
+      const response = await axiosInstance.get(`/posts/${userId}/users`);
+      setTripHistories(response.data.salePosts);
     } catch (error) {}
-  }
+  };
 
   useEffect(() => {
-    getTripHistory()
-  }, [])
+    getTripHistory();
+  }, []);
 
   if (!tripHistories.length)
     return (
       <div className="mt-5 text-center font-weight-bold">
         {isDriverRole ? "Chưa có lịch sử chuyến" : "Chưa có đơn hoàn thành"}
       </div>
-    )
+    );
 
   return (
     <div className="delivery-history-list">
@@ -72,26 +72,29 @@ export const TripHistory = () => {
               />
 
               <div className="ml-3">
-                <div className="mb-1 fs-18 font-weight-bold">
-                  Điểm đi: {item.startPointCity}
+                <div className="mb-1 fs-18 font-weight-bold  mr-2">
+                  Địa điểm đi: {item.startPointCity}
                 </div>
-                <div className="mb-2 fs-18 font-weight-bold">
-                  Điểm đến: {item.destinationCity}
-                </div>
-
-                <div className="mb-2 text-secondary">
-                  Bắt đầu: {item.start_time}
+                <div className="mb-2 fs-18 font-weight-bold  mr-2">
+                  Địa điểm đến: {item.destinationCity}
                 </div>
 
                 <div className="mb-2 text-secondary">
-                  Kết thúc: {item.end_time}
+                  <span className="font-weight-bold  mr-2">Bắt đầu:</span>
+                  {item.start_time}
+                </div>
+
+                <div className="mb-2 text-secondary">
+                  <span className="font-weight-bold ">Kết thúc:</span>
+                  {item.end_time}
                 </div>
 
                 <div className="mb-3 text-secondary">
-                  Nhân viên giao hàng: {item.fullname}
+                  <span className="font-weight-bold mr-2">Tài xế:</span>
+                  {item.fullname}
                 </div>
 
-                <div className="fs-18 font-weight-bold total-amount">
+                <div className="fs-18 font-weight-bold total-amount  mr-2">
                   Tổng tiền: {item.price} VND
                 </div>
               </div>
@@ -117,5 +120,5 @@ export const TripHistory = () => {
         nextLabel={">>"}
       />
     </div>
-  )
-}
+  );
+};
