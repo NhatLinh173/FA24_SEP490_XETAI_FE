@@ -6,8 +6,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import imgUpload from "../../../src/assets/img/homepage/output-onlinepngtools.png";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { useHistory } from "react-router-dom";
 
 const RequestQuoteForm = () => {
+  const history = useHistory();
   const userId = localStorage.getItem("userId");
   const { data, loading, error, refetch } = useInstanceData(
     `/auth/user/${userId}`
@@ -298,6 +300,7 @@ const RequestQuoteForm = () => {
         setRecipientEmailError("");
         setNewCost("");
         refetch();
+        history.pushState("/");
       } else if (error.response?.status === 400) {
         toast.error("Vui lòng điền đầy đủ thông tin");
       }
@@ -308,14 +311,6 @@ const RequestQuoteForm = () => {
       }
     } catch (error) {
       console.log(error);
-
-      if (error.response?.status === 400) {
-        toast.error("Vui lòng điền đầy đủ thông tin!");
-      } else if (error.response?.status === 402) {
-        toast.error(
-          "Số dư tài khoản không đủ để đăng bài! Vui lòng nạp thêm tiền để đăng bài"
-        );
-      }
     }
   };
 

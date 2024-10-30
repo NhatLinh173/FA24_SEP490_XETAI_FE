@@ -8,7 +8,7 @@ export const getMenuData = () => {
     },
     {
       name: "Đơn Hàng",
-      href: "/service",
+      href: "/order",
       has_children: false,
     },
     {

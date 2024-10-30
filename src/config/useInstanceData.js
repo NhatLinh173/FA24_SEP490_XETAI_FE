@@ -3,7 +3,7 @@ import axiosInstance from "./axiosConfig";
 
 const useInstanceData = (url) => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [key, setKey] = useState(0);
 
@@ -14,18 +14,21 @@ const useInstanceData = (url) => {
         const res = await axiosInstance.get(url);
         const result = await res.data;
         setData(result);
-        setLoading(false);
+        console.log("aloo: ", result);
       } catch (error) {
         const errorMessage = error.response?.data?.message || error.message;
-        setLoading(false);
         setError(errorMessage);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, [url, key]);
+
   const refetch = () => {
     setKey((prevKey) => prevKey + 1);
   };
+
   return { data, loading, error, refetch };
 };
 
