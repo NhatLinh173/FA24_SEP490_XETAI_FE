@@ -258,6 +258,10 @@ const RequestQuoteForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!imgs || imgs.length === 0) {
+      toast.error("Vui lòng chọn ít nhất một ảnh!");
+      return; // Ngăn không cho gửi dữ liệu nếu imgs trống
+    }
     const formData = new FormData();
     imgs.forEach((img) => {
       formData.append("images", img.file);
