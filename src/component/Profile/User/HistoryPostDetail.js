@@ -76,7 +76,6 @@ const HistoryPostDetail = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: post } = useInstanceData(`/posts/${id}`);
-
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
 
   useEffect(() => {
@@ -187,6 +186,7 @@ const HistoryPostDetail = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+
       if (res.status === 200) {
         toast.success("Cập nhật thành công!");
 
@@ -200,15 +200,35 @@ const HistoryPostDetail = () => {
           const earnings = priceValue;
           const trips = 1;
 
-          console.log("Payload being sent:", { earnings, trips });
-          const response = await axiosInstance.put(
-            `/driver/statistics/${driverId}`,
-            { earnings, trips }
-          );
+          await axiosInstance.put(`/driver/statistics/${driverId}`, {
+            earnings,
+            trips,
+          });
+        }
+        if (isDriverExist === true) {
+          const sendEmail = await axiosInstance.post("/send/email", {
+            to: post.email,
+            subject: "Hủy Đơn Hàng ",
+            templateName: "driverOrderCancelled",
+            templateArgs: [post?.dealId.driverId.userId.fullName, post._id],
+          });
+        } else {
+          const sendEmail = await axiosInstance.post("/send/email", {
+            to: post?.dealId.driverId.userId.email,
+            subject: "Hủy Đơn Hàng ",
+            templateName: "userOrderCancelled",
+            templateArgs: [post.fullname, post._id],
+          });
         }
       }
     } catch (error) {
-      toast.error("Cập nhật không thành công!");
+      if (error.response && error.response.status === 402) {
+        toast.error(
+          "Bạn không đủ tiền để trả phí hủy đơn hàng! Vui lòng nạp tiền để hủy đơn"
+        );
+      } else {
+        toast.error("Cập nhật không thành công!");
+      }
     }
   };
 

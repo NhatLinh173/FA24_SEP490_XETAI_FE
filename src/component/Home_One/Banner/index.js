@@ -1,11 +1,51 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Corrected import
 //  OwlCarousel Slider Import
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 
 const HomeBanner = () => {
+  const [roleUser, setRoleUser] = useState(null);
+  const [buttonLink, setButtonLink] = useState("");
+  const [buttonText, setButtonText] = useState("");
+
+  useEffect(() => {
+    const decodeToken = () => {
+      const token = localStorage.getItem("accessToken");
+
+      if (token) {
+        try {
+          const decoded = jwtDecode(token);
+          if (decoded && decoded.role) {
+            localStorage.setItem("userRole", decoded.role); // Lưu vào localStorage
+            return decoded.role;
+          } else {
+            throw new Error("Role not found in token");
+          }
+        } catch (error) {
+          console.error("Failed to decode token:", error);
+          return null;
+        }
+      }
+      return null;
+    };
+
+    const role = decodeToken();
+    setRoleUser(role);
+  }, []);
+
+  useEffect(() => {
+    if (roleUser === "personal" || roleUser === "business") {
+      setButtonLink("/order");
+      setButtonText("Tìm Đơn Hàng");
+    } else {
+      setButtonLink("/request_quote");
+      setButtonText("Tạo Đơn Hàng");
+    }
+  }, [roleUser]);
+
   let responsive = {
     0: {
       items: 1,
@@ -20,6 +60,7 @@ const HomeBanner = () => {
       items: 1,
     },
   };
+
   return (
     <>
       <section id="homeOne_banner">
@@ -46,8 +87,8 @@ const HomeBanner = () => {
                           mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
                           chuyến hàng khắp mọi miền tổ quốc."
                         </p>
-                        <Link className="btn btn-theme" to="/request_quote">
-                          Tạo Đơn Hàng
+                        <Link className="btn btn-theme" to={buttonLink}>
+                          {buttonText}
                         </Link>
                       </div>
                     </div>
@@ -67,8 +108,8 @@ const HomeBanner = () => {
                           mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
                           chuyến hàng khắp mọi miền tổ quốc."
                         </p>
-                        <Link className="btn btn-theme" to="/request_quote">
-                          Tạo Đơn Hàng
+                        <Link className="btn btn-theme" to={buttonLink}>
+                          {buttonText}
                         </Link>
                       </div>
                     </div>
@@ -88,8 +129,8 @@ const HomeBanner = () => {
                           mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
                           chuyến hàng khắp mọi miền tổ quốc."
                         </p>
-                        <Link className="btn btn-theme" to="/request_quote">
-                          Tạo Đơn Hàng
+                        <Link className="btn btn-theme" to={buttonLink}>
+                          {buttonText}
                         </Link>
                       </div>
                     </div>
