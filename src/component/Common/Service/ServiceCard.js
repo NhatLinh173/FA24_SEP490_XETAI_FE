@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { FaMapMarkerAlt, FaBoxOpen, FaWeightHanging } from "react-icons/fa";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { Modal, Button } from "react-bootstrap";
+import axiosInstance from "../../../config/axiosConfig";
+import { toast } from "react-toastify";
 
 const ServiceCard = ({
   id,
@@ -16,6 +18,7 @@ const ServiceCard = ({
   const [showReportButton, setShowReportButton] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState("");
+  const userId = localStorage.getItem("userId");
 
   const handleThreeDotsClick = () => setShowReportButton(!showReportButton);
   const handleReportClick = () => setShowReportModal(true);
@@ -24,7 +27,20 @@ const ServiceCard = ({
     setShowReportButton(false);
   };
 
-  const handleConfirmReport = () => {
+  const handleConfirmReport = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("/report", {
+        reporterId: userId,
+        postId: id,
+        description: reportReason,
+      });
+      if (response.status === 201) {
+        toast.success("Báo cáo đơn hàng thành công!!");
+      }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra!!!!");
+    }
     setShowReportModal(false);
   };
 
