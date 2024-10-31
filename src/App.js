@@ -57,7 +57,6 @@ import Admin from "./page/AdminDashboard";
 import CustomerManagement from "./component/AdminDashboard/CustomerManagement/CustomerManagement";
 import DriverManagement from "./component/AdminDashboard/DriverManagement/DriverManagement";
 
-
 import Unauthorized from "./component/Unauthorized/unauthorized";
 
 const AppContent = () => {
@@ -128,7 +127,7 @@ const AppContent = () => {
           path="/dashboard-admin/drivers"
           exact
           component={DriverManagement}
-          allowedRoles={["admin"]}
+          allowedRoles={["admin", "staff", "customer"]}
         />
       </Switch>
       {!isDashboardPage && <Footer />}

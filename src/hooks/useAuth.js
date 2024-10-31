@@ -4,8 +4,10 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const useAuth = () => {
+  const [userRole, setUserRole] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("accessToken")
   );
@@ -30,7 +32,14 @@ const useAuth = () => {
         localStorage.setItem("avatar", data.avatar);
         setAvatar(data.avatar);
         setIsAuthenticated(true);
-        history.push("/");
+        const decodedToken = jwtDecode(data.accessToken);
+        setUserRole(decodedToken.role);
+        if (userRole === "admin") {
+          history.push("/dashboard-admin");
+        } else {
+          history.push("/");
+        }
+
         window.location.reload();
 
         return data;

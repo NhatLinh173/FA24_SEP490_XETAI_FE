@@ -23,50 +23,37 @@ const LogisticsService = () => {
                   </li>
                 </ul>
               </div>
-              {loading ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "70vw",
-                    height: "30vh",
-                  }}
+
+              <div className="service_slider_home_two">
+                <OwlCarousel
+                  className="owl-theme"
+                  autoplay={true}
+                  autoplayHoverPause={true}
+                  autoplayTimeout={2500}
+                  loop={true}
+                  margin={20}
+                  nav={false}
+                  dots={true}
                 >
-                  <LoadingAnimation />
-                </div>
-              ) : (
-                <div className="service_slider_home_two">
-                  <OwlCarousel
-                    className="owl-theme"
-                    autoplay={true}
-                    autoplayHoverPause={true}
-                    autoplayTimeout={2500}
-                    loop={true}
-                    margin={20}
-                    nav={false}
-                    dots={true}
-                  >
-                    {post &&
-                      post?.salePosts?.map((data) => (
-                        <ServiceCard
-                          key={data._id}
-                          id={data._id}
-                          img={
-                            data.images && data.images.length > 0
-                              ? data.images[0]
-                              : "default-image.jpg"
-                          }
-                          goodsType={data.title}
-                          pickupLocation={data.startPointCity}
-                          dropoffLocation={data.destinationCity}
-                          weight={data.load}
-                          price={data.price}
-                        />
-                      ))}
-                  </OwlCarousel>
-                </div>
-              )}
+                  {post &&
+                    post?.salePosts?.map((data) => (
+                      <ServiceCard
+                        key={data._id}
+                        id={data._id}
+                        img={
+                          data.images && data.images.length > 0
+                            ? data.images[0]
+                            : "default-image.jpg"
+                        }
+                        goodsType={data.title}
+                        pickupLocation={data.startPointCity}
+                        dropoffLocation={data.destinationCity}
+                        weight={data.load}
+                        price={data.price}
+                      />
+                    ))}
+                </OwlCarousel>
+              </div>
               <div className="review_button">
                 <Link to="/order" className="btn btn-theme mb-2">
                   Xem thêm
