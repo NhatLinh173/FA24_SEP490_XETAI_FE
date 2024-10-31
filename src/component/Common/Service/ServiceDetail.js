@@ -481,7 +481,7 @@ const ServiceDetail = () => {
                   </div>
                   <p>Thời gian dự kiến giao hàng:</p>
                   <input
-                    type="datetime-local"
+                    type="date"
                     className="form-control mb-3"
                     value={deliveryTime}
                     onChange={(e) => setDeliveryTime(e.target.value)}
