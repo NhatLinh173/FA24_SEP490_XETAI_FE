@@ -7,6 +7,9 @@ import axiosInstance from "../../../config/axiosConfig"
 import { Rating } from "react-simple-star-rating"
 import { jwtDecode } from "jwt-decode"
 import TripCarousel from "./TripCarousel"
+import { BsHeartFill } from "react-icons/bs"
+import { BsHeart } from "react-icons/bs"
+import dayjs from "dayjs"
 
 const TripDetail = () => {
   const [tripDetail, setTripDetail] = useState(null)
@@ -100,43 +103,24 @@ const TripDetail = () => {
       <div className="row">
         <div className="col-8 pr-2">
           <div className="border rounded-12 p-3">
-            <div className="d-flex border-bottom pb-3">
-              {/* <img
-                src={tripDetail.images[0]}
-                alt="car"
-                className="rounded-12 cursor-pointer"
-                style={{ width: "260px", height: "195px", objectFit: "cover" }}
-              /> */}
-
+            <div className="border-bottom pb-3">
               <TripCarousel
                 images={tripDetail.images}
                 imgStyle={{
-                  width: "260px",
-                  height: "195px",
                   objectFit: "cover",
                 }}
               />
 
-              <div className="ml-4 d-flex flex-column justify-content-center">
-                <div className="mb-2">
-                  <span className="font-weight-bold">
-                    {tripDetail.startPointCity} - {tripDetail.destinationCity}
-                  </span>
-                </div>
-
+              <div className="mt-3 d-flex justify-content-between align-items-center">
                 <button
-                  className="my-2 btn-sm btn-success border-0 d-flex align-items-center"
+                  className="btn-sm btn-success border-0 d-flex"
                   style={{ width: "fit-content" }}
                 >
                   <FaCheck className="mr-2" />
                   Đã giao hàng
                 </button>
 
-                <div className="fs-12 text-secondary">
-                  {`Địa chỉ nhận hàng: ${tripDetail.destination} - ${tripDetail.destinationCity}`}
-                </div>
-
-                <div className="mt-2">
+                {!isDriverRole && (
                   <button
                     type="button"
                     class="btn btn-theme "
@@ -146,7 +130,7 @@ const TripDetail = () => {
                   >
                     Đánh giá
                   </button>
-                </div>
+                )}
               </div>
             </div>
 
@@ -156,12 +140,18 @@ const TripDetail = () => {
               <div className="d-flex">
                 <div>
                   <div className="fw-600">Thời gian khởi hành</div>
-                  <div className="fs-20"></div>
+                  <div className="fs-20">
+                    {dayjs(tripDetail.startTime).format("HH:mm - DD/MM/YYYY")}
+                  </div>
                 </div>
 
                 <div className="ml-5">
                   <div className="fw-600">Thời gian kết thúc</div>
-                  <div className="fs-20"></div>
+                  <div className="fs-20">
+                    {dayjs(tripDetail.dealId.estimatedTime).format(
+                      "HH:mm - DD/MM/YYYY"
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -425,7 +415,7 @@ const TripDetail = () => {
 
         <div className="col-4 pl-2">
           <div className="border rounded-12 p-3">
-            <div className="d-flex align-items-center border-bottom pt-2 pb-3">
+            <div className="d-flex border-bottom pt-2 pb-3">
               <img
                 src={
                   isDriverRole
@@ -442,27 +432,39 @@ const TripDetail = () => {
               />
 
               <div>
-                <div className="fs-14 text-secondaryv">
+                <div className="fw-600 mb-2">
                   {isDriverRole ? "Người tạo đơn" : "Tài xế"}
                 </div>
 
-                <div className="fw-600">
+                <div className="fs-14">
+                  Tên:{" "}
                   {isDriverRole
                     ? tripDetail.creator.fullName
                     : tripDetail.dealId.driverId.userId.fullName}
                 </div>
-                <tel className="fs-14 text-secondary">
+                <tel className="fs-14">
+                  SĐT:{" "}
                   {isDriverRole
                     ? tripDetail.creator.phone
                     : tripDetail.dealId.driverId.userId.phone}
                 </tel>
-                <div className="mb-2 fs-14 text-secondary">
+                <div className="mb-2 fs-14">
+                  Email:{" "}
                   {isDriverRole
                     ? tripDetail.creator.email
                     : tripDetail.dealId.driverId.userId.email}
                 </div>
                 <div>
-                  <button onClick={handleFavoriteDriver}>Yêu Thích</button>
+                  {!isDriverRole && (
+                    <BsHeartFill
+                      style={{
+                        cursor: "pointer",
+                        color: "#ec0101",
+                        fontSize: "20",
+                      }}
+                      onClick={handleFavoriteDriver}
+                    />
+                  )}
                 </div>
               </div>
             </div>

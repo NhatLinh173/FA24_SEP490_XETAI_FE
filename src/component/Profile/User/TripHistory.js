@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import ReactPaginate from "react-paginate"
 import axiosInstance from "../../../config/axiosConfig"
 import { jwtDecode } from "jwt-decode"
+import dayjs from "dayjs"
 
 export const TripHistory = () => {
   const [currentPage, setCurrentPage] = useState(0)
@@ -94,13 +95,13 @@ export const TripHistory = () => {
                 </div>
 
                 <div className="mb-2 text-secondary">
-                  <span className="font-weight-bold  mr-2">Bắt đầu:</span>
-                  {item.start_time}
+                  <span className="font-weight-bold mr-2">Bắt đầu:</span>
+                  {dayjs(item.startTime).format("HH:mm - DD/MM/YYYY")}
                 </div>
 
                 <div className="mb-2 text-secondary">
-                  <span className="font-weight-bold ">Kết thúc:</span>
-                  {item.end_time}
+                  <span className="font-weight-bold mr-2">Kết thúc:</span>
+                  {dayjs(item.endTime).format("HH:mm - DD/MM/YYYY")}
                 </div>
 
                 <div className="mb-3 text-secondary">
