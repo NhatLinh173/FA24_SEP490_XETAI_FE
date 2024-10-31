@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useWebSocket } from "../../hooks/WebSocketContext";
 import axios from "axios";
 import { IoSend } from "react-icons/io5";
+import avatarDefault from "../../assets/img/icon/avatarDefault.jpg";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
@@ -13,7 +14,7 @@ const Chat = () => {
   const [receiverId, setReceiverId] = useState("");
   const [receiver, setReceiver] = useState(null);
   const [chatUsers, setChatUsers] = useState([]);
-  const [userEmail, setUserEmail] = useState(""); // New state for user email
+  const [userEmail, setUserEmail] = useState("");
   const senderId = localStorage.getItem("userId");
   const messageContainerRef = useRef(null);
   const socket = useWebSocket();
@@ -31,7 +32,6 @@ const Chat = () => {
           setUserEmail(user.email);
           setReceiverId(user._id);
           setReceiver(user);
-
           const conversationResponse = await axios.post(
             `http://localhost:3005/conversation`,
             {
@@ -309,7 +309,7 @@ const Chat = () => {
               }}
             >
               <img
-                src={conv.participant.avatar}
+                src={conv.participant.avatar || avatarDefault}
                 alt={`${conv.participant.name}'s avatar`}
                 style={{
                   width: "40px",
@@ -352,8 +352,8 @@ const Chat = () => {
               onClick={() => handleUserClick(user)}
             >
               <img
-                src={user.avatar}
-                alt={`${user.name}'s avatar`}
+                src={user.avatar || avatarDefault}
+                alt={`${user.name}'s avatar` || avatarDefault}
                 style={{
                   width: "40px",
                   height: "40px",

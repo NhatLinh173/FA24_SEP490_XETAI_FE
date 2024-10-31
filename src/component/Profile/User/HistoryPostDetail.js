@@ -76,9 +76,7 @@ const HistoryPostDetail = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: post } = useInstanceData(`/posts/${id}`);
-
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
-  console.log(deals);
 
   useEffect(() => {
     if (deals && deals.length > 0) {
@@ -188,6 +186,7 @@ const HistoryPostDetail = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+
       if (res.status === 200) {
         toast.success("Cập nhật thành công!");
 
@@ -201,15 +200,35 @@ const HistoryPostDetail = () => {
           const earnings = priceValue;
           const trips = 1;
 
-          console.log("Payload being sent:", { earnings, trips });
-          const response = await axiosInstance.put(
-            `/driver/statistics/${driverId}`,
-            { earnings, trips }
-          );
+          await axiosInstance.put(`/driver/statistics/${driverId}`, {
+            earnings,
+            trips,
+          });
+        }
+        if (isDriverExist === true) {
+          const sendEmail = await axiosInstance.post("/send/email", {
+            to: post.email,
+            subject: "Hủy Đơn Hàng ",
+            templateName: "driverOrderCancelled",
+            templateArgs: [post?.dealId.driverId.userId.fullName, post._id],
+          });
+        } else {
+          const sendEmail = await axiosInstance.post("/send/email", {
+            to: post?.dealId.driverId.userId.email,
+            subject: "Hủy Đơn Hàng ",
+            templateName: "userOrderCancelled",
+            templateArgs: [post.fullname, post._id],
+          });
         }
       }
     } catch (error) {
-      toast.error("Cập nhật không thành công!");
+      if (error.response && error.response.status === 402) {
+        toast.error(
+          "Bạn không đủ tiền để trả phí hủy đơn hàng! Vui lòng nạp tiền để hủy đơn"
+        );
+      } else {
+        toast.error("Cập nhật không thành công!");
+      }
     }
   };
 
@@ -1294,6 +1313,9 @@ const HistoryPostDetail = () => {
                           <span>{deal.dealPrice} VND</span>
                           <br />
 
+                          <strong>Ngày giao dự kiến:</strong>
+                          <span className="mr-1">{deal.estimatedTime}</span>
+                          <br />
                           <strong>Đánh giá: </strong>
                           <span style={{ color: "gold" }}>
                             <FaStar />
@@ -1302,9 +1324,6 @@ const HistoryPostDetail = () => {
                             <FaStar />
                             <FaStarHalfAlt /> {/* Ngôi sao nửa */}
                           </span>
-                          <br />
-                          <strong>Ngày giao dự kiến:</strong>
-                          <span className="mr-1"> 2/2/2024</span>
                         </div>
                         <div className="d-flex flex-column">
                           <button
@@ -1384,9 +1403,10 @@ const HistoryPostDetail = () => {
           </div>
         )}
         {/* Hiển thị tài xế nếu đơn hàng đã được approve */}
-        {post?.status === "approve" ||
+        {(post?.status === "approve" ||
           post?.status === "inprogress" ||
-          (post?.status === "finish" && !isDriverExist && (
+          post?.status === "finish") &&
+          !isDriverExist && (
             <div className="col-md-4">
               <div className="border rounded p-3 shadow-sm ">
                 <h3 className="text-center border-bottom pb-2 mb-3 ">
@@ -1435,7 +1455,8 @@ const HistoryPostDetail = () => {
                 </div>
               </div>
             </div>
-          ))}
+          )}
+
         {post?.creator && isDriverExist && (
           <div className="col-md-4">
             <div className="border rounded p-3 shadow-sm ">

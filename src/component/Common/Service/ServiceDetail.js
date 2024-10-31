@@ -107,7 +107,24 @@ const ServiceDetail = () => {
     return <LoadingAnimation />;
   }
 
-  const handleAcceptOrder = () => {
+  const handleAcceptOrder = async () => {
+    // try {
+    //   const response = await axiosInstance.get(`/car/driver/${driverId}`);
+    //   if (response.data.length === 0) {
+    //     toast.warn(
+    //       "Bạn chưa đăng ký xe, vui lòng đăng ký xe để chấp nhận đơn hàng"
+    //     );
+    //   } else {
+    //     setShowModal(true);
+    //     setIsConfirming(true);
+    //   }
+    // } catch (error) {
+    //   if (error.response && error.response.status === 404) {
+    //     toast.warn("Bạn cần thêm xe mới để có thể nhận được đơn hàng!");
+    //   } else {
+    //     console.error("Lỗi khác:", error);
+    //   }
+    // }
     setShowModal(true);
     setIsConfirming(true);
   };
@@ -227,14 +244,14 @@ const ServiceDetail = () => {
   };
 
   const handleClose = () => {
-    history.goBack(); // Quay lại trang trước
+    history.goBack();
   };
 
   if (!postData) return <div>Loading...</div>;
 
   return (
     <div className="wrapper container pb-5">
-      <ToastContainer /> {/* Thêm ToastContainer vào đây */}
+      <ToastContainer />
       <div className="row">
         {/* Left Side: Service Details */}
         <div className="col-md-8">
@@ -481,7 +498,7 @@ const ServiceDetail = () => {
                   </div>
                   <p>Thời gian dự kiến giao hàng:</p>
                   <input
-                    type="datetime-local"
+                    type="date"
                     className="form-control mb-3"
                     value={deliveryTime}
                     onChange={(e) => setDeliveryTime(e.target.value)}
