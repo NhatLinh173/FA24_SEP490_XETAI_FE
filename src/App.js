@@ -57,7 +57,6 @@ import Admin from "./page/AdminDashboard";
 import CustomerManagement from "./component/AdminDashboard/CustomerManagement/CustomerManagement";
 import DriverManagement from "./component/AdminDashboard/DriverManagement/DriverManagement";
 
-
 import Unauthorized from "./component/Unauthorized/unauthorized";
 
 const AppContent = () => {
@@ -117,18 +116,23 @@ const AppContent = () => {
         <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
         <Route path="/vehical/add" exact component={VehicalAdd} />
 
-        <Route path="/dashboard-admin" exact component={Admin} />
+        <ProtectedRoute
+          path="/dashboard-admin"
+          exact
+          component={Admin}
+          allowedRoles={["admin", "customer"]}
+        />
         <ProtectedRoute
           path="/dashboard-admin/customers"
           exact
           component={CustomerManagement}
-          allowedRoles={["admin"]}
+          // allowedRoles={["admin"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/drivers"
           exact
           component={DriverManagement}
-          allowedRoles={["admin"]}
+          // allowedRoles={["admin", "staff", "customer"]}
         />
       </Switch>
       {!isDashboardPage && <Footer />}
