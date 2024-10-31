@@ -1,31 +1,31 @@
-import dayjs from "dayjs"
+import dayjs from "dayjs";
 
 const VehicalForm = ({ data, editable, setData }) => {
   const onFileChange = (event, field) => {
     setData((prev) => ({
       ...prev,
       [field]: event.target.files[0],
-    }))
-  }
+    }));
+  };
 
   const PLACEHOLDER_IMAGE =
-    "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg"
+    "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg";
 
   const createImageUrl = (imageFile) => {
-    return URL.createObjectURL(imageFile)
-  }
+    return URL.createObjectURL(imageFile);
+  };
 
   const getImageUrl = (data) => {
     if (typeof data === "string" && data.length > 0) {
-      return data
+      return data;
     }
 
     if (typeof data === "object" && data !== null) {
-      return createImageUrl(data)
+      return createImageUrl(data);
     }
 
-    return PLACEHOLDER_IMAGE
-  }
+    return PLACEHOLDER_IMAGE;
+  };
 
   return (
     <>
@@ -161,7 +161,7 @@ const VehicalForm = ({ data, editable, setData }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default VehicalForm
+export default VehicalForm;

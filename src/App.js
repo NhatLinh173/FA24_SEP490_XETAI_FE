@@ -53,8 +53,12 @@ import { WebSocketProvider } from "./hooks/WebSocketContext";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
 import Admin from "./page/AdminDashboard";
+
 import CustomerManagement from "./component/AdminDashboard/CustomerManagement/CustomerManagement";
 import DriverManagement from "./component/AdminDashboard/DriverManagement/DriverManagement";
+
+
+import Unauthorized from "./component/Unauthorized/unauthorized";
 
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
@@ -68,10 +72,10 @@ const AppContent = () => {
       <Switch>
         <Route path="/" exact component={Home_One} />
         <Route path="/about" exact component={About} />
-        <Route path="/service" exact component={Service} />
-        <Route path="/service/:id" extract component={ServiceDetail} />
+        <Route path="/order" exact component={Service} />
+        <Route path="/order/:id" extract component={ServiceDetail} />
         <Route path="/history-post/:id" extract component={HistoryPostDetail} />
-        <Route path="/service_details" exact component={ServiceDetails} />
+        <Route path="/order_details" exact component={ServiceDetails} />
         <Route path="/blog_grid" exact component={BlogGrid} />
         <Route path="/blog_with_sidebar" exact component={BlogWithSidebar} />
         <Route path="/blog_details" exact component={BlogDetails} />
@@ -82,6 +86,7 @@ const AppContent = () => {
         <Route path="/faqs" exact component={Faqs} />
         <Route path="/track_ship" exact component={TrackYourShip} />
         <Route path="/pricing" exact component={PricingContent} />
+        <Route path="/unauthorized" exact component={Unauthorized} />
         <ProtectedRoute
           path="/request_quote"
           exact
@@ -107,10 +112,11 @@ const AppContent = () => {
         <Route path="/trip/detail/:id" exact component={TripDetail} />
         <Route path="/payment/success" exact component={PaymentSuccess} />
         <Route path="/payment/failed" exact component={PaymentFailed} />
-        <Route path="/chat" exact component={Chat} />
+        <Route path="/chat/:id" exact component={Chat} />
 
         <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
         <Route path="/vehical/add" exact component={VehicalAdd} />
+
         <Route path="/dashboard-admin" exact component={Admin} />
         <ProtectedRoute
           path="/dashboard-admin/customers"

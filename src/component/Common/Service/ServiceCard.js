@@ -42,7 +42,7 @@ const ServiceCard = ({
         <div className="font-weight-bold text-nowrap">Giá:</div>
         <div className="w-75 ml-2 text-truncate">{price} VND</div>
       </div>
-      <Link to={`/service/${id}`} className="btn btn-theme w-100">
+      <Link to={`/order/${id}`} className="btn btn-theme w-100">
         Xem chi tiết
       </Link>
     </div>
