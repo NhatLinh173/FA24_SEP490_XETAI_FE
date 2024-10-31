@@ -53,7 +53,13 @@ import { WebSocketProvider } from "./hooks/WebSocketContext";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
 import Admin from "./page/AdminDashboard";
+
+import CustomerManagement from "./component/AdminDashboard/CustomerManagement/CustomerManagement";
+import DriverManagement from "./component/AdminDashboard/DriverManagement/DriverManagement";
+
+
 import Unauthorized from "./component/Unauthorized/unauthorized";
+
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const location = useLocation();
@@ -110,11 +116,19 @@ const AppContent = () => {
 
         <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
         <Route path="/vehical/add" exact component={VehicalAdd} />
+
+        <Route path="/dashboard-admin" exact component={Admin} />
         <ProtectedRoute
-          path="/dashboard-admin"
+          path="/dashboard-admin/customers"
           exact
-          component={Admin}
-          allowedRoles={["admin", "staff"]}
+          component={CustomerManagement}
+          allowedRoles={["admin"]}
+        />
+        <ProtectedRoute
+          path="/dashboard-admin/drivers"
+          exact
+          component={DriverManagement}
+          allowedRoles={["admin"]}
         />
       </Switch>
       {!isDashboardPage && <Footer />}

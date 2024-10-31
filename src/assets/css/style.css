@@ -693,634 +693,142 @@ Search Overlay CSS
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 250px;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 100%;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 250px;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 100%;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 250px;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
@@ -1329,13 +837,7 @@ Search Overlay CSS
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
   margin-top: 0;
@@ -1450,41 +952,23 @@ Search Overlay CSS
     position: relative;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav {
     margin-top: 75px;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav
-    ul {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav ul {
     font-size: 15px;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav
-    ul
-    li
-    a.active {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav ul li a.active {
     color: var(--main-theme-color);
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav
-    ul
-    li
-    li
-    a {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav ul li li a {
     font-size: 14.5px;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .navbar-nav {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .navbar-nav {
     overflow-y: scroll;
     height: 357px;
     -webkit-box-shadow: 0 7px 13px 0 rgba(0, 0, 0, 0.1);
@@ -1594,18 +1078,11 @@ Search Overlay CSS
     width: 30%;
   }
 
-  .navbar-color-white
-    .transtics-responsive-nav
-    .mean-container
-    a.meanmenu-reveal {
+  .navbar-color-white .transtics-responsive-nav .mean-container a.meanmenu-reveal {
     color: #ffffff;
   }
 
-  .navbar-color-white
-    .transtics-responsive-nav
-    .mean-container
-    a.meanmenu-reveal
-    span {
+  .navbar-color-white .transtics-responsive-nav .mean-container a.meanmenu-reveal span {
     background: #ffffff;
   }
 
@@ -1663,7 +1140,7 @@ Search Overlay CSS
   background-color: #0c2f5317;
 }
 
-#homeOne_banner .owl-theme .owl-nav.disabled + .owl-dots {
+#homeOne_banner .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 0;
   position: absolute;
   left: 0;
@@ -2214,7 +1691,7 @@ Search Overlay CSS
   border: 1px solid #fff;
 }
 
-#our_advantages_area .owl-theme .owl-nav.disabled + .owl-dots {
+#our_advantages_area .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 55px;
 }
 
@@ -2434,8 +1911,7 @@ Search Overlay CSS
   padding: 120px 0;
 }
 
-#request_form {
-}
+#request_form {}
 
 #request_form .form-group {
   margin-bottom: 30px;
@@ -2819,7 +2295,7 @@ Search Overlay CSS
   padding-bottom: 40px;
 }
 
-#home_two_service .owl-theme .owl-nav.disabled + .owl-dots {
+#home_two_service .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 30px;
 }
 
@@ -2969,7 +2445,7 @@ Search Overlay CSS
   padding: 15px 20px;
 }
 
-#team_area .owl-theme .owl-nav.disabled + .owl-dots {
+#team_area .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 30px;
 }
 
@@ -3053,7 +2529,7 @@ Search Overlay CSS
   margin: 0 auto;
 }
 
-#testimonial_homeTwo .owl-theme .owl-nav.disabled + .owl-dots {
+#testimonial_homeTwo .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 30px;
 }
 
@@ -3209,6 +2685,7 @@ Search Overlay CSS
 
 /* Responsive cho các cột dịch vụ */
 @media (max-width: 992px) {
+
   /* Các màn hình từ 768px đến 991px */
   .col-lg-4 {
     flex: 0 0 50%;
@@ -3218,6 +2695,7 @@ Search Overlay CSS
 }
 
 @media (max-width: 768px) {
+
   /* Các màn hình từ 576px đến 767px */
   .col-lg-4 {
     flex: 0 0 100%;
@@ -4871,6 +4349,7 @@ textarea {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
   .driver-info img,
   .additional-info img {
     width: 100px;
@@ -5033,8 +4512,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .carousel-bg span {
-  filter: brightness(0) saturate(100%) invert(98%) sepia(64%) saturate(6899%)
-    hue-rotate(7deg) brightness(101%) contrast(85%);
+  filter: brightness(0) saturate(100%) invert(98%) sepia(64%) saturate(6899%) hue-rotate(7deg) brightness(101%) contrast(85%);
 }
 
 .bt-error {
@@ -5323,8 +4801,10 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .time-range-buttons button:focus {
-  outline: none; /* Xóa viền mặc định khi focus */
-  box-shadow: 0 0 5px #36a2eb; /* Thêm bóng cho button khi focus */
+  outline: none;
+  /* Xóa viền mặc định khi focus */
+  box-shadow: 0 0 5px #36a2eb;
+  /* Thêm bóng cho button khi focus */
 }
 
 .btn-custom {
@@ -5476,10 +4956,10 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .admin-dashboard-sidebar .sidebar-title {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #343a40;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 /* Navigation Links */
@@ -5508,7 +4988,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* Add spacing between links */
-.admin-dashboard-sidebar .admin-dashboard-nav-link + .admin-dashboard-nav-link {
+.admin-dashboard-sidebar .admin-dashboard-nav-link+.admin-dashboard-nav-link {
   margin-top: 10px;
 }
 
@@ -5526,13 +5006,14 @@ input[type="number"]::-webkit-inner-spin-button {
 .sidebar-link {
   display: flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 5px 15px;
   /* Padding cho liên kết */
   border-radius: 8px;
   /* Bo góc cho liên kết */
   color: #6c757d;
   /* Màu chữ cho liên kết */
   transition: background-color 0.3s ease, color 0.3s ease;
+  margin-bottom: 10px;
 }
 
 .sidebar-link:hover {
@@ -5544,10 +5025,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Title Style */
 .sidebar-title {
-  margin-top: 20px;
+  margin-top: -3px;
   /* Khoảng cách trên các tiêu đề */
-  margin-bottom: 10px;
-  /* Khoảng cách dưới các tiêu đề */
   color: #343a40;
   /* Màu sắc tiêu đề */
 }
@@ -5650,10 +5129,379 @@ input[type="number"]::-webkit-inner-spin-button {
   align-items: center;
   margin-top: -1px;
 }
+
 .custom-spacing {
-  margin-top: -5px; /* Điều chỉnh khoảng cách phía trên */
-  margin-bottom: 4px; /* Điều chỉnh khoảng cách phía dưới */
+  margin-top: -5px;
+  /* Điều chỉnh khoảng cách phía trên */
+  margin-bottom: 4px;
+  /* Điều chỉnh khoảng cách phía dưới */
 }
+
+/* =============================
+       Driver Management Start
+============================== */
+.driver-management-container {
+  background-color: #ffffff;
+  /* Màu nền trắng cho container */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Bóng đổ nhẹ nhàng */
+}
+
+.driver-management-title {
+  font-family: 'Arial', sans-serif;
+  font-size: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  /* Canh giữa tiêu đề */
+  color: #333;
+  /* Màu chữ tối hơn để dễ đọc */
+}
+
+.driver-management-search-input {
+  border-radius: 20px;
+  border: 1px solid #007bff;
+  /* Đường viền xanh */
+  padding: 10px;
+  width: 30%;
+  /* Chiếm 30% chiều rộng */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* Thêm bóng đổ cho input */
+}
+
+.driver-management-driver-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  /* Bo tròn hình ảnh */
+  margin-right: 10px;
+  /* Khoảng cách bên phải */
+}
+
+.driver-management-status-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  /* Tăng kích thước */
+  margin: 0 5px;
+  transition: color 0.3s;
+  /* Hiệu ứng chuyển màu */
+}
+
+.driver-management-status-icon:hover {
+  color: #28a745;
+  /* Màu xanh khi hover */
+}
+
+.driver-management-pagination-controls {
+  margin-top: 20px;
+  text-align: center;
+  /* Canh giữa các điều khiển phân trang */
+}
+
+.driver-management-table {
+  border-collapse: collapse;
+  /* Kết hợp biên */
+  width: 100%;
+  /* Chiếm toàn bộ chiều rộng */
+}
+
+.driver-management-table td {
+  text-align: center;
+  padding: 15px;
+  /* Padding cho ô */
+}
+
+.driver-management-table th {
+  background-color: #343a40;
+  /* Nền tối cho header */
+  color: white;
+  /* Màu chữ trắng */
+  text-align: center;
+  padding: 15px;
+  /* Padding cho header */
+}
+
+.driver-management-table tr:hover {
+  background-color: #f1f1f1;
+  /* Màu nền nhẹ hơn khi hover */
+}
+
+/* Additional styles for modal */
+.driver-lock-modal {
+  border-radius: 8px;
+  overflow: hidden;
+  /* Giúp các góc được bo tròn đẹp hơn */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  /* Bóng đổ cho modal */
+}
+
+.driver-lock-modal-header {
+  background-color: #007bff;
+  /* Màu nền header */
+  color: white;
+  /* Màu chữ trắng */
+  padding: 15px;
+  /* Thêm padding */
+  font-size: 1.2em;
+  /* Kích thước chữ lớn hơn */
+  text-align: center;
+  /* Canh giữa nội dung */
+}
+
+.driver-lock-modal-body {
+  background-color: #ffffff;
+  /* Nền trắng cho body */
+  padding: 20px;
+  /* Thêm padding */
+}
+
+.driver-lock-modal-radio {
+  margin-bottom: 0.5rem;
+  /* Khoảng cách dưới cho radio button */
+}
+
+.driver-lock-modal-footer {
+  border-top: none;
+  /* Bỏ viền trên */
+  display: flex;
+  /* Sử dụng flexbox cho footer */
+  justify-content: space-between;
+  /* Căn chỉnh các nút */
+  padding: 15px;
+  /* Thêm padding */
+  background-color: #f8f9fa;
+  /* Nền nhẹ cho footer */
+}
+
+.driver-lock-modal-close-button,
+.driver-lock-modal-confirm-button {
+  width: 48%;
+  /* Chiếm 48% chiều rộng */
+  padding: 12px;
+  /* Tăng kích thước padding */
+  border-radius: 25px;
+  /* Bo tròn nút */
+  transition: background-color 0.3s, transform 0.3s;
+  /* Hiệu ứng chuyển đổi */
+  font-weight: bold;
+  /* Chữ đậm hơn */
+}
+
+.driver-lock-modal-confirm-button {
+  background-color: #28a745;
+  /* Màu xanh cho nút xác nhận */
+  color: white;
+  /* Màu chữ trắng */
+}
+
+.driver-lock-modal-confirm-button:hover {
+  background-color: #218838;
+  /* Màu tối hơn khi hover */
+  transform: scale(1.05);
+  /* Hiệu ứng phóng to khi hover */
+}
+
+.driver-lock-modal-close-button {
+  background-color: #6c757d;
+  /* Màu xám cho nút đóng */
+  color: white;
+  /* Màu chữ trắng */
+}
+
+.driver-lock-modal-close-button:hover {
+  background-color: #5a6268;
+  /* Màu tối hơn khi hover */
+  transform: scale(1.05);
+  /* Hiệu ứng phóng to khi hover */
+}
+
+/* =============================
+       Driver Management End
+============================== */
+/* =============================
+       Customer Management Start
+============================== */
+.customer-management-container {
+  background-color: #ffffff;
+  /* Màu nền trắng cho container */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Bóng đổ nhẹ nhàng */
+}
+
+.customer-management-title {
+  font-family: 'Arial', sans-serif;
+  font-size: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  /* Canh giữa tiêu đề */
+  color: #333;
+  /* Màu chữ tối hơn để dễ đọc */
+}
+
+.customer-management-search-input {
+  border-radius: 20px;
+  border: 1px solid #007bff;
+  /* Đường viền xanh */
+  padding: 10px;
+  width: 30%;
+  /* Chiếm 30% chiều rộng */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* Thêm bóng đổ cho input */
+}
+
+.customer-management-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  /* Bo tròn hình ảnh */
+  margin-right: 10px;
+  /* Khoảng cách bên phải */
+}
+
+.customer-management-status-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  /* Tăng kích thước */
+  margin: 0 5px;
+  transition: color 0.3s;
+  /* Hiệu ứng chuyển màu */
+}
+
+.customer-management-status-icon:hover {
+  color: #28a745;
+  /* Màu xanh khi hover */
+}
+
+.customer-management-pagination-controls {
+  margin-top: 20px;
+  text-align: center;
+  /* Canh giữa các điều khiển phân trang */
+}
+
+.customer-management-table {
+  border-collapse: collapse;
+  /* Kết hợp biên */
+  width: 100%;
+  /* Chiếm toàn bộ chiều rộng */
+}
+
+.customer-management-table td {
+  text-align: center;
+  padding: 15px;
+  /* Padding cho ô */
+}
+
+.customer-management-table th {
+  background-color: #343a40;
+  /* Nền tối cho header */
+  color: white;
+  /* Màu chữ trắng */
+  text-align: center;
+  padding: 15px;
+  /* Padding cho header */
+}
+
+.customer-management-table tr:hover {
+  background-color: #f1f1f1;
+  /* Màu nền nhẹ hơn khi hover */
+}
+
+/* Additional styles for modal */
+.customer-lock-modal {
+  border-radius: 8px;
+  overflow: hidden;
+  /* Giúp các góc được bo tròn đẹp hơn */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  /* Bóng đổ cho modal */
+}
+
+.customer-lock-modal-header {
+  background-color: #007bff;
+  /* Màu nền header */
+  color: white;
+  /* Màu chữ trắng */
+  padding: 15px;
+  /* Thêm padding */
+  font-size: 1.2em;
+  /* Kích thước chữ lớn hơn */
+  text-align: center;
+  /* Canh giữa nội dung */
+}
+
+.customer-lock-modal-body {
+  background-color: #ffffff;
+  /* Nền trắng cho body */
+  padding: 20px;
+  /* Thêm padding */
+}
+
+.customer-lock-modal-radio {
+  margin-bottom: 0.5rem;
+  /* Khoảng cách dưới cho radio button */
+}
+
+.customer-lock-modal-footer {
+  border-top: none;
+  /* Bỏ viền trên */
+  display: flex;
+  /* Sử dụng flexbox cho footer */
+  justify-content: space-between;
+  /* Căn chỉnh các nút */
+  padding: 15px;
+  /* Thêm padding */
+  background-color: #f8f9fa;
+  /* Nền nhẹ cho footer */
+}
+
+.customer-lock-modal-close-button,
+.customer-lock-modal-confirm-button {
+  width: 48%;
+  /* Chiếm 48% chiều rộng */
+  padding: 12px;
+  /* Tăng kích thước padding */
+  border-radius: 25px;
+  /* Bo tròn nút */
+  transition: background-color 0.3s, transform 0.3s;
+  /* Hiệu ứng chuyển đổi */
+  font-weight: bold;
+  /* Chữ đậm hơn */
+}
+
+.customer-lock-modal-confirm-button {
+  background-color: #28a745;
+  /* Màu xanh cho nút xác nhận */
+  color: white;
+  /* Màu chữ trắng */
+}
+
+.customer-lock-modal-confirm-button:hover {
+  background-color: #218838;
+  /* Màu tối hơn khi hover */
+  transform: scale(1.05);
+  /* Hiệu ứng phóng to khi hover */
+}
+
+.customer-lock-modal-close-button {
+  background-color: #6c757d;
+  /* Màu xám cho nút đóng */
+  color: white;
+  /* Màu chữ trắng */
+}
+
+.customer-lock-modal-close-button:hover {
+  background-color: #5a6268;
+  /* Màu tối hơn khi hover */
+  transform: scale(1.05);
+  /* Hiệu ứng phóng to khi hover */
+}
+
+/* =============================
+       Customer Management End
+============================== */
+
 .input-password {
   border: 2px solid #007bff; /* Màu sắc của border */
   padding: 10px; /* Khoảng cách bên trong */
@@ -5670,3 +5518,4 @@ input[type="number"]::-webkit-inner-spin-button {
   border-color: #0056b3; /* Màu sắc của border khi focus */
   outline: none; /* Không có outline khi focus */
 }
+
