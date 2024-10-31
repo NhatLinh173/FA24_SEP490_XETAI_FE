@@ -220,14 +220,14 @@ const HistoryPostDetail = () => {
             templateArgs: [post.fullname, post._id],
           });
         }
+      } else {
+        toast.error("Cập nhật không thành công!");
       }
     } catch (error) {
       if (error.response && error.response.status === 402) {
         toast.error(
           "Bạn không đủ tiền để trả phí hủy đơn hàng! Vui lòng nạp tiền để hủy đơn"
         );
-      } else {
-        toast.error("Cập nhật không thành công!");
       }
     }
   };
