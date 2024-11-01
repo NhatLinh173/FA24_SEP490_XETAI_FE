@@ -1,22 +1,23 @@
-
 import { useEffect, useMemo, useState } from "react"
 import { CiStar } from "react-icons/ci"
-import { FaStar } from "react-icons/fa"
+import { FaCheck, FaStar } from "react-icons/fa"
 import { useParams } from "react-router-dom/cjs/react-router-dom.min"
 import { toast } from "react-toastify"
 import axiosInstance from "../../../config/axiosConfig"
 import { Rating } from "react-simple-star-rating"
 import { jwtDecode } from "jwt-decode"
-
+import TripCarousel from "./TripCarousel"
+import { BsHeartFill } from "react-icons/bs"
+import { BsHeart } from "react-icons/bs"
+import dayjs from "dayjs"
 
 const TripDetail = () => {
-  const [tripDetail, setTripDetail] = useState(null);
-  const [rating, setRating] = useState(0); // Lưu trạng thái số sao được chọn
-  const [hover, setHover] = useState(null); // Trạng thái sao khi người dùng hover
-  const [feedback, setfeedback] = useState("");
-  const [isShowModal, setIsShowModal] = useState(false);
-  const [driver, setDriver] = useState("");
-
+  const [tripDetail, setTripDetail] = useState(null)
+  const [rating, setRating] = useState(0) // Lưu trạng thái số sao được chọn
+  const [hover, setHover] = useState(null) // Trạng thái sao khi người dùng hover
+  const [feedback, setfeedback] = useState("")
+  const [isShowModal, setIsShowModal] = useState(false)
+  const [driver, setDriver] = useState("")
 
   const role = localStorage.getItem("accessToken")
     ? jwtDecode(localStorage.getItem("accessToken")).role
@@ -31,141 +32,95 @@ const TripDetail = () => {
   const driverId = localStorage.getItem("driverId")
   const userId = localStorage.getItem("userId")
 
-
   const handleFavoriteDriver = async () => {
     try {
       const response = await axiosInstance.post("/favorites/add", {
         driverId,
         userId,
-      });
+      })
       if (response.status === 200) {
-        toast.success("Đã thêm tài xế vào danh sách yêu thích");
+        toast.success("Đã thêm tài xế vào danh sách yêu thích")
       } else {
-        toast.error("Thêm tài xế vào danh sách yêu thích thất bại");
+        toast.error("Thêm tài xế vào danh sách yêu thích thất bại")
       }
     } catch (error) {
-      console.error("Error adding favorite driver:", error);
-      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.");
+      console.error("Error adding favorite driver:", error)
+      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.")
     }
-  };
+  }
 
   const handleOpenModal = () => {
-    setIsShowModal(true);
-  };
+    setIsShowModal(true)
+  }
 
   const handleCloseModal = () => {
-    setIsShowModal(false);
-  };
+    setIsShowModal(false)
+  }
 
   const handleFeedback = (e) => {
-    setfeedback(e.target.value);
-  };
+    setfeedback(e.target.value)
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       const response = await axiosInstance.post("/rating", {
         value: rating,
         comment: feedback,
         userId: driver,
         reviewerId: userId,
-      });
+      })
       if (response.status === 200) {
-        toast.success("Đánh giá tài xế thành công");
-        setIsShowModal(false);
+        toast.success("Đánh giá tài xế thành công")
+        setIsShowModal(false)
       }
     } catch (error) {
-      toast.error("Có lỗi xảy ra!!");
+      toast.error("Có lỗi xảy ra!!")
     }
-  };
+  }
 
   const handleRatingClick = (value) => {
-    setRating(value);
-  };
-
-  const DUMMY_DATA = {
-    trip_name: "Đà Nẵng - Hải Phòng",
-    status: 1,
-    address: "Quận Thanh Khuê - Đà Nẵng",
-    estimate_start_time: "08:30 - 30/06/2024",
-    estimate_end_time: "08:30 - 30/06/2024",
-    category: "Hàng cồng kềnh",
-    amount: 400000,
-    receive_address: "Đà Nẵng",
-    delivery_address: "Hải Phòng",
-    total_weight: 300,
-    description: "Đây là mô tả",
-    customer_name: "Nguyen Van A",
-    email: "vana@gmail.com",
-    phone_number: "098765432",
-  };
-
-  const STATUS = {
-    wait: "Đang chờ",
-    approve: "Đã giao",
-    inprogress: "Đang giao",
-    finish: "Đã giao",
-    cancel: "Đã Huỷ",
-    hide: "Ẩn",
-  };
-
-  const STATUS_BADGE_CLASS = {
-    wait: "status-wait", // "Đang chờ" - waiting
-    approve: "status-approve", // "Đã giao" - approved
-    inprogress: "status-inprogress", // "Đang giao" - in progress
-    finish: "status-finish", // "Đã giao" - finished (may be considered as secondary)
-    cancel: "status-cancel", // "Đã Huỷ" - canceled
-    hide: "status-hide", // "Ẩn" - hidden
-  };
+    setRating(value)
+  }
 
   const getTripHistoryDetail = async () => {
     try {
-      const response = await axiosInstance.get(`/posts/${id}`);
-      setTripDetail(response.data);
-      setDriver(response.data.dealId.driverId.userId._id);
-      console.log(response);
+      const response = await axiosInstance.get(`/posts/${id}`)
+      setTripDetail(response.data)
+      setDriver(response.data.dealId.driverId.userId._id)
+      console.log(response)
     } catch (error) {}
-  };
+  }
 
   useEffect(() => {
-    getTripHistoryDetail();
-  }, []);
+    getTripHistoryDetail()
+  }, [])
 
-  if (!tripDetail) return <div>Không có data</div>;
+  if (!tripDetail) return <div>Không có data</div>
 
   return (
     <div className="wrapper container pb-5">
       <div className="row">
         <div className="col-8 pr-2">
           <div className="border rounded-12 p-3">
-            <div className="d-flex border-bottom pb-3">
-              <img
-                src="https://bizweb.dktcdn.net/100/084/618/products/ben-howo-3-chan-ban-full-nhap-khau.jpg?v=1629107651767"
-                alt="car"
-                className="rounded-12 cursor-pointer"
-                style={{ width: "260px", height: "195px", objectFit: "cover" }}
+            <div className="border-bottom pb-3">
+              <TripCarousel
+                images={tripDetail.images}
+                imgStyle={{
+                  objectFit: "cover",
+                }}
               />
 
-              <div className="ml-4 d-flex flex-column justify-content-center">
-                <div className="mb-2">
-                  <span className="font-weight-bold">
-                    {tripDetail.startPointCity} - {tripDetail.destinationCity}
-                  </span>
-                </div>
-
-                <div
-                  className={`mb-3 fs-12 status-badge ${
-                    STATUS_BADGE_CLASS[tripDetail.status]
-                  }`}
+              <div className="mt-3 d-flex justify-content-between align-items-center">
+                <button
+                  className="btn-sm btn-success border-0 d-flex"
+                  style={{ width: "fit-content" }}
                 >
-                  {STATUS[tripDetail.status]}
-                </div>
+                  <FaCheck className="mr-2" />
+                  Đã giao hàng
+                </button>
 
-                <div className="fs-12 text-secondary">
-                  {`Địa chỉ nhận hàng: ${tripDetail.destination} - ${tripDetail.destinationCity}`}
-                </div>
-
-                <div className="mt-2">
+                {!isDriverRole && (
                   <button
                     type="button"
                     class="btn btn-theme "
@@ -175,7 +130,7 @@ const TripDetail = () => {
                   >
                     Đánh giá
                   </button>
-                </div>
+                )}
               </div>
             </div>
 
@@ -185,12 +140,18 @@ const TripDetail = () => {
               <div className="d-flex">
                 <div>
                   <div className="fw-600">Thời gian khởi hành</div>
-                  <div className="fs-20">{DUMMY_DATA.estimate_start_time}</div>
+                  <div className="fs-20">
+                    {dayjs(tripDetail.startTime).format("HH:mm - DD/MM/YYYY")}
+                  </div>
                 </div>
 
                 <div className="ml-5">
                   <div className="fw-600">Thời gian kết thúc</div>
-                  <div className="fs-20">{DUMMY_DATA.estimate_end_time}</div>
+                  <div className="fs-20">
+                    {dayjs(tripDetail.dealId.estimatedTime).format(
+                      "HH:mm - DD/MM/YYYY"
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -230,7 +191,7 @@ const TripDetail = () => {
                     <label htmlFor="address">Địa chỉ nhận hàng</label>
                     <input
                       id="address"
-                      defaultValue={tripDetail.startPointCity}
+                      defaultValue={`${tripDetail.startPoint}, ${tripDetail.startPointCity}`}
                       type="text"
                       className="form-control"
                       placeholder="Địa chỉ nhận hàng"
@@ -242,7 +203,7 @@ const TripDetail = () => {
                     <label htmlFor="deliver_address">Địa chỉ giao hàng</label>
                     <input
                       id="deliver_address"
-                      defaultValue={tripDetail.destinationCity}
+                      defaultValue={`${tripDetail.destination}, ${tripDetail.destinationCity}`}
                       type="text"
                       className="form-control"
                       placeholder="Địa chỉ giao hàng"
@@ -285,7 +246,7 @@ const TripDetail = () => {
             </div>
 
             <div className="pt-4">
-              <div className="mb-3 font-weight-bold">Thông tin người đặt</div>
+              <div className="mb-3 font-weight-bold">Thông tin người nhận</div>
 
               <form>
                 <div className="row">
@@ -332,6 +293,55 @@ const TripDetail = () => {
                 </div>
               </form>
             </div>
+
+            <div className="pt-4">
+              <div className="mb-3 font-weight-bold">Thông tin người đặt</div>
+
+              <form>
+                <div className="row">
+                  <div className="col">
+                    <label htmlFor="customer-name">Họ và tên</label>
+                    <input
+                      id="customer-name"
+                      defaultValue={tripDetail.fullname}
+                      type="text"
+                      className="form-control"
+                      placeholder="Họ và tên"
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="col">
+                    <label htmlFor="email">Email</label>
+
+                    <input
+                      id="email"
+                      defaultValue={tripDetail.email}
+                      type="email"
+                      className="form-control"
+                      placeholder="Email"
+                      readOnly
+                    />
+                  </div>
+                </div>
+
+                <div className="row mt-3">
+                  <div className="col">
+                    <label htmlFor="phone-number">Số điện thoại</label>
+                    <input
+                      id="phone-number"
+                      defaultValue={tripDetail.phone}
+                      type="tel"
+                      className="form-control"
+                      placeholder="Số điện thoại"
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="col"></div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
 
@@ -354,7 +364,7 @@ const TripDetail = () => {
                   <div className="">
                     <div className="d-flex justify-content-center mb-3">
                       {[...Array(5)].map((star, index) => {
-                        const value = index + 1;
+                        const value = index + 1
                         return (
                           <div
                             key={index}
@@ -369,7 +379,7 @@ const TripDetail = () => {
                               <CiStar size={30} color="#000" /> // Ngôi sao rỗng màu đen
                             )}
                           </div>
-                        );
+                        )
                       })}
                     </div>
                   </div>
@@ -405,9 +415,13 @@ const TripDetail = () => {
 
         <div className="col-4 pl-2">
           <div className="border rounded-12 p-3">
-            <div className="d-flex align-items-center border-bottom pt-2 pb-3">
+            <div className="d-flex border-bottom pt-2 pb-3">
               <img
-                src="https://bizweb.dktcdn.net/100/084/618/products/ben-howo-3-chan-ban-full-nhap-khau.jpg?v=1629107651767"
+                src={
+                  isDriverRole
+                    ? tripDetail.creator.avatar
+                    : tripDetail.dealId.driverId.userId.avatar
+                }
                 className="border rounded-circle mr-3"
                 style={{
                   width: "118px",
@@ -418,11 +432,39 @@ const TripDetail = () => {
               />
 
               <div>
-                <div className="fs-14 text-secondaryv">Tài xế</div>
-                <div className="fw-600">Nguyễn Xuân Tùng</div>
-                <tel className="fs-14 text-secondary">0987654321</tel>
+                <div className="fw-600 mb-2">
+                  {isDriverRole ? "Người tạo đơn" : "Tài xế"}
+                </div>
+
+                <div className="fs-14">
+                  Tên:{" "}
+                  {isDriverRole
+                    ? tripDetail.creator.fullName
+                    : tripDetail.dealId.driverId.userId.fullName}
+                </div>
+                <tel className="fs-14">
+                  SĐT:{" "}
+                  {isDriverRole
+                    ? tripDetail.creator.phone
+                    : tripDetail.dealId.driverId.userId.phone}
+                </tel>
+                <div className="mb-2 fs-14">
+                  Email:{" "}
+                  {isDriverRole
+                    ? tripDetail.creator.email
+                    : tripDetail.dealId.driverId.userId.email}
+                </div>
                 <div>
-                  <button onClick={handleFavoriteDriver}>Yêu Thích</button>
+                  {!isDriverRole && (
+                    <BsHeartFill
+                      style={{
+                        cursor: "pointer",
+                        color: "#ec0101",
+                        fontSize: "20",
+                      }}
+                      onClick={handleFavoriteDriver}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -444,7 +486,7 @@ const TripDetail = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TripDetail;
+export default TripDetail
