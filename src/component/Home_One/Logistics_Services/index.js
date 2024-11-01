@@ -42,7 +42,6 @@ const LogisticsService = () => {
                     autoplay={true}
                     autoplayHoverPause={true}
                     autoplayTimeout={2500}
-                    loop={true}
                     margin={20}
                     nav={false}
                     dots={true}

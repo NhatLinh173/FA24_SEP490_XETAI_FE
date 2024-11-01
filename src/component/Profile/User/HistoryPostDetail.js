@@ -12,6 +12,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import imgUpload from "../../../assets/img/homepage/output-onlinepngtools.png";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { formatDate } from "../../../utils/formatDate";
 const HistoryPostDetail = () => {
   const history = useHistory();
   const { id } = useParams();
@@ -1314,7 +1315,10 @@ const HistoryPostDetail = () => {
                           <br />
 
                           <strong>Ngày giao dự kiến:</strong>
-                          <span className="mr-1">{deal.estimatedTime}</span>
+                          <br />
+                          <span className="mr-1">
+                            {formatDate(deal.estimatedTime)}
+                          </span>
                           <br />
                           <strong>Đánh giá: </strong>
                           <span style={{ color: "gold" }}>
