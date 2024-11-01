@@ -29,7 +29,7 @@ const VehicalForm = ({ data, editable, setData }) => {
 
   return (
     <>
-      <div className="pb-4 row">
+      <div className="pb-2 row">
         <div className="col">
           <div className="mb-2 font-weight-bold">Hình ảnh xe</div>
 
@@ -41,13 +41,23 @@ const VehicalForm = ({ data, editable, setData }) => {
           />
 
           {editable && (
-            <input
-              className="mt-3 form-control"
-              type="file"
-              accept="image/*"
-              style={{ minHeight: "45px", lineHeight: "32px" }}
-              onChange={(event) => onFileChange(event, "imageCar")}
-            />
+            <div className="mt-3 d-flex justify-content-center">
+              <label
+                htmlFor="imageCar"
+                className="btn btn-danger btn-custom mx-1 d-flex align-items-center"
+              >
+                Chọn ảnh
+              </label>
+
+              <input
+                id="imageCar"
+                className="mt-3 form-control"
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(event) => onFileChange(event, "imageCar")}
+              />
+            </div>
           )}
         </div>
 
@@ -62,13 +72,23 @@ const VehicalForm = ({ data, editable, setData }) => {
           />
 
           {editable && (
-            <input
-              className="mt-3 form-control"
-              type="file"
-              accept="image/*"
-              style={{ minHeight: "45px", lineHeight: "32px" }}
-              onChange={(event) => onFileChange(event, "imageRegistration")}
-            />
+            <div className="mt-3 d-flex justify-content-center">
+              <label
+                htmlFor="imageRegistration"
+                className="btn btn-danger btn-custom mx-1 d-flex align-items-center"
+              >
+                Chọn ảnh
+              </label>
+
+              <input
+                id="imageRegistration"
+                className="mt-3 form-control"
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(event) => onFileChange(event, "imageRegistration")}
+              />
+            </div>
           )}
         </div>
       </div>
@@ -96,29 +116,6 @@ const VehicalForm = ({ data, editable, setData }) => {
         </div>
 
         <div className="col">
-          <label htmlFor="deliver_address" className="required">
-            Ngày đăng kiểm
-          </label>
-
-          <div>
-            <input
-              className="form-select rounded w-full form-control"
-              type="date"
-              disabled={!editable}
-              value={dayjs(data.registrationDate).format("YYYY-MM-DD")}
-              onChange={(e) =>
-                setData((prev) => ({
-                  ...prev,
-                  registrationDate: e.target.value,
-                }))
-              }
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="row mt-3">
-        <div className="col">
           <label htmlFor="licensePlateNumber" className="required">
             Biển số
           </label>
@@ -138,7 +135,53 @@ const VehicalForm = ({ data, editable, setData }) => {
             }
           />
         </div>
+      </div>
 
+      <div className="row mt-3">
+        <div className="col">
+          <label htmlFor="deliver_address" className="required">
+            Ngày đăng kiểm
+          </label>
+
+          <div>
+            <input
+              className="form-select rounded w-full form-control"
+              type="date"
+              disabled={!editable}
+              value={dayjs(data.registrationDate).format("YYYY-MM-DD")}
+              onChange={(e) =>
+                setData((prev) => ({
+                  ...prev,
+                  registrationDate: e.target.value,
+                }))
+              }
+            />
+          </div>
+        </div>
+
+        <div className="col">
+          <label htmlFor="weightCapacity" className="required">
+            Ngày hết hạn
+          </label>
+
+          <div>
+            <input
+              className="form-select rounded w-full form-control"
+              type="date"
+              disabled={!editable}
+              value={dayjs(data.expirationDate).format("YYYY-MM-DD")}
+              onChange={(e) =>
+                setData((prev) => ({
+                  ...prev,
+                  expirationDate: e.target.value,
+                }))
+              }
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="row mt-3">
         <div className="col">
           <label htmlFor="weightCapacity" className="required">
             Trọng tải (Kg)
@@ -159,6 +202,8 @@ const VehicalForm = ({ data, editable, setData }) => {
             }
           />
         </div>
+
+        <div className="col"></div>
       </div>
     </>
   );
