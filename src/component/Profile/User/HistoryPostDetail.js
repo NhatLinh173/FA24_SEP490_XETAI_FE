@@ -58,7 +58,7 @@ const HistoryPostDetail = () => {
   const [newImages, setNewImages] = useState([]);
   const [totalImage, setTotalImage] = useState([]);
   const [isDriverExist, setIsDriverExist] = useState(false);
-
+  const averageRating = 4.5;
   const nextSlide = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
@@ -78,6 +78,7 @@ const HistoryPostDetail = () => {
 
   const { data: post } = useInstanceData(`/posts/${id}`);
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
+  console.log(deals);
 
   useEffect(() => {
     if (deals && deals.length > 0) {
@@ -1322,11 +1323,23 @@ const HistoryPostDetail = () => {
                           <br />
                           <strong>Đánh giá: </strong>
                           <span style={{ color: "gold" }}>
-                            <FaStar />
-                            <FaStar />
-                            <FaStar />
-                            <FaStar />
-                            <FaStarHalfAlt /> {/* Ngôi sao nửa */}
+                            {deal.driverId.averageRating > 0 ? (
+                              <>
+                                {[
+                                  ...Array(
+                                    Math.floor(deal.driverId.averageRating)
+                                  ),
+                                ].map((_, i) => (
+                                  <FaStar key={i} />
+                                ))}
+                                {deal.driverId.averageRating % 1 !== 0 && (
+                                  <FaStarHalfAlt />
+                                )}
+                                {/* Ngôi sao nửa nếu cần */}
+                              </>
+                            ) : (
+                              <span>Chưa có đánh giá</span> // Thông báo nếu không có đánh giá
+                            )}
                           </span>
                         </div>
                         <div className="d-flex flex-column">
