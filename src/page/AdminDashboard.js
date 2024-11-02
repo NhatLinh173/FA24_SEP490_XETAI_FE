@@ -4,8 +4,8 @@ import AdminDashboardNavbar from '../component/AdminDashboard/Navbar/AdminDashbo
 import AdminDashboardSidebar from '../component/AdminDashboard/Sidebar/AdminDashboardSidebar'; // Sidebar
 import DashboardHome from '../component/AdminDashboard/DashboardHome/DashboardHome'; // Dashboard Home
 import DriverManagement from '../component/AdminDashboard/DriverManagement/DriverManagement'; // Driver Management
-import CustomerManagement from '../component/AdminDashboard/CustomerManagement/CustomerManagement';
-
+import CustomerManagement from '../component/AdminDashboard/CustomerManagement/CustomerManagement'; // Customer Management
+import ReportManagement from '../component/AdminDashboard/ReportManagement/ReportManagement'; // Report Management
 
 function AdminDashboard() {
     const [activeSection, setActiveSection] = useState('dashboard'); // State to manage active section
@@ -18,8 +18,10 @@ function AdminDashboard() {
                 return <DriverManagement />;
             case 'customers':
                 return <CustomerManagement />;
+            case 'reports':
+                return <ReportManagement />; // Render ReportManagement component
             default:
-                return <DashboardHome />;
+                return null; // Return null or a fallback component
         }
     };
 

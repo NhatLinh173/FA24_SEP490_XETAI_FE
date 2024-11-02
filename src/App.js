@@ -126,13 +126,13 @@ const AppContent = () => {
           path="/dashboard-admin/customers"
           exact
           component={CustomerManagement}
-          // allowedRoles={["admin"]}
+        // allowedRoles={["admin"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/drivers"
           exact
           component={DriverManagement}
-          // allowedRoles={["admin", "staff", "customer"]}
+        // allowedRoles={["admin", "staff", "customer"]}
         />
       </Switch>
       {!isDashboardPage && <Footer />}
