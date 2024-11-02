@@ -18,6 +18,7 @@ const TripDetail = () => {
   const [feedback, setfeedback] = useState("")
   const [isShowModal, setIsShowModal] = useState(false)
   const [driver, setDriver] = useState("")
+  const [ratingDetails, setRatingDetails] = useState(null)
 
   const role = localStorage.getItem("accessToken")
     ? jwtDecode(localStorage.getItem("accessToken")).role
@@ -73,9 +74,21 @@ const TripDetail = () => {
       if (response.status === 200) {
         toast.success("Đánh giá tài xế thành công")
         setIsShowModal(false)
+        getTripHistoryDetail()
       }
     } catch (error) {
       toast.error("Có lỗi xảy ra!!")
+    }
+  }
+
+  const getRatingDetails = async (driver) => {
+    try {
+      const res = await axiosInstance.get(
+        `/rating/rating-driver?reviewerId=${userId}&userId=${driver}`
+      )
+      setRatingDetails(res.data.rating)
+    } catch (error) {
+      setRatingDetails(null)
     }
   }
 
@@ -88,7 +101,7 @@ const TripDetail = () => {
       const response = await axiosInstance.get(`/posts/${id}`)
       setTripDetail(response.data)
       setDriver(response.data.dealId.driverId.userId._id)
-      console.log(response)
+      await getRatingDetails(response.data.dealId.driverId.userId._id)
     } catch (error) {}
   }
 
@@ -119,18 +132,6 @@ const TripDetail = () => {
                   <FaCheck className="mr-2" />
                   Đã giao hàng
                 </button>
-
-                {!isDriverRole && (
-                  <button
-                    type="button"
-                    class="btn btn-theme "
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    onClick={handleOpenModal}
-                  >
-                    Đánh giá
-                  </button>
-                )}
               </div>
             </div>
 
@@ -454,7 +455,8 @@ const TripDetail = () => {
                     ? tripDetail.creator.email
                     : tripDetail.dealId.driverId.userId.email}
                 </div>
-                <div>
+
+                <div className="d-flex align-items-center">
                   {!isDriverRole && (
                     <BsHeartFill
                       style={{
@@ -465,23 +467,40 @@ const TripDetail = () => {
                       onClick={handleFavoriteDriver}
                     />
                   )}
+
+                  {!isDriverRole && !ratingDetails && (
+                    <button
+                      type="button"
+                      class="ml-3 btn-sm btn-danger border-0"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                      onClick={handleOpenModal}
+                    >
+                      Đánh giá
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
 
-            <div className="d-flex justify-content-between border-bottom py-3">
-              <h5 className="font-weight-bold">Đánh giá</h5>
-              <Rating initialValue={4} size={26} readonly />
-            </div>
-
-            <div className="mt-3">
+            {ratingDetails && (
               <div>
-                <i>
-                  "Dịch vụ chất lượng tuyệt vời, thời gian giao rất nhanh, hơn
-                  cả những gì tôi mong đợi"
-                </i>
+                <div className="d-flex justify-content-between border-bottom py-3">
+                  <h5 className="font-weight-bold">Đánh giá</h5>
+                  <Rating
+                    initialValue={ratingDetails.value}
+                    size={26}
+                    readonly
+                  />
+                </div>
+
+                <div className="mt-3">
+                  <div>
+                    <i>"{ratingDetails.comment}"</i>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
