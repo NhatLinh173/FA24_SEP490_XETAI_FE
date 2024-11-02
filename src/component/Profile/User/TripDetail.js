@@ -1,102 +1,110 @@
-import { useEffect, useMemo, useState } from "react"
-import { CiStar } from "react-icons/ci"
-import { FaCheck, FaStar } from "react-icons/fa"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
-import { toast } from "react-toastify"
-import axiosInstance from "../../../config/axiosConfig"
-import { Rating } from "react-simple-star-rating"
-import { jwtDecode } from "jwt-decode"
-import TripCarousel from "./TripCarousel"
-import { BsHeartFill } from "react-icons/bs"
-import { BsHeart } from "react-icons/bs"
-import dayjs from "dayjs"
+import { useEffect, useMemo, useState } from "react";
+import { CiStar } from "react-icons/ci";
+import { FaCheck, FaStar } from "react-icons/fa";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { toast } from "react-toastify";
+import axiosInstance from "../../../config/axiosConfig";
+import { Rating } from "react-simple-star-rating";
+import { jwtDecode } from "jwt-decode";
+import TripCarousel from "./TripCarousel";
+import { BsHeartFill } from "react-icons/bs";
+import { BsHeart } from "react-icons/bs";
+import dayjs from "dayjs";
 
 const TripDetail = () => {
-  const [tripDetail, setTripDetail] = useState(null)
-  const [rating, setRating] = useState(0) // Lưu trạng thái số sao được chọn
-  const [hover, setHover] = useState(null) // Trạng thái sao khi người dùng hover
-  const [feedback, setfeedback] = useState("")
-  const [isShowModal, setIsShowModal] = useState(false)
-  const [driver, setDriver] = useState("")
+  const [tripDetail, setTripDetail] = useState(null);
+  const [rating, setRating] = useState(0); // Lưu trạng thái số sao được chọn
+  const [hover, setHover] = useState(null); // Trạng thái sao khi người dùng hover
+  const [feedback, setfeedback] = useState("");
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [driver, setDriver] = useState("");
 
   const role = localStorage.getItem("accessToken")
     ? jwtDecode(localStorage.getItem("accessToken")).role
-    : ""
+    : "";
 
   const isDriverRole = useMemo(
     () => role === "personal" || role === "business",
     [role]
-  )
+  );
 
-  const { id } = useParams()
-  const driverId = localStorage.getItem("driverId")
-  const userId = localStorage.getItem("userId")
+  const { id } = useParams();
+  const driverId = localStorage.getItem("driverId");
+  const userId = localStorage.getItem("userId");
+  console.log(userId);
 
   const handleFavoriteDriver = async () => {
     try {
       const response = await axiosInstance.post("/favorites/add", {
         driverId,
         userId,
-      })
+      });
       if (response.status === 200) {
-        toast.success("Đã thêm tài xế vào danh sách yêu thích")
+        toast.success("Đã thêm tài xế vào danh sách yêu thích");
       } else {
-        toast.error("Thêm tài xế vào danh sách yêu thích thất bại")
+        toast.error("Thêm tài xế vào danh sách yêu thích thất bại");
       }
     } catch (error) {
-      console.error("Error adding favorite driver:", error)
-      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.")
+      console.error("Error adding favorite driver:", error);
+      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.");
     }
-  }
+  };
 
   const handleOpenModal = () => {
-    setIsShowModal(true)
-  }
+    setIsShowModal(true);
+  };
 
   const handleCloseModal = () => {
-    setIsShowModal(false)
-  }
+    setIsShowModal(false);
+  };
 
   const handleFeedback = (e) => {
-    setfeedback(e.target.value)
-  }
+    setfeedback(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await axiosInstance.post("/rating", {
         value: rating,
         comment: feedback,
         userId: driver,
         reviewerId: userId,
-      })
+      });
+      console.log({
+        value: rating,
+        comment: feedback,
+        userId: driver,
+        reviewerId: userId,
+      });
+
       if (response.status === 200) {
-        toast.success("Đánh giá tài xế thành công")
-        setIsShowModal(false)
+        toast.success("Đánh giá tài xế thành công");
+        setIsShowModal(false);
       }
     } catch (error) {
-      toast.error("Có lỗi xảy ra!!")
+      toast.error("Có lỗi xảy ra!!");
     }
-  }
+  };
 
   const handleRatingClick = (value) => {
-    setRating(value)
-  }
+    setRating(value);
+  };
 
   const getTripHistoryDetail = async () => {
     try {
-      const response = await axiosInstance.get(`/posts/${id}`)
-      setTripDetail(response.data)
-      setDriver(response.data.dealId.driverId.userId._id)
-      console.log(response)
+      const response = await axiosInstance.get(`/posts/${id}`);
+      setTripDetail(response.data);
+      setDriver(response.data.dealId.driverId.userId._id);
+      console.log(response);
     } catch (error) {}
-  }
+  };
 
   useEffect(() => {
-    getTripHistoryDetail()
-  }, [])
+    getTripHistoryDetail();
+  }, []);
 
-  if (!tripDetail) return <div>Không có data</div>
+  if (!tripDetail) return <div>Không có data</div>;
 
   return (
     <div className="wrapper container pb-5">
@@ -364,7 +372,7 @@ const TripDetail = () => {
                   <div className="">
                     <div className="d-flex justify-content-center mb-3">
                       {[...Array(5)].map((star, index) => {
-                        const value = index + 1
+                        const value = index + 1;
                         return (
                           <div
                             key={index}
@@ -379,7 +387,7 @@ const TripDetail = () => {
                               <CiStar size={30} color="#000" /> // Ngôi sao rỗng màu đen
                             )}
                           </div>
-                        )
+                        );
                       })}
                     </div>
                   </div>
@@ -486,7 +494,7 @@ const TripDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TripDetail
+export default TripDetail;
