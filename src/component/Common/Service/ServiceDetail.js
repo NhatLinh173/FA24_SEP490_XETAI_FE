@@ -24,6 +24,7 @@ const ServiceDetail = () => {
   const [driverId, setDriverId] = useState(null);
   const [dealId, setDealId] = useState(null);
   const [isOrderAccepted, setIsOrderAccepted] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const decodeToken = () => {
@@ -127,6 +128,15 @@ const ServiceDetail = () => {
     // }
     setShowModal(true);
     setIsConfirming(true);
+  };
+  const nextSlide = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % postData.images.length);
+  };
+
+  const prevSlide = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === 0 ? postData.images.length - 1 : prevIndex - 1
+    );
   };
 
   const handleConfirmPrice = () => {
@@ -257,33 +267,51 @@ const ServiceDetail = () => {
         <div className="col-md-8">
           <div className="border rounded p-3 shadow-sm">
             {/* Service Information */}
-            <div className="d-flex border-bottom pb-3 mb-3">
-              {postData.images && postData.images.length > 0 ? (
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "10px",
-                  }}
-                >
-                  {postData.images.map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`service-${index}`}
-                      style={{
-                        width: "220px",
-                        height: "140px",
-                        objectFit: "cover",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                      }}
-                    />
-                  ))}
+            <div className="d-flex border-bottom pb-3 mb-3 pl-3">
+              <div
+                id="carouselExampleControls"
+                className="carousel slide"
+                data-ride="carousel"
+              >
+                <div className="carousel-inner">
+                  {postData.images &&
+                    postData.images.map((img, index) => (
+                      <div
+                        className={`carousel-item text-center ${
+                          index === activeIndex ? "active" : ""
+                        }`}
+                      >
+                        <img src={img} className="fix-img" alt="service" />
+                      </div>
+                    ))}
                 </div>
-              ) : (
-                <p>No images available</p>
-              )}
+                <button
+                  className="carousel-control-prev border-0 carousel-bg"
+                  type="button"
+                  data-target="#carouselExampleControls"
+                  data-slide="prev"
+                  onClick={prevSlide}
+                >
+                  <span
+                    className="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="sr-only">Previous</span>
+                </button>
+                <button
+                  className="carousel-control-next border-0  carousel-bg"
+                  type="button"
+                  data-target="#carouselExampleControls"
+                  data-slide="next"
+                  onClick={nextSlide}
+                >
+                  <span
+                    className="carousel-control-next-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span className="sr-only">Next</span>
+                </button>
+              </div>
             </div>
             <div>
               <h5 className="font-weight-bold" style={{ marginBottom: "15px" }}>
@@ -293,7 +321,9 @@ const ServiceDetail = () => {
                 <div className="border rounded p-3 shadow-sm">
                   <div className="form-row">
                     <div className="form-group col-md-6">
-                      <label htmlFor="type">Loại hàng</label>
+                      <label htmlFor="type" className="font-weight-bold">
+                        Loại hàng
+                      </label>
                       <input
                         id="type"
                         defaultValue={postData.title}
@@ -303,7 +333,9 @@ const ServiceDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6">
-                      <label htmlFor="weight">Khối lượng</label>
+                      <label htmlFor="weight" className="font-weight-bold">
+                        Khối lượng
+                      </label>
                       <input
                         id="weight"
                         defaultValue={`${postData.load} kg`}
@@ -313,7 +345,9 @@ const ServiceDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6">
-                      <label htmlFor="price">Giá</label>
+                      <label htmlFor="price" className="font-weight-bold">
+                        Giá
+                      </label>
                       <input
                         id="price"
                         defaultValue={postData.price}
@@ -323,7 +357,12 @@ const ServiceDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6">
-                      <label htmlFor="pickupLocation">Địa điểm lấy hàng</label>
+                      <label
+                        htmlFor="pickupLocation"
+                        className="font-weight-bold"
+                      >
+                        Địa điểm lấy hàng
+                      </label>
                       <input
                         id="pickupLocation"
                         defaultValue={postData.startPoint}
@@ -333,7 +372,12 @@ const ServiceDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-6">
-                      <label htmlFor="dropoffLocation">Địa điểm trả hàng</label>
+                      <label
+                        htmlFor="dropoffLocation"
+                        className="font-weight-bold"
+                      >
+                        Địa điểm trả hàng
+                      </label>
                       <input
                         id="dropoffLocation"
                         defaultValue={postData.destination}
@@ -343,7 +387,9 @@ const ServiceDetail = () => {
                       />
                     </div>
                     <div className="form-group col-md-12">
-                      <label htmlFor="description">Mô tả đơn hàng</label>
+                      <label htmlFor="description" className="font-weight-bold">
+                        Mô tả đơn hàng
+                      </label>
                       <textarea
                         id="description"
                         defaultValue={postData.detail}
@@ -365,7 +411,9 @@ const ServiceDetail = () => {
               <div className="border rounded p-3 shadow-sm">
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="posterName">Họ và tên</label>
+                    <label htmlFor="posterName" className="font-weight-bold">
+                      Họ và tên
+                    </label>
                     <input
                       id="posterName"
                       defaultValue={postData.fullname}
@@ -375,7 +423,9 @@ const ServiceDetail = () => {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="posterPhone">Số điện thoại</label>
+                    <label htmlFor="posterPhone" className="font-weight-bold">
+                      Số điện thoại
+                    </label>
                     <input
                       id="posterPhone"
                       defaultValue={postData.phone}
@@ -385,7 +435,9 @@ const ServiceDetail = () => {
                     />
                   </div>
                   <div className="form-group col-md-12">
-                    <label htmlFor="posterEmail">Email</label>
+                    <label htmlFor="posterEmail" className="font-weight-bold">
+                      Email
+                    </label>
                     <input
                       id="posterEmail"
                       defaultValue={postData.email}
@@ -406,7 +458,9 @@ const ServiceDetail = () => {
               <div className="border rounded p-3 shadow-sm">
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label htmlFor="receiverName">Họ và tên</label>
+                    <label htmlFor="receiverName" className="font-weight-bold">
+                      Họ và tên
+                    </label>
                     <input
                       id="receiverName"
                       defaultValue={postData.recipientName}
@@ -416,7 +470,9 @@ const ServiceDetail = () => {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label htmlFor="receiverPhone">Số điện thoại</label>
+                    <label htmlFor="receiverPhone" className="font-weight-bold">
+                      Số điện thoại
+                    </label>
                     <input
                       id="receiverPhone"
                       defaultValue={postData.recipientPhone}
@@ -426,7 +482,9 @@ const ServiceDetail = () => {
                     />
                   </div>
                   <div className="form-group col-md-12">
-                    <label htmlFor="receiverEmail">Email</label>
+                    <label htmlFor="receiverEmail" className="font-weight-bold" >
+                      Email
+                    </label>
                     <input
                       id="receiverEmail"
                       defaultValue={postData.recipientEmail}
@@ -543,25 +601,42 @@ const ServiceDetail = () => {
 
         {/* Right Side: Sidebar */}
         <div className="col-md-4">
-          <div className="border rounded p-3 shadow-sm">
-            <h5
-              className="font-weight-bold"
-              style={{ textAlign: "center", marginBottom: "15px" }}
-            >
-              Người đăng bài
-            </h5>
-            <div className="contact-info">
-              <div className="contact-avatar-wrapper">
+          <div className="border rounded p-4 shadow-sm">
+            <h5 className="font-weight-bold mb-3 text-center">Người tạo đơn</h5>
+            <div className="contact-info text-center">
+              <div className="contact-avatar-wrapper mb-3">
                 <img
-                  src="https://via.placeholder.com/120"
-                  className="contact-avatar"
+                  src={inforPoster.avatar}
+                  className="contact-avatar rounded-circle border"
                   alt="contact avatar"
+                  style={{
+                    width: "120px",
+                    height: "120px",
+                    objectFit: "cover",
+                  }}
                 />
               </div>
               <div className="contact-details">
-                <h5 className="contact-name">{inforPoster.fullName}</h5>
-                <p className="contact-phone">{inforPoster.phone}</p>
-                <p className="contact-email">{inforPoster.email}</p>
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light">
+                    <strong className="text-left">Tên:</strong>
+                    <span className="contact-name text-muted text-right">
+                      {inforPoster.fullName}
+                    </span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2 mb-2">
+                    <strong className="text-left">Số điện thoại:</strong>
+                    <span className="contact-phone text-muted text-right">
+                      {inforPoster.phone}
+                    </span>
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light">
+                    <strong className="text-left">Email:</strong>
+                    <span className="contact-email text-muted text-right">
+                      {inforPoster.email}
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
