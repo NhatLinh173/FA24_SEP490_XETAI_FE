@@ -121,7 +121,7 @@ const TripDetail = () => {
 
               <div className="mt-3 d-flex justify-content-between align-items-center">
                 <button
-                  className="btn-sm btn-success border-0 d-flex"
+                  className="btn-sm btn-success border-0 d-flex align-items-center"
                   style={{ width: "fit-content" }}
                 >
                   <FaCheck className="mr-2" />
@@ -143,7 +143,7 @@ const TripDetail = () => {
             </div>
 
             <div className="pt-3">
-              <div className="mb-3 font-weight-bold">Thời gian giao hàng</div>
+              <h3 className="mb-3 font-weight-bold">Thời gian giao hàng</h3>
 
               <div className="d-flex">
                 <div>
@@ -165,12 +165,14 @@ const TripDetail = () => {
             </div>
 
             <div className="pt-3 mb-3">
-              <div className="mb-3 font-weight-bold">Đơn hàng</div>
+              <h3 className="mb-3 font-weight-bold">Đơn hàng</h3>
 
               <form>
                 <div className="row">
                   <div className="col">
-                    <label htmlFor="category">Loại hàng</label>
+                    <label htmlFor="category" className="font-weight-bold">
+                      Loại hàng
+                    </label>
                     <input
                       id="category"
                       defaultValue={tripDetail.title}
@@ -182,7 +184,12 @@ const TripDetail = () => {
                   </div>
 
                   <div className="col">
-                    <label htmlFor="deliver_address">Giá tiền</label>
+                    <label
+                      htmlFor="deliver_address"
+                      className="font-weight-bold"
+                    >
+                      Giá tiền
+                    </label>
                     <input
                       id="deliver_address"
                       defaultValue={`${tripDetail.price.toLocaleString()} VND`}
@@ -196,7 +203,9 @@ const TripDetail = () => {
 
                 <div className="row mt-3">
                   <div className="col">
-                    <label htmlFor="address">Địa chỉ nhận hàng</label>
+                    <label htmlFor="address" className="font-weight-bold">
+                      Địa chỉ nhận hàng
+                    </label>
                     <input
                       id="address"
                       defaultValue={`${tripDetail.startPoint}, ${tripDetail.startPointCity}`}
@@ -208,7 +217,12 @@ const TripDetail = () => {
                   </div>
 
                   <div className="col">
-                    <label htmlFor="deliver_address">Địa chỉ giao hàng</label>
+                    <label
+                      htmlFor="deliver_address"
+                      className="font-weight-bold"
+                    >
+                      Địa chỉ giao hàng
+                    </label>
                     <input
                       id="deliver_address"
                       defaultValue={`${tripDetail.destination}, ${tripDetail.destinationCity}`}
@@ -222,7 +236,9 @@ const TripDetail = () => {
 
                 <div className="row mt-3">
                   <div className="col">
-                    <label htmlFor="address">Tổng trọng lượng (KG)</label>
+                    <label htmlFor="address" className="font-weight-bold">
+                      Tổng trọng lượng (KG)
+                    </label>
                     <input
                       id="address"
                       defaultValue={tripDetail.load}
@@ -238,7 +254,9 @@ const TripDetail = () => {
 
                 <div className="row mt-3">
                   <div className="col">
-                    <label htmlFor="description">Mô tả đơn hàng</label>
+                    <label htmlFor="description" className="font-weight-bold">
+                      Mô tả đơn hàng
+                    </label>
                     <div style={{ height: "300px" }}>
                       <textarea
                         id="description"
@@ -254,12 +272,14 @@ const TripDetail = () => {
             </div>
 
             <div className="pt-4">
-              <div className="mb-3 font-weight-bold">Thông tin người nhận</div>
+              <h3 className="mb-3 font-weight-bold">Thông tin người nhận</h3>
 
               <form>
                 <div className="row">
                   <div className="col">
-                    <label htmlFor="customer-name">Họ và tên</label>
+                    <label htmlFor="customer-name" className="font-weight-bold">
+                      Họ và tên
+                    </label>
                     <input
                       id="customer-name"
                       defaultValue={tripDetail.recipientName}
@@ -271,7 +291,9 @@ const TripDetail = () => {
                   </div>
 
                   <div className="col">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email" className="font-weight-bold">
+                      Email
+                    </label>
 
                     <input
                       id="email"
@@ -286,7 +308,9 @@ const TripDetail = () => {
 
                 <div className="row mt-3">
                   <div className="col">
-                    <label htmlFor="phone-number">Số điện thoại</label>
+                    <label htmlFor="phone-number" className="font-weight-bold">
+                      Số điện thoại
+                    </label>
                     <input
                       id="phone-number"
                       defaultValue={tripDetail.recipientPhone}
@@ -303,12 +327,14 @@ const TripDetail = () => {
             </div>
 
             <div className="pt-4">
-              <div className="mb-3 font-weight-bold">Thông tin người đặt</div>
+              <h3 className="mb-3 font-weight-bold">Thông tin người đặt</h3>
 
               <form>
                 <div className="row">
                   <div className="col">
-                    <label htmlFor="customer-name">Họ và tên</label>
+                    <label htmlFor="customer-name" className="font-weight-bold">
+                      Họ và tên
+                    </label>
                     <input
                       id="customer-name"
                       defaultValue={tripDetail.fullname}
@@ -320,7 +346,9 @@ const TripDetail = () => {
                   </div>
 
                   <div className="col">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email" className="font-weight-bold">
+                      Email
+                    </label>
 
                     <input
                       id="email"
@@ -335,7 +363,9 @@ const TripDetail = () => {
 
                 <div className="row mt-3">
                   <div className="col">
-                    <label htmlFor="phone-number">Số điện thoại</label>
+                    <label htmlFor="phone-number" className="font-weight-bold">
+                      Số điện thoại
+                    </label>
                     <input
                       id="phone-number"
                       defaultValue={tripDetail.phone}
