@@ -14,7 +14,6 @@ const useInstanceData = (url) => {
         const res = await axiosInstance.get(url);
         const result = await res.data;
         setData(result);
-        console.log("aloo: ", result);
       } catch (error) {
         const errorMessage = error.response?.data?.message || error.message;
         setError(errorMessage);
