@@ -56,6 +56,7 @@ import Admin from "./page/AdminDashboard";
 
 import CustomerManagement from "./component/AdminDashboard/CustomerManagement/CustomerManagement";
 import DriverManagement from "./component/AdminDashboard/DriverManagement/DriverManagement";
+import StaffManagement from "./component/AdminDashboard/StaffManagement/StaffManagement";
 
 import Unauthorized from "./component/Unauthorized/unauthorized";
 
@@ -132,6 +133,11 @@ const AppContent = () => {
           path="/dashboard-admin/drivers"
           exact
           component={DriverManagement}
+        // allowedRoles={["admin", "staff", "customer"]}
+        /><ProtectedRoute
+          path="/dashboard-admin/staffs"
+          exact
+          component={StaffManagement}
         // allowedRoles={["admin", "staff", "customer"]}
         />
       </Switch>
