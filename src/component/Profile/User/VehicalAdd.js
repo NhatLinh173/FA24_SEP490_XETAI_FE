@@ -49,6 +49,10 @@ const VehicalAdd = () => {
       isValid = false
       messages = "Vui lòng nhập trọng tải."
     }
+    if (!data.expirationDate) {
+      isValid = false
+      messages = "Vui lòng nhập ngày hết hạn."
+    }
 
     return { isValid, messages }
   }
@@ -68,7 +72,7 @@ const VehicalAdd = () => {
     formData.append("imageCar", state.imageCar)
     formData.append("imageRegistration", state.imageRegistration)
     formData.append("driverId", driverId)
-    formData.append("description", "66e6dbc1a403de7498e7c667")
+    formData.append("expirationDate", state.expirationDate)
 
     setLoading(true)
 
@@ -77,12 +81,13 @@ const VehicalAdd = () => {
         "Content-Type": "multipart/form-data",
       },
     })
-
-    setLoading(false)
-
-    toast.success("Thêm thành công xe mới")
-
-    history.push(`/vehical/detail/${response.data._id}`)
+    if (response.status === 200) {
+      setLoading(false)
+      toast.success("Thêm thành công xe mới")
+      history.push(`/vehical/detail/${response.data._id}`)
+    } else {
+      toast.error("Bạn không phải tài xế !")
+    }
   }
 
   return (
