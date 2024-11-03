@@ -4825,6 +4825,11 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .unauthorized-container {
+  margin-top: 80px;
+  background-image: url("../img/unauthorized.jpg");
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4834,32 +4839,7 @@ input[type="number"]::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.unauthorized-container h1 {
-  font-size: 3rem;
-  color: #dc3545;
-  margin-bottom: 1rem;
-}
 
-.unauthorized-container p {
-  font-size: 1.2rem;
-  color: #6c757d;
-  margin-bottom: 2rem;
-}
-
-.back-button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.back-button:hover {
-  background-color: #0056b3;
-}
 
 /* =============================
        BlogDetail End
@@ -5503,20 +5483,28 @@ input[type="number"]::-webkit-inner-spin-button {
 ============================== */
 
 .input-password {
-  border: 2px solid #007bff; /* Màu sắc của border */
-  padding: 10px; /* Khoảng cách bên trong */
-  border-radius: 4px; /* Bo góc */
-  width: 70%; /* Đảm bảo chiều rộng tối đa */
+  border: 2px solid #007bff;
+  /* Màu sắc của border */
+  padding: 10px;
+  /* Khoảng cách bên trong */
+  border-radius: 4px;
+  /* Bo góc */
+  width: 70%;
+  /* Đảm bảo chiều rộng tối đa */
 }
 
 .input-password::placeholder {
-  padding-left: 5px; /* Khoảng cách bên trái cho chữ trong placeholder */
-  color: #999; /* Màu sắc của chữ trong placeholder */
+  padding-left: 5px;
+  /* Khoảng cách bên trái cho chữ trong placeholder */
+  color: #999;
+  /* Màu sắc của chữ trong placeholder */
 }
 
 .input-password:focus {
-  border-color: #0056b3; /* Màu sắc của border khi focus */
-  outline: none; /* Không có outline khi focus */
+  border-color: #0056b3;
+  /* Màu sắc của border khi focus */
+  outline: none;
+  /* Không có outline khi focus */
 }
 
 .custom-label {
@@ -5538,3 +5526,77 @@ input[type="number"]::-webkit-inner-spin-button {
   margin-right: 100px;
 }
 
+/* =============================
+       Report Management Start
+============================== */
+.report-management-container {
+  background-color: #ffffff;
+  /* Màu nền trắng cho container */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Bóng đổ nhẹ nhàng */
+}
+
+.report-management-title {
+  font-family: 'Arial', sans-serif;
+  font-size: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  /* Canh giữa tiêu đề */
+  color: #333;
+  /* Màu chữ tối hơn để dễ đọc */
+}
+
+.report-management-table {
+  border-collapse: collapse;
+  /* Kết hợp biên */
+  width: 100%;
+  /* Chiếm toàn bộ chiều rộng */
+}
+
+.report-management-table td {
+  text-align: center;
+  padding: 15px;
+  /* Padding cho ô */
+}
+
+.report-management-table th {
+  background-color: #343a40;
+  /* Nền tối cho header */
+  color: white;
+  /* Màu chữ trắng */
+  text-align: center;
+  padding: 15px;
+  /* Padding cho header */
+}
+
+.report-management-table tr:hover {
+  background-color: #f1f1f1;
+  /* Màu nền nhẹ hơn khi hover */
+}
+
+.report-management-pagination-controls {
+  margin-top: 20px;
+  text-align: center;
+  /* Canh giữa các điều khiển phân trang */
+}
+
+.report-management-table .btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  color: white;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-right: 8px;
+}
+
+.report-management-table .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* =============================
+       Report Management End
+============================== */

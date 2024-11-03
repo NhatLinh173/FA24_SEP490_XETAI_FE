@@ -145,8 +145,9 @@ const HistoryPost = () => {
     );
   };
   const handleFilterCancelPosts = () => {
-    setCurrentPage(0); // Đặt lại trang hiện tại về 0
+    setCurrentPage(0);
     let filteredPosts = [];
+
     if (driverId !== "undefined") {
       const filter = dealPriceDriver.filter((dealPriceDriver) => {
         return (

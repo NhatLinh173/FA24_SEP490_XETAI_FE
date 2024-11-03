@@ -12,6 +12,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import imgUpload from "../../../assets/img/homepage/output-onlinepngtools.png";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { formatDate } from "../../../utils/formatDate";
 const HistoryPostDetail = () => {
   const history = useHistory();
   const { id } = useParams();
@@ -57,7 +58,7 @@ const HistoryPostDetail = () => {
   const [newImages, setNewImages] = useState([]);
   const [totalImage, setTotalImage] = useState([]);
   const [isDriverExist, setIsDriverExist] = useState(false);
-
+  const averageRating = 4.5;
   const nextSlide = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
@@ -77,6 +78,7 @@ const HistoryPostDetail = () => {
 
   const { data: post } = useInstanceData(`/posts/${id}`);
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
+  console.log(deals);
 
   useEffect(() => {
     if (deals && deals.length > 0) {
@@ -220,14 +222,14 @@ const HistoryPostDetail = () => {
             templateArgs: [post.fullname, post._id],
           });
         }
+      } else {
+        toast.error("Cập nhật không thành công!");
       }
     } catch (error) {
       if (error.response && error.response.status === 402) {
         toast.error(
           "Bạn không đủ tiền để trả phí hủy đơn hàng! Vui lòng nạp tiền để hủy đơn"
         );
-      } else {
-        toast.error("Cập nhật không thành công!");
       }
     }
   };
@@ -1314,15 +1316,30 @@ const HistoryPostDetail = () => {
                           <br />
 
                           <strong>Ngày giao dự kiến:</strong>
-                          <span className="mr-1">{deal.estimatedTime}</span>
+                          <br />
+                          <span className="mr-1">
+                            {formatDate(deal.estimatedTime)}
+                          </span>
                           <br />
                           <strong>Đánh giá: </strong>
                           <span style={{ color: "gold" }}>
-                            <FaStar />
-                            <FaStar />
-                            <FaStar />
-                            <FaStar />
-                            <FaStarHalfAlt /> {/* Ngôi sao nửa */}
+                            {deal.driverId.averageRating > 0 ? (
+                              <>
+                                {[
+                                  ...Array(
+                                    Math.floor(deal.driverId.averageRating)
+                                  ),
+                                ].map((_, i) => (
+                                  <FaStar key={i} />
+                                ))}
+                                {deal.driverId.averageRating % 1 !== 0 && (
+                                  <FaStarHalfAlt />
+                                )}
+                                {/* Ngôi sao nửa nếu cần */}
+                              </>
+                            ) : (
+                              <span>Chưa có đánh giá</span> // Thông báo nếu không có đánh giá
+                            )}
                           </span>
                         </div>
                         <div className="d-flex flex-column">
