@@ -415,77 +415,94 @@ const TripDetail = () => {
         )}
 
         <div className="col-4 pl-2">
-          <div className="border rounded-12 p-3">
-            <div className="d-flex border-bottom pt-2 pb-3">
-              <img
-                src={
-                  isDriverRole
-                    ? tripDetail.creator.avatar
-                    : tripDetail.dealId.driverId.userId.avatar
-                }
-                className="border rounded-circle mr-3"
-                style={{
-                  width: "118px",
-                  height: "118px",
-                  objectFit: "cover",
-                }}
-                alt="avatar"
-              />
+          <div className="border rounded-12 shadow-sm overflow-hidden">
+            <h4 className="text-center border-bottom p-3">
+              {isDriverRole ? "Thông tin người tạo đơn" : "Thông tin tài xế"}
+            </h4>
 
-              <div>
-                <div className="fw-600 mb-2">
-                  {isDriverRole ? "Người tạo đơn" : "Tài xế"}
-                </div>
+            <div className="contact-info">
+              <div
+                className="py-2"
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <div style={{ position: "relative", width: "100%" }}>
+                  <img
+                    src={
+                      isDriverRole
+                        ? tripDetail.creator.avatar
+                        : tripDetail.dealId.driverId.userId.avatar
+                    }
+                    className="mt-3 contact-avatar rounded-circle"
+                    alt="contact avatar"
+                  />
 
-                <div className="fs-14">
-                  Tên:{" "}
-                  {isDriverRole
-                    ? tripDetail.creator.fullName
-                    : tripDetail.dealId.driverId.userId.fullName}
-                </div>
-                <tel className="fs-14">
-                  SĐT:{" "}
-                  {isDriverRole
-                    ? tripDetail.creator.phone
-                    : tripDetail.dealId.driverId.userId.phone}
-                </tel>
-                <div className="mb-2 fs-14">
-                  Email:{" "}
-                  {isDriverRole
-                    ? tripDetail.creator.email
-                    : tripDetail.dealId.driverId.userId.email}
-                </div>
-
-                <div className="d-flex align-items-center">
                   {!isDriverRole && (
                     <BsHeartFill
                       style={{
                         cursor: "pointer",
                         color: "#ec0101",
-                        fontSize: "20",
+                        fontSize: "22",
+                        position: "absolute",
+                        right: "10px",
+                        top: "5px",
                       }}
                       onClick={handleFavoriteDriver}
                     />
                   )}
-
-                  {!isDriverRole && !ratingDetails && (
-                    <button
-                      type="button"
-                      class="ml-3 btn-sm btn-danger border-0"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
-                      onClick={handleOpenModal}
-                    >
-                      Đánh giá
-                    </button>
-                  )}
                 </div>
               </div>
-            </div>
 
-            {ratingDetails && (
+              <div className="contact-details">
+                <ul className="list-group">
+                  <li className="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Tên:</strong>
+                    <span className="text-muted">
+                      {isDriverRole
+                        ? tripDetail.creator.fullName
+                        : tripDetail.dealId.driverId.userId.fullName}
+                    </span>
+                  </li>
+
+                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                    <strong>Số điện thoại:</strong>
+                    <span className="text-muted">
+                      {isDriverRole
+                        ? tripDetail.creator.phone
+                        : tripDetail.dealId.driverId.userId.phone}
+                    </span>
+                  </li>
+
+                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                    <strong>Email:</strong>
+                    <span className="text-muted">
+                      {isDriverRole
+                        ? tripDetail.creator.email
+                        : tripDetail.dealId.driverId.userId.email}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="py-3 d-flex align-items-center justify-content-center">
+                {!isDriverRole && !ratingDetails && (
+                  <button
+                    type="button"
+                    class="ml-3 btn-sm btn-danger border-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    onClick={handleOpenModal}
+                  >
+                    Đánh giá
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {ratingDetails && (
+            <div className="mt-3 border rounded-12 shadow-sm overflow-hidden p-3">
               <div>
-                <div className="d-flex justify-content-between border-bottom py-3">
+                <div className="d-flex justify-content-between border-bottom pb-2 pt-1">
                   <h5 className="font-weight-bold">Đánh giá</h5>
                   <Rating
                     initialValue={ratingDetails.value}
@@ -500,8 +517,8 @@ const TripDetail = () => {
                   </div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

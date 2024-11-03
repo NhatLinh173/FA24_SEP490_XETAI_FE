@@ -104,12 +104,14 @@ export const TripHistory = () => {
                   {dayjs(item.endTime).format("HH:mm - DD/MM/YYYY")}
                 </div>
 
-                {!isDriverRole && (
-                  <div className="text-secondary">
-                    <span className="font-weight-bold mr-2">Tài xế:</span>
-                    {item.dealId.driverId.userId.fullName}
-                  </div>
-                )}
+                <div className="text-secondary">
+                  <span className="font-weight-bold mr-2">
+                    {isDriverRole ? "Người tạo đơn:" : "Tài xế:"}
+                  </span>
+                  {isDriverRole
+                    ? item.creator.fullName
+                    : item.dealId.driverId.userId.fullName}
+                </div>
 
                 <div className="mt-3 fs-18 font-weight-bold total-amount  mr-2">
                   Tổng tiền: {item.price} VND
