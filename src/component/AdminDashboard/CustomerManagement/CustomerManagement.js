@@ -86,17 +86,6 @@ const CustomerManagement = () => {
     setSortConfig({ key, direction });
   };
 
-  const getSortIcon = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === "ascending" ? (
-        <FaSortUp />
-      ) : (
-        <FaSortDown />
-      );
-    }
-    return null;
-  };
-
   const openTransactionModal = (customer) => {
     setSelectedCustomer(customer);
     setShowTransactionModal(true);
@@ -148,31 +137,11 @@ const CustomerManagement = () => {
       <Table striped bordered hover className="customer-management-table mt-3">
         <thead>
           <tr>
-            <th
-              onClick={() => requestSort("name")}
-              style={{ cursor: "pointer" }}
-            >
-              Tên {getSortIcon("name")}
-            </th>
-            <th
-              onClick={() => requestSort("email")}
-              style={{ cursor: "pointer" }}
-            >
-              Email {getSortIcon("email")}
-            </th>
-            <th
-              onClick={() => requestSort("phone")}
-              style={{ cursor: "pointer" }}
-            >
-              Điện thoại {getSortIcon("phone")}
-            </th>
+            <th>Tên</th>
+            <th>Email</th>
+            <th>Điện thoại</th>
             <th>Địa chỉ</th>
-            <th
-              onClick={() => requestSort("orderCount")}
-              style={{ cursor: "pointer" }}
-            >
-              Số lượng đơn hàng {getSortIcon("orderCount")}
-            </th>
+            <th>Đơn đã hoàn thành</th>
             <th>Trạng thái</th>
             <th>Hành động</th>
           </tr>
@@ -222,7 +191,7 @@ const CustomerManagement = () => {
                   paddingTop: "38px",
                 }}
               >
-                {customer.orderCount || 0}
+                {customer.postCount || 0}
               </td>
               <td
                 style={{

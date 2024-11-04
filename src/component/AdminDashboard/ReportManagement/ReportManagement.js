@@ -15,8 +15,19 @@ const ReportManagement = () => {
   const [reports, setReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showOpenModalDetail, setShowOpenModalDetail] = useState(false);
+  const [post, setPost] = useState(null);
   const [reportId, setReportId] = useState(null);
-  console.log(reportId);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const nextSlide = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % post.images.length);
+  };
+
+  const prevSlide = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === 0 ? post.images.length - 1 : prevIndex - 1
+    );
+  };
 
   useEffect(() => {
     if (report) {
@@ -30,9 +41,12 @@ const ReportManagement = () => {
     (currentPage + 1) * 5 // Thay reportsPerPage bằng 10
   );
 
-  // const handleViewDetails = (order) => {
-  //   toast.info(`Xem chi tiết đơn hàng: ${order}`);
-  // };
+  const handleViewDetails = (postId) => {
+    setPost(postId);
+    console.log(postId);
+
+    setShowOpenModalDetail(true);
+  };
 
   const confirmDelete = async () => {
     try {
@@ -44,8 +58,8 @@ const ReportManagement = () => {
       toast.error("có xảy ra lỗi!!");
     }
   };
-  const handleDelete = (report) => {
-    setReportId(report._id);
+  const handleDelete = (reportId) => {
+    setReportId(reportId);
     setShowDeleteModal(true);
   };
 
@@ -117,13 +131,13 @@ const ReportManagement = () => {
               <td className="d-flex align-items-center">
                 <Button
                   variant="info"
-                  // onClick={() => handleViewDetails(report.order)}
+                  onClick={() => handleViewDetails(report.postId)}
                 >
                   <IoIosInformationCircleOutline className="icon-large" />
                 </Button>
                 <Button
                   variant="danger"
-                  onClick={() => handleDelete(report)}
+                  onClick={() => handleDelete(report._id)}
                   className="ms-2"
                 >
                   <FaTrash />
@@ -171,6 +185,287 @@ const ReportManagement = () => {
           </Button>
           <Button variant="danger" onClick={confirmDelete}>
             Xóa
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+       
+        show={showOpenModalDetail}
+        onHide={() => setShowOpenModalDetail(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Chi tiết đơn hàng</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal-body-scrollable" size="lg">
+          {" "}
+          <div className="row">
+            {/* Left Side: Service Details */}
+            <div>
+              <div className="border rounded p-3 shadow-sm">
+                {/* Service Information */}
+                <div className="w-100 border-bottom pb-3 mb-3">
+                  <div
+                    id="carouselExampleControls"
+                    className="carousel slide"
+                    data-ride="carousel"
+                  >
+                    <div className="carousel-inner">
+                      {post?.images &&
+                        post?.images.map((img, index) => (
+                          <div
+                            className={`carousel-item text-center ${
+                              index === activeIndex ? "active" : ""
+                            }`}
+                          >
+                            <img src={img} className="fix-img" alt="service" />
+                          </div>
+                        ))}
+                    </div>
+                    <button
+                      className="carousel-control-prev border-0 carousel-bg"
+                      type="button"
+                      data-target="#carouselExampleControls"
+                      data-slide="prev"
+                      onClick={prevSlide}
+                    >
+                      <span
+                        className="carousel-control-prev-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="sr-only">Previous</span>
+                    </button>
+                    <button
+                      className="carousel-control-next border-0  carousel-bg"
+                      type="button"
+                      data-target="#carouselExampleControls"
+                      data-slide="next"
+                      onClick={nextSlide}
+                    >
+                      <span
+                        className="carousel-control-next-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="sr-only">Next</span>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <h5
+                    className="font-weight-bold"
+                    style={{ marginBottom: "15px" }}
+                  >
+                    Thông tin chi tiết
+                  </h5>
+                  <form>
+                    <div className="border rounded p-3 shadow-sm">
+                      <div className="form-row">
+                        <div className="form-group col-md-12">
+                          <label
+                            htmlFor="pickupLocation"
+                            className="font-weight-bold"
+                          >
+                            Địa chỉ nhận hàng
+                          </label>
+                          <div className="d-flex">
+                            <input
+                              value={post?.startPointCity}
+                              disabled
+                            ></input>
+                            <div className="flex-1">
+                              <input
+                                id="pickupLocation"
+                                value={post?.startPoint}
+                                type="text"
+                                className="form-control position-relative"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="form-group col-md-12">
+                          <label
+                            htmlFor="dropoffLocation"
+                            className="font-weight-bold"
+                          >
+                            Địa chỉ giao hàng
+                          </label>
+                          <div className="d-flex ">
+                            <input
+                              value={post?.destinationCity}
+                              disabled
+                            ></input>
+                            <div className="flex-1">
+                              <input
+                                id="dropoffLocation"
+                                value={post?.destination}
+                                type="text"
+                                className="form-control position-relative"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="form-group col-md-6 ">
+                          <label htmlFor="type" className="font-weight-bold">
+                            Loại hàng
+                          </label>
+                          <input
+                            id="type"
+                            value={post?.title}
+                            type="text"
+                            className="form-control position-relative"
+                            disabled
+                          />
+                        </div>
+
+                        <div className="form-group col-md-6">
+                          <label htmlFor="weight" className="font-weight-bold">
+                            Tổng Trọng Lượng (KG)
+                          </label>
+                          <input
+                            id="weight"
+                            value={post?.load}
+                            type="text"
+                            className="form-control position-relative"
+                            disabled
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label htmlFor="price" className="font-weight-bold ">
+                            Giá vận chuyển
+                          </label>
+                          <input
+                            id="price"
+                            value={post?.price}
+                            type="text"
+                            className="form-control position-relative"
+                            disabled
+                          />
+                        </div>
+
+                        <div className="form-group col-md-12">
+                          <label
+                            htmlFor="description"
+                            className="font-weight-bold"
+                          >
+                            Mô tả đơn hàng
+                          </label>
+                          <textarea
+                            id="description"
+                            value={post?.detail}
+                            className="form-control position-relative"
+                            rows="4"
+                            disabled
+                          />
+                        </div>
+                        <div className="form-group col-md-12">
+                          <h5
+                            className="font-weight-bold"
+                            style={{ marginTop: "20px" }}
+                          >
+                            Thông tin người nhận
+                          </h5>
+                        </div>
+                        <div className="form-group col-md-6 mt-3">
+                          <label htmlFor="name" className="font-weight-bold">
+                            Họ và Tên
+                          </label>
+
+                          <input
+                            id="name"
+                            type="text"
+                            className="form-control position-relative"
+                            value={post?.recipientName}
+                            disabled
+                          />
+                        </div>
+                        <div className="form-group col-md-6 mt-3">
+                          <label htmlFor="email" className="font-weight-bold">
+                            Email
+                          </label>
+                          <input
+                            id="email"
+                            type="email"
+                            className="form-control position-relative"
+                            value={post?.recipientEmail}
+                            disabled
+                          />
+                        </div>
+                        <div className="form-group col-md-6 mt-3">
+                          <label htmlFor="phone" className="font-weight-bold">
+                            Số điện thoại
+                          </label>
+                          <input
+                            id="phone"
+                            type="phone"
+                            className="form-control position-relative"
+                            value={post?.recipientPhone}
+                            disabled
+                          />
+                        </div>
+
+                        <div className="form-group col-md-12">
+                          <h5
+                            className="font-weight-bold"
+                            style={{ marginTop: "20px" }}
+                          >
+                            Thông tin người đặt
+                          </h5>
+                        </div>
+                        <div className="form-group col-md-6 mt-3">
+                          <label htmlFor="name" className="font-weight-bold">
+                            Họ và Tên
+                          </label>
+
+                          <input
+                            id="name"
+                            type="text"
+                            className="form-control position-relative"
+                            value={post?.fullname}
+                            disabled
+                          />
+                        </div>
+                        <div className="form-group col-md-6 mt-3">
+                          <label htmlFor="email" className="font-weight-bold">
+                            Email
+                          </label>
+                          <input
+                            id="email"
+                            type="email"
+                            className="form-control position-relative"
+                            value={post?.email}
+                            disabled
+                          />
+                        </div>
+                        <div className="form-group col-md-6 mt-3">
+                          <label htmlFor="phone" className="font-weight-bold">
+                            Số điện thoại
+                          </label>
+                          <input
+                            id="phone"
+                            type="phone"
+                            className="form-control position-relative"
+                            value={post?.phone}
+                            disabled
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {/* Right Side: Contact Info */}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowOpenModalDetail(false)}
+          >
+            Hủy
           </Button>
         </Modal.Footer>
       </Modal>

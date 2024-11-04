@@ -65,7 +65,7 @@ const TripDetail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post("/rating", {
+      const response = await axiosInstance.post(`/rating/${id}`, {
         value: rating,
         comment: feedback,
         userId: driver,
@@ -83,7 +83,7 @@ const TripDetail = () => {
         setIsShowModal(false);
       }
     } catch (error) {
-      toast.error("Có lỗi xảy ra!!");
+      toast.error("Tài xế đã được đánh giá!!");
     }
   };
 

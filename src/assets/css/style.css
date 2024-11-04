@@ -6119,7 +6119,13 @@ input[type="number"]::-webkit-inner-spin-button {
   transition: background-color 0.3s, transform 0.2s;
   padding-top: 3px;
 }
-
+.modal-body-scrollable {
+  max-height: 70vh; /* Hoặc chiều cao bạn muốn */
+  overflow-y: auto;
+}
+.custom-modal-width .modal-dialog {
+  max-width: 50vw !important; /* Chiếm 50% chiều rộng màn hình */
+}
 /* =============================
        Report Management End
 ============================== */
