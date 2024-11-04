@@ -118,3 +118,24 @@ label.required::after {
   content: " *";
   color: var(--main-theme-color);
 }
+
+.custom-input-file {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.custom-input-file label {
+  position: absolute;
+  height: 30px;
+  left: 6px;
+  margin: 0;
+}
+
+.custom-input-file input[type="text"] {
+  padding-left: 110px;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}

@@ -57,6 +57,7 @@ import DriverDetailManagement from "./component/AdminDashboard/DriverManagement/
 import CustomerManagement from "./component/AdminDashboard/CustomerManagement/CustomerManagement";
 import DriverManagement from "./component/AdminDashboard/DriverManagement/DriverManagement";
 import ForgotPassword from "./component/ForgotPassword/forgotPassword";
+import StaffManagement from "./component/AdminDashboard/StaffManagement/StaffManagement";
 import Unauthorized from "./component/Unauthorized/unauthorized";
 import ResetPassword from "./component/ForgotPassword/resetPassword";
 const AppContent = () => {
@@ -135,13 +136,18 @@ const AppContent = () => {
           path="/dashboard-admin/customers"
           exact
           component={CustomerManagement}
-          // allowedRoles={["admin"]}
+        // allowedRoles={["admin"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/drivers"
           exact
           component={DriverManagement}
-          // allowedRoles={["admin", "staff", "customer"]}
+        // allowedRoles={["admin", "staff", "customer"]}
+        /><ProtectedRoute
+          path="/dashboard-admin/staffs"
+          exact
+          component={StaffManagement}
+        // allowedRoles={["admin", "staff", "customer"]}
         />
       </Switch>
       {!isDashboardPage && <Footer />}

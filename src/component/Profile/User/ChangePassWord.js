@@ -65,7 +65,7 @@ const ChangePassWord = () => {
           <div className="col-9">
             <div className="input-group">
               <input
-                className="input-password border position-relative text-decoration-line-through"
+                className="input-password border position-relative text-decoration-none"
                 type={showCurrentPassword ? "text" : "password"}
                 id="current_password"
                 name="current_password"
