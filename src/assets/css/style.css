@@ -6046,6 +6046,146 @@ input[type="number"]::-webkit-inner-spin-button {
   margin-right: 100px;
 }
 
+
+/* Forgot Password */
+.forgot-password-container {
+  width: 400px;
+  margin: 100px auto; /* Giữ lại margin trên và dưới */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.forgot-password-form .form-group {
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.forgot-password-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.forgot-password-form input {
+  width: 100%;
+  padding: 10px; /* Tăng độ lớn padding để dễ nhập hơn */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.forgot-password-form .submit-button,
+.otp-verification-form .verify-button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px; /* Thêm khoảng cách giữa nút và ô nhập */
+}
+
+.forgot-password-form .submit-button:disabled,
+.otp-verification-form .verify-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+/* Reset Password */
+.reset-password-wrapper {
+  width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 30px;
+}
+
+.reset-password-title {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.reset-password-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.reset-password-form-group {
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.reset-password-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.reset-password-button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.reset-password-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Driver Details */
+.container-driver-details{
+  margin-top: 40px !important;
+
+}
+.driver-info .avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.vehicle-image {
+  border-radius: 5px;
+}
+
+.stat-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px !important;
+  padding: 0 !important; 
+  min-height: auto !important;
+}
+
+.modal-content {
+  border-radius: 5px;
+}
+
+.modal.show {
+  display: block; 
+  z-index: 1050; 
+}
+
+.modal {
+  z-index: 1050;
+}
+
+
 /* =============================
        Report Management Start
 ============================== */

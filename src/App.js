@@ -53,18 +53,21 @@ import { WebSocketProvider } from "./hooks/WebSocketContext";
 import VehicalAdd from "./component/Profile/User/VehicalAdd";
 import ProtectedRoute from "./config/checkRole";
 import Admin from "./page/AdminDashboard";
-
+import DriverDetailManagement from "./component/AdminDashboard/DriverManagement/DriverDetailMangement";
 import CustomerManagement from "./component/AdminDashboard/CustomerManagement/CustomerManagement";
 import DriverManagement from "./component/AdminDashboard/DriverManagement/DriverManagement";
+import ForgotPassword from "./component/ForgotPassword/forgotPassword";
 import StaffManagement from "./component/AdminDashboard/StaffManagement/StaffManagement";
-
 import Unauthorized from "./component/Unauthorized/unauthorized";
-
+import ResetPassword from "./component/ForgotPassword/resetPassword";
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const location = useLocation();
 
-  const isDashboardPage = location.pathname === "/dashboard-admin";
+  const isDashboardPage =
+    location.pathname === "/dashboard-admin" ||
+    location.pathname.startsWith("/dashboard-admin/") ||
+    location.pathname.startsWith("/driverDetailManagement");
 
   return (
     <>
@@ -98,6 +101,8 @@ const AppContent = () => {
         <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
         <Route path="/terms" exact component={TermsCondition} />
         <Route path="/contact" exact component={Contact} />
+        <Route path="/forgot-password" exact component={ForgotPassword} />
+        <Route path="/reset-password" exact component={ResetPassword} />
         <ProtectedRoute
           path="/profile"
           exact
@@ -113,7 +118,11 @@ const AppContent = () => {
         <Route path="/payment/success" exact component={PaymentSuccess} />
         <Route path="/payment/failed" exact component={PaymentFailed} />
         <Route path="/chat/:id" exact component={Chat} />
-
+        <Route
+          path="/driverDetailManagement/:driverId"
+          exact
+          component={DriverDetailManagement}
+        />
         <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
         <Route path="/vehical/add" exact component={VehicalAdd} />
 

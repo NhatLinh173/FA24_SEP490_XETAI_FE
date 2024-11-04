@@ -33,7 +33,7 @@ const ProtectedRoute = ({ component: Component, allowedRoles, ...rest }) => {
             <Redirect to="/unauthorized" />
           )
         ) : (
-          <Redirect to="/login" />
+          <Redirect to="/signIn" />
         )
       }
     />
