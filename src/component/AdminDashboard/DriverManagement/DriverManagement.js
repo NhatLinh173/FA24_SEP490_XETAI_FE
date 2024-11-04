@@ -6,6 +6,7 @@ import ReactPaginate from "react-paginate";
 import axiosIntance from "../../../config/axiosConfig";
 import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 import axios from "axios";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 const DriverManagement = () => {
   const [drivers, setDrivers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -14,7 +15,6 @@ const DriverManagement = () => {
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [lockDuration, setLockDuration] = useState("");
   const [driversPerPage, setDriversPerPage] = useState(10);
-
   const [sortConfig, setSortConfig] = useState({
     key: "fullName",
     direction: "ascending",
@@ -29,10 +29,11 @@ const DriverManagement = () => {
       try {
         const response = await axiosIntance.get(`/auth/role/driver`);
         if (response.status === 200) {
-          const driversData = response.data.map((driver) => driver.userId);
+          const driversData = response.data.map((driver) => ({
+            driverId: driver._id, // Lưu _id của Driver
+            ...driver.userId, // Kết hợp thông tin userId vào đây
+          }));
           setDrivers(driversData);
-
-          console.log("ID: ", driversData[0]._id);
         } else {
           console.error("Error fetching drivers:", response.statusText);
         }
@@ -167,7 +168,7 @@ const DriverManagement = () => {
           value={driversPerPage}
           onChange={(e) => {
             setDriversPerPage(parseInt(e.target.value));
-            setCurrentPage(0); // Quay lại trang đầu tiên sau khi thay đổi
+            setCurrentPage(0);
           }}
           style={{ width: "200px" }}
         >
@@ -202,11 +203,15 @@ const DriverManagement = () => {
             <th>Địa chỉ</th>
 
             <th>Trạng thái</th>
+
+            <th>Thông Tin</th>
           </tr>
         </thead>
         <tbody>
           {displayedDrivers.map((driver) => (
-            <tr key={driver._id}>
+            <tr key={driver.driverId}>
+              {" "}
+              {/* Sử dụng driverId để làm key */}
               <td style={{ display: "flex", alignItems: "center" }}>
                 <img
                   src={driver.avatar || avatarDefault}
@@ -215,51 +220,28 @@ const DriverManagement = () => {
                 />
                 {driver.fullName}
               </td>
-              <td
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingTop: "38px",
-                }}
-              >
-                {driver.email}
-              </td>
-              <td
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingTop: "38px",
-                }}
-              >
-                {driver.phone}
-              </td>
-              <td
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingTop: "38px",
-                }}
-              >
-                {driver.address}
-              </td>
-              <td
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingTop: "38px",
-                }}
-              >
+              <td>{driver.email}</td>
+              <td>{driver.phone}</td>
+              <td>{driver.address}</td>
+              <td>
                 {driver.isBlocked ? (
                   <FaLock
                     className="driver-management-status-icon text-danger"
-                    onClick={() => toggleDriverStatus(driver._id)}
+                    onClick={() => toggleDriverStatus(driver.driverId)}
                   />
                 ) : (
                   <FaUnlock
                     className="driver-management-status-icon text-success"
-                    onClick={() => toggleDriverStatus(driver._id)}
+                    onClick={() => toggleDriverStatus(driver.driverId)}
                   />
                 )}
+              </td>
+              <td>
+                <a href={`/driverDetailManagement/${driver.driverId}`}>
+                  <IoIosInformationCircleOutline
+                    style={{ fontSize: "1.5rem" }}
+                  />
+                </a>
               </td>
             </tr>
           ))}

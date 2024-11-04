@@ -101,6 +101,21 @@ const SignInForm = (props) => {
                           </label>
                         </div>
                       </div>
+                      <div
+                        className="col-lg-12 text-right"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <span
+                          style={{
+                            cursor: "pointer",
+                            color: "blue",
+                            fontSize: "14px",
+                          }}
+                          onClick={() => history.push("/forgot-password")}
+                        >
+                          Quên mật khẩu?
+                        </span>
+                      </div>
                       <div className="col-lg-12">
                         <div className="submit_button">
                           <FormInput
