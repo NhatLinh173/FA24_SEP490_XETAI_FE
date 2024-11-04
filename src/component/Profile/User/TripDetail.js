@@ -1,110 +1,123 @@
-import { useEffect, useMemo, useState } from "react";
-import { CiStar } from "react-icons/ci";
-import { FaCheck, FaStar } from "react-icons/fa";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { toast } from "react-toastify";
-import axiosInstance from "../../../config/axiosConfig";
-import { Rating } from "react-simple-star-rating";
-import { jwtDecode } from "jwt-decode";
-import TripCarousel from "./TripCarousel";
-import { BsHeartFill } from "react-icons/bs";
-import { BsHeart } from "react-icons/bs";
-import dayjs from "dayjs";
+import { useEffect, useMemo, useState } from "react"
+import { CiStar } from "react-icons/ci"
+import { FaCheck, FaStar } from "react-icons/fa"
+import { useParams } from "react-router-dom/cjs/react-router-dom.min"
+import { toast } from "react-toastify"
+import axiosInstance from "../../../config/axiosConfig"
+import { Rating } from "react-simple-star-rating"
+import { jwtDecode } from "jwt-decode"
+import TripCarousel from "./TripCarousel"
+import { BsHeartFill } from "react-icons/bs"
+import { BsHeart } from "react-icons/bs"
+import dayjs from "dayjs"
 
 const TripDetail = () => {
-  const [tripDetail, setTripDetail] = useState(null);
-  const [rating, setRating] = useState(0); // Lưu trạng thái số sao được chọn
-  const [hover, setHover] = useState(null); // Trạng thái sao khi người dùng hover
-  const [feedback, setfeedback] = useState("");
-  const [isShowModal, setIsShowModal] = useState(false);
-  const [driver, setDriver] = useState("");
+  const [tripDetail, setTripDetail] = useState(null)
+  const [rating, setRating] = useState(0) // Lưu trạng thái số sao được chọn
+  const [hover, setHover] = useState(null) // Trạng thái sao khi người dùng hover
+  const [feedback, setfeedback] = useState("")
+  const [isShowModal, setIsShowModal] = useState(false)
+  const [driver, setDriver] = useState("")
+  const [ratingDetails, setRatingDetails] = useState(null)
 
   const role = localStorage.getItem("accessToken")
     ? jwtDecode(localStorage.getItem("accessToken")).role
-    : "";
+    : ""
 
   const isDriverRole = useMemo(
     () => role === "personal" || role === "business",
     [role]
-  );
+  )
 
-  const { id } = useParams();
-  const driverId = localStorage.getItem("driverId");
-  const userId = localStorage.getItem("userId");
-  console.log(userId);
+  const { id } = useParams()
+  const driverId = localStorage.getItem("driverId")
+  const userId = localStorage.getItem("userId")
+  console.log(userId)
 
   const handleFavoriteDriver = async () => {
     try {
       const response = await axiosInstance.post("/favorites/add", {
         driverId,
         userId,
-      });
+      })
       if (response.status === 200) {
-        toast.success("Đã thêm tài xế vào danh sách yêu thích");
+        toast.success("Đã thêm tài xế vào danh sách yêu thích")
       } else {
-        toast.error("Thêm tài xế vào danh sách yêu thích thất bại");
+        toast.error("Thêm tài xế vào danh sách yêu thích thất bại")
       }
     } catch (error) {
-      console.error("Error adding favorite driver:", error);
-      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.");
+      console.error("Error adding favorite driver:", error)
+      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.")
     }
-  };
+  }
 
   const handleOpenModal = () => {
-    setIsShowModal(true);
-  };
+    setIsShowModal(true)
+  }
 
   const handleCloseModal = () => {
-    setIsShowModal(false);
-  };
+    setIsShowModal(false)
+  }
 
   const handleFeedback = (e) => {
-    setfeedback(e.target.value);
-  };
+    setfeedback(e.target.value)
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       const response = await axiosInstance.post(`/rating/${id}`, {
         value: rating,
         comment: feedback,
         userId: driver,
         reviewerId: userId,
-      });
+      })
       console.log({
         value: rating,
         comment: feedback,
         userId: driver,
         reviewerId: userId,
-      });
+      })
 
       if (response.status === 200) {
-        toast.success("Đánh giá tài xế thành công");
-        setIsShowModal(false);
+        toast.success("Đánh giá tài xế thành công")
+        setIsShowModal(false)
+        getTripHistoryDetail()
       }
     } catch (error) {
       toast.error("Tài xế đã được đánh giá!!");
     }
-  };
+  }
+
+  const getRatingDetails = async (driver) => {
+    try {
+      const res = await axiosInstance.get(
+        `/rating/rating-driver?reviewerId=${userId}&userId=${driver}`
+      )
+      setRatingDetails(res.data.rating)
+    } catch (error) {
+      setRatingDetails(null)
+    }
+  }
 
   const handleRatingClick = (value) => {
-    setRating(value);
-  };
+    setRating(value)
+  }
 
   const getTripHistoryDetail = async () => {
     try {
-      const response = await axiosInstance.get(`/posts/${id}`);
-      setTripDetail(response.data);
-      setDriver(response.data.dealId.driverId.userId._id);
-      console.log(response);
+      const response = await axiosInstance.get(`/posts/${id}`)
+      setTripDetail(response.data)
+      setDriver(response.data.dealId.driverId.userId._id)
+      await getRatingDetails(response.data.dealId.driverId.userId._id)
     } catch (error) {}
-  };
+  }
 
   useEffect(() => {
-    getTripHistoryDetail();
-  }, []);
+    getTripHistoryDetail()
+  }, [])
 
-  if (!tripDetail) return <div>Không có data</div>;
+  if (!tripDetail) return <div>Không có data</div>
 
   return (
     <div className="wrapper container pb-5">
@@ -127,18 +140,6 @@ const TripDetail = () => {
                   <FaCheck className="mr-2" />
                   Đã giao hàng
                 </button>
-
-                {!isDriverRole && (
-                  <button
-                    type="button"
-                    class="btn btn-theme "
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    onClick={handleOpenModal}
-                  >
-                    Đánh giá
-                  </button>
-                )}
               </div>
             </div>
 
@@ -402,7 +403,7 @@ const TripDetail = () => {
                   <div className="">
                     <div className="d-flex justify-content-center mb-3">
                       {[...Array(5)].map((star, index) => {
-                        const value = index + 1;
+                        const value = index + 1
                         return (
                           <div
                             key={index}
@@ -417,7 +418,7 @@ const TripDetail = () => {
                               <CiStar size={30} color="#000" /> // Ngôi sao rỗng màu đen
                             )}
                           </div>
-                        );
+                        )
                       })}
                     </div>
                   </div>
@@ -452,79 +453,114 @@ const TripDetail = () => {
         )}
 
         <div className="col-4 pl-2">
-          <div className="border rounded-12 p-3">
-            <div className="d-flex border-bottom pt-2 pb-3">
-              <img
-                src={
-                  isDriverRole
-                    ? tripDetail.creator.avatar
-                    : tripDetail.dealId.driverId.userId.avatar
-                }
-                className="border rounded-circle mr-3"
-                style={{
-                  width: "118px",
-                  height: "118px",
-                  objectFit: "cover",
-                }}
-                alt="avatar"
-              />
+          <div className="border rounded-12 shadow-sm overflow-hidden">
+            <h4 className="text-center border-bottom p-3">
+              {isDriverRole ? "Thông tin người tạo đơn" : "Thông tin tài xế"}
+            </h4>
 
-              <div>
-                <div className="fw-600 mb-2">
-                  {isDriverRole ? "Người tạo đơn" : "Tài xế"}
-                </div>
+            <div className="contact-info">
+              <div
+                className="py-2"
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <div style={{ position: "relative", width: "100%" }}>
+                  <img
+                    src={
+                      isDriverRole
+                        ? tripDetail.creator.avatar
+                        : tripDetail.dealId.driverId.userId.avatar
+                    }
+                    className="mt-3 contact-avatar rounded-circle"
+                    alt="contact avatar"
+                  />
 
-                <div className="fs-14">
-                  Tên:{" "}
-                  {isDriverRole
-                    ? tripDetail.creator.fullName
-                    : tripDetail.dealId.driverId.userId.fullName}
-                </div>
-                <tel className="fs-14">
-                  SĐT:{" "}
-                  {isDriverRole
-                    ? tripDetail.creator.phone
-                    : tripDetail.dealId.driverId.userId.phone}
-                </tel>
-                <div className="mb-2 fs-14">
-                  Email:{" "}
-                  {isDriverRole
-                    ? tripDetail.creator.email
-                    : tripDetail.dealId.driverId.userId.email}
-                </div>
-                <div>
                   {!isDriverRole && (
                     <BsHeartFill
                       style={{
                         cursor: "pointer",
                         color: "#ec0101",
-                        fontSize: "20",
+                        fontSize: "22",
+                        position: "absolute",
+                        right: "10px",
+                        top: "5px",
                       }}
                       onClick={handleFavoriteDriver}
                     />
                   )}
                 </div>
               </div>
-            </div>
 
-            <div className="d-flex justify-content-between border-bottom py-3">
-              <h5 className="font-weight-bold">Đánh giá</h5>
-              <Rating initialValue={4} size={26} readonly />
-            </div>
+              <div className="contact-details">
+                <ul className="list-group">
+                  <li className="list-group-item d-flex justify-content-between align-items-center">
+                    <strong>Tên:</strong>
+                    <span className="text-muted">
+                      {isDriverRole
+                        ? tripDetail.creator.fullName
+                        : tripDetail.dealId.driverId.userId.fullName}
+                    </span>
+                  </li>
 
-            <div className="mt-3">
-              <div>
-                <i>
-                  "Dịch vụ chất lượng tuyệt vời, thời gian giao rất nhanh, hơn
-                  cả những gì tôi mong đợi"
-                </i>
+                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                    <strong>Số điện thoại:</strong>
+                    <span className="text-muted">
+                      {isDriverRole
+                        ? tripDetail.creator.phone
+                        : tripDetail.dealId.driverId.userId.phone}
+                    </span>
+                  </li>
+
+                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                    <strong>Email:</strong>
+                    <span className="text-muted">
+                      {isDriverRole
+                        ? tripDetail.creator.email
+                        : tripDetail.dealId.driverId.userId.email}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="py-3 d-flex align-items-center justify-content-center">
+                {!isDriverRole && !ratingDetails && (
+                  <button
+                    type="button"
+                    class="ml-3 btn-sm btn-danger border-0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    onClick={handleOpenModal}
+                  >
+                    Đánh giá
+                  </button>
+                )}
               </div>
             </div>
           </div>
+
+          {ratingDetails && (
+            <div className="mt-3 border rounded-12 shadow-sm overflow-hidden p-3">
+              <div>
+                <div className="d-flex justify-content-between border-bottom pb-2 pt-1">
+                  <h5 className="font-weight-bold">Đánh giá</h5>
+                  <Rating
+                    initialValue={ratingDetails.value}
+                    size={26}
+                    readonly
+                  />
+                </div>
+
+                <div className="mt-3">
+                  <div>
+                    <i>"{ratingDetails.comment}"</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TripDetail;
+export default TripDetail
