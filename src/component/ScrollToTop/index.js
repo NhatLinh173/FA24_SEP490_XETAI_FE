@@ -13,6 +13,12 @@ const ScrollToTop = (props) => {
       localStorage.removeItem("tabHistory");
     }
   }, [location]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    if (!location.pathname.includes("/dashboard-admin")) {
+      localStorage.removeItem("tabAdmin");
+    }
+  }, [location]);
 
   return props.children;
 };

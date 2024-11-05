@@ -8,11 +8,11 @@ import CustomerManagement from "../component/AdminDashboard/CustomerManagement/C
 import StaffManagement from "../component/AdminDashboard/StaffManagement/StaffManagement"; // Quản lý nhân viên
 import ReportManagement from "../component/AdminDashboard/ReportManagement/ReportManagement";
 import NewsManagement from "../component/AdminDashboard/NewsManagement/NewManagement";
-
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState(
     localStorage.getItem("tabAdmin") || "dashboard"
   );
+
   useEffect(() => {
     localStorage.setItem("tabAdmin", activeSection);
   }, [activeSection]);
