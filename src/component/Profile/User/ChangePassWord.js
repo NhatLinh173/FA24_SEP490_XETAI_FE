@@ -101,7 +101,7 @@ const ChangePassWord = () => {
           <div className="col-9">
             <div className="input-group">
               <input
-                className="input-password border position-relative text-decoration-line-through"
+                className="input-password border position-relative text-decoration-none"
                 placeholder="Nhập mật khẩu mới"
                 type={showNewPassword ? "text" : "password"}
                 id="new_password"

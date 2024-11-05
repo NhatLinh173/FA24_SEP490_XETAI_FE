@@ -6046,7 +6046,6 @@ input[type="number"]::-webkit-inner-spin-button {
   margin-right: 100px;
 }
 
-
 /* Forgot Password */
 .forgot-password-container {
   width: 400px;
@@ -6145,9 +6144,8 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* Driver Details */
-.container-driver-details{
+.container-driver-details {
   margin-top: 40px !important;
-
 }
 .driver-info .avatar {
   width: 100px;
@@ -6168,7 +6166,7 @@ input[type="number"]::-webkit-inner-spin-button {
   justify-content: center;
   align-items: center;
   height: 80px !important;
-  padding: 0 !important; 
+  padding: 0 !important;
   min-height: auto !important;
 }
 
@@ -6177,14 +6175,13 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .modal.show {
-  display: block; 
-  z-index: 1050; 
+  display: block;
+  z-index: 1050;
 }
 
 .modal {
   z-index: 1050;
 }
-
 
 /* =============================
        Report Management Start
@@ -6289,7 +6286,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .staff-management-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   left: 50%;
@@ -6610,12 +6607,10 @@ input[type="number"]::-webkit-inner-spin-button {
        New Management Start
 ============================== */
 
-
 .new-management-container {
   padding: 20px;
   background-color: #f8f9fa;
   min-height: 100vh;
-
 }
 
 .new-management-title {
@@ -6627,7 +6622,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .new-management-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -6723,7 +6718,6 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 8px;
   border: none;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
 }
 
 .modal-header {
@@ -7127,8 +7121,13 @@ input[type="number"]::-webkit-inner-spin-button {
   width: 1000px;
   /* hoặc kích thước mong muốn */
 }
+.custom-modal-admin .modal-content {
+  max-width: 800px !important;
+}
+.height-input-admin {
+  height: 44px;
+}
 
 /* =============================
        New Management End
 ============================== */
-

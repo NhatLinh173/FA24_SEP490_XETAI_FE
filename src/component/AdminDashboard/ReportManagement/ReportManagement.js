@@ -53,7 +53,7 @@ const ReportManagement = () => {
       await axios.delete(`/report/${reportId}`);
       refetch();
       setShowDeleteModal(false);
-      toast.success(`Xóa báo cáo thành công`);
+      toast.success("Xóa báo cáo thành công");
     } catch (error) {
       toast.error("có xảy ra lỗi!!");
     }
@@ -128,7 +128,7 @@ const ReportManagement = () => {
               >
                 {formatDate(report?.createdAt)}
               </td>
-              <td className="d-flex align-items-center">
+              <td className="d-flex justify-content-center">
                 <Button
                   variant="info"
                   onClick={() => handleViewDetails(report.postId)}
@@ -190,10 +190,10 @@ const ReportManagement = () => {
       </Modal>
 
       <Modal
-       
         show={showOpenModalDetail}
         onHide={() => setShowOpenModalDetail(false)}
         centered
+        className="custom-modal-admin"
       >
         <Modal.Header closeButton>
           <Modal.Title>Chi tiết đơn hàng</Modal.Title>
@@ -270,6 +270,7 @@ const ReportManagement = () => {
                           </label>
                           <div className="d-flex">
                             <input
+                              className="height-input-admin"
                               value={post?.startPointCity}
                               disabled
                             ></input>
@@ -293,6 +294,7 @@ const ReportManagement = () => {
                           </label>
                           <div className="d-flex ">
                             <input
+                              className="height-input-admin"
                               value={post?.destinationCity}
                               disabled
                             ></input>
