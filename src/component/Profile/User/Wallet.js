@@ -216,7 +216,11 @@ const Wallet = ({ data }) => {
       </div>
 
       {showModal && (
-        <div className="modal show" tabIndex="-1" role="dialog">
+        <div
+          className="modal show bg-dark bg-opacity-75"
+          tabIndex="-1"
+          role="dialog"
+        >
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">

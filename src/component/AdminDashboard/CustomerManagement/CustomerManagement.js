@@ -257,7 +257,7 @@ const CustomerManagement = () => {
         show={showModal}
         onHide={() => setShowModal(false)}
         centered
-        className="customer-lock-modal"
+        className="customer-lock-modal bg-dark bg-opacity-75"
       >
         <Modal.Header closeButton>
           <Modal.Title>Khóa Khách Hàng</Modal.Title>
@@ -307,7 +307,7 @@ const CustomerManagement = () => {
         show={showTransactionModal}
         onHide={closeTransactionModal}
         centered
-        className="customer-transaction-modal"
+        className="customer-transaction-modal bg-dark bg-opacity-75"
       >
         <Modal.Header closeButton>
           <Modal.Title>Lịch Sử Giao Dịch</Modal.Title>
