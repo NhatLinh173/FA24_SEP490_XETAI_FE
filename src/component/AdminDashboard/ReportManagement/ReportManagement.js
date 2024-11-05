@@ -193,7 +193,7 @@ const ReportManagement = () => {
         show={showOpenModalDetail}
         onHide={() => setShowOpenModalDetail(false)}
         centered
-        className="custom-modal-admin"
+        className="custom-modal-admin bg-dark bg-opacity-75"
       >
         <Modal.Header closeButton>
           <Modal.Title>Chi tiết đơn hàng</Modal.Title>
