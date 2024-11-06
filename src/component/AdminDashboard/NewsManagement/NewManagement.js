@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Table, Form, Modal, Button } from "react-bootstrap";
 import { FaTrashAlt, FaEdit, FaPlus, FaEye } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import ReactPaginate from "react-paginate";
-import { center } from "@cloudinary/url-gen/qualifiers/textAlignment";
 import { Row, Col } from "react-bootstrap";
 
 const NewManagement = () => {
@@ -25,18 +22,8 @@ const NewManagement = () => {
       image:
         "https://interlogistics.com.vn/static/2722/2024/10/15/d%E1%BB%B1%20b%C3%A1o%20c%C6%B0%E1%BB%9Bc%20q4.2024.png",
     },
-    {
-      id: "2",
-      title: "Tiêu đề tin tức 2",
-      content: "Nội dung tin tức 2...",
-      date: "02-11-2024",
-      author: "Người đăng 2",
-      image: "",
-    },
-    // ... other news
   ]);
 
-  const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddEditModal, setShowAddEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -52,15 +39,6 @@ const NewManagement = () => {
     image: "",
   });
 
-  const filteredNews = news.filter((newItem) =>
-    newItem.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const displayedNews = filteredNews.slice(
-    currentPage * newsPerPage,
-    (currentPage + 1) * newsPerPage
-  );
-
   const handleAddNews = () => {
     if (newItem.title && newItem.author) {
       const newNewsData = {
@@ -69,13 +47,11 @@ const NewManagement = () => {
         date: new Date().toISOString().split("T")[0],
       };
       setNews([...news, newNewsData]);
-      toast.success("Tin tức đã được thêm");
       resetForm();
       setShowAddEditModal(false);
-    } else {
-      toast.error("Vui lòng điền đầy đủ thông tin");
     }
   };
+
 
   const handleUpdateNews = () => {
     if (selectedNews) {
@@ -85,7 +61,6 @@ const NewManagement = () => {
           : newItem
       );
       setNews(updatedNews);
-      toast.success("Tin tức đã được cập nhật");
       resetForm();
       setShowAddEditModal(false);
     }
@@ -93,7 +68,7 @@ const NewManagement = () => {
 
   const deleteNews = (id) => {
     setNews(news.filter((newItem) => newItem.id !== id));
-    toast.success("Tin tức đã bị xóa");
+
   };
 
   const confirmDelete = (id) => {
@@ -115,16 +90,6 @@ const NewManagement = () => {
     setModalAction("add");
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewItem({ ...newItem, image: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const viewNewsDetails = (newsItem) => {
     setSelectedNews(newsItem);
@@ -151,10 +116,6 @@ const NewManagement = () => {
             type="text"
             placeholder="Tìm kiếm tin tức..."
             value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(0);
-            }}
           />
         </Form.Group>
       </Form>
@@ -163,10 +124,6 @@ const NewManagement = () => {
         <Form.Select
           aria-label="Chọn số lượng tin tức mỗi trang"
           value={newsPerPage}
-          onChange={(e) => {
-            setNewsPerPage(parseInt(e.target.value));
-            setCurrentPage(0);
-          }}
           style={{ width: "200px" }}
         >
           <option value="5">5 tin tức</option>
@@ -188,7 +145,7 @@ const NewManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {displayedNews.map((newItem) => (
+          {news.map((newItem) => (
             <tr key={newItem.id}>
               <td>{newItem.id}</td>
               <td>{newItem.title}</td>
@@ -242,26 +199,6 @@ const NewManagement = () => {
         </tbody>
       </Table>
 
-      <p>{`Hiển thị ${filteredNews.length} trên tổng ${news.length} tin tức.`}</p>
-
-      <div className="new-management-pagination-controls text-center">
-        <ReactPaginate
-          pageCount={Math.ceil(filteredNews.length / newsPerPage)}
-          onPageChange={({ selected }) => setCurrentPage(selected)}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-          previousLabel={"<<"}
-          nextLabel={">>"}
-        />
-      </div>
 
       {/* Modal Thêm/Cập Nhật Tin Tức */}
       <Modal
@@ -285,9 +222,6 @@ const NewManagement = () => {
                     type="text"
                     placeholder="Nhập tiêu đề tin tức"
                     value={newItem.title}
-                    onChange={(e) =>
-                      setNewItem({ ...newItem, title: e.target.value })
-                    }
                     className="news-form__input"
                   />
                 </Form.Group>
@@ -303,9 +237,6 @@ const NewManagement = () => {
                     rows={15}
                     placeholder="Nhập nội dung tin tức"
                     value={newItem.content}
-                    onChange={(e) =>
-                      setNewItem({ ...newItem, content: e.target.value })
-                    }
                     className="news-form__textarea"
                   />
                 </Form.Group>
@@ -321,9 +252,6 @@ const NewManagement = () => {
                   <Form.Control
                     type="date"
                     value={newItem.date}
-                    onChange={(e) =>
-                      setNewItem({ ...newItem, date: e.target.value })
-                    }
                     className="news-form__input"
                   />
                 </Form.Group>
@@ -337,9 +265,6 @@ const NewManagement = () => {
                     type="text"
                     placeholder="Nhập tên người đăng"
                     value={newItem.author}
-                    onChange={(e) =>
-                      setNewItem({ ...newItem, author: e.target.value })
-                    }
                     className="news-form__input"
                   />
                 </Form.Group>
@@ -354,7 +279,6 @@ const NewManagement = () => {
                     <Form.Control
                       type="file"
                       accept="image/*"
-                      onChange={handleImageChange}
                       className="news-form__file-input"
                     />
                   </div>
@@ -401,6 +325,7 @@ const NewManagement = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
       {/* Modal Chi Tiết Tin Tức */}
       <Modal
         show={showDetailModal}
@@ -458,10 +383,9 @@ const NewManagement = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-      <ToastContainer />
     </div>
   );
+
 };
 
 export default NewManagement;
