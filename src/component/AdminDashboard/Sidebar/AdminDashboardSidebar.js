@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Nav } from "react-bootstrap";
 import {
   FaTachometerAlt,
@@ -9,10 +9,17 @@ import {
   FaChartLine,
   FaNewspaper,
   FaFileSignature,
+  FaUserCircle,
+  FaKey,
+  FaSignOutAlt,
 } from "react-icons/fa";
 
 function AdminDashboardSidebar({ setActiveSection, activeSection }) {
- 
+  const handleLogout = () => {
+    localStorage.removeItem("tabAdmin");
+    window.location.href = "/login";
+  };
+
   return (
     <Nav className="flex-column admin-dashboard-sidebar">
       <h2 className="sidebar-title text-uppercase fw-bold">Điều hướng</h2>
@@ -21,27 +28,23 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
           setActiveSection("dashboard");
           localStorage.setItem("tabAdmin", "dashboard");
         }}
-        className={`sidebar-link ${
-          activeSection === "dashboard" ? "active" : ""
-        }`}
+        className={`sidebar-link ${activeSection === "dashboard" ? "active" : ""}`}
       >
-        <FaTachometerAlt className="icon" />
+        <FaTachometerAlt className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Trang chủ</div>
       </Nav.Link>
 
-      <h2 className="sidebar-title text-uppercase fw-bold">
-        Quản lý tài khoản
-      </h2>
+      <hr className="admin-sidebar-divider" /> {/* Divider */}
+
+      <h2 className="sidebar-title text-uppercase fw-bold">Quản lý tài khoản</h2>
       <Nav.Link
         onClick={() => {
           setActiveSection("customers");
           localStorage.setItem("tabAdmin", "customers");
         }}
-        className={`sidebar-link ${
-          activeSection === "customers" ? "active" : ""
-        }`}
+        className={`sidebar-link ${activeSection === "customers" ? "active" : ""}`}
       >
-        <FaUsers className="icon" />
+        <FaUsers className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý khách hàng</div>
       </Nav.Link>
       <Nav.Link
@@ -49,20 +52,20 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
           setActiveSection("drivers");
           localStorage.setItem("tabAdmin", "drivers");
         }}
-        className={`sidebar-link ${
-          activeSection === "drivers" ? "active" : ""
-        }`}
+        className={`sidebar-link ${activeSection === "drivers" ? "active" : ""}`}
       >
-        <FaCar className="icon" />
+        <FaCar className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý tài xế</div>
       </Nav.Link>
       <Nav.Link
         onClick={() => setActiveSection("staff")}
         className={`sidebar-link ${activeSection === "staff" ? "active" : ""}`}
       >
-        <FaUserTie className="icon" />
+        <FaUserTie className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý nhân viên</div>
       </Nav.Link>
+
+      <hr className="admin-sidebar-divider" /> {/* Divider */}
 
       <h2 className="sidebar-title text-uppercase fw-bold">Quản lý hệ thống</h2>
       <Nav.Link
@@ -72,7 +75,7 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
         }}
         className={`sidebar-link ${activeSection === "orders" ? "active" : ""}`}
       >
-        <FaClipboardList className="icon" />
+        <FaClipboardList className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý đơn hàng</div>
       </Nav.Link>
       <Nav.Link
@@ -80,11 +83,9 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
           setActiveSection("reports");
           localStorage.setItem("tabAdmin", "reports");
         }}
-        className={`sidebar-link ${
-          activeSection === "reports" ? "active" : ""
-        }`}
+        className={`sidebar-link ${activeSection === "reports" ? "active" : ""}`}
       >
-        <FaChartLine className="icon" />
+        <FaChartLine className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý báo cáo</div>
       </Nav.Link>
       <Nav.Link
@@ -94,21 +95,56 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
         }}
         className={`sidebar-link ${activeSection === "news" ? "active" : ""}`}
       >
-        <FaNewspaper className="icon" />
+        <FaNewspaper className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý tin tức</div>
       </Nav.Link>
       <Nav.Link
         onClick={() => {
           setActiveSection("vehicle-registration");
-          localStorage.setItem("tabAdmin", "news");
+          localStorage.setItem("tabAdmin", "vehicle-registration");
         }}
-        className={`sidebar-link ${
-          activeSection === "vehicle-registration" ? "active" : ""
-        }`}
+        className={`sidebar-link ${activeSection === "vehicle-registration" ? "active" : ""}`}
       >
-        <FaFileSignature className="icon" />
+        <FaFileSignature className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý đăng ký xe</div>
       </Nav.Link>
+
+      <hr className="admin-sidebar-divider" /> {/* Divider */}
+
+      <h2 className="sidebar-title text-uppercase fw-bold">Thông tin cá nhân</h2>
+      <Nav.Link
+        onClick={() => {
+          setActiveSection("admin-profile");
+          localStorage.setItem("tabAdmin", "AdminProfile");
+        }}
+        className={`sidebar-link ${activeSection === "admin-profile" ? "active" : ""}`}
+      >
+        <FaUserCircle className="admin-dashboard-sidebar-icon" />
+        <div className="sidebar-title">Thông tin cá nhân</div>
+      </Nav.Link>
+      <Nav.Link
+        onClick={() => {
+          setActiveSection("admin-changePassword");
+          localStorage.setItem("tabAdmin", "AdminChangePassword");
+        }}
+        className={`sidebar-link ${activeSection === "admin-changePassword" ? "active" : ""}`}
+      >
+        <FaKey className="admin-dashboard-sidebar-icon" />
+        <div className="sidebar-title">Đổi mật khẩu</div>
+      </Nav.Link>
+
+      <hr className="admin-sidebar-divider" /> {/* Divider */}
+
+      {/* Logout button */}
+      <div className="logout-section mt-1">
+        <Nav.Link
+          onClick={handleLogout}
+          className={`sidebar-link`}
+        >
+          <FaSignOutAlt className="admin-dashboard-sidebar-icon" />
+          <div className="sidebar-title">Đăng xuất</div>
+        </Nav.Link>
+      </div>
     </Nav>
   );
 }

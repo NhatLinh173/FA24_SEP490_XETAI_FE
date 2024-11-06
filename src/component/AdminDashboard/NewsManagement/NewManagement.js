@@ -268,6 +268,7 @@ const NewManagement = () => {
         show={showAddEditModal}
         onHide={() => setShowAddEditModal(false)}
         centered
+        dialogClassName="news-modal-container"
       >
         <Modal.Header closeButton className="bg-dark bg-opacity-75">
           <Modal.Title>

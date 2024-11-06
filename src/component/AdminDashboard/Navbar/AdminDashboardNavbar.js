@@ -30,7 +30,7 @@ function AdminDashboardNavbar() {
                         <strong>Quản lý thông tin</strong>
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="#profile">
+                    <NavDropdown.Item href="/admin-profile">
                         <FaUserCircle className="icon" /> Thông tin tài khoản
                     </NavDropdown.Item>
                     <NavDropdown.Item href="#change-password">
