@@ -8,6 +8,8 @@ import CustomerManagement from "../component/AdminDashboard/CustomerManagement/C
 import StaffManagement from "../component/AdminDashboard/StaffManagement/StaffManagement"; // Quản lý nhân viên
 import ReportManagement from "../component/AdminDashboard/ReportManagement/ReportManagement";
 import NewsManagement from "../component/AdminDashboard/NewsManagement/NewManagement";
+import AdminProfile from "../component/AdminDashboard/AdminProfile/AdminProfile";
+import AdminChangePassword from "../component/AdminDashboard/AdminProfile/AdminChangePassword";
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState(
     localStorage.getItem("tabAdmin") || "dashboard"
@@ -30,6 +32,10 @@ function AdminDashboard() {
         return <ReportManagement />;
       case "news":
         return <NewsManagement />;
+      case "admin-profile":
+        return <AdminProfile />;
+      case "admin-changePassword":
+        return <AdminChangePassword />;
       default:
         return null;
     }
