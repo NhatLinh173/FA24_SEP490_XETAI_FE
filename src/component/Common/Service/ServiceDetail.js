@@ -403,7 +403,7 @@ const ServiceDetail = () => {
               </form>
             </div>
 
-            {/* Thông tin người đặt */}
+            {/* Thông tin người đặt
             <div className="mt-4">
               <h5 className="font-weight-bold" style={{ marginBottom: "15px" }}>
                 Thông tin người đặt
@@ -448,7 +448,7 @@ const ServiceDetail = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Thông tin người nhận */}
             <div className="mt-4">
@@ -624,12 +624,12 @@ const ServiceDetail = () => {
                       {inforPoster.fullName}
                     </span>
                   </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2 mb-2">
+                  {/* <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2 mb-2">
                     <strong className="text-left">Số điện thoại:</strong>
                     <span className="contact-phone text-muted text-right">
                       {inforPoster.phone}
                     </span>
-                  </li>
+                  </li> */}
                   <li className="list-group-item d-flex justify-content-between align-items-center bg-light">
                     <strong className="text-left">Email:</strong>
                     <span className="contact-email text-muted text-right">
