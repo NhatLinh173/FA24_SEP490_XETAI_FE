@@ -1,122 +1,253 @@
-import React, { useState } from 'react';
-import { Upload } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { Upload } from "lucide-react";
+import useInstanceData from "../../../config/useInstanceData";
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
+import { toast } from "react-toastify";
+import axiosInstance from "../../../config/axiosConfig";
+import axios from "axios";
+import { CiCamera } from "react-icons/ci";
 
 const AdminProfile = () => {
-    const [adminData, setAdminData] = useState({
-        avatar: "https://ispacedanang.edu.vn/wp-content/uploads/2024/05/hinh-anh-dep-ve-hoc-sinh-cap-3-1.jpg",
-        name: 'Nguyễn Văn A',
-        email: 'admin@example.com',
-        role: 'Quản trị viên',
-        phone: '0123456789',
-        address: '123 Đường ABC, Quận 1, TP. HCM',
-    });
-    const [successMessage, setSuccessMessage] = useState('');
+  const [fullNameStaff, setFullNameStaff] = useState("");
+  const [phoneStaff, setPhoneStaff] = useState("");
+  const [emailStaff, setEmailStaff] = useState("");
+  const [addressStaff, setAdressStaff] = useState("");
+  const [role, setRole] = useState("");
+  const [newAvatar, setNewAvatar] = useState(null);
+  const [avatar, setAvarta] = useState("");
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setAdminData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+  const userId = localStorage.getItem("userId");
+  console.log(userId);
+
+  const { data: staff, refetch } = useInstanceData(`/auth/user/${userId}`);
+  console.log(staff);
+  useEffect(() => {
+    let objectUrl;
+    if (newAvatar instanceof File) {
+      objectUrl = URL.createObjectURL(newAvatar);
+    }
+
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [newAvatar]);
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewAvatar(file);
+      console.log("Avatar changed", file);
+    }
+  };
+  useEffect(() => {
+    const handleAvatarUpdate = () => {
+      const avatarFromLocalStorage =
+        localStorage.getItem("avatar") || avatarDefault;
+      setNewAvatar(avatarFromLocalStorage);
     };
 
-    const handleAvatarUpload = (e) => {
-        const file = e.target.files[0];
-        setAdminData((prevData) => ({
-            ...prevData,
-            avatar: URL.createObjectURL(file),
-        }));
+    window.addEventListener("avatarUpdated", handleAvatarUpdate);
+
+    handleAvatarUpdate();
+
+    return () => {
+      window.removeEventListener("avatarUpdated", handleAvatarUpdate);
     };
+  }, []);
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+    if (
+      fullNameStaff === staff.fullName &&
+      emailStaff === staff.email &&
+      phoneStaff === staff.phone &&
+      addressStaff === staff.address &&
+      !newAvatar
+    ) {
+      toast.error("Không có thay đổi nào để cập nhật");
+      return;
+    } else {
+      try {
+        let avatarUrl = avatar;
+        if (newAvatar) {
+          const formData = new FormData();
+          formData.append("file", newAvatar);
+          formData.append("upload_preset", "Transaction");
+          try {
+            const cloudinaryRes = await axios.post(
+              "https://api.cloudinary.com/v1_1/dqzsoudfk/image/upload",
+              formData
+            );
+            if (cloudinaryRes.data.secure_url) {
+              avatarUrl = cloudinaryRes.data.secure_url;
+            } else {
+              throw new Error("Cloudinary did not return a URL");
+            }
+          } catch (error) {
+            console.error("Error uploading to Cloudinary:", error);
+            toast.error("Lỗi tải ảnh lên Cloudinary");
+            return;
+          }
+        }
+        const res = await axiosInstance.put(
+          `http://localhost:3005/auth/update-user/${userId}`,
+          {
+            fullName: fullNameStaff,
+            phone: phoneStaff,
+            email: emailStaff,
+            address: addressStaff,
+            avatar: avatarUrl,
+          }
+        );
+        if (res.status === 200) {
+          toast.success("Cập nhật thông tin thành công!");
+          localStorage.setItem("avatar", avatarUrl);
+          setNewAvatar(avatarUrl);
+          if (refetch) refetch();
+          window.dispatchEvent(new Event("avatarUpdated"));
+        }
+      } catch (error) {
+        toast.error("có lỗi xảy ra!!");
+      }
+    }
+  };
+  const handleFullNameStaff = (e) => {
+    setFullNameStaff(e.target.value);
+    console.log(e.target.value);
+  };
+  const handlePhoneStaff = (e) => {
+    setPhoneStaff(e.target.value);
+  };
+  const handleEmailChange = (e) => {
+    setEmailStaff(e.target.value);
+  };
+  const handleAdressStaff = (e) => {
+    setAdressStaff(e.target.value);
+  };
+  useEffect(() => {
+    setFullNameStaff(staff.fullName);
+    setPhoneStaff(staff.phone);
+    setEmailStaff(staff.email);
+    setAdressStaff(staff.address);
+    setRole(staff.role);
+    setAvarta(staff.avatar);
+  }, [
+    staff.fullName,
+    staff.phone,
+    staff.email,
+    staff.address,
+    staff.role,
+    staff.avatar,
+  ]);
 
-    const handleSave = () => {
-        console.log('Admin profile updated:', adminData);
-        setSuccessMessage('Cập nhật thông tin thành công');
-        setTimeout(() => setSuccessMessage(''), 3000); // Clear message after 3 seconds
-    };
-
-    return (
-        <div className="admin-profile-container">
-            <h2 className="admin-profile-title">Thông tin cá nhân</h2>
-            <div className="admin-profile-avatar-section">
-                <img src={adminData.avatar} alt="Admin Avatar" className="admin-profile-avatar" />
-                <label htmlFor="avatar" className="admin-profile-avatar-upload">
-                    <Upload className="admin-profile-upload-icon" />
-                    <input
-                        type="file"
-                        name="avatar"
-                        id="avatar"
-                        className="admin-profile-avatar-input"
-                        onChange={handleAvatarUpload}
-                    />
-                </label>
-            </div>
-
-            <div className="admin-profile-details-section">
-                <div className="admin-profile-detail-field">
-                    <label htmlFor="name" className="admin-profile-label">Họ và tên</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={adminData.name}
-                        onChange={handleInputChange}
-                        className="admin-profile-input"
-                    />
-                </div>
-
-                <div className="admin-profile-detail-field">
-                    <label htmlFor="email" className="admin-profile-label">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={adminData.email}
-                        onChange={handleInputChange}
-                        className="admin-profile-input"
-                    />
-                </div>
-
-                <div className="admin-profile-detail-field">
-                    <label htmlFor="role" className="admin-profile-label">Chức vụ</label>
-                    <input
-                        type="text"
-                        name="role"
-                        value={adminData.role}
-                        disabled
-                        className="admin-profile-input admin-profile-disabled-input"
-                    />
-                </div>
-
-                <div className="admin-profile-detail-field">
-                    <label htmlFor="phone" className="admin-profile-label">Số điện thoại</label>
-                    <input
-                        type="text"
-                        name="phone"
-                        value={adminData.phone}
-                        onChange={handleInputChange}
-                        className="admin-profile-input"
-                    />
-                </div>
-
-                <div className="admin-profile-detail-field">
-                    <label htmlFor="address" className="admin-profile-label">Địa chỉ</label>
-                    <input
-                        type="text"
-                        name="address"
-                        value={adminData.address}
-                        onChange={handleInputChange}
-                        className="admin-profile-input"
-                    />
-                </div>
-            </div>
-
-            <div className="admin-profile-save-section">
-                <button className="admin-profile-save-button" onClick={handleSave}>
-                    Lưu thay đổi
-                </button>
-            </div>
-
-            {successMessage && <p className="admin-profile-success-message">{successMessage}</p>}
+  return (
+    <div className="admin-profile-container">
+      <h2 className="admin-profile-title">Thông tin cá nhân</h2>
+      <div className="avatar d-inline-block ">
+        <div className="avt-img">
+          <img
+            className="rounded-circle"
+            src={
+              newAvatar instanceof File
+                ? URL.createObjectURL(newAvatar)
+                : avatar || avatarDefault
+            }
+            alt="avatar"
+            style={{ width: "100px", height: "100px" }}
+            onError={(e) => {
+              e.target.src = avatarDefault;
+            }}
+          />
+          <label htmlFor="avatar-upload" className="icon-avt rounded-circle">
+            <CiCamera />
+          </label>
+          <input
+            type="file"
+            id="avatar-upload"
+            style={{ display: "none" }}
+            onChange={handleAvatarChange}
+          />
         </div>
-    );
+      </div>
+
+      <div className="admin-profile-details-section">
+        <div className="admin-profile-detail-field">
+          <label htmlFor="name" className="admin-profile-label">
+            Họ và tên
+          </label>
+          <input
+            type="text"
+            name="name"
+            className="admin-profile-input"
+            onChange={handleFullNameStaff}
+            value={fullNameStaff}
+          />
+        </div>
+
+        <div className="admin-profile-detail-field">
+          <label htmlFor="email" className="admin-profile-label">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            className="admin-profile-input"
+            onChange={handleEmailChange}
+            value={emailStaff}
+          />
+        </div>
+
+        <div className="admin-profile-detail-field">
+          <label htmlFor="role" className="admin-profile-label">
+            Chức vụ
+          </label>
+          <input
+            type="text"
+            name="role"
+            className="admin-profile-input admin-profile-disabled-input"
+            value={role}
+            disabled
+          />
+        </div>
+
+        <div className="admin-profile-detail-field">
+          <label htmlFor="phone" className="admin-profile-label">
+            Số điện thoại
+          </label>
+          <input
+            type="text"
+            name="phone"
+            className="admin-profile-input"
+            onChange={handlePhoneStaff}
+            value={phoneStaff}
+          />
+        </div>
+
+        <div className="admin-profile-detail-field">
+          <label htmlFor="address" className="admin-profile-label">
+            Địa chỉ
+          </label>
+          <input
+            type="text"
+            name="address"
+            className="admin-profile-input"
+            onChange={handleAdressStaff}
+            value={addressStaff}
+          />
+        </div>
+      </div>
+
+      <div className="admin-profile-save-section">
+        <button
+          className="admin-profile-save-button"
+          onClick={handleSubmitForm}
+        >
+          Lưu thay đổi
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default AdminProfile;
