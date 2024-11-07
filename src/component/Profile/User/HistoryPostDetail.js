@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { GiCancel } from "react-icons/gi";
 import { GrHide } from "react-icons/gr";
 import { FaCarSide, FaCheck } from "react-icons/fa6";
+import { FaCheckCircle } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import imgUpload from "../../../assets/img/homepage/output-onlinepngtools.png";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
@@ -57,6 +58,7 @@ const HistoryPostDetail = () => {
   const [isDisable, setIsDisable] = useState(false);
   const [newImages, setNewImages] = useState([]);
   const [totalImage, setTotalImage] = useState([]);
+
   const [isDriverExist, setIsDriverExist] = useState(false);
   const averageRating = 4.5;
   const nextSlide = () => {
@@ -516,6 +518,7 @@ const HistoryPostDetail = () => {
             {(post.status === "cancel" ||
               post.status === "inprogress" ||
               post.status === "finish" ||
+              post.status === "complete" ||
               post.status === "approve") && (
               <div className="w-100 border-bottom pb-3 mb-3">
                 <div
@@ -760,6 +763,12 @@ const HistoryPostDetail = () => {
                   Đã giao hàng
                 </button>
               )}
+              {post.status === "complete" && (
+                <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
+                  <FaCheckCircle className="mr-2" />
+                  Đã hoàn thành
+                </button>
+              )}
             </div>
 
             <div>
@@ -786,6 +795,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                           } // Kiểm tra trạng thái đơn
                           style={{
@@ -794,6 +804,7 @@ const HistoryPostDetail = () => {
                               post.status === "inprogress" ||
                               post.status === "finish" ||
                               post.status === "cancel" ||
+                              post.status === "complete" ||
                               (post.status === "wait" && isDriverExist)
                                 ? "not-allowed"
                                 : "auto",
@@ -815,6 +826,7 @@ const HistoryPostDetail = () => {
                               post.status === "inprogress" ||
                               post.status === "finish" ||
                               post.status === "cancel" ||
+                              post.status === "complete" ||
                               (post.status === "wait" && isDriverExist)
                             } // Kiểm tra trạng thái đơn
                             style={{
@@ -823,6 +835,7 @@ const HistoryPostDetail = () => {
                                 post.status === "inprogress" ||
                                 post.status === "finish" ||
                                 post.status === "cancel" ||
+                                post.status === "complete" ||
                                 (post.status === "wait" && isDriverExist)
                                   ? "not-allowed"
                                   : "auto",
@@ -853,6 +866,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                           } // Kiểm tra trạng thái đơn
                           style={{
@@ -861,6 +875,7 @@ const HistoryPostDetail = () => {
                               post.status === "inprogress" ||
                               post.status === "finish" ||
                               post.status === "cancel" ||
+                              post.status === "complete" ||
                               (post.status === "wait" && isDriverExist)
                                 ? "not-allowed"
                                 : "auto",
@@ -882,6 +897,7 @@ const HistoryPostDetail = () => {
                               post.status === "inprogress" ||
                               post.status === "finish" ||
                               post.status === "cancel" ||
+                              post.status === "complete" ||
                               (post.status === "wait" && isDriverExist)
                             } // Kiểm tra trạng thái đơn
                             style={{
@@ -890,6 +906,7 @@ const HistoryPostDetail = () => {
                                 post.status === "inprogress" ||
                                 post.status === "finish" ||
                                 post.status === "cancel" ||
+                                post.status === "complete" ||
                                 (post.status === "wait" && isDriverExist)
                                   ? "not-allowed"
                                   : "auto",
@@ -918,6 +935,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -926,6 +944,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -953,6 +972,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -961,6 +981,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -987,6 +1008,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -995,6 +1017,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -1022,6 +1045,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -1030,6 +1054,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -1066,6 +1091,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -1074,6 +1100,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -1100,6 +1127,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -1108,6 +1136,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -1134,6 +1163,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -1142,6 +1172,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -1179,6 +1210,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -1187,6 +1219,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -1213,6 +1246,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -1221,6 +1255,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -1247,6 +1282,7 @@ const HistoryPostDetail = () => {
                           post.status === "inprogress" ||
                           post.status === "finish" ||
                           post.status === "cancel" ||
+                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist)
                         } // Kiểm tra trạng thái đơn
                         style={{
@@ -1255,6 +1291,7 @@ const HistoryPostDetail = () => {
                             post.status === "inprogress" ||
                             post.status === "finish" ||
                             post.status === "cancel" ||
+                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist)
                               ? "not-allowed"
                               : "auto",
@@ -1278,7 +1315,8 @@ const HistoryPostDetail = () => {
                       isDisable ||
                       post.status === "finish" ||
                       (post.status === "inprogress" && !isDriverExist) ||
-                      post.status === "cancel"
+                      post.status === "cancel" ||
+                      post.status === "complete"
                     }
                   >
                     <span>Cập nhật</span>
@@ -1422,6 +1460,7 @@ const HistoryPostDetail = () => {
         {/* Hiển thị tài xế nếu đơn hàng đã được approve */}
         {(post?.status === "approve" ||
           post?.status === "inprogress" ||
+          post?.status === "complete" ||
           post?.status === "finish") &&
           !isDriverExist && (
             <div className="col-md-4">

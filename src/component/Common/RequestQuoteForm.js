@@ -30,11 +30,11 @@ const RequestQuoteForm = () => {
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
   const [cityTo, setCityTo] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+
   // các biến lỗi
   const [weightError, setWeightError] = useState("");
-
   const [currentBalance, setCurrentBalance] = useState(balance || 0);
-
   const [newEmailError, setEmailError] = useState("");
   const [recipientEmailError, setRecipientEmailError] = useState("");
   const [AddressToChangeError, setAddressToChangeError] = useState("");
@@ -46,6 +46,7 @@ const RequestQuoteForm = () => {
   const [newPhoneError, setNewPhoneError] = useState("");
   const [orderDescriptionError, setOrderDescriptionError] = useState("");
   const [isDisable, setIsDisable] = useState(false);
+  const [paymentMethodError, setPaymentMethodError] = useState("");
   const [imgs, setImgs] = useState([]);
 
   const getCity = async () => {
@@ -283,6 +284,7 @@ const RequestQuoteForm = () => {
     formData.append("recipientEmail", recipientEmail);
     formData.append("recipientName", recipientName);
     formData.append("recipientPhone", recipientPhone);
+    formData.append("paymentMethod", paymentMethod);
 
     try {
       const response = await axiosInstance.post("/posts", formData);
@@ -304,6 +306,7 @@ const RequestQuoteForm = () => {
         setRecipientEmailError("");
         setNewCost("");
         setImgs("");
+        setPaymentMethod("");
         refetch();
         history.pushState("/");
       } else if (error.response?.status === 400) {
@@ -527,6 +530,31 @@ const RequestQuoteForm = () => {
                       value={cost}
                       onChange={handleCostChange}
                     />
+                  </div>
+                  <div className="col-lg-6">
+                    <div className="form-group">
+                      <label className="font-weight-bold">
+                        Phương thức thanh toán
+                      </label>
+                      <select
+                        className="form-control"
+                        value={paymentMethod}
+                        onChange={(e) => setPaymentMethod(e.target.value)}
+                      >
+                        <option value="" disabled>
+                          Chọn phương thức thanh toán
+                        </option>
+                        <option value="bank_transfer">
+                          Chuyển khoản ngân hàng
+                        </option>
+                        <option value="cash">Tiền mặt</option>
+                      </select>
+                      {paymentMethodError && (
+                        <div className="text-danger position-absolute marginBottom-error">
+                          {paymentMethodError}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className="col-lg-12">
                     <FormInput

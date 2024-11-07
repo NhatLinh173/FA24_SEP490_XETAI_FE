@@ -8,6 +8,7 @@ import { GiCancel } from "react-icons/gi";
 import { CiNoWaitingSign } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import { GrHide } from "react-icons/gr";
+import { FaCheckCircle } from "react-icons/fa";
 import axios from "../../../config/axiosConfig";
 import useInstanceData from "../../../config/useInstanceData";
 import ReactPaginate from "react-paginate";
@@ -166,6 +167,7 @@ const HistoryPost = () => {
       filteredPosts.length === 0 ? "Không có đơn hàng nào đã hủy." : ""
     );
   };
+
   const handleFilterHidePosts = () => {
     setCurrentPage(0); // Đặt lại trang hiện tại về 0
     let filteredPosts = [];
@@ -233,6 +235,7 @@ const HistoryPost = () => {
         >
           <MdOutlinePersonAdd className="mr-1" /> Đã hủy
         </button>
+
         {!isDriverExist && (
           <button
             className="btn btn-dark btn-custom mx-1 d-flex align-items-center"
@@ -339,6 +342,12 @@ const HistoryPost = () => {
                     <button className="btn-sm btn-bg-secondary mt-3 border-0 d-flex align-items-center">
                       <GrHide className="mr-2" />
                       Tạm ẩn
+                    </button>
+                  )}
+                  {post.status === "complete" && (
+                    <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
+                      <FaCheckCircle className="mr-2" />
+                      Đã hoàn thành
                     </button>
                   )}
                 </div>

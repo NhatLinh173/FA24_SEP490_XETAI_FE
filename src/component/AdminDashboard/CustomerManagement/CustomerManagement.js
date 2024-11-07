@@ -4,6 +4,7 @@ import { FaLock, FaUnlock, FaSortUp, FaSortDown } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import useInstanceData from "../../../config/useInstanceData";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const CustomerManagement = () => {
   const { data: customer } = useInstanceData("auth/users/customer");
@@ -51,30 +52,60 @@ const CustomerManagement = () => {
 
   const toggleCustomerStatus = (id) => {
     const customer = customers.find((customer) => customer._id === id);
-    if (customer.status === "Active") {
+    if (customer.isBlocked) {
+      unlockDriverAccount(id);
+    } else {
       setSelectedCustomer(id);
       setShowModal(true);
-    } else {
-      setCustomers(
-        customers.map((customer) =>
-          customer._id === id ? { ...customer, status: "Active" } : customer
-        )
-      );
     }
+  };
+
+  const lockUserAccount = async (id, duration) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3005/auth/user/${id}/block`,
+        {
+          duration: duration,
+        }
+      );
+
+      if (response.status === 200) {
+        setCustomers(
+          customers.map((customer) =>
+            customer._id === id ? { ...customer, isBlocked: true } : customer
+          )
+        );
+        toast.success("Người dùng đã bị khóa thành công");
+        setShowModal(false);
+        setLockDuration("");
+        setSelectedCustomer(null);
+      }
+    } catch (error) {}
   };
 
   const handleLock = () => {
     if (selectedCustomer) {
-      setCustomers(
-        customers.map((customer) =>
-          customer._id === selectedCustomer
-            ? { ...customer, status: `Locked (${lockDuration})` }
-            : customer
-        )
+      lockUserAccount(selectedCustomer, lockDuration);
+    }
+  };
+
+  const unlockDriverAccount = async (id) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3005/auth/user/${id}/unlock`
       );
-      setShowModal(false);
-      setLockDuration("");
-      setSelectedCustomer(null);
+      if (response.status === 200) {
+        setCustomers(
+          customers.map((customer) =>
+            customer._id === id ? { ...customer, isBlocked: true } : customer
+          )
+        );
+        toast.success("Tài xế đã được mở khóa");
+      } else {
+        console.error("Error unlocking driver account:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error unlocking driver account:", error);
     }
   };
 
@@ -200,7 +231,7 @@ const CustomerManagement = () => {
                   paddingTop: "38px",
                 }}
               >
-                {customer.status === "Active" ? (
+                {customer.isBlocked ? (
                   <FaUnlock
                     className="customer-management-status-icon text-success"
                     onClick={() => toggleCustomerStatus(customer._id)}
@@ -287,7 +318,7 @@ const CustomerManagement = () => {
                 label="Vĩnh viễn"
                 name="lockDuration"
                 value="Vĩnh viễn"
-                checked={lockDuration === "7 Ngày"}
+                checked={lockDuration === "Vĩnh viễn"}
                 onChange={() => setLockDuration("7 Ngày")}
               />
             </Form.Group>

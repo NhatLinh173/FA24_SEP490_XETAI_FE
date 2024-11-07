@@ -10,6 +10,8 @@ import ReportManagement from "../component/AdminDashboard/ReportManagement/Repor
 import NewsManagement from "../component/AdminDashboard/NewsManagement/NewManagement";
 import AdminProfile from "../component/AdminDashboard/AdminProfile/AdminProfile";
 import AdminChangePassword from "../component/AdminDashboard/AdminProfile/AdminChangePassword";
+import VehicleManager from "../component/AdminDashboard/VehicleManagement/vehicleManagement";
+
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState(
     localStorage.getItem("tabAdmin") || "dashboard"
@@ -18,6 +20,7 @@ function AdminDashboard() {
   useEffect(() => {
     localStorage.setItem("tabAdmin", activeSection);
   }, [activeSection]);
+
   const renderContent = () => {
     switch (activeSection) {
       case "dashboard":
@@ -36,6 +39,8 @@ function AdminDashboard() {
         return <AdminProfile />;
       case "admin-changePassword":
         return <AdminChangePassword />;
+      case "vehicles":
+        return <VehicleManager />;
       default:
         return null;
     }
