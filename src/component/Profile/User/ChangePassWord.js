@@ -69,7 +69,7 @@ const ChangePassWord = () => {
                 type={showCurrentPassword ? "text" : "password"}
                 id="current_password"
                 name="current_password"
-                placeholder="Mật khẩu hiện tại"
+                placeholder="Nhập mật khẩu hiện tại"
                 onChange={handleCurrentPasswordChange}
                 value={currentPassword}
                 required
