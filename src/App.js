@@ -60,6 +60,7 @@ import ForgotPassword from "./component/ForgotPassword/forgotPassword";
 import StaffManagement from "./component/AdminDashboard/StaffManagement/StaffManagement";
 import Unauthorized from "./component/Unauthorized/unauthorized";
 import ResetPassword from "./component/ForgotPassword/resetPassword";
+import VehicleManager from "./component/AdminDashboard/VehicleManagement/vehicleManagement";
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const location = useLocation();
@@ -113,7 +114,7 @@ const AppContent = () => {
         <Route path="/signUp-customer" exact component={SignUpCustomerPage} />
         <Route path="/error" exact component={Error} />
         <Route path="/favorite-drivers" exact component={FavoriteDrivers} />
-        <Route path="/driver/:id" exact component={DriverDetail} />
+        <Route path="/driver/:driverId" exact component={DriverDetail} />
         <Route path="/trip/detail/:id" exact component={TripDetail} />
         <Route path="/payment/success" exact component={PaymentSuccess} />
         <Route path="/payment/failed" exact component={PaymentFailed} />
@@ -136,18 +137,25 @@ const AppContent = () => {
           path="/dashboard-admin/customers"
           exact
           component={CustomerManagement}
-        // allowedRoles={["admin"]}
+          // allowedRoles={["admin"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/drivers"
           exact
           component={DriverManagement}
-        // allowedRoles={["admin", "staff", "customer"]}
-        /><ProtectedRoute
+          // allowedRoles={["admin", "staff", "customer"]}
+        />
+        <ProtectedRoute
           path="/dashboard-admin/staffs"
           exact
           component={StaffManagement}
-        // allowedRoles={["admin", "staff", "customer"]}
+          // allowedRoles={["admin", "staff", "customer"]}
+        />
+        <ProtectedRoute
+          path="/dashboard-admin/vehicle"
+          exact
+          component={VehicleManager}
+          allowedRoles={["admin", "customer"]}
         />
       </Switch>
       {!isDashboardPage && <Footer />}

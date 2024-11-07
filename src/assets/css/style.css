@@ -1830,6 +1830,8 @@ Search Overlay CSS
   background-color: #f5f5f5;
   height: 50px;
   width: 100%;
+  appearance: auto;
+  -webkit-appearance: auto;
 }
 
 .tab-content .form-group label {
@@ -4720,7 +4722,16 @@ textarea {
 
 /* Vehicle Info Styles */
 .vehicle-info {
-  margin-top: 2rem;
+  font-size: 16px;
+  word-wrap: break-word;
+}
+
+.vehicle-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  max-height: 400px; 
+  overflow: hidden;
 }
 
 .vehicle-info .vehicle-card {
@@ -4776,7 +4787,7 @@ textarea {
 }
 
 .modal-content {
-  max-height: 80vh;
+  max-height: 100vh;
   /* Giới hạn chiều cao của Modal */
   display: flex;
   flex-direction: column;
@@ -4784,9 +4795,7 @@ textarea {
 
 .modal-body-custom {
   overflow-y: auto;
-  /* Quản lý nội dung khi cần thiết */
   max-height: 100%;
-  /* Đảm bảo nội dung không tràn ra ngoài */
 }
 
 .modal-body-custom img {
@@ -6160,6 +6169,8 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .vehicle-image {
+  max-width: 100%;
+  height: auto;
   border-radius: 5px;
 }
 
@@ -7273,3 +7284,140 @@ input[type="number"]::-webkit-inner-spin-button {
 /* =============================
        Admin Profile End
 ============================== */
+
+/* VehicleManagement */
+
+/* Modal với lớp custom-modal */
+/* Định dạng cho modal với class vehicle */
+/* Modal container */
+.vehicle-modal {
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Dialog trong modal */
+.vehicle-dialog {
+  max-width: 100%; /* Modal sẽ chiếm 100% chiều rộng trên màn hình nhỏ */
+  margin: 50px auto;
+  width: 80%; /* Đặt chiều rộng tối đa của modal */
+  max-width: 800px; /* Modal không vượt quá 800px */
+}
+
+/* Nội dung modal */
+.vehicle-content {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+/* Tiêu đề modal */
+.vehicle-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #fff; 
+
+}
+
+/* Header modal */
+.vehicle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+}
+
+/* Nút đóng modal */
+.vehicle-close {
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+/* Body modal */
+.vehicle-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 15px;
+}
+
+/* Hình ảnh trong modal */
+.vehicle-image {
+  max-width: 100%;
+  height: auto;
+
+}
+
+.vehicle-footer {
+  display: flex;
+  justify-content: space-between; 
+  gap: 10px;
+  padding: 10px 15px;
+  flex-wrap: wrap;
+  width: 100%;  
+}
+
+
+.vehicle-btn-accept {
+  background-color: #28a745;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  flex: 1 1 auto; /* Đảm bảo nút có thể co giãn */
+  min-width: 150px; /* Đặt độ rộng tối thiểu */
+  max-width: 100%; /* Đảm bảo nút không vượt quá 100% chiều rộng */
+  box-sizing: border-box; 
+}
+
+/* Nút xóa */
+.vehicle-btn-delete {
+  background-color: #dc3545;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  margin-left: 10px;
+  flex: 1 1 auto; /* Đảm bảo nút có thể co giãn */
+  min-width: 150px; /* Đặt độ rộng tối thiểu */
+  max-width: 100%; /* Đảm bảo nút không vượt quá 100% chiều rộng */
+  box-sizing: border-box;
+}
+
+/* Responsive cho thiết bị nhỏ (dưới 768px) */
+@media (max-width: 768px) {
+  .vehicle-footer {
+    flex-direction: column; /* Đặt các nút xếp theo chiều dọc */
+    align-items: center; /* Căn giữa các nút */
+    padding: 5px 15px; /* Giảm padding của footer */
+  }
+
+  .vehicle-btn-accept,
+  .vehicle-btn-delete {
+    width: 100%; /* Các nút chiếm toàn bộ chiều rộng */
+    font-size: 14px; /* Giảm kích thước chữ */
+    margin-left: 0; /* Xóa margin trái */
+    margin-bottom: 10px; /* Thêm khoảng cách giữa các nút */
+  }
+
+  .vehicle-btn-delete {
+    margin-top: 10px; /* Thêm khoảng cách ở trên nút xóa */
+  }
+}
+
+/* Responsive cho thiết bị di động nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .vehicle-footer {
+    flex-direction: column; /* Đặt các nút xếp theo chiều dọc */
+    align-items: center; /* Căn giữa các nút */
+    padding: 5px 15px;
+  }
+
+  .vehicle-btn-accept,
+  .vehicle-btn-delete {
+    width: 100%; /* Các nút chiếm toàn bộ chiều rộng */
+    font-size: 12px; /* Giảm kích thước chữ */
+  }
+}
+

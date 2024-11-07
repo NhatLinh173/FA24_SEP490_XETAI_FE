@@ -109,23 +109,6 @@ const ServiceDetail = () => {
   }
 
   const handleAcceptOrder = async () => {
-    // try {
-    //   const response = await axiosInstance.get(`/car/driver/${driverId}`);
-    //   if (response.data.length === 0) {
-    //     toast.warn(
-    //       "Bạn chưa đăng ký xe, vui lòng đăng ký xe để chấp nhận đơn hàng"
-    //     );
-    //   } else {
-    //     setShowModal(true);
-    //     setIsConfirming(true);
-    //   }
-    // } catch (error) {
-    //   if (error.response && error.response.status === 404) {
-    //     toast.warn("Bạn cần thêm xe mới để có thể nhận được đơn hàng!");
-    //   } else {
-    //     console.error("Lỗi khác:", error);
-    //   }
-    // }
     setShowModal(true);
     setIsConfirming(true);
   };
@@ -498,7 +481,7 @@ const ServiceDetail = () => {
             </div>
             <div className="mt-3 d-flex justify-content-end">
               {(userRole === "personal" || userRole === "business") &&
-                // dealId !== driverId &&
+                dealId !== driverId &&
                 !isOrderAccepted && (
                   <button
                     className="btn btn-accept-order"

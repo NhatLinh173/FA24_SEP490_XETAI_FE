@@ -12,31 +12,8 @@ const HomeBanner = () => {
   const [buttonText, setButtonText] = useState("");
 
   useEffect(() => {
-    const decodeToken = () => {
-      const token = localStorage.getItem("accessToken");
+    setRoleUser(localStorage.getItem("userRole"));
 
-      if (token) {
-        try {
-          const decoded = jwtDecode(token);
-          if (decoded && decoded.role) {
-            localStorage.setItem("userRole", decoded.role); // Lưu vào localStorage
-            return decoded.role;
-          } else {
-            throw new Error("Role not found in token");
-          }
-        } catch (error) {
-          console.error("Failed to decode token:", error);
-          return null;
-        }
-      }
-      return null;
-    };
-
-    const role = decodeToken();
-    setRoleUser(role);
-  }, []);
-
-  useEffect(() => {
     if (roleUser === "personal" || roleUser === "business") {
       setButtonLink("/order");
       setButtonText("Tìm Đơn Hàng");
@@ -44,7 +21,7 @@ const HomeBanner = () => {
       setButtonLink("/request_quote");
       setButtonText("Tạo Đơn Hàng");
     }
-  }, [roleUser]);
+  }, []);
 
   let responsive = {
     0: {
@@ -87,9 +64,9 @@ const HomeBanner = () => {
                           mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
                           chuyến hàng khắp mọi miền tổ quốc."
                         </p>
-                        <Link className="btn btn-theme" to={buttonLink}>
+                        <a className="btn btn-theme" href={buttonLink}>
                           {buttonText}
-                        </Link>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -108,6 +85,7 @@ const HomeBanner = () => {
                           mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
                           chuyến hàng khắp mọi miền tổ quốc."
                         </p>
+
                         <Link className="btn btn-theme" to={buttonLink}>
                           {buttonText}
                         </Link>
