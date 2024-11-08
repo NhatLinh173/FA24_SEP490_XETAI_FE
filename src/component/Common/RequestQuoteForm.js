@@ -48,7 +48,8 @@ const RequestQuoteForm = () => {
   const [isDisable, setIsDisable] = useState(false);
   const [paymentMethodError, setPaymentMethodError] = useState("");
   const [imgs, setImgs] = useState([]);
-
+  const [isDriverExist, setIsDriverExist] = useState(false);
+  const driverId = localStorage.getItem("driverId");
   const getCity = async () => {
     try {
       const res = await axios.get("https://provinces.open-api.vn/api/");
@@ -58,7 +59,13 @@ const RequestQuoteForm = () => {
       console.error("Error fetching cities:", error);
     }
   };
-
+  useEffect(() => {
+    if (driverId !== "undefined" && driverId) {
+      setIsDriverExist(true);
+    } else {
+      setIsDriverExist(false);
+    }
+  }, [driverId]);
   useEffect(() => {
     setNewEmail(email);
     setNewPhone(phone);
@@ -331,9 +338,16 @@ const RequestQuoteForm = () => {
               <form id="request_form">
                 <div className="row">
                   <div className="col-lg-12">
-                    <div className="heading_quote ">
-                      <h2>Đơn Hàng</h2>
-                    </div>
+                    {!isDriverExist && (
+                      <div className="heading_quote ">
+                        <h2>Đơn Hàng</h2>
+                      </div>
+                    )}
+                    {isDriverExist && (
+                      <div className="heading_quote ">
+                        <h2>Đăng bài</h2>
+                      </div>
+                    )}
                   </div>
                   {imgs && imgs.length > 0 && (
                     <div
@@ -401,103 +415,184 @@ const RequestQuoteForm = () => {
                     </div>
                   )}
 
-                  <div class="container d-flex justify-content-center mb-3">
-                    <div className="col-lg-6 d-flex w-100 addressFrom-input  pl-0">
-                      <div className="form-group align-self-end">
-                        <label className="font-weight-bold">
-                          Địa chỉ nhận hàng
-                        </label>
-                        <select
-                          className="form-control first_null"
-                          onChange={handleCityFrom}
-                          defaultValue=""
-                        >
-                          <option value="" disabled>
-                            Chọn Tỉnh/Thành
-                          </option>
-                          {cities.map((city) => (
-                            <option value={city.name}>{city.name}</option>
-                          ))}
-                        </select>
+                  {!isDriverExist && (
+                    <div class="container d-flex justify-content-center mb-3">
+                      <div className="col-lg-6 d-flex w-100 addressFrom-input  pl-0">
+                        <div className="form-group align-self-end">
+                          <label className="font-weight-bold">
+                            Địa chỉ nhận hàng
+                          </label>
+                          <select
+                            className="form-control first_null"
+                            onChange={handleCityFrom}
+                            defaultValue=""
+                          >
+                            <option value="" disabled>
+                              Chọn Tỉnh/Thành
+                            </option>
+                            {cities.map((city) => (
+                              <option value={city.name}>{city.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="flex-1 custom-input">
+                          <FormInput
+                            tag={"input"}
+                            type={"text"}
+                            name={"departure"}
+                            id={"departure"}
+                            classes={
+                              "form-control align-self-end position-relative"
+                            }
+                            placeholder={"Địa Chỉ Nhận Hàng"}
+                            label="Địa Chỉ Nhận Hàng"
+                            value={addressFrom}
+                            onChange={handleAddressFromChange}
+                          />
+                          {AddressFromChangeError && (
+                            <div className="text-danger position-absolute bottom-error">
+                              {AddressFromChangeError}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <div className="flex-1 custom-input">
-                        <FormInput
-                          tag={"input"}
-                          type={"text"}
-                          name={"departure"}
-                          id={"departure"}
-                          classes={
-                            "form-control align-self-end position-relative"
-                          }
-                          placeholder={"Địa Chỉ Nhận Hàng"}
-                          label="Địa Chỉ Nhận Hàng"
-                          value={addressFrom}
-                          onChange={handleAddressFromChange}
-                        />
-                        {AddressFromChangeError && (
-                          <div className="text-danger position-absolute bottom-error">
-                            {AddressFromChangeError}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-lg-6 d-flex w-100 addressTo-input pr-0">
-                      <div className="form-group align-self-end">
-                        <label className="font-weight-bold">
-                          Địa chỉ giao hàng
-                        </label>
-                        <select
-                          className="form-control first_null"
-                          onChange={handleCityTo}
-                          defaultValue=""
-                        >
-                          <option value="" disabled>
-                            Chọn Tỉnh/Thành
-                          </option>
-                          {cities.map((city) => (
-                            <option value={city.name}>{city.name}</option>
-                          ))}
-                        </select>
-                      </div>
+                      <div className="col-lg-6 d-flex w-100 addressTo-input pr-0">
+                        <div className="form-group align-self-end">
+                          <label className="font-weight-bold">
+                            Địa chỉ giao hàng
+                          </label>
+                          <select
+                            className="form-control first_null"
+                            onChange={handleCityTo}
+                            defaultValue=""
+                          >
+                            <option value="" disabled>
+                              Chọn Tỉnh/Thành
+                            </option>
+                            {cities.map((city) => (
+                              <option value={city.name}>{city.name}</option>
+                            ))}
+                          </select>
+                        </div>
 
-                      <div className="flex-1 custom-input">
-                        <FormInput
-                          tag={"input"}
-                          type={"text"}
-                          name={"city"}
-                          id={"city"}
-                          classes={"form-control position-relative"}
-                          placeholder={"Địa Chỉ Giao Hàng"}
-                          label="Địa Chỉ Giao Hàng"
-                          value={addressTo}
-                          onChange={handleAddressToChange}
-                        />
-                        {AddressToChangeError && (
-                          <div className="text-danger position-absolute bottom-error">
-                            {AddressToChangeError}
-                          </div>
-                        )}
+                        <div className="flex-1 custom-input">
+                          <FormInput
+                            tag={"input"}
+                            type={"text"}
+                            name={"city"}
+                            id={"city"}
+                            classes={"form-control position-relative"}
+                            placeholder={"Địa Chỉ Giao Hàng"}
+                            label="Địa Chỉ Giao Hàng"
+                            value={addressTo}
+                            onChange={handleAddressToChange}
+                          />
+                          {AddressToChangeError && (
+                            <div className="text-danger position-absolute bottom-error">
+                              {AddressToChangeError}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"orderType"}
-                      id={"orderType"}
-                      classes={"form-control "}
-                      placeholder={"Loại Hàng"}
-                      label="Loại Hàng"
-                      value={orderType}
-                      onChange={handleOrderTypeChange}
-                    />
-                    {OrderTypeChangeError && (
-                      <div className="text-danger   position-absolute marginBottom-error">
-                        {OrderTypeChangeError}
+                  )}
+                  {isDriverExist && (
+                    <div class="container d-flex justify-content-center mb-3">
+                      <div className="col-lg-6 d-flex w-100 addressFrom-input  pl-0">
+                        <div className="form-group align-self-end">
+                          <label className="font-weight-bold">Điểm đi</label>
+                          <select
+                            className="form-control first_null"
+                            onChange={handleCityFrom}
+                            defaultValue=""
+                          >
+                            <option value="" disabled>
+                              Chọn Tỉnh/Thành
+                            </option>
+                            {cities.map((city) => (
+                              <option value={city.name}>{city.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="flex-1 custom-input">
+                          <FormInput
+                            tag={"input"}
+                            type={"text"}
+                            name={"departure"}
+                            id={"departure"}
+                            classes={
+                              "form-control align-self-end position-relative"
+                            }
+                            placeholder={"Nhập điểm đi"}
+                            label="Nhập điểm đi"
+                            value={addressFrom}
+                            onChange={handleAddressFromChange}
+                          />
+                          {AddressFromChangeError && (
+                            <div className="text-danger position-absolute bottom-error">
+                              {AddressFromChangeError}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    )}{" "}
-                  </div>
+                      <div className="col-lg-6 d-flex w-100 addressTo-input pr-0">
+                        <div className="form-group align-self-end">
+                          <label className="font-weight-bold">Điểm đến</label>
+                          <select
+                            className="form-control first_null"
+                            onChange={handleCityTo}
+                            defaultValue=""
+                          >
+                            <option value="" disabled>
+                              Chọn Tỉnh/Thành
+                            </option>
+                            {cities.map((city) => (
+                              <option value={city.name}>{city.name}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="flex-1 custom-input">
+                          <FormInput
+                            tag={"input"}
+                            type={"text"}
+                            name={"city"}
+                            id={"city"}
+                            classes={"form-control position-relative"}
+                            placeholder={"Nhập điểm đến"}
+                            label="Nhập Điểm đến"
+                            value={addressTo}
+                            onChange={handleAddressToChange}
+                          />
+                          {AddressToChangeError && (
+                            <div className="text-danger position-absolute bottom-error">
+                              {AddressToChangeError}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"orderType"}
+                        id={"orderType"}
+                        classes={"form-control "}
+                        placeholder={"Loại Hàng"}
+                        label="Loại Hàng"
+                        value={orderType}
+                        onChange={handleOrderTypeChange}
+                      />
+                      {OrderTypeChangeError && (
+                        <div className="text-danger   position-absolute marginBottom-error">
+                          {OrderTypeChangeError}
+                        </div>
+                      )}{" "}
+                    </div>
+                  )}
 
                   <div className="col-lg-6">
                     <FormInput
@@ -531,6 +626,25 @@ const RequestQuoteForm = () => {
                       onChange={handleCostChange}
                     />
                   </div>
+
+                  {isDriverExist && (
+                    <div className="col-lg-12">
+                      <FormInput
+                        tag={"textarea"}
+                        type={"text"}
+                        name={"text"}
+                        classes={"form-control"}
+                        placeholder={"Nhập nội dung"}
+                        label=" Nội dung  "
+                        value={orderDescription}
+                        onChange={handleOrderDescriptionChange}
+                      />
+                      {orderDescriptionError && (
+                        <div className="text-danger position-absolute marginBottom-error">
+                          {orderDescriptionError}
+                        </div>
+                      )}{" "}
+
                   <div className="col-lg-6">
                     <div className="form-group">
                       <label className="font-weight-bold">
@@ -576,130 +690,175 @@ const RequestQuoteForm = () => {
                   <div className="col-lg-12">
                     <div className="heading_quote arae_top">
                       <h3>Thông Tin Người Nhận</h3>
+
                     </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"receptionName"}
-                      classes={"form-control"}
-                      placeholder={"Họ và Tên"}
-                      label="Họ và Tên"
-                      value={recipientName}
-                      onChange={handleRecipientNameChange}
-                    />
-                    {recipientNameError && (
-                      <div className="text-danger position-absolute marginBottom-error">
-                        {recipientNameError}
-                      </div>
-                    )}{" "}
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"email"}
-                      classes={"form-control"}
-                      placeholder={"Email"}
-                      label="Email"
-                      value={recipientEmail}
-                      onChange={handleRecipientEmailChange}
-                    />
-                    {recipientEmailError && (
-                      <div className="text-danger position-absolute marginBottom-error">
-                        {recipientEmailError}
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"number"}
-                      classes={"form-control"}
-                      placeholder={"Số Điện Thoại"}
-                      label="Số Điện Thoại"
-                      value={recipientPhone}
-                      onChange={handleRecipientPhoneChange}
-                    />
-                    {recipientPhoneError && (
-                      <div className="text-danger position-absolute marginBottom-error">
-                        {recipientPhoneError}
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="heading_quote arae_top">
-                      <h3>Thông Tin Người Đặt</h3>
+                  )}
+                  {!isDriverExist && (
+                    <div className="col-lg-12">
+                      <FormInput
+                        tag={"textarea"}
+                        type={"text"}
+                        name={"text"}
+                        classes={"form-control"}
+                        placeholder={"Mô Tả Đơn Hàng"}
+                        label="Mô Tả Đơn Hàng  "
+                        value={orderDescription}
+                        onChange={handleOrderDescriptionChange}
+                      />
+                      {orderDescriptionError && (
+                        <div className="text-danger position-absolute marginBottom-error">
+                          {orderDescriptionError}
+                        </div>
+                      )}{" "}
                     </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"lname"}
-                      classes={"form-control"}
-                      placeholder={"Họ và Tên"}
-                      label="Họ và Tên"
-                      value={newFullName}
-                      onChange={handleFullNameChange}
-                    />
-                    {newFullNameError && (
-                      <div className="text-danger position-absolute marginBottom-error">
-                        {newFullNameError}
+                  )}
+                  {!isDriverExist && (
+                    <div className="col-lg-12">
+                      <div className="heading_quote arae_top">
+                        <h3>Thông Tin Người Nhận</h3>
                       </div>
-                    )}
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"email"}
-                      classes={"form-control"}
-                      placeholder={"Email"}
-                      label="Email"
-                      value={newEmail}
-                      onChange={handleEmailChange}
-                    />
-                    {newEmailError && (
-                      <div className="text-danger position-absolute marginBottom-error">
-                        {newEmailError}
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"number"}
-                      classes={"form-control"}
-                      placeholder={"Số Điện Thoại"}
-                      label="Số Điện Thoại"
-                      value={newPhone}
-                      onChange={handlePhoneChange}
-                    />
-                    {newPhoneError && (
-                      <div className="text-danger position-absolute marginBottom-error">
-                        {newPhoneError}
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="quote_submit_button d-flex justify-content-center">
-                      <button
-                        className={`btn ${
-                          isDisable
-                            ? "btn-secondary cursor-disable"
-                            : "btn-theme"
-                        }`}
-                        onClick={handleSubmit}
-                        disabled={isDisable}
-                      >
-                        Gửi
-                      </button>
                     </div>
-                  </div>
+                  )}
+
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"receptionName"}
+                        classes={"form-control"}
+                        placeholder={"Họ và Tên"}
+                        label="Họ và Tên"
+                        value={recipientName}
+                        onChange={handleRecipientNameChange}
+                      />
+                      {recipientNameError && (
+                        <div className="text-danger position-absolute marginBottom-error">
+                          {recipientNameError}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"email"}
+                        classes={"form-control"}
+                        placeholder={"Email"}
+                        label="Email"
+                        value={recipientEmail}
+                        onChange={handleRecipientEmailChange}
+                      />
+                      {recipientEmailError && (
+                        <div className="text-danger position-absolute marginBottom-error">
+                          {recipientEmailError}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"number"}
+                        classes={"form-control"}
+                        placeholder={"Số Điện Thoại"}
+                        label="Số Điện Thoại"
+                        value={recipientPhone}
+                        onChange={handleRecipientPhoneChange}
+                      />
+                      {recipientPhoneError && (
+                        <div className="text-danger position-absolute marginBottom-error">
+                          {recipientPhoneError}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {!isDriverExist && (
+                    <>
+                      <div className="col-lg-12">
+                        <div className="heading_quote arae_top">
+                          <h3>Thông Tin Người Đặt</h3>
+                        </div>
+                      </div>
+
+                      <div className="col-lg-6">
+                        <FormInput
+                          tag={"input"}
+                          type={"text"}
+                          name={"lname"}
+                          classes={"form-control"}
+                          placeholder={"Họ và Tên"}
+                          label="Họ và Tên"
+                          value={newFullName}
+                          onChange={handleFullNameChange}
+                        />
+                        {newFullNameError && (
+                          <div className="text-danger position-absolute marginBottom-error">
+                            {newFullNameError}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-lg-6">
+                        <FormInput
+                          tag={"input"}
+                          type={"text"}
+                          name={"email"}
+                          classes={"form-control"}
+                          placeholder={"Email"}
+                          label="Email"
+                          value={newEmail}
+                          onChange={handleEmailChange}
+                        />
+                        {newEmailError && (
+                          <div className="text-danger position-absolute marginBottom-error">
+                            {newEmailError}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-lg-6">
+                        <FormInput
+                          tag={"input"}
+                          type={"text"}
+                          name={"number"}
+                          classes={"form-control"}
+                          placeholder={"Số Điện Thoại"}
+                          label="Số Điện Thoại"
+                          value={newPhone}
+                          onChange={handlePhoneChange}
+                        />
+                        {newPhoneError && (
+                          <div className="text-danger position-absolute marginBottom-error">
+                            {newPhoneError}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-lg-12">
+                        <div className="quote_submit_button d-flex justify-content-center">
+                          <button
+                            className={`btn ${
+                              isDisable
+                                ? "btn-secondary cursor-disable"
+                                : "btn-theme"
+                            }`}
+                            onClick={handleSubmit}
+                            disabled={isDisable}
+                          >
+                            Gửi
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </form>
             </div>
