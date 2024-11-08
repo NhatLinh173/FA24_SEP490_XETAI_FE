@@ -644,7 +644,8 @@ const RequestQuoteForm = () => {
                           {orderDescriptionError}
                         </div>
                       )}{" "}
-
+                    </div>
+                  )}
                   <div className="col-lg-6">
                     <div className="form-group">
                       <label className="font-weight-bold">
@@ -690,9 +691,9 @@ const RequestQuoteForm = () => {
                   <div className="col-lg-12">
                     <div className="heading_quote arae_top">
                       <h3>Thông Tin Người Nhận</h3>
-
                     </div>
-                  )}
+                    /
+                  </div>
                   {!isDriverExist && (
                     <div className="col-lg-12">
                       <FormInput
@@ -841,24 +842,23 @@ const RequestQuoteForm = () => {
                           </div>
                         )}
                       </div>
-
-                      <div className="col-lg-12">
-                        <div className="quote_submit_button d-flex justify-content-center">
-                          <button
-                            className={`btn ${
-                              isDisable
-                                ? "btn-secondary cursor-disable"
-                                : "btn-theme"
-                            }`}
-                            onClick={handleSubmit}
-                            disabled={isDisable}
-                          >
-                            Gửi
-                          </button>
-                        </div>
-                      </div>
                     </>
                   )}
+                  <div className="col-lg-12">
+                    <div className="quote_submit_button d-flex justify-content-center">
+                      <button
+                        className={`btn ${
+                          isDisable
+                            ? "btn-secondary cursor-disable"
+                            : "btn-theme"
+                        }`}
+                        onClick={handleSubmit}
+                        disabled={isDisable}
+                      >
+                        Gửi
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </form>
             </div>
