@@ -94,7 +94,7 @@ const AppContent = () => {
           path="/request_quote"
           exact
           component={RequestQuote}
-          allowedRoles={["customer"]}
+          allowedRoles={["customer", "personal", "business"]}
         />
         <Route path="/signup" exact component={SignUp} />
         <Route path="/signin" exact component={SignIn} />
@@ -136,18 +136,19 @@ const AppContent = () => {
           path="/dashboard-admin/customers"
           exact
           component={CustomerManagement}
-        // allowedRoles={["admin"]}
+          // allowedRoles={["admin"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/drivers"
           exact
           component={DriverManagement}
-        // allowedRoles={["admin", "staff", "customer"]}
-        /><ProtectedRoute
+          // allowedRoles={["admin", "staff", "customer"]}
+        />
+        <ProtectedRoute
           path="/dashboard-admin/staffs"
           exact
           component={StaffManagement}
-        // allowedRoles={["admin", "staff", "customer"]}
+          // allowedRoles={["admin", "staff", "customer"]}
         />
       </Switch>
       {!isDashboardPage && <Footer />}
