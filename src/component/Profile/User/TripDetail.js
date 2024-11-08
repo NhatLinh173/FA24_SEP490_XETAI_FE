@@ -1,123 +1,139 @@
-import { useEffect, useMemo, useState } from "react"
-import { CiStar } from "react-icons/ci"
-import { FaCheck, FaStar } from "react-icons/fa"
-import { useParams } from "react-router-dom/cjs/react-router-dom.min"
-import { toast } from "react-toastify"
-import axiosInstance from "../../../config/axiosConfig"
-import { Rating } from "react-simple-star-rating"
-import { jwtDecode } from "jwt-decode"
-import TripCarousel from "./TripCarousel"
-import { BsHeartFill } from "react-icons/bs"
-import { BsHeart } from "react-icons/bs"
-import dayjs from "dayjs"
+import { useEffect, useMemo, useState } from "react";
+import { CiStar } from "react-icons/ci";
+import { FaCheck, FaStar } from "react-icons/fa";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { toast } from "react-toastify";
+import axiosInstance from "../../../config/axiosConfig";
+import { Rating } from "react-simple-star-rating";
+import { jwtDecode } from "jwt-decode";
+import TripCarousel from "./TripCarousel";
+import { BsHeartFill } from "react-icons/bs";
+import { BsHeart } from "react-icons/bs";
+import { FaBoxOpen } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
+import dayjs from "dayjs";
 
 const TripDetail = () => {
-  const [tripDetail, setTripDetail] = useState(null)
-  const [rating, setRating] = useState(0) // Lưu trạng thái số sao được chọn
-  const [hover, setHover] = useState(null) // Trạng thái sao khi người dùng hover
-  const [feedback, setfeedback] = useState("")
-  const [isShowModal, setIsShowModal] = useState(false)
-  const [driver, setDriver] = useState("")
-  const [ratingDetails, setRatingDetails] = useState(null)
-
+  const [tripDetail, setTripDetail] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(null);
+  const [feedback, setfeedback] = useState("");
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [driver, setDriver] = useState("");
+  const [ratingDetails, setRatingDetails] = useState(null);
+  const [driverId, setDriverId] = useState(null);
   const role = localStorage.getItem("accessToken")
     ? jwtDecode(localStorage.getItem("accessToken")).role
-    : ""
+    : "";
 
   const isDriverRole = useMemo(
     () => role === "personal" || role === "business",
     [role]
-  )
+  );
 
-  const { id } = useParams()
-  const driverId = localStorage.getItem("driverId")
-  const userId = localStorage.getItem("userId")
-  console.log(userId)
+  const { id } = useParams();
+
+  const userId = localStorage.getItem("userId");
+  console.log(userId);
 
   const handleFavoriteDriver = async () => {
     try {
       const response = await axiosInstance.post("/favorites/add", {
         driverId,
         userId,
-      })
+      });
       if (response.status === 200) {
-        toast.success("Đã thêm tài xế vào danh sách yêu thích")
+        toast.success("Đã thêm tài xế vào danh sách yêu thích");
       } else {
-        toast.error("Thêm tài xế vào danh sách yêu thích thất bại")
+        toast.error("Thêm tài xế vào danh sách yêu thích thất bại");
       }
     } catch (error) {
-      console.error("Error adding favorite driver:", error)
-      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.")
+      console.error("Error adding favorite driver:", error);
+      toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.");
     }
-  }
+  };
 
   const handleOpenModal = () => {
-    setIsShowModal(true)
-  }
+    setIsShowModal(true);
+  };
 
   const handleCloseModal = () => {
-    setIsShowModal(false)
-  }
+    setIsShowModal(false);
+  };
 
   const handleFeedback = (e) => {
-    setfeedback(e.target.value)
-  }
+    setfeedback(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await axiosInstance.post(`/rating/${id}`, {
         value: rating,
         comment: feedback,
         userId: driver,
         reviewerId: userId,
-      })
-      console.log({
-        value: rating,
-        comment: feedback,
-        userId: driver,
-        reviewerId: userId,
-      })
+      });
 
       if (response.status === 200) {
-        toast.success("Đánh giá tài xế thành công")
-        setIsShowModal(false)
-        getTripHistoryDetail()
+        toast.success("Đánh giá tài xế thành công");
+        setIsShowModal(false);
+        getTripHistoryDetail();
       }
     } catch (error) {
-      toast.error("Tài xế đã được đánh giá!!");
+      toast.error("Có lỗi xảy ra!!");
     }
-  }
+  };
 
   const getRatingDetails = async (driver) => {
     try {
       const res = await axiosInstance.get(
         `/rating/rating-driver?reviewerId=${userId}&userId=${driver}`
-      )
-      setRatingDetails(res.data.rating)
+      );
+      setRatingDetails(res.data.rating);
     } catch (error) {
-      setRatingDetails(null)
+      setRatingDetails(null);
     }
-  }
+  };
 
   const handleRatingClick = (value) => {
-    setRating(value)
-  }
+    setRating(value);
+  };
 
   const getTripHistoryDetail = async () => {
     try {
-      const response = await axiosInstance.get(`/posts/${id}`)
-      setTripDetail(response.data)
-      setDriver(response.data.dealId.driverId.userId._id)
-      await getRatingDetails(response.data.dealId.driverId.userId._id)
+      const response = await axiosInstance.get(`/posts/${id}`);
+      setTripDetail(response.data);
+      setDriver(response.data.dealId.driverId.userId._id);
+      setDriverId(response.data.dealId.driverId._id);
+      await getRatingDetails(response.data.dealId.driverId.userId._id);
     } catch (error) {}
-  }
+  };
 
   useEffect(() => {
-    getTripHistoryDetail()
-  }, [])
+    getTripHistoryDetail();
+  }, []);
 
-  if (!tripDetail) return <div>Không có data</div>
+  const handleConfirmReceived = async () => {
+    try {
+      const response = await axiosInstance.patch("/posts/complete/order", {
+        postId: id,
+      });
+      if (response.status === 200) {
+        toast.success("Xác nhận đã nhận hàng thành công");
+        getTripHistoryDetail();
+      } else if (response.status === 402) {
+        toast.error("Bạn đã xác nhận đơn hàng này rồi");
+      } else {
+        toast.error("Xác nhận đã nhận hàng thất bại");
+      }
+    } catch (error) {
+      console.error("Error confirm received:", error);
+      toast.error("Có lỗi xảy ra khi xác nhận đã nhận hàng.");
+    }
+  };
+
+  if (!tripDetail) return <div>Không có data</div>;
 
   return (
     <div className="wrapper container pb-5">
@@ -139,6 +155,15 @@ const TripDetail = () => {
                 >
                   <FaCheck className="mr-2" />
                   Đã giao hàng
+                </button>
+
+                <button
+                  className="btn-sm btn-primary border-0 d-flex align-items-center"
+                  style={{ width: "fit-content" }}
+                  onClick={handleConfirmReceived}
+                >
+                  <FaBoxOpen className="mr-2" />
+                  Đã nhận hàng
                 </button>
               </div>
             </div>
@@ -403,7 +428,7 @@ const TripDetail = () => {
                   <div className="">
                     <div className="d-flex justify-content-center mb-3">
                       {[...Array(5)].map((star, index) => {
-                        const value = index + 1
+                        const value = index + 1;
                         return (
                           <div
                             key={index}
@@ -413,12 +438,12 @@ const TripDetail = () => {
                             onMouseLeave={() => setHover(null)}
                           >
                             {value <= (hover || rating) ? (
-                              <FaStar size={30} color="yellow" /> // Ngôi sao màu trắng trên nền vàng
+                              <FaStar size={30} color="yellow" />
                             ) : (
-                              <CiStar size={30} color="#000" /> // Ngôi sao rỗng màu đen
+                              <CiStar size={30} color="#000" />
                             )}
                           </div>
-                        )
+                        );
                       })}
                     </div>
                   </div>
@@ -560,7 +585,7 @@ const TripDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TripDetail
+export default TripDetail;

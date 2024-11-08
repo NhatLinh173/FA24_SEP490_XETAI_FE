@@ -7,23 +7,22 @@ const DriverDetail = () => {
   const [driver, setDriver] = useState(null);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const { id } = useParams();
-  console.log("driver id", id);
-
+  const { driverId } = useParams();
+  console.log(driverId);
   useEffect(() => {
     const getInfoDriver = async () => {
       try {
-        const response = await axiosInstance.get(`/driver/details/${id}`);
+        const response = await axiosInstance.get(`/driver/details/${driverId}`);
         setDriver(response.data.driverDetails);
         console.log("Driver info:", response.data.driverDetails);
       } catch (error) {
         console.error("Error fetching driver info:", error);
       }
     };
-    if (id) {
+    if (driverId) {
       getInfoDriver();
     }
-  }, [id]);
+  }, [driverId]);
 
   const handleShowDetails = (vehicle) => {
     setSelectedVehicle(vehicle);

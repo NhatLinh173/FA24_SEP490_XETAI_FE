@@ -13,13 +13,12 @@ const FavoriteDrivers = () => {
     const fetchData = async () => {
       try {
         const response = await axiosIntance.get(`/favorites/${userId}`);
-        console.log("Response data:", response.data);
 
         if (response.data && response.data.favorite) {
           const driver = response.data.favorite.driverId;
-
+          console.log(driver.userId.avatar);
           if (driver) {
-            setDrivers([driver]);
+            setDrivers(Array.isArray(driver) ? driver : [driver]);
           } else {
             console.error(
               "Driver data is missing in favorite:",
@@ -55,8 +54,8 @@ const FavoriteDrivers = () => {
           <DriverCard
             key={driver._id}
             id={driver.id}
-            driverImage={driver.avatar}
-            driverName={driver.fullName}
+            driverImage={driver.userId.avatar}
+            driverName={driver.userId.fullName}
             rating={driver.rating}
             tripsCompleted={driver.tripsCompleted}
           />

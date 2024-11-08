@@ -11,26 +11,26 @@ const CustomModal = ({ isOpen, closeModal }) => {
       isOpen={isOpen}
       onRequestClose={closeModal}
       contentLabel="User selection Modal"
-      className="modal-content"
-      overlayClassName="modal-overlay"
+      className="modal-content custom-modal"
+      overlayClassName="modal-overlay custom-modal-overlay"
       style={{ zIndex: "1001" }}
     >
-      <div className="modal-header">
-        <button onClick={closeModal} className="close-btn">
+      <div className="modal-header custom-modal-header">
+        <button onClick={closeModal} className="close-btn custom-close-btn">
           <IoMdClose />
         </button>
       </div>
-      <div className="modal-body">
+      <div className="modal-body custom-modal-body">
         <a href="/accountType">
-          <div className="option">
-            <MdDriveEta className="icon" />
-            <span className="text">Đối tác tài xế</span>
+          <div className="option custom-option">
+            <MdDriveEta className="icon custom-icon" />
+            <span className="text custom-text">Đối tác tài xế</span>
           </div>
         </a>
         <a href="/signUp-customer">
-          <div className="option">
-            <IoMdPeople className="icon" />
-            <span className="text">Khách hàng</span>
+          <div className="option custom-option">
+            <IoMdPeople className="icon custom-icon" />
+            <span className="text custom-text">Khách hàng</span>
           </div>
         </a>
       </div>

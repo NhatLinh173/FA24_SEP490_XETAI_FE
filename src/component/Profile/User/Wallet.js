@@ -37,13 +37,13 @@ const Wallet = ({ data }) => {
   };
 
   const handleDepositAmountChange = (e) => {
-    const rawValue = e.target.value.replace(/,/g, ""); // Loại bỏ dấu phẩy cũ
+    const rawValue = e.target.value.replace(/,/g, "");
     const formattedValue = formatNumberWithCommas(rawValue);
     setDepositAmount(formattedValue);
   };
 
   const handleDepositSubmit = async () => {
-    const amount = parseInt(depositAmount.replace(/,/g, ""), 10); // Loại bỏ dấu phẩy khi chuyển sang số
+    const amount = parseInt(depositAmount.replace(/,/g, ""), 10);
     if (amount < 5000 || amount > 1000000) {
       setError("Số tiền phải nằm trong khoảng 5,000 VND và 1,000,000 VND");
       return;
@@ -174,6 +174,10 @@ const Wallet = ({ data }) => {
                       ? "Trừ phí đăng bài"
                       : transaction.type === "CANCEL_ORDER"
                       ? "Trừ phí hủy đơn hàng"
+                      : transaction.type === "BANK_TRANSFER_PAYMENT"
+                      ? "Thanh toán qua chuyển khoản"
+                      : transaction.type === "DRIVER_PAYMENT"
+                      ? "Thanh toán tiền hàng cho tài xế"
                       : "Nạp Tiền"}
                   </td>
                   <td>
@@ -187,15 +191,19 @@ const Wallet = ({ data }) => {
                     style={{
                       color:
                         transaction.type === "POST_PAYMENT" ||
-                        transaction.type === "CANCEL_ORDER"
+                        transaction.type === "CANCEL_ORDER" ||
+                        transaction.type === "BANK_TRANSFER_PAYMENT"
                           ? "red"
                           : transaction.type === "DEPOSIT"
+                          ? "#00FF00"
+                          : transaction.type === "DRIVER_PAYMENT"
                           ? "#00FF00"
                           : "inherit",
                     }}
                   >
                     {transaction.type === "POST_PAYMENT" ||
-                    transaction.type === "CANCEL_ORDER"
+                    transaction.type === "CANCEL_ORDER" ||
+                    transaction.type === "BANK_TRANSFER_PAYMENT"
                       ? `-${(transaction.amount || 0).toLocaleString()} đ`
                       : transaction.status === "PAID"
                       ? `+${(transaction.amount || 0).toLocaleString()} đ`
