@@ -10,7 +10,6 @@ import ReportManagement from "../component/AdminDashboard/ReportManagement/Repor
 import NewsManagement from "../component/AdminDashboard/NewsManagement/NewManagement";
 import AdminProfile from "../component/AdminDashboard/AdminProfile/AdminProfile";
 
-import AdminChangePassword from "../component/AdminDashboard/AdminProfile/AdminChangePassword";
 import VehicleManager from "../component/AdminDashboard/VehicleManagement/vehicleManagement";
 
 import StaffChangePassword from "../component/AdminDashboard/AdminProfile/StaffChangePassword";
@@ -41,10 +40,9 @@ function AdminDashboard() {
       case "admin-profile":
         return <AdminProfile />;
       case "admin-changePassword":
-        return <AdminChangePassword />;
+        return <StaffChangePassword />;
       case "vehicles":
         return <VehicleManager />;
-        return <StaffChangePassword />;
       default:
         return null;
     }
