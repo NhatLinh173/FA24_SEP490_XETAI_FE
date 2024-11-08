@@ -671,29 +671,7 @@ const RequestQuoteForm = () => {
                       )}
                     </div>
                   </div>
-                  <div className="col-lg-12">
-                    <FormInput
-                      tag={"textarea"}
-                      type={"text"}
-                      name={"text"}
-                      classes={"form-control"}
-                      placeholder={"Mô Tả Đơn Hàng"}
-                      label="Mô Tả Đơn Hàng  "
-                      value={orderDescription}
-                      onChange={handleOrderDescriptionChange}
-                    />
-                    {orderDescriptionError && (
-                      <div className="text-danger position-absolute marginBottom-error">
-                        {orderDescriptionError}
-                      </div>
-                    )}{" "}
-                  </div>
-                  <div className="col-lg-12">
-                    <div className="heading_quote arae_top">
-                      <h3>Thông Tin Người Nhận</h3>
-                    </div>
-                    /
-                  </div>
+
                   {!isDriverExist && (
                     <div className="col-lg-12">
                       <FormInput
