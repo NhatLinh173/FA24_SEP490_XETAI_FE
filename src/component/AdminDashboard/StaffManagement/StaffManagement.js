@@ -217,21 +217,29 @@ const StaffManagement = () => {
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
                 centered
-                className="staff-delete-modal"
+                className="delete-staff-modal bg-dark bg-opacity-75"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Xác Nhận Xóa</Modal.Title>
+                    <Modal.Title>Xác Nhận Xóa Nhân Viên</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <h5 className="text-center">Bạn có chắc chắn muốn xóa nhân viên này không?</h5>
+                <Modal.Body>Bạn có chắc chắn muốn xóa nhân viên này không?</Modal.Body>
+                <Modal.Footer>
                     <Button
-                        className="btn btn-danger d-block mx-auto mt-4"
+                        variant="secondary"
+                        onClick={() => setShowDeleteModal(false)}
+                    >
+                        Đóng
+                    </Button>
+                    <Button
+                        variant="danger"
                         onClick={handleDelete}
                     >
                         Xóa
                     </Button>
-                </Modal.Body>
+                </Modal.Footer>
             </Modal>
+
+
 
             {/* Add Staff Modal */}
             <Modal

@@ -6,10 +6,10 @@ import DashboardHome from "../component/AdminDashboard/DashboardHome/DashboardHo
 import DriverManagement from "../component/AdminDashboard/DriverManagement/DriverManagement";
 import CustomerManagement from "../component/AdminDashboard/CustomerManagement/CustomerManagement";
 import StaffManagement from "../component/AdminDashboard/StaffManagement/StaffManagement"; // Quản lý nhân viên
-import ReportManagement from "../component/AdminDashboard/ReportManagement/ReportManagement";
+import OrderReport from "../component/AdminDashboard/ReportManagement/OrderReport";
 import NewsManagement from "../component/AdminDashboard/NewsManagement/NewManagement";
 import AdminProfile from "../component/AdminDashboard/AdminProfile/AdminProfile";
-
+import PostReport from "../component/AdminDashboard/ReportManagement/PostReport";
 import VehicleManager from "../component/AdminDashboard/VehicleManagement/vehicleManagement";
 
 import StaffChangePassword from "../component/AdminDashboard/AdminProfile/StaffChangePassword";
@@ -33,8 +33,10 @@ function AdminDashboard() {
         return <CustomerManagement />;
       case "staff":
         return <StaffManagement />;
-      case "reports":
-        return <ReportManagement />;
+      case "orders-report":
+        return <OrderReport />
+      case "posts-report":
+        return <PostReport />
       case "news":
         return <NewsManagement />;
       case "admin-profile":
@@ -44,7 +46,7 @@ function AdminDashboard() {
       case "vehicles":
         return <VehicleManager />;
       default:
-        return null;
+        return <DashboardHome />;;
     }
   };
 

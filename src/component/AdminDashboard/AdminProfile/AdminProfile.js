@@ -142,7 +142,7 @@ const AdminProfile = () => {
   ]);
 
   return (
-    <div className="admin-profile-container">
+    <div className="admin-profile-container" style={{ marginTop: "100px" }}>
       <h2 className="admin-profile-title">Thông tin cá nhân</h2>
       <div className="avatar d-inline-block ">
         <div className="avt-img">
