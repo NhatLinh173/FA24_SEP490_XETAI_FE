@@ -95,7 +95,7 @@ const AppContent = () => {
           path="/request_quote"
           exact
           component={RequestQuote}
-          allowedRoles={["customer"]}
+          allowedRoles={["customer", "personal", "business"]}
         />
         <Route path="/signup" exact component={SignUp} />
         <Route path="/signin" exact component={SignIn} />
@@ -150,6 +150,7 @@ const AppContent = () => {
           exact
           component={StaffManagement}
           // allowedRoles={["admin", "staff", "customer"]}
+
         />
         <ProtectedRoute
           path="/dashboard-admin/vehicle"

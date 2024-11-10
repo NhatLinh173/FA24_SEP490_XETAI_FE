@@ -66,7 +66,7 @@ const ReportManagement = () => {
   return (
     <div className="report-management-container mt-5">
       <h2 className="report-management-title mb-4 text-center">
-        Quản Lý Báo Cáo
+        Quản Lý Báo Cáo Đơn Hàng
       </h2>
 
       <Table striped bordered hover className="report-management-table mt-3">
@@ -215,9 +215,8 @@ const ReportManagement = () => {
                       {post?.images &&
                         post?.images.map((img, index) => (
                           <div
-                            className={`carousel-item text-center ${
-                              index === activeIndex ? "active" : ""
-                            }`}
+                            className={`carousel-item text-center ${index === activeIndex ? "active" : ""
+                              }`}
                           >
                             <img src={img} className="fix-img" alt="service" />
                           </div>

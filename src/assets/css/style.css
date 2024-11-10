@@ -693,634 +693,142 @@ Search Overlay CSS
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 250px;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 100%;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 250px;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 100%;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu {
   top: 0;
   opacity: 0;
   left: 250px;
   visibility: hidden;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a {
   color: #301d44;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:hover,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a:focus,
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  a.active {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:hover,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a:focus,
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li a.active {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li.active
-  a {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li.active a {
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
 }
@@ -1329,13 +837,7 @@ Search Overlay CSS
   color: var(--main-theme-color);
 }
 
-.transTics-nav
-  .navbar
-  .navbar-nav
-  .nav-item
-  .dropdown-menu
-  li:hover
-  .dropdown-menu {
+.transTics-nav .navbar .navbar-nav .nav-item .dropdown-menu li:hover .dropdown-menu {
   opacity: 1;
   visibility: visible;
   margin-top: 0;
@@ -1450,41 +952,23 @@ Search Overlay CSS
     position: relative;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav {
     margin-top: 75px;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav
-    ul {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav ul {
     font-size: 15px;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav
-    ul
-    li
-    a.active {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav ul li a.active {
     color: var(--main-theme-color);
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .mean-nav
-    ul
-    li
-    li
-    a {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .mean-nav ul li li a {
     font-size: 14.5px;
   }
 
-  .transtics-responsive-nav
-    .transtics-responsive-menu.mean-container
-    .navbar-nav {
+  .transtics-responsive-nav .transtics-responsive-menu.mean-container .navbar-nav {
     overflow-y: scroll;
     height: 357px;
     -webkit-box-shadow: 0 7px 13px 0 rgba(0, 0, 0, 0.1);
@@ -1594,18 +1078,11 @@ Search Overlay CSS
     width: 30%;
   }
 
-  .navbar-color-white
-    .transtics-responsive-nav
-    .mean-container
-    a.meanmenu-reveal {
+  .navbar-color-white .transtics-responsive-nav .mean-container a.meanmenu-reveal {
     color: #ffffff;
   }
 
-  .navbar-color-white
-    .transtics-responsive-nav
-    .mean-container
-    a.meanmenu-reveal
-    span {
+  .navbar-color-white .transtics-responsive-nav .mean-container a.meanmenu-reveal span {
     background: #ffffff;
   }
 
@@ -1663,7 +1140,7 @@ Search Overlay CSS
   background-color: #0c2f5317;
 }
 
-#homeOne_banner .owl-theme .owl-nav.disabled + .owl-dots {
+#homeOne_banner .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 0;
   position: absolute;
   left: 0;
@@ -2216,7 +1693,7 @@ Search Overlay CSS
   border: 1px solid #fff;
 }
 
-#our_advantages_area .owl-theme .owl-nav.disabled + .owl-dots {
+#our_advantages_area .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 55px;
 }
 
@@ -2436,8 +1913,7 @@ Search Overlay CSS
   padding: 120px 0;
 }
 
-#request_form {
-}
+#request_form {}
 
 #request_form .form-group {
   margin-bottom: 30px;
@@ -2821,7 +2297,7 @@ Search Overlay CSS
   padding-bottom: 40px;
 }
 
-#home_two_service .owl-theme .owl-nav.disabled + .owl-dots {
+#home_two_service .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 30px;
 }
 
@@ -2971,7 +2447,7 @@ Search Overlay CSS
   padding: 15px 20px;
 }
 
-#team_area .owl-theme .owl-nav.disabled + .owl-dots {
+#team_area .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 30px;
 }
 
@@ -3055,7 +2531,7 @@ Search Overlay CSS
   margin: 0 auto;
 }
 
-#testimonial_homeTwo .owl-theme .owl-nav.disabled + .owl-dots {
+#testimonial_homeTwo .owl-theme .owl-nav.disabled+.owl-dots {
   margin-top: 30px;
 }
 
@@ -3211,6 +2687,7 @@ Search Overlay CSS
 
 /* Responsive cho các cột dịch vụ */
 @media (max-width: 992px) {
+
   /* Các màn hình từ 768px đến 991px */
   .col-lg-4 {
     flex: 0 0 50%;
@@ -3220,6 +2697,7 @@ Search Overlay CSS
 }
 
 @media (max-width: 768px) {
+
   /* Các màn hình từ 576px đến 767px */
   .col-lg-4 {
     flex: 0 0 100%;
@@ -4730,7 +4208,7 @@ textarea {
   width: 100%;
   display: flex;
   justify-content: center;
-  max-height: 400px; 
+  max-height: 400px;
   overflow: hidden;
 }
 
@@ -4877,6 +4355,7 @@ textarea {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
   .driver-info img,
   .additional-info img {
     width: 100px;
@@ -5039,8 +4518,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .carousel-bg span {
-  filter: brightness(0) saturate(100%) invert(98%) sepia(64%) saturate(6899%)
-    hue-rotate(7deg) brightness(101%) contrast(85%);
+  filter: brightness(0) saturate(100%) invert(98%) sepia(64%) saturate(6899%) hue-rotate(7deg) brightness(101%) contrast(85%);
 }
 
 .bt-error {
@@ -5499,7 +4977,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* Add spacing between links */
-.admin-dashboard-sidebar .admin-dashboard-nav-link + .admin-dashboard-nav-link {
+.admin-dashboard-sidebar .admin-dashboard-nav-link+.admin-dashboard-nav-link {
   margin-top: 10px;
 }
 
@@ -5520,7 +4998,7 @@ input[type="number"]::-webkit-inner-spin-button {
   /* Padding cho liên kết */
   border-radius: 8px;
   /* Bo góc cho liên kết */
-  color: #6c757d;
+  color: #b74f4f;
   /* Màu chữ cho liên kết */
   transition: background-color 0.3s ease, color 0.3s ease;
   margin-bottom: 10px;
@@ -5542,45 +5020,133 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* Card Styles */
-.admin-dashboard-card {
+.admin-dashboard-container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Thẻ thống kê */
+.admin-stat-card {
   border: none;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+  color: white;
+  min-height: 200px !important;
 }
 
-.admin-dashboard-card:hover {
+.admin-stat-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-.admin-dashboard-card-title {
+.admin-stat-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.admin-stat-value {
+  font-size: 1.8rem;
   font-weight: 600;
-  font-size: 1.2rem;
-  color: #333;
+  margin-bottom: 0;
 }
 
-.admin-dashboard-card-text {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #002346;
+.admin-stat-trend {
+  font-size: 0.8rem;
+  opacity: 0.9;
 }
 
-/* Specific Card Background Colors */
-.admin-dashboard-bg-info {
-  background-color: #17a2b8 !important;
+/* Base styles for statistics subtitles */
+.admin-stat-subtitle {
+  font-size: 0.875rem;
+  color: #ffffff;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.admin-dashboard-bg-success {
-  background-color: #28a745 !important;
+/* Thẻ biểu đồ */
+.admin-chart-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  background: white;
+  max-height: 30vh;
 }
 
-.admin-dashboard-bg-warning {
-  background-color: #ffc107 !important;
+.admin-chart-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #495057;
 }
 
-.admin-dashboard-bg-danger {
-  background-color: #dc3545 !important;
+.admin-chart-container {
+  margin: 0 -15px;
+}
+
+.admin-customer-stats h4 {
+  color: #495057;
+  font-weight: 600;
+}
+
+/* Màu nền gradient cho thẻ thống kê */
+.admin-card-info {
+  background: linear-gradient(45deg, #2196F3, #4CAF50);
+}
+
+.admin-card-success {
+  background: linear-gradient(45deg, #4CAF50, #8BC34A);
+}
+
+.admin-card-warning {
+  background: linear-gradient(45deg, #FF9800, #FFC107);
+}
+
+.admin-card-danger {
+  background: linear-gradient(45deg, #f44336, #FF5722);
+}
+
+/* Điều chỉnh responsive */
+@media (max-width: 768px) {
+  .admin-statistics-row .col-md-6 {
+    margin-bottom: 1rem;
+  }
+
+  .admin-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .admin-chart-card {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Custom scrollbar cho container */
+.admin-dashboard-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-dashboard-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.admin-dashboard-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.admin-dashboard-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Animation cho loading charts */
+.admin-chart-container {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.admin-chart-container.loading {
+  opacity: 0.6;
 }
 
 /* Button Styles */
@@ -6286,6 +5852,87 @@ input[type="number"]::-webkit-inner-spin-button {
   /* Chiếm 50% chiều rộng màn hình */
 }
 
+.post-report-container {
+  background-color: #ffffff;
+  /* Màu nền trắng cho container */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Bóng đổ nhẹ nhàng */
+}
+
+.post-report-title {
+  font-family: "Arial", sans-serif;
+  font-size: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  /* Canh giữa tiêu đề */
+  color: #333;
+  /* Màu chữ tối hơn để dễ đọc */
+}
+
+.post-report-table {
+  border-collapse: collapse;
+  /* Kết hợp biên */
+  width: 100%;
+  /* Chiếm toàn bộ chiều rộng */
+}
+
+.post-report-table td,
+.post-report-table th {
+  padding: 15px;
+  /* Padding cho ô */
+  text-align: center;
+  /* Căn giữa nội dung */
+}
+
+.post-report-table th {
+  background-color: #343a40;
+  /* Nền tối cho header */
+  color: white;
+  /* Màu chữ trắng */
+}
+
+.post-report-table tr:hover {
+  background-color: #f1f1f1;
+  /* Màu nền nhẹ hơn khi hover */
+}
+
+.pagination-controls {
+  margin-top: 20px;
+  text-align: center;
+  /* Canh giữa các điều khiển phân trang */
+}
+
+.pagination .page-link {
+  font-size: 1rem;
+  /* Cỡ chữ */
+  padding: 8px 12px;
+}
+
+.pagination .active .page-link {
+  background-color: #007bff;
+  color: white;
+}
+
+.post-report-table .btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  color: white;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 1.5rem;
+  padding-top: 3px;
+}
+
+.post-report-table .btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+  transition: background-color 0.3s, transform 0.2s;
+  padding-top: 3px;
+}
+
+
 /* =============================
        Report Management End
 ============================== */
@@ -6385,20 +6032,20 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* Action Buttons */
-.action-buttons {
+.staff-management-action-buttons {
   display: flex;
   gap: 10px;
   justify-content: center;
 }
 
-.btn-icon {
+.staff-management-btn-icon {
   padding: 8px;
   border-radius: 50%;
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
-.btn-icon:hover {
+.staff-management-btn-icon:hover {
   transform: scale(1.1);
 }
 
@@ -6429,29 +6076,8 @@ input[type="number"]::-webkit-inner-spin-button {
   transform: scale(1.05);
 }
 
-/* Modal Styles */
-.modal-content {
-  border-radius: 15px;
-  border: none;
-}
-
-.modal-header {
-  background-color: #3498db;
-  color: white;
-  border-radius: 15px 15px 0 0;
-  padding: 20px;
-}
-
-.modal-header .close {
-  color: white;
-}
-
-.modal-body {
-  padding: 25px;
-}
-
 /* Form Styles */
-.form-label {
+.staff-management-form-label {
   font-weight: 500;
   color: #2c3e50;
 }
@@ -6605,6 +6231,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .staff-management-btn:hover {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
+
 /* Animation Keyframes */
 @keyframes fadeIn {
   from {
@@ -6625,6 +6252,10 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .staff-management-table tbody tr {
   animation: fadeIn 0.5s ease-out;
+}
+
+.delete-staff-modal__btn {
+  margin-top: 10px;
 }
 
 /* =============================
@@ -6975,7 +6606,8 @@ input[type="number"]::-webkit-inner-spin-button {
   overflow: hidden;
   /* Đảm bảo nội dung không tràn */
   width: 1000px;
-  max-height: 95vh;
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 /* Modal header styles */
@@ -7069,18 +6701,14 @@ input[type="number"]::-webkit-inner-spin-button {
   padding: 1rem 1.5rem;
   display: flex;
   justify-content: flex-end;
-  /* Căn phải các button */
   gap: 10px;
-  /* Khoảng cách giữa các button */
-  position: sticky;
-  /* Giữ footer ở dưới cùng */
-  bottom: 0;
   width: 100%;
+  margin-top: -50px;
 }
 
 /* Button styles */
 .news-modal__btn {
-  font-weight: 500;
+  font-weight: 300;
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
   min-width: 100px;
@@ -7109,28 +6737,6 @@ input[type="number"]::-webkit-inner-spin-button {
   border-color: #0062cc;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .news-modal__header {
-    padding: 1rem;
-  }
-
-  .news-modal__body {
-    padding: 1rem;
-    max-height: calc(100vh - 180px);
-    /* Điều chỉnh cho màn hình nhỏ */
-  }
-
-  .news-modal__footer {
-    padding: 1rem;
-  }
-
-  .news-modal__btn {
-    padding: 0.4rem 1.2rem;
-    min-width: 80px;
-    /* Điều chỉnh độ rộng tối thiểu cho màn hình nhỏ */
-  }
-}
 
 /* Fix cho modal dialog */
 .modal-dialog.news-modal-container {
@@ -7146,6 +6752,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .custom-modal-news .modal-content {
   max-width: 700px !important;
   overflow: auto;
+  max-height: 85vh;
 }
 
 .height-input-admin {
@@ -7291,7 +6898,8 @@ input[type="number"]::-webkit-inner-spin-button {
 /* Định dạng cho modal với class vehicle */
 /* Modal container */
 .vehicle-modal {
-  background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Màu nền mờ */
   padding: 20px;
   display: flex;
   justify-content: center;
@@ -7300,10 +6908,13 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Dialog trong modal */
 .vehicle-dialog {
-  max-width: 100%; /* Modal sẽ chiếm 100% chiều rộng trên màn hình nhỏ */
+  max-width: 100%;
+  /* Modal sẽ chiếm 100% chiều rộng trên màn hình nhỏ */
   margin: 50px auto;
-  width: 80%; /* Đặt chiều rộng tối đa của modal */
-  max-width: 800px; /* Modal không vượt quá 800px */
+  width: 80%;
+  /* Đặt chiều rộng tối đa của modal */
+  max-width: 800px;
+  /* Modal không vượt quá 800px */
 }
 
 /* Nội dung modal */
@@ -7317,7 +6928,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .vehicle-title {
   font-size: 1.75rem;
   font-weight: bold;
-  color: #fff; 
+  color: #fff;
 
 }
 
@@ -7353,11 +6964,11 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .vehicle-footer {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   gap: 10px;
   padding: 10px 15px;
   flex-wrap: wrap;
-  width: 100%;  
+  width: 100%;
 }
 
 
@@ -7366,10 +6977,13 @@ input[type="number"]::-webkit-inner-spin-button {
   color: white;
   font-size: 1rem;
   padding: 10px 20px;
-  flex: 1 1 auto; /* Đảm bảo nút có thể co giãn */
-  min-width: 150px; /* Đặt độ rộng tối thiểu */
-  max-width: 100%; /* Đảm bảo nút không vượt quá 100% chiều rộng */
-  box-sizing: border-box; 
+  flex: 1 1 auto;
+  /* Đảm bảo nút có thể co giãn */
+  min-width: 150px;
+  /* Đặt độ rộng tối thiểu */
+  max-width: 100%;
+  /* Đảm bảo nút không vượt quá 100% chiều rộng */
+  box-sizing: border-box;
 }
 
 /* Nút xóa */
@@ -7379,45 +6993,59 @@ input[type="number"]::-webkit-inner-spin-button {
   font-size: 1rem;
   padding: 10px 20px;
   margin-left: 10px;
-  flex: 1 1 auto; /* Đảm bảo nút có thể co giãn */
-  min-width: 150px; /* Đặt độ rộng tối thiểu */
-  max-width: 100%; /* Đảm bảo nút không vượt quá 100% chiều rộng */
+  flex: 1 1 auto;
+  /* Đảm bảo nút có thể co giãn */
+  min-width: 150px;
+  /* Đặt độ rộng tối thiểu */
+  max-width: 100%;
+  /* Đảm bảo nút không vượt quá 100% chiều rộng */
   box-sizing: border-box;
 }
 
 /* Responsive cho thiết bị nhỏ (dưới 768px) */
 @media (max-width: 768px) {
   .vehicle-footer {
-    flex-direction: column; /* Đặt các nút xếp theo chiều dọc */
-    align-items: center; /* Căn giữa các nút */
-    padding: 5px 15px; /* Giảm padding của footer */
+    flex-direction: column;
+    /* Đặt các nút xếp theo chiều dọc */
+    align-items: center;
+    /* Căn giữa các nút */
+    padding: 5px 15px;
+    /* Giảm padding của footer */
   }
 
   .vehicle-btn-accept,
   .vehicle-btn-delete {
-    width: 100%; /* Các nút chiếm toàn bộ chiều rộng */
-    font-size: 14px; /* Giảm kích thước chữ */
-    margin-left: 0; /* Xóa margin trái */
-    margin-bottom: 10px; /* Thêm khoảng cách giữa các nút */
+    width: 100%;
+    /* Các nút chiếm toàn bộ chiều rộng */
+    font-size: 14px;
+    /* Giảm kích thước chữ */
+    margin-left: 0;
+    /* Xóa margin trái */
+    margin-bottom: 10px;
+    /* Thêm khoảng cách giữa các nút */
   }
 
   .vehicle-btn-delete {
-    margin-top: 10px; /* Thêm khoảng cách ở trên nút xóa */
+    margin-top: 10px;
+    /* Thêm khoảng cách ở trên nút xóa */
   }
 }
 
 /* Responsive cho thiết bị di động nhỏ (dưới 480px) */
 @media (max-width: 480px) {
   .vehicle-footer {
-    flex-direction: column; /* Đặt các nút xếp theo chiều dọc */
-    align-items: center; /* Căn giữa các nút */
+    flex-direction: column;
+    /* Đặt các nút xếp theo chiều dọc */
+    align-items: center;
+    /* Căn giữa các nút */
     padding: 5px 15px;
   }
 
   .vehicle-btn-accept,
   .vehicle-btn-delete {
-    width: 100%; /* Các nút chiếm toàn bộ chiều rộng */
-    font-size: 12px; /* Giảm kích thước chữ */
+    width: 100%;
+    /* Các nút chiếm toàn bộ chiều rộng */
+    font-size: 12px;
+    /* Giảm kích thước chữ */
   }
 }
-
