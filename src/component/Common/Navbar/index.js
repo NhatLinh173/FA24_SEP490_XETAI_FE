@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/img/RFTMS_logo_11.png";
+import logo from "../../../assets/img/RFTMS_logo_12.png";
 import TopHeader from "../TopHeader";
 import { getMenuData } from "./MenuData";
 import MenuItems from "./MenuItems";
@@ -116,7 +116,7 @@ const Navbar = ({ openModal }) => {
               <nav className="navbar navbar-expand-md navbar-light">
                 <Link className="navbar-brand" to="/">
 
-                  <img src="{logo}" alt="logo" />
+                  <img src={logo} alt="logo" />
 
                 </Link>
 
