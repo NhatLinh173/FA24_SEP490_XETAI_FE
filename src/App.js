@@ -131,7 +131,7 @@ const AppContent = () => {
           path="/dashboard-admin"
           exact
           component={Admin}
-          allowedRoles={["admin", "customer"]}
+          allowedRoles={["admin", "customer", "staff"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/customers"

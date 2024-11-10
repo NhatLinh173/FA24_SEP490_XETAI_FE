@@ -34,7 +34,11 @@ const useAuth = () => {
         setIsAuthenticated(true);
         const decodedToken = jwtDecode(data.accessToken);
         setUserRole(decodedToken.role);
-        if (userRole === "admin") {
+        localStorage.setItem("userRole", decodedToken.role);
+        if (
+          localStorage.getItem("userRole") === "admin" ||
+          localStorage.getItem("userRole") === "staff"
+        ) {
           history.push("/dashboard-admin");
         } else {
           history.push("/");
@@ -58,6 +62,7 @@ const useAuth = () => {
     localStorage.removeItem("driverId");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("avatar");
+    localStorage.removeItem("userRole");
     Cookies.remove("refreshToken");
     setAvatar(null);
     setIsAuthenticated(false);

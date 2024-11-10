@@ -1,29 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Form, Modal, Button } from "react-bootstrap";
 import { FaTrashAlt, FaEdit, FaPlus, FaEye } from "react-icons/fa";
 import { Row, Col } from "react-bootstrap";
-
+import axiosInstance from "../../../config/axiosConfig";
+import { ToastContainer, toast } from "react-toastify";
 const NewManagement = () => {
-  const [news, setNews] = useState([
-    {
-      id: "1",
-      title: "Giá cước vận chuyển quý 4/2024 có xu hướng giảm nhiệt",
-      content: `Trong bối cảnh kinh tế toàn cầu đang có nhiều biến động, giá cước vận chuyển trong quý 4 năm 2024 đã cho thấy những dấu hiệu giảm nhiệt. Sự giảm giá này được dự báo sẽ tiếp tục trong những tháng tới, tạo điều kiện thuận lợi cho các doanh nghiệp và người tiêu dùng. 
-        
-            Các yếu tố dẫn đến xu hướng giảm giá cước vận chuyển bao gồm sự gia tăng nguồn cung từ các nhà cung cấp dịch vụ logistics, cùng với việc giảm thiểu chi phí vận hành do ứng dụng công nghệ trong quản lý vận tải. Hơn nữa, nhu cầu tiêu thụ hàng hóa trong nước cũng đang có xu hướng ổn định, góp phần vào việc cân bằng giá cả thị trường.
-        
-            Chuyên gia trong ngành cho rằng, đây là thời điểm lý tưởng để các doanh nghiệp tiến hành điều chỉnh chiến lược kinh doanh của mình, từ việc tối ưu hóa chi phí cho đến mở rộng thị trường mới. Nếu các doanh nghiệp nhanh chóng nắm bắt được xu hướng này, họ có thể tận dụng lợi thế cạnh tranh và phát triển bền vững hơn trong tương lai.
-        
-            Tuy nhiên, các doanh nghiệp cũng cần lưu ý rằng giá cước vận chuyển có thể thay đổi theo tình hình thị trường. Do đó, việc theo dõi các chỉ số kinh tế và các chính sách của chính phủ liên quan đến lĩnh vực logistics là rất quan trọng.
-        
-            Tóm lại, quý 4 năm 2024 hứa hẹn sẽ mang đến nhiều cơ hội và thách thức cho ngành vận tải. Các doanh nghiệp cần chuẩn bị sẵn sàng để đón nhận những thay đổi này và điều chỉnh kế hoạch kinh doanh phù hợp nhằm đạt được kết quả tốt nhất.`,
-      date: "01-11-2024",
-      author: "Người đăng 1",
-      image:
-        "https://interlogistics.com.vn/static/2722/2024/10/15/d%E1%BB%B1%20b%C3%A1o%20c%C6%B0%E1%BB%9Bc%20q4.2024.png",
-    },
-  ]);
-
+  const [news, setNews] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddEditModal, setShowAddEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -33,42 +15,94 @@ const NewManagement = () => {
   const [newsPerPage, setNewsPerPage] = useState(10);
   const [newItem, setNewItem] = useState({
     title: "",
-    content: "",
-    date: "",
-    author: "",
+    description: "",
     image: "",
+    author: "",
   });
+  const creatorId = localStorage.getItem("userId");
 
-  const handleAddNews = () => {
-    if (newItem.title && newItem.author) {
-      const newNewsData = {
-        id: Math.random().toString(36).substr(2, 9),
-        ...newItem,
-        date: new Date().toISOString().split("T")[0],
-      };
-      setNews([...news, newNewsData]);
-      resetForm();
-      setShowAddEditModal(false);
+  const fetchNew = async () => {
+    try {
+      const response = await axiosInstance.get(`/blog/`);
+      setNews(response.data);
+      setSelectedNews(response.data[0]);
+    } catch (error) {
+      console.error("Error fetching news:", error);
     }
   };
 
+  useEffect(() => {
+    fetchNew();
+  }, []);
 
-  const handleUpdateNews = () => {
-    if (selectedNews) {
-      const updatedNews = news.map((newItem) =>
-        newItem.id === selectedNews.id
-          ? { ...newItem, ...selectedNews }
-          : newItem
+  const handleAddNews = async () => {
+    if (newItem.title && newItem.image) {
+      const formData = new FormData();
+      formData.append("creatorId", creatorId);
+      formData.append("title", newItem.title);
+      formData.append("description", newItem.description);
+      formData.append("image", newItem.image);
+
+      try {
+        const response = await axiosInstance.post("/blog/", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        if (response.status === 201) {
+          toast.success("Thêm tin tức thành công");
+          await fetchNew();
+          resetForm();
+          setShowAddEditModal(false);
+        } else {
+          toast.error("Thêm tin tức thất bại");
+        }
+      } catch (error) {
+        console.error("Error while adding news:", error);
+        toast.error("Đã xảy ra lỗi khi thêm tin tức");
+      }
+    } else {
+      toast.error("Vui lòng điền đầy đủ thông tin cần thiết");
+    }
+  };
+
+  const handleUpdateNews = async () => {
+    if (!selectedNews || !selectedNews._id) {
+      console.error("Không có bài viết nào được chọn để cập nhật.");
+      return;
+    }
+    selectedNews.title = newItem.title;
+    selectedNews.description = newItem.description;
+    selectedNews.image = newItem.image;
+
+    const formData = new FormData();
+    formData.append("title", selectedNews.title);
+    formData.append("description", selectedNews.description);
+    formData.append("image", selectedNews.image);
+
+    try {
+      const response = await axiosInstance.put(
+        `/blog/${selectedNews._id}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
-      setNews(updatedNews);
-      resetForm();
-      setShowAddEditModal(false);
+
+      if (response.status === 200) {
+        toast.success("Cập nhật tin tức thành công");
+
+        const updatedNewsList = news.map((item) =>
+          item._id === selectedNews._id ? { ...item, ...selectedNews } : item
+        );
+        await fetchNew();
+        setNews(updatedNewsList);
+        setShowAddEditModal(false);
+        resetForm();
+      }
+    } catch (error) {
+      console.error("Error updating news:", error);
+      toast.error("Cập nhật tin tức thất bại");
     }
-  };
-
-  const deleteNews = (id) => {
-    setNews(news.filter((newItem) => newItem.id !== id));
-
   };
 
   const confirmDelete = (id) => {
@@ -76,11 +110,20 @@ const NewManagement = () => {
     setShowDeleteModal(true);
   };
 
-  const handleDelete = () => {
-    if (selectedNews) {
-      deleteNews(selectedNews);
-      setShowDeleteModal(false);
-      setSelectedNews(null);
+  const handleDelete = async () => {
+    try {
+      const response = await axiosInstance.delete(`/blog/${selectedNews}`);
+      if (response.status === 200) {
+        toast.success("Xóa tin tức thành công");
+        setNews(news.filter((newItem) => newItem._id !== selectedNews));
+        setShowDeleteModal(false);
+        setSelectedNews(null);
+      } else {
+        toast.error("Xóa tin tức thất bại");
+      }
+    } catch (error) {
+      console.error("Error deleting news:", error);
+      toast.error("Đã xảy ra lỗi khi xóa tin tức");
     }
   };
 
@@ -89,7 +132,6 @@ const NewManagement = () => {
     setSelectedNews(null);
     setModalAction("add");
   };
-
 
   const viewNewsDetails = (newsItem) => {
     setSelectedNews(newsItem);
@@ -149,8 +191,8 @@ const NewManagement = () => {
             <tr key={newItem.id}>
               <td>{newItem.id}</td>
               <td>{newItem.title}</td>
-              <td>{newItem.date}</td>
-              <td>{newItem.author}</td>
+              <td>{new Date(newItem.createdAt).toLocaleDateString()}</td>
+              <td>{newItem?.creatorId?.fullName}</td>
               <td style={{ textAlign: "center" }}>
                 {newItem.image && (
                   <img
@@ -172,14 +214,16 @@ const NewManagement = () => {
                   <FaEdit
                     className="new-management-status-icon text-warning"
                     onClick={() => {
-                      setNewItem({
+                      const updatedItem = {
+                        ...selectedNews,
                         title: newItem.title,
-                        content: newItem.content,
-                        date: newItem.date,
-                        author: newItem.author,
+                        description: newItem.description,
                         image: newItem.image,
-                      });
-                      setSelectedNews(newItem.id);
+                        author: newItem?.creatorId?.fullName || "",
+                      };
+
+                      setNewItem(updatedItem);
+                      setSelectedNews(updatedItem);
                       setModalAction("edit");
                       setShowAddEditModal(true);
                     }}
@@ -189,7 +233,7 @@ const NewManagement = () => {
                 <span style={{ display: "inline-block" }}>
                   <FaTrashAlt
                     className="new-management-status-icon text-danger"
-                    onClick={() => confirmDelete(newItem.id)}
+                    onClick={() => confirmDelete(newItem._id)}
                     style={{ cursor: "pointer" }}
                   />
                 </span>
@@ -199,8 +243,6 @@ const NewManagement = () => {
         </tbody>
       </Table>
 
-
-      {/* Modal Thêm/Cập Nhật Tin Tức */}
       <Modal
         show={showAddEditModal}
         onHide={() => setShowAddEditModal(false)}
@@ -223,6 +265,9 @@ const NewManagement = () => {
                     placeholder="Nhập tiêu đề tin tức"
                     value={newItem.title}
                     className="news-form__input"
+                    onChange={(e) => {
+                      setNewItem({ ...newItem, title: e.target.value });
+                    }}
                   />
                 </Form.Group>
               </Col>
@@ -236,36 +281,11 @@ const NewManagement = () => {
                     as="textarea"
                     rows={15}
                     placeholder="Nhập nội dung tin tức"
-                    value={newItem.content}
+                    value={newItem.description}
                     className="news-form__textarea"
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col md={6}>
-                <Form.Group controlId="date" className="news-form__group">
-                  <Form.Label className="news-form__label">
-                    Ngày đăng
-                  </Form.Label>
-                  <Form.Control
-                    type="date"
-                    value={newItem.date}
-                    className="news-form__input"
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="author" className="news-form__group">
-                  <Form.Label className="news-form__label">
-                    Người đăng
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Nhập tên người đăng"
-                    value={newItem.author}
-                    className="news-form__input"
+                    onChange={(e) => {
+                      setNewItem({ ...newItem, description: e.target.value });
+                    }}
                   />
                 </Form.Group>
               </Col>
@@ -280,6 +300,9 @@ const NewManagement = () => {
                       type="file"
                       accept="image/*"
                       className="news-form__file-input"
+                      onChange={(e) => {
+                        setNewItem({ ...newItem, image: e.target.files[0] });
+                      }}
                     />
                   </div>
                 </Form.Group>
@@ -353,19 +376,19 @@ const NewManagement = () => {
               <div className="news-detail-metadata">
                 <p className="news-detail-metadata-item">
                   <span className="news-detail-metadata-label">Ngày đăng:</span>
-                  {selectedNews.date}
+                  {new Date(selectedNews.createdAt).toLocaleDateString()}
                 </p>
                 <p className="news-detail-metadata-item">
                   <span className="news-detail-metadata-label">
                     Người đăng:
                   </span>
-                  {selectedNews.author}
+                  {selectedNews?.creatorId?.fullName}
                 </p>
               </div>
               <div className="news-detail-content">
                 <p className="news-detail-content-label">Nội dung:</p>
-                {selectedNews.content ? (
-                  selectedNews.content.split("\n").map((line, index) => (
+                {selectedNews.description ? (
+                  selectedNews.description.split("\n").map((line, index) => (
                     <p key={index} className="news-detail-content-paragraph">
                       {line.trim()}
                     </p>
@@ -385,7 +408,6 @@ const NewManagement = () => {
       </Modal>
     </div>
   );
-
 };
 
 export default NewManagement;

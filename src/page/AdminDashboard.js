@@ -11,8 +11,7 @@ import NewsManagement from "../component/AdminDashboard/NewsManagement/NewManage
 import AdminProfile from "../component/AdminDashboard/AdminProfile/AdminProfile";
 import PostReport from "../component/AdminDashboard/ReportManagement/PostReport";
 import VehicleManager from "../component/AdminDashboard/VehicleManagement/vehicleManagement";
-
-import StaffChangePassword from "../component/AdminDashboard/AdminProfile/StaffChangePassword";
+import StaffChangePassword from "../component/AdminDashboard/AdminProfile/StaffChangePassword.js";
 
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState(
