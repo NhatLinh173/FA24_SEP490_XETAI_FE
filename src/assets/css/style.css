@@ -327,6 +327,8 @@ section {
 #inner_area_banner {
   background-image: url("../img/CreateOrder/pexels-kelly-1179532-13766346\ \(1\).jpg");
   padding: 245px 0 120px 0;
+  background-color: #f0f0f0;
+  padding: 245px 0 120px 0;
 }
 
 .inner_banner_text h2 {
@@ -4730,7 +4732,7 @@ textarea {
   width: 100%;
   display: flex;
   justify-content: center;
-  max-height: 400px; 
+  max-height: 400px;
   overflow: hidden;
 }
 
@@ -7317,8 +7319,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .vehicle-title {
   font-size: 1.75rem;
   font-weight: bold;
-  color: #fff; 
-
+  color: #fff;
 }
 
 /* Header modal */
@@ -7348,18 +7349,16 @@ input[type="number"]::-webkit-inner-spin-button {
 .vehicle-image {
   max-width: 100%;
   height: auto;
-
 }
 
 .vehicle-footer {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   gap: 10px;
   padding: 10px 15px;
   flex-wrap: wrap;
-  width: 100%;  
+  width: 100%;
 }
-
 
 .vehicle-btn-accept {
   background-color: #28a745;
@@ -7369,7 +7368,7 @@ input[type="number"]::-webkit-inner-spin-button {
   flex: 1 1 auto; /* Đảm bảo nút có thể co giãn */
   min-width: 150px; /* Đặt độ rộng tối thiểu */
   max-width: 100%; /* Đảm bảo nút không vượt quá 100% chiều rộng */
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 /* Nút xóa */
@@ -7420,4 +7419,3 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 12px; /* Giảm kích thước chữ */
   }
 }
-

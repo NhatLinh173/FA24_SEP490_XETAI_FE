@@ -92,7 +92,7 @@ const ServiceCard = ({
       {/* Report Modal */}
       <Modal show={showReportModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Báo cáo bài đăng</Modal.Title>
+          <Modal.Title>Báo cáo đơn hàng</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>

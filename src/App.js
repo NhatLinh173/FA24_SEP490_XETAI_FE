@@ -61,6 +61,7 @@ import StaffManagement from "./component/AdminDashboard/StaffManagement/StaffMan
 import Unauthorized from "./component/Unauthorized/unauthorized";
 import ResetPassword from "./component/ForgotPassword/resetPassword";
 import VehicleManager from "./component/AdminDashboard/VehicleManagement/vehicleManagement";
+import PostDriver from "./component/postDriver/PostDriver";
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const location = useLocation();
@@ -77,6 +78,7 @@ const AppContent = () => {
         <Route path="/" exact component={Home_One} />
         <Route path="/about" exact component={About} />
         <Route path="/order" exact component={Service} />
+        <Route path="/post-driver" component={PostDriver} />
         <Route path="/order/:id" extract component={ServiceDetail} />
         <Route path="/history-post/:id" extract component={HistoryPostDetail} />
         <Route path="/order_details" exact component={ServiceDetails} />
@@ -150,7 +152,6 @@ const AppContent = () => {
           exact
           component={StaffManagement}
           // allowedRoles={["admin", "staff", "customer"]}
-
         />
         <ProtectedRoute
           path="/dashboard-admin/vehicle"
