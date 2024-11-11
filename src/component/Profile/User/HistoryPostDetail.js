@@ -1413,7 +1413,7 @@ const HistoryPostDetail = () => {
           )}
         {isShowModal && (
           <div
-            className="modal fade show"
+            className="modal fade show bg-dark bg-opacity-75"
             id="exampleModal"
             tabIndex="-1"
             aria-labelledby="exampleModalLabel"

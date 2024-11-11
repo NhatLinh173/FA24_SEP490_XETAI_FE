@@ -594,38 +594,42 @@ const RequestQuoteForm = () => {
                     </div>
                   )}
 
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"weight"}
-                      id={"weight"}
-                      classes={"form-control"}
-                      placeholder={"Tổng Trọng Lượng (KG)"}
-                      label="Tổng Trọng Lượng (KG)"
-                      value={totalWeight}
-                      onChange={handleTotalWeightChange}
-                    />
-                    {weightError && (
-                      <div className="text-danger position-absolute marginBottom-error">
-                        {weightError}
-                      </div>
-                    )}{" "}
-                    {/* Hiển thị thông báo lỗi cho trọng lượng */}
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"bill"}
-                      id={"bill"}
-                      classes={"form-control"}
-                      placeholder={"Giá vận chuyển"}
-                      label="Giá vận chuyển (VND)"
-                      value={cost}
-                      onChange={handleCostChange}
-                    />
-                  </div>
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"weight"}
+                        id={"weight"}
+                        classes={"form-control"}
+                        placeholder={"Tổng Trọng Lượng (KG)"}
+                        label="Tổng Trọng Lượng (KG)"
+                        value={totalWeight}
+                        onChange={handleTotalWeightChange}
+                      />
+                      {weightError && (
+                        <div className="text-danger position-absolute marginBottom-error">
+                          {weightError}
+                        </div>
+                      )}{" "}
+                      {/* Hiển thị thông báo lỗi cho trọng lượng */}
+                    </div>
+                  )}
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"bill"}
+                        id={"bill"}
+                        classes={"form-control"}
+                        placeholder={"Giá vận chuyển"}
+                        label="Giá vận chuyển (VND)"
+                        value={cost}
+                        onChange={handleCostChange}
+                      />
+                    </div>
+                  )}
 
                   {isDriverExist && (
                     <div className="col-lg-12">
@@ -646,31 +650,33 @@ const RequestQuoteForm = () => {
                       )}{" "}
                     </div>
                   )}
-                  <div className="col-lg-6">
-                    <div className="form-group">
-                      <label className="font-weight-bold">
-                        Phương thức thanh toán
-                      </label>
-                      <select
-                        className="form-control"
-                        value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                      >
-                        <option value="" disabled>
-                          Chọn phương thức thanh toán
-                        </option>
-                        <option value="bank_transfer">
-                          Chuyển khoản ngân hàng
-                        </option>
-                        <option value="cash">Tiền mặt</option>
-                      </select>
-                      {paymentMethodError && (
-                        <div className="text-danger position-absolute marginBottom-error">
-                          {paymentMethodError}
-                        </div>
-                      )}
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <div className="form-group">
+                        <label className="font-weight-bold">
+                          Phương thức thanh toán
+                        </label>
+                        <select
+                          className="form-control"
+                          value={paymentMethod}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Chọn phương thức thanh toán
+                          </option>
+                          <option value="bank_transfer">
+                            Chuyển khoản ngân hàng
+                          </option>
+                          <option value="cash">Tiền mặt</option>
+                        </select>
+                        {paymentMethodError && (
+                          <div className="text-danger position-absolute marginBottom-error">
+                            {paymentMethodError}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {!isDriverExist && (
                     <div className="col-lg-12">

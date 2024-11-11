@@ -327,6 +327,8 @@ section {
 #inner_area_banner {
   background-image: url("../img/CreateOrder/pexels-kelly-1179532-13766346\ \(1\).jpg");
   padding: 245px 0 120px 0;
+  background-color: #f0f0f0;
+  padding: 245px 0 120px 0;
 }
 
 .inner_banner_text h2 {
@@ -6929,7 +6931,6 @@ input[type="number"]::-webkit-inner-spin-button {
   font-size: 1.75rem;
   font-weight: bold;
   color: #fff;
-
 }
 
 /* Header modal */
@@ -6959,7 +6960,6 @@ input[type="number"]::-webkit-inner-spin-button {
 .vehicle-image {
   max-width: 100%;
   height: auto;
-
 }
 
 .vehicle-footer {
@@ -6970,7 +6970,6 @@ input[type="number"]::-webkit-inner-spin-button {
   flex-wrap: wrap;
   width: 100%;
 }
-
 
 .vehicle-btn-accept {
   background-color: #28a745;
@@ -7049,3 +7048,4 @@ input[type="number"]::-webkit-inner-spin-button {
     /* Giảm kích thước chữ */
   }
 }
+
