@@ -86,7 +86,7 @@ const PostDriver = () => {
   return (
     <div className="wrapper">
       <div style={{ padding: "20px", maxWidth: "1200px", margin: "auto" }}>
-        <h2 className="text-center mb-4">Danh sách bài post của tài xế</h2>
+        <h2 className="text-center mb-4">Danh sách bài đăng </h2>
         <div
           style={{
             display: "grid",
