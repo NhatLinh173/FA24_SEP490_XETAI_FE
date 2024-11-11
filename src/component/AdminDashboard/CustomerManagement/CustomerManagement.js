@@ -5,10 +5,12 @@ import ReactPaginate from "react-paginate";
 import useInstanceData from "../../../config/useInstanceData";
 import { toast } from "react-toastify";
 import axios from "axios";
+import axiosInstance from "../../../config/axiosConfig";
 
 const CustomerManagement = () => {
   const { data: customer } = useInstanceData("auth/users/customer");
   const [customers, setCustomers] = useState([]);
+  const [transaction, setTransaction] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -31,8 +33,8 @@ const CustomerManagement = () => {
 
   const filteredCustomers = customers.filter(
     (customer) =>
-      customer.fullName &&
-      customer.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+      customer.email &&
+      customer.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedCustomers = [...filteredCustomers].sort((a, b) => {
@@ -97,10 +99,10 @@ const CustomerManagement = () => {
       if (response.status === 200) {
         setCustomers(
           customers.map((customer) =>
-            customer._id === id ? { ...customer, isBlocked: true } : customer
+            customer._id === id ? { ...customer, isBlocked: false } : customer
           )
         );
-        toast.success("Tài xế đã được mở khóa");
+        toast.success("Người dùng đã được mở khóa");
       } else {
         console.error("Error unlocking driver account:", response.statusText);
       }
@@ -117,7 +119,12 @@ const CustomerManagement = () => {
     setSortConfig({ key, direction });
   };
 
-  const openTransactionModal = (customer) => {
+  const openTransactionModal = async (id) => {
+    const customer = customers.find((customer) => customer._id === id);
+    const response = await axiosInstance.get(
+      `/auth/transaction/${customer._id}`
+    );
+    setTransaction(response.data.transactions);
     setSelectedCustomer(customer);
     setShowTransactionModal(true);
   };
@@ -127,6 +134,30 @@ const CustomerManagement = () => {
     setSelectedCustomer(null);
   };
 
+  const getDescription = (type) => {
+    switch (type) {
+      case "POST_PAYMENT":
+        return "Trả phí đăng bài";
+      case "DEPOSIT":
+        return "Nạp tiền";
+      case "CANCEL_ORDER":
+        return "Hủy Nhận chuyến";
+      default:
+        return "Không xác định";
+    }
+  };
+  const getStatus = (status) => {
+    switch (status) {
+      case "PAID":
+        return "Thành công";
+      case "PENDING":
+        return "Đang chờ xử lý";
+      case "FAILED":
+        return "Thất bại";
+      default:
+        return "Không xác định";
+    }
+  };
   return (
     <div className="customer-management-container mt-5">
       <h2 className="customer-management-title mb-4 text-center">
@@ -232,13 +263,13 @@ const CustomerManagement = () => {
                 }}
               >
                 {customer.isBlocked ? (
-                  <FaUnlock
-                    className="customer-management-status-icon text-success"
+                  <FaLock
+                    className="customer-management-status-icon text-danger"
                     onClick={() => toggleCustomerStatus(customer._id)}
                   />
                 ) : (
-                  <FaLock
-                    className="customer-management-status-icon text-danger"
+                  <FaUnlock
+                    className="customer-management-status-icon text-success"
                     onClick={() => toggleCustomerStatus(customer._id)}
                   />
                 )}
@@ -252,9 +283,10 @@ const CustomerManagement = () => {
               >
                 <Button
                   variant="info"
-                  onClick={() => openTransactionModal(customer)}
+                  onClick={() => openTransactionModal(customer._id)}
+                  style={{ fontSize: "15px" }}
                 >
-                  Xem lịch sử
+                  Lịch sử giao dịch
                 </Button>
               </td>
             </tr>
@@ -285,56 +317,6 @@ const CustomerManagement = () => {
       </div>
 
       <Modal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        centered
-        className="customer-lock-modal bg-dark bg-opacity-75"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Khóa Khách Hàng</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h5>Chọn thời gian khoá:</h5>
-          <Form>
-            <Form.Group>
-              <Form.Check
-                type="radio"
-                label="1 Ngày"
-                name="lockDuration"
-                value="1 Ngày"
-                checked={lockDuration === "1 Ngày"}
-                onChange={() => setLockDuration("1 Ngày")}
-              />
-              <Form.Check
-                type="radio"
-                label="3 Ngày"
-                name="lockDuration"
-                value="3 Ngày"
-                checked={lockDuration === "3 Ngày"}
-                onChange={() => setLockDuration("3 Ngày")}
-              />
-              <Form.Check
-                type="radio"
-                label="Vĩnh viễn"
-                name="lockDuration"
-                value="Vĩnh viễn"
-                checked={lockDuration === "Vĩnh viễn"}
-                onChange={() => setLockDuration("7 Ngày")}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Đóng
-          </Button>
-          <Button variant="primary" onClick={handleLock}>
-            Khóa
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal
         show={showTransactionModal}
         onHide={closeTransactionModal}
         centered
@@ -344,36 +326,93 @@ const CustomerManagement = () => {
           <Modal.Title>Lịch Sử Giao Dịch</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {selectedCustomer &&
-          selectedCustomer.transactionHistory &&
-          selectedCustomer.transactionHistory.length > 0 ? (
+          {transaction.length > 0 ? (
             <Table striped bordered hover>
               <thead>
                 <tr>
-                  <th>Ngày</th>
+                  <th>Loại giao dịch</th>
                   <th>Số tiền</th>
                   <th>Trạng thái</th>
+                  <th>Ngày</th>
                 </tr>
               </thead>
               <tbody>
-                {selectedCustomer.transactionHistory.map(
-                  (transaction, index) => (
-                    <tr key={index}>
-                      <td>{transaction.date}</td>
-                      <td>{transaction.amount}</td>
-                      <td>{transaction.status}</td>
-                    </tr>
-                  )
-                )}
+                {transaction.map((tran) => (
+                  <tr key={tran._id}>
+                    <td>{getDescription(tran.type)}</td>
+                    <td>{tran.amount}</td>
+                    <td>{getStatus(tran.status)}</td>
+                    <td>
+                      {new Date(tran.createdAt).toLocaleDateString("vi-VN")}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
           ) : (
-            <p>Không có lịch sử giao dịch.</p>
+            <p>Không có giao dịch nào</p>
           )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeTransactionModal}>
             Đóng
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        className="driver-lock-modal"
+      >
+        <Modal.Header closeButton className="driver-lock-modal-header">
+          <Modal.Title>Khóa Tài Xế</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="driver-lock-modal-body">
+          <h5 className="text-center mb-4">Chọn thời gian khóa:</h5>
+          <Form.Group>
+            <Form.Check
+              type="radio"
+              label="1 Ngày"
+              name="lockDuration"
+              value="1day"
+              checked={lockDuration === "1day"}
+              onChange={(e) => setLockDuration(e.target.value)}
+              className="driver-lock-modal-radio mb-2"
+              custom
+            />
+            <Form.Check
+              type="radio"
+              label="3 Ngày"
+              name="lockDuration"
+              value="3days"
+              checked={lockDuration === "3days"}
+              onChange={(e) => setLockDuration(e.target.value)}
+              className="driver-lock-modal-radio mb-2"
+              custom
+            />
+            <Form.Check
+              type="radio"
+              label="Vĩnh Viễn"
+              name="lockDuration"
+              value="forever"
+              checked={lockDuration === "forever"}
+              onChange={(e) => setLockDuration(e.target.value)}
+              className="driver-lock-modal-radio mb-2"
+              custom
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer className="driver-lock-modal-footer">
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Đóng
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleLock}
+            disabled={!lockDuration}
+          >
+            Khóa
           </Button>
         </Modal.Footer>
       </Modal>

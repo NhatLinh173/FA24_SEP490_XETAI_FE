@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Form, Modal, Button } from "react-bootstrap";
 import { FaLock, FaUnlock, FaSortUp, FaSortDown } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import axiosIntance from "../../../config/axiosConfig";
 import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
@@ -28,11 +28,15 @@ const DriverManagement = () => {
     const driver = async () => {
       try {
         const response = await axiosIntance.get(`/auth/role/driver`);
+
         if (response.status === 200) {
-          const driversData = response.data.map((driver) => ({
-            driverId: driver._id, // Lưu _id của Driver
-            ...driver.userId, // Kết hợp thông tin userId vào đây
-          }));
+          const driversData = response.data.map((driver) => {
+            return {
+              driverId: driver._id,
+              ...driver.userId,
+            };
+          });
+
           setDrivers(driversData);
         } else {
           console.error("Error fetching drivers:", response.statusText);
@@ -61,12 +65,16 @@ const DriverManagement = () => {
   );
 
   const toggleDriverStatus = (id) => {
-    const driver = drivers.find((driver) => driver._id === id);
-    if (driver.isBlocked) {
-      unlockDriverAccount(id);
+    const driver = drivers.find((driver) => String(driver._id) === String(id));
+    if (!driver) {
+      console.log("Driver not found for id:", id);
     } else {
-      setSelectedDriver(id);
-      setShowModal(true);
+      if (driver.isBlocked) {
+        unlockDriverAccount(id);
+      } else {
+        setSelectedDriver(id);
+        setShowModal(true);
+      }
     }
   };
 
@@ -76,6 +84,7 @@ const DriverManagement = () => {
         `http://localhost:3005/auth/user/${id}/unlock`
       );
       if (response.status === 200) {
+        console.log(response);
         setDrivers(
           drivers.map((driver) =>
             driver._id === id ? { ...driver, isBlocked: false } : driver
@@ -99,6 +108,7 @@ const DriverManagement = () => {
         }
       );
       if (response.status === 200) {
+        console.log(response);
         setDrivers(
           drivers.map((driver) =>
             driver._id === id ? { ...driver, isBlocked: true } : driver
@@ -227,12 +237,12 @@ const DriverManagement = () => {
                 {driver.isBlocked ? (
                   <FaLock
                     className="driver-management-status-icon text-danger"
-                    onClick={() => toggleDriverStatus(driver.driverId)}
+                    onClick={() => toggleDriverStatus(driver._id)}
                   />
                 ) : (
                   <FaUnlock
                     className="driver-management-status-icon text-success"
-                    onClick={() => toggleDriverStatus(driver.driverId)}
+                    onClick={() => toggleDriverStatus(driver._id)}
                   />
                 )}
               </td>

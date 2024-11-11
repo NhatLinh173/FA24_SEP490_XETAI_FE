@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
 import { useLocation, useParams } from "react-router-dom";
 import axiosInstance from "../../../config/axiosConfig";
 import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
