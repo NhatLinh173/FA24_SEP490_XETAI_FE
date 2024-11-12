@@ -62,7 +62,7 @@ const PostDriver = () => {
     setCurrentPage(selected);
   };
 
-  const handleThreeDotsClick = () => setShowReportButton(true);
+  const handleThreeDotsClick = () => setShowReportButton(!showReportButton);
   const handleReportClick = () => setShowReportModal(true);
   const handleCloseModal = () => {
     setShowReportModal(false);
