@@ -64,7 +64,7 @@ const Vehicals = () => {
       <div className="mb-4 d-flex justify-content-between">
         <h2>Xe của tôi</h2>
 
-        <Link to="/vehical/add" className="btn btn-success">
+        <Link to="/vehical/add" className="btn btn-theme">
           Thêm xe mới
         </Link>
       </div>
