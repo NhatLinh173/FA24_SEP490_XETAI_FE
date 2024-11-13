@@ -29,8 +29,13 @@ const RequestQuoteForm = () => {
   const [recipientPhone, setRecipientPhone] = useState("");
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
+  console.log(cityFrom);
+
   const [cityTo, setCityTo] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [driverAddressFrom, setDriverAddressFrom] = useState("");
+  const [driverAddressTo, setDriverAddressTo] = useState("");
+  const [decriptionDriver, setDecriptionDriver] = useState("");
 
   // các biến lỗi
   const [weightError, setWeightError] = useState("");
@@ -73,7 +78,18 @@ const RequestQuoteForm = () => {
     setCurrentBalance(balance);
     getCity();
   }, [email, phone, fullName, balance]);
+  const handleDriverCityFromChange = (e) => {
+    setDriverAddressFrom(e.target.value);
+    console.log(e.target.value);
+  };
 
+  const handleDriverAddressToChange = (e) => {
+    setDriverAddressTo(e.target.value);
+    console.log(e.target.value);
+  };
+  const handleDescriptionDriverChange = (e) => {
+    setDecriptionDriver(e.target.value);
+  };
   const handleOrderTypeChange = (e) => {
     if (e.target.value.length > 30) {
       setOrderTypeChangeError("*Trường này giới hạn 50 kí tự");
@@ -243,29 +259,69 @@ const RequestQuoteForm = () => {
   };
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    if (files.length + imgs.length > 3) {
-      toast.error("Bạn chỉ được chọn 3 ảnh.");
-      return;
-    }
-    const filePreviews = files.map((file) => ({
+    let filePreviews = files.map((file) => ({
       url: URL.createObjectURL(file),
       file,
     }));
 
-    setImgs((prevImgs) => [...prevImgs, ...filePreviews]);
+    if (isDriverExist) {
+      // Nếu role là tài xế, chỉ cho phép một ảnh
+      if (filePreviews.length > 1) {
+        toast.error("Tài xế chỉ được chọn một ảnh.");
+        return;
+      }
+      // Nếu đã có ảnh, thay thế bằng ảnh mới
+      setImgs(filePreviews);
+    } else {
+      // Nếu không phải tài xế, giới hạn tối đa 3 ảnh
+      if (files.length + imgs.length > 3) {
+        toast.error("Bạn chỉ được chọn 3 ảnh.");
+        return;
+      }
+      setImgs((prevImgs) => [...prevImgs, ...filePreviews]);
+    }
   };
+
   const handleDeleteImage = (index) => {
     const updatedImgs = imgs.filter((_, i) => i !== index);
     setImgs(updatedImgs);
   };
-  useEffect(() => {
-    if (imgs.length === 0) {
-      setIsDisable(true);
-    } else {
-      setIsDisable(false);
+  // useEffect(() => {
+  //   if (imgs.length === 0) {
+  //     setIsDisable(true);
+  //   } else {
+  //     setIsDisable(false);
+  //   }
+  // }, [imgs]);
+  const handleSubmitDriver = async (e) => {
+    e.preventDefault();
+    console.log("Ảnh đã chọn:", imgs);
+    if (!imgs || imgs.length === 0) {
+      toast.error("Vui lòng chọn ít nhất một ảnh!");
+      return; // Ngăn không cho gửi dữ liệu nếu imgs trống
     }
-  }, [imgs]);
+    const formData = new FormData();
+    imgs.forEach((img) => {
+      console.log("Đang thêm ảnh vào FormData:", img.file);
+      formData.append("images", img.file);
+    });
+    formData.append("creatorId", driverId);
+    formData.append("startCity", cityFrom);
+    formData.append("destinationCity", cityTo);
+    formData.append("startAddress", driverAddressFrom);
+    formData.append("destinationAddress", driverAddressTo);
+    formData.append("description", decriptionDriver);
 
+    try {
+      const response = await axiosInstance.post("/driverpost", formData);
+      console.log(response);
+      if (response.status === 200) {
+        toast.success("Đăng bài thành công");
+      }
+    } catch (error) {
+      toast.error("có lỗi xảy ra");
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!imgs || imgs.length === 0) {
@@ -525,8 +581,8 @@ const RequestQuoteForm = () => {
                             }
                             placeholder={"Nhập điểm đi"}
                             label="Nhập điểm đi"
-                            value={addressFrom}
-                            onChange={handleAddressFromChange}
+                            value={driverAddressFrom}
+                            onChange={handleDriverCityFromChange}
                           />
                           {AddressFromChangeError && (
                             <div className="text-danger position-absolute bottom-error">
@@ -561,8 +617,8 @@ const RequestQuoteForm = () => {
                             classes={"form-control position-relative"}
                             placeholder={"Nhập điểm đến"}
                             label="Nhập Điểm đến"
-                            value={addressTo}
-                            onChange={handleAddressToChange}
+                            value={driverAddressTo}
+                            onChange={handleDriverAddressToChange}
                           />
                           {AddressToChangeError && (
                             <div className="text-danger position-absolute bottom-error">
@@ -640,8 +696,8 @@ const RequestQuoteForm = () => {
                         classes={"form-control"}
                         placeholder={"Nhập nội dung"}
                         label=" Nội dung  "
-                        value={orderDescription}
-                        onChange={handleOrderDescriptionChange}
+                        value={decriptionDriver}
+                        onChange={handleDescriptionDriverChange}
                       />
                       {orderDescriptionError && (
                         <div className="text-danger position-absolute marginBottom-error">
@@ -829,19 +885,35 @@ const RequestQuoteForm = () => {
                     </>
                   )}
                   <div className="col-lg-12">
-                    <div className="quote_submit_button d-flex justify-content-center">
-                      <button
-                        className={`btn ${
-                          isDisable
-                            ? "btn-secondary cursor-disable"
-                            : "btn-theme"
-                        }`}
-                        onClick={handleSubmit}
-                        disabled={isDisable}
-                      >
-                        Gửi
-                      </button>
-                    </div>
+                    {!isDriverExist && (
+                      <div className="quote_submit_button d-flex justify-content-center">
+                        <button
+                          className={`btn ${
+                            isDisable
+                              ? "btn-secondary cursor-disable"
+                              : "btn-theme"
+                          }`}
+                          onClick={handleSubmit}
+                          disabled={isDisable}
+                        >
+                          Gửi
+                        </button>
+                      </div>
+                    )}
+                    {isDriverExist && (
+                      <div className="quote_submit_button d-flex justify-content-center">
+                        <button
+                          className={`btn ${
+                            isDisable
+                              ? "btn-secondary cursor-disable"
+                              : "btn-theme"
+                          }`}
+                          onClick={handleSubmitDriver}
+                        >
+                          Gửi
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </form>
