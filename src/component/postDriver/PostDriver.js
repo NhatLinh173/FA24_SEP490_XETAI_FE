@@ -1,49 +1,11 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
+import useInstanceData from "../../config/useInstanceData";
+import { formatDate } from "../../utils/formatDate";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const PostDriver = () => {
-  const driverPosts = [
-    {
-      id: 1,
-      driverName: "Nguyễn Văn A",
-      avatar: "https://via.placeholder.com/50",
-      startPoint: "Đà Nẵng",
-      destination: "Hà Nội",
-      postTime: "09:00 AM, 09/11/2024",
-      description:
-        "Tôi sẽ khởi hành từ TP.HCM vào sáng mai, mong được hợp tác với khách có nhu cầu.",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6GHz8OhCawNyFvEOq5to07DFxdHFR_aKqzg&s",
-    },
-    {
-      id: 2,
-      driverName: "Nguyễn Văn A",
-      avatar: "https://via.placeholder.com/50",
-      startPoint: "Đà Nẵng",
-      destination: "Hà Nội",
-      postTime: "09:00 AM, 09/11/2024",
-      description:
-        "Tôi sẽ khởi hành từ TP.HCM vào sáng mai, mong được hợp tác với khách có nhu cầu.",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6GHz8OhCawNyFvEOq5to07DFxdHFR_aKqzg&s",
-    },
-    {
-      id: 3,
-      driverName: "Nguyễn Văn A",
-      avatar: "https://via.placeholder.com/50",
-      startPoint: "Đà Nẵng",
-      destination: "Hà Nội",
-      postTime: "09:00 AM, 09/11/2024",
-      description:
-        "Tôi sẽ khởi hành từ TP.HCM vào sáng mai, mong được hợp tác với khách có nhu cầu.",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6GHz8OhCawNyFvEOq5to07DFxdHFR_aKqzg&s",
-    },
-
-    // Add more posts as needed
-  ];
-
   const [showReportButton, setShowReportButton] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState("");
@@ -51,9 +13,12 @@ const PostDriver = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedDriver, setSelectedDriver] = useState(null);
 
+  const { data: PostDriver } = useInstanceData(`/driverpost`);
+  console.log(PostDriver);
+
   const postsPerPage = 6;
-  const pageCount = Math.ceil(driverPosts.length / postsPerPage);
-  const displayedPosts = driverPosts.slice(
+  const pageCount = Math.ceil(PostDriver.length / postsPerPage);
+  const displayedPosts = PostDriver.slice(
     currentPage * postsPerPage,
     (currentPage + 1) * postsPerPage
   );
@@ -69,9 +34,7 @@ const PostDriver = () => {
     setShowReportButton(false);
   };
   const handleConfirmReport = () => {
-    console.log("Report reason:", reportReason);
     setShowReportModal(false);
-    setReportReason("");
   };
 
   const handleContactClick = (driver) => {
@@ -94,9 +57,9 @@ const PostDriver = () => {
             gap: "15px",
           }}
         >
-          {displayedPosts.map((post) => (
+          {displayedPosts.map((PostDriver) => (
             <div
-              key={post.id}
+              key={PostDriver.id}
               className="driver-post-card"
               style={{
                 position: "relative",
@@ -170,48 +133,55 @@ const PostDriver = () => {
                   marginBottom: "15px",
                 }}
               >
-                <img
-                  src={post.avatar}
-                  alt="Avatar"
-                  style={{
-                    borderRadius: "50%",
-                    width: "50px",
-                    height: "50px",
-                    marginRight: "15px",
-                    border: "2px solid #007bff",
-                  }}
-                />
+                <Link to={`/driver/${PostDriver.creatorId.userId._id}`}>
+                  <img
+                    src={PostDriver.creatorId.userId.avatar}
+                    alt="Avatar"
+                    style={{
+                      borderRadius: "50%",
+                      width: "50px",
+                      height: "50px",
+                      marginRight: "15px",
+                      border: "2px solid #007bff",
+                    }}
+                  />
+                </Link>
                 <div>
-                  <h5 style={{ margin: 0, color: "#007bff" }}>
-                    {post.driverName}
-                  </h5>
+                  <Link to={`/driver/${PostDriver.creatorId.userId._id}`}>
+                    <h4
+                      style={{ margin: 0, color: "#007bff", fontSize: "18px" }}
+                    >
+                      {PostDriver.creatorId.userId.fullName}
+                    </h4>
+                  </Link>
                   <p style={{ fontSize: "0.9em", color: "#888" }}>
-                    {post.postTime}
+                    {formatDate(PostDriver.createdAt)}
                   </p>
                 </div>
               </div>
               <p>
-                <strong>Điểm đi:</strong> {post.startPoint}
+                <strong>Điểm đi:</strong> {PostDriver.startCity}
               </p>
               <p>
-                <strong>Điểm đến:</strong> {post.destination}
+                <strong>Điểm đến:</strong> {PostDriver.destinationCity}
               </p>
               <p style={{ marginBottom: "10px", color: "#555" }}>
-                {post.description}
+                {PostDriver.description}
               </p>
               <img
-                src={post.image}
+                src={PostDriver.images}
                 alt="Post"
                 style={{
                   width: "100%",
-                  height: "auto",
+                  height: "200px",
+                  objectFit: "cover",
                   borderRadius: "8px",
                   marginTop: "10px",
                 }}
               />
               <Button
                 className="mt-3 btn-theme border-0"
-                onClick={() => handleContactClick(post)}
+                onClick={() => handleContactClick(PostDriver.creatorId.userId)}
               >
                 Liên hệ
               </Button>
@@ -268,7 +238,7 @@ const PostDriver = () => {
           <Modal.Title>Liên hệ với tài xế</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Bạn có chắc chắn muốn liên hệ với tài xế {selectedDriver?.driverName}?
+          Bạn có chắc chắn muốn liên hệ với tài xế {selectedDriver?.fullName}?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseContactModal}>

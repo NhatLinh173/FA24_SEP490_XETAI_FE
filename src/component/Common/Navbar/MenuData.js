@@ -1,6 +1,8 @@
 export const getMenuData = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const userRole = localStorage.getItem("userRole");
+  console.log(localStorage.getItem("userRole"));
+
   const MenuData = [
     {
       name: "Trang chủ",
@@ -8,8 +10,8 @@ export const getMenuData = () => {
       has_children: false,
     },
     {
-      name: userRole === "driverId" ? "Đơn Hàng" : "Bài Đăng", // thay đổi dựa trên vai trò
-      href: userRole === "driverId" ? "/order" : "/post-driver", // điều hướng tương ứng
+      name: userRole === "personal" ? "Đơn Hàng" : "Bài Đăng", // thay đổi dựa trên vai trò
+      href: userRole === "personal" ? "/order" : "/post-driver", // điều hướng tương ứng
       has_children: false,
     },
     {
