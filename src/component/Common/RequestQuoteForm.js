@@ -317,6 +317,11 @@ const RequestQuoteForm = () => {
       console.log(response);
       if (response.status === 200) {
         toast.success("Đăng bài thành công");
+        setDriverAddressFrom("");
+        setDriverAddressTo("");
+        setCityFrom("");
+        setCityTo("");
+        setDecriptionDriver("");
       }
     } catch (error) {
       toast.error("có lỗi xảy ra");
