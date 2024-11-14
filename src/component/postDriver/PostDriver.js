@@ -5,10 +5,12 @@ import useInstanceData from "../../config/useInstanceData";
 import { formatDate } from "../../utils/formatDate";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axiosInstance from "../../config/axiosConfig";
+import avatarDefault from "../../assets/img/icon/avatarDefault.jpg";
+
 import { toast } from "react-toastify";
 
 const PostDriver = () => {
-  const [showReportButton, setShowReportButton] = useState(false);
+  const [showReportButtons, setShowReportButtons] = useState({});
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState("");
   const [showContactModal, setShowContactModal] = useState(false);
@@ -16,7 +18,7 @@ const PostDriver = () => {
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const userId = localStorage.getItem("userId");
-  const { data: PostDriver } = useInstanceData(`/driverpost`);
+  const { data: PostDriver } = useInstanceData("/driverpost");
 
   const postsPerPage = 6;
   const pageCount = Math.ceil(PostDriver.length / postsPerPage);
@@ -28,16 +30,24 @@ const PostDriver = () => {
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
+
   const handleThreeDotsClick = (postId) => {
-    setShowReportButton(!showReportButton);
+    setShowReportButtons((prevState) => ({
+      ...prevState,
+      [postId]: !prevState[postId],
+    }));
     setSelectedPostId(postId);
   };
 
   const handleReportClick = () => setShowReportModal(true);
   const handleCloseModal = () => {
     setShowReportModal(false);
-    setShowReportButton(false);
+    setShowReportButtons((prevState) => ({
+      ...prevState,
+      [selectedPostId]: false,
+    }));
   };
+
   const handleConfirmReport = async (e) => {
     e.preventDefault();
     try {
@@ -53,7 +63,10 @@ const PostDriver = () => {
       toast.error("Có lỗi xảy ra!!!!");
     }
     setShowReportModal(false);
-    setShowReportButton(false);
+    setShowReportButtons((prevState) => ({
+      ...prevState,
+      [selectedPostId]: false,
+    }));
   };
 
   const handleContactClick = (driverId) => {
@@ -64,6 +77,8 @@ const PostDriver = () => {
   const handleConfirmContact = () => {
     setShowContactModal(false);
   };
+
+  // Xử lý việc hiển thị mô tả bài đăng
 
   return (
     <div className="wrapper">
@@ -79,7 +94,6 @@ const PostDriver = () => {
           {displayedPosts.map((PostDriver) => (
             <div
               key={PostDriver.id}
-              className="driver-post-card"
               style={{
                 position: "relative",
                 margin: "13px",
@@ -88,6 +102,9 @@ const PostDriver = () => {
                 boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                 backgroundColor: "#f8f9fa",
                 transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                display: "flex", // Sử dụng Flexbox
+                flexDirection: "column", // Dọc theo trục Y
+                justifyContent: "space-between", // Đảm bảo các phần tử đều được căn chỉnh đều
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "scale(1.02)";
@@ -122,7 +139,7 @@ const PostDriver = () => {
                 </span>
               </div>
 
-              {showReportButton && (
+              {showReportButtons[PostDriver._id] && (
                 <div
                   style={{
                     position: "absolute",
@@ -135,15 +152,13 @@ const PostDriver = () => {
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                   }}
                 >
-                  {selectedPostId === PostDriver._id && (
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={handleReportClick}
-                      style={{ width: "100%" }}
-                    >
-                      Báo cáo
-                    </button>
-                  )}
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={handleReportClick}
+                    style={{ width: "100%" }}
+                  >
+                    Báo cáo
+                  </button>
                 </div>
               )}
 
@@ -152,11 +167,12 @@ const PostDriver = () => {
                   display: "flex",
                   alignItems: "center",
                   marginBottom: "15px",
+                  flexShrink: 0, // Giúp ngăn avatar và tên bị dồn xuống khi có nội dung dài
                 }}
               >
                 <Link to={`/driver/${PostDriver.creatorId.userId._id}`}>
                   <img
-                    src={PostDriver.creatorId.userId.avatar}
+                    src={PostDriver.creatorId.userId.avatar || avatarDefault}
                     alt="Avatar"
                     style={{
                       borderRadius: "50%",
@@ -186,7 +202,18 @@ const PostDriver = () => {
               <p>
                 <strong>Điểm đến:</strong> {PostDriver.destinationCity}
               </p>
-              <p style={{ marginBottom: "10px", color: "#555" }}>
+              <p
+                style={{
+                  marginBottom: "10px",
+                  color: "#555",
+                  maxWidth: "100%",
+                  display: "-webkit-box", // Dùng flexbox cho hỗ trợ đa dòng
+                  WebkitBoxOrient: "vertical", // Cấu hình chiều dọc
+                  overflow: "hidden", // Ẩn phần dư thừa
+                  WebkitLineClamp: 4, // Giới hạn số dòng là 4
+                  lineHeight: "1.5", // Điều chỉnh khoảng cách dòng nếu cần
+                }}
+              >
                 {PostDriver.description}
               </p>
               <img
@@ -197,20 +224,31 @@ const PostDriver = () => {
                   height: "200px",
                   objectFit: "cover",
                   borderRadius: "8px",
-                  marginTop: "10px",
+                  marginTop: "15px",
+                  marginBottom: "15px",
                 }}
               />
-              <Button
-                className="mt-3 btn-theme border-0"
-                onClick={() => handleContactClick(PostDriver.creatorId.userId)}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
-                Liên hệ
-              </Button>
+                <Button
+                  className="btn-theme border-0"
+                  onClick={() =>
+                    handleContactClick(PostDriver.creatorId.userId)
+                  }
+                >
+                  Liên hệ
+                </Button>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="pagination-controls text-center mt-4">
+        <div style={{ marginTop: "30px", textAlign: "center" }}>
           <ReactPaginate
             pageCount={pageCount}
             onPageChange={handlePageClick}
@@ -230,23 +268,22 @@ const PostDriver = () => {
         </div>
       </div>
 
-      <Modal show={showReportModal} onHide={handleCloseModal} centered>
+      <Modal show={showReportModal} onHide={handleCloseModal} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Báo cáo bài đăng</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <textarea
-            id="reportReason"
             className="form-control"
-            rows="4"
             value={reportReason}
             onChange={(e) => setReportReason(e.target.value)}
-            placeholder="Nhập lý do của bạn..."
+            placeholder="Mô tả lý do báo cáo"
+            rows="4"
           />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
-            Hủy
+            Đóng
           </Button>
           <Button variant="danger" onClick={handleConfirmReport}>
             Báo cáo
@@ -254,19 +291,26 @@ const PostDriver = () => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showContactModal} onHide={handleCloseContactModal} centered>
+      <Modal
+        show={showContactModal}
+        onHide={handleCloseContactModal}
+        animation={false}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Liên hệ với tài xế</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Bạn có chắc chắn muốn liên hệ với tài xế {selectedDriver?.fullName}?
+          <p>
+            Bạn có chắc chắn muốn liên hệ với tài xế{" "}
+            <strong>{selectedDriver?.fullName}</strong>?
+          </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseContactModal}>
-            Hủy
+            Đóng
           </Button>
           <Button variant="primary" onClick={handleConfirmContact}>
-            Xác nhận
+            Liên hệ
           </Button>
         </Modal.Footer>
       </Modal>
