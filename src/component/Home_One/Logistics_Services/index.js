@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ServiceCard from "../../Common/Service/ServiceCard";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
@@ -8,7 +8,19 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import LoadingAnimation from "../../Animation/loadingAnimation";
 
 const LogisticsService = () => {
+  const [isDriverExist, setIsDriverExist] = useState(false);
+
   const { data: post, loading } = useInstanceData(`/posts`);
+  console.log(post);
+  const { data: PostDriver } = useInstanceData(`/driverpost`);
+  const driverId = localStorage.getItem("driverId");
+  useEffect(() => {
+    if (driverId !== "undefined" && driverId) {
+      setIsDriverExist(true);
+    } else {
+      setIsDriverExist(false);
+    }
+  }, [driverId]);
 
   return (
     <section id="logistics_area">
@@ -18,40 +30,49 @@ const LogisticsService = () => {
             <div className="logistics_wrappers">
               <div className="logistic_tabs_button">
                 <ul>
-                  <li>
-                    <h2 className="mb-5">Đơn Hàng</h2>
-                  </li>
+                  {isDriverExist && (
+                    <li>
+                      <h2 className="mb-5">Đơn Hàng</h2>
+                    </li>
+                  )}
+                  {!isDriverExist && (
+                    <li>
+                      <h2 className="mb-5">Bài Đăng</h2>
+                    </li>
+                  )}
                 </ul>
               </div>
 
               <div className="service_slider_home_two">
-                <OwlCarousel
-                  className="owl-theme"
-                  autoplay={true}
-                  autoplayHoverPause={true}
-                  autoplayTimeout={2500}
-                  margin={20}
-                  nav={false}
-                  dots={true}
-                >
-                  {post &&
-                    post?.salePosts?.map((data) => (
-                      <ServiceCard
-                        key={data._id}
-                        id={data._id}
-                        img={
-                          data.images && data.images.length > 0
-                            ? data.images[0]
-                            : "default-image.jpg"
-                        }
-                        goodsType={data.title}
-                        pickupLocation={data.startPointCity}
-                        dropoffLocation={data.destinationCity}
-                        weight={data.load}
-                        price={data.price}
-                      />
-                    ))}
-                </OwlCarousel>
+                {isDriverExist && (
+                  <OwlCarousel
+                    className="owl-theme"
+                    autoplay={true}
+                    autoplayHoverPause={true}
+                    autoplayTimeout={2500}
+                    margin={20}
+                    nav={false}
+                    dots={true}
+                  >
+                    {post &&
+                      post?.salePosts?.map((data) => (
+                        <ServiceCard
+                          key={data._id}
+                          id={data._id}
+                          img={
+                            data.images && data.images.length > 0
+                              ? data.images[0]
+                              : "default-image.jpg"
+                          }
+                          goodsType={data.title}
+                          pickupLocation={data.startPointCity}
+                          dropoffLocation={data.destinationCity}
+                          weight={data.load}
+                          price={data.price}
+                        />
+                      ))}
+                  </OwlCarousel>
+                )}
               </div>
               <div className="review_button">
                 <Link to="/order" className="btn btn-theme mb-2">

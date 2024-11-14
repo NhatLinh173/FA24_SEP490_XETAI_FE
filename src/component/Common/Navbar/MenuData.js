@@ -10,8 +10,14 @@ export const getMenuData = () => {
       has_children: false,
     },
     {
-      name: userRole === "personal" ? "Đơn Hàng" : "Bài Đăng", // thay đổi dựa trên vai trò
-      href: userRole === "personal" ? "/order" : "/post-driver", // điều hướng tương ứng
+      name:
+        userRole === "personal" || userRole === "business"
+          ? "Đơn Hàng"
+          : "Bài Đăng", // thay đổi dựa trên vai trò
+      href:
+        userRole === "personal" || userRole === "business"
+          ? "/order"
+          : "/post-driver", // điều hướng tương ứng
       has_children: false,
     },
     {

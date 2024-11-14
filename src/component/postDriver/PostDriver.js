@@ -4,6 +4,8 @@ import ReactPaginate from "react-paginate";
 import useInstanceData from "../../config/useInstanceData";
 import { formatDate } from "../../utils/formatDate";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import axiosInstance from "../../config/axiosConfig";
+import { toast } from "react-toastify";
 
 const PostDriver = () => {
   const [showReportButton, setShowReportButton] = useState(false);
@@ -12,9 +14,9 @@ const PostDriver = () => {
   const [showContactModal, setShowContactModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedDriver, setSelectedDriver] = useState(null);
-
+  const [selectedPostId, setSelectedPostId] = useState(null);
+  const userId = localStorage.getItem("userId");
   const { data: PostDriver } = useInstanceData(`/driverpost`);
-  console.log(PostDriver);
 
   const postsPerPage = 6;
   const pageCount = Math.ceil(PostDriver.length / postsPerPage);
@@ -26,19 +28,36 @@ const PostDriver = () => {
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
+  const handleThreeDotsClick = (postId) => {
+    setShowReportButton(!showReportButton);
+    setSelectedPostId(postId);
+  };
 
-  const handleThreeDotsClick = () => setShowReportButton(!showReportButton);
   const handleReportClick = () => setShowReportModal(true);
   const handleCloseModal = () => {
     setShowReportModal(false);
     setShowReportButton(false);
   };
-  const handleConfirmReport = () => {
+  const handleConfirmReport = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("/report", {
+        reporterId: userId,
+        postId: selectedPostId,
+        description: reportReason,
+      });
+      if (response.status === 201) {
+        toast.success("Báo cáo bài đăng thành công!!");
+      }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra!!!!");
+    }
     setShowReportModal(false);
+    setShowReportButton(false);
   };
 
-  const handleContactClick = (driver) => {
-    setSelectedDriver(driver);
+  const handleContactClick = (driverId) => {
+    setSelectedDriver(driverId);
     setShowContactModal(true);
   };
   const handleCloseContactModal = () => setShowContactModal(false);
@@ -89,7 +108,7 @@ const PostDriver = () => {
                   cursor: "pointer",
                   zIndex: 10,
                 }}
-                onClick={handleThreeDotsClick}
+                onClick={() => handleThreeDotsClick(PostDriver._id)}
                 title="Báo cáo bài đăng"
               >
                 <span
@@ -116,13 +135,15 @@ const PostDriver = () => {
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                   }}
                 >
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={handleReportClick}
-                    style={{ width: "100%" }}
-                  >
-                    Báo cáo
-                  </button>
+                  {selectedPostId === PostDriver._id && (
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={handleReportClick}
+                      style={{ width: "100%" }}
+                    >
+                      Báo cáo
+                    </button>
+                  )}
                 </div>
               )}
 
