@@ -33,8 +33,7 @@ const RequestQuoteForm = () => {
 
   const [cityTo, setCityTo] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [driverAddressFrom, setDriverAddressFrom] = useState("");
-  const [driverAddressTo, setDriverAddressTo] = useState("");
+
   const [decriptionDriver, setDecriptionDriver] = useState("");
 
   // các biến lỗi
@@ -78,15 +77,7 @@ const RequestQuoteForm = () => {
     setCurrentBalance(balance);
     getCity();
   }, [email, phone, fullName, balance]);
-  const handleDriverCityFromChange = (e) => {
-    setDriverAddressFrom(e.target.value);
-    console.log(e.target.value);
-  };
 
-  const handleDriverAddressToChange = (e) => {
-    setDriverAddressTo(e.target.value);
-    console.log(e.target.value);
-  };
   const handleDescriptionDriverChange = (e) => {
     setDecriptionDriver(e.target.value);
   };
@@ -308,8 +299,7 @@ const RequestQuoteForm = () => {
     formData.append("creatorId", driverId);
     formData.append("startCity", cityFrom);
     formData.append("destinationCity", cityTo);
-    formData.append("startAddress", driverAddressFrom);
-    formData.append("destinationAddress", driverAddressTo);
+
     formData.append("description", decriptionDriver);
 
     try {
@@ -317,8 +307,6 @@ const RequestQuoteForm = () => {
       console.log(response);
       if (response.status === 200) {
         toast.success("Đăng bài thành công");
-        setDriverAddressFrom("");
-        setDriverAddressTo("");
         setCityFrom("");
         setCityTo("");
         setDecriptionDriver("");
@@ -558,82 +546,50 @@ const RequestQuoteForm = () => {
                     </div>
                   )}
                   {isDriverExist && (
-                    <div class="container d-flex justify-content-center mb-3">
-                      <div className="col-lg-6 d-flex w-100 addressFrom-input  pl-0">
-                        <div className="form-group align-self-end">
-                          <label className="font-weight-bold">Điểm đi</label>
-                          <select
-                            className="form-control first_null"
-                            onChange={handleCityFrom}
-                            defaultValue=""
-                          >
-                            <option value="" disabled>
-                              Chọn Tỉnh/Thành
-                            </option>
-                            {cities.map((city) => (
-                              <option value={city.name}>{city.name}</option>
-                            ))}
-                          </select>
+                    <div className="container d-flex justify-content-center mb-3">
+                      <div className="row w-100 justify-content-between">
+                        <div className="col-lg-5 d-flex addressFrom-input pl-0">
+                          <div className="form-group align-self-end w-100">
+                            <label className="font-weight-bold">Điểm đi</label>
+                            <select
+                              className="form-control"
+                              onChange={handleCityFrom}
+                              defaultValue=""
+                            >
+                              <option value="" disabled>
+                                Chọn Tỉnh/Thành
+                              </option>
+                              {cities.map((city) => (
+                                <option key={city.name} value={city.name}>
+                                  {city.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         </div>
-                        <div className="flex-1 custom-input">
-                          <FormInput
-                            tag={"input"}
-                            type={"text"}
-                            name={"departure"}
-                            id={"departure"}
-                            classes={
-                              "form-control align-self-end position-relative"
-                            }
-                            placeholder={"Nhập điểm đi"}
-                            label="Nhập điểm đi"
-                            value={driverAddressFrom}
-                            onChange={handleDriverCityFromChange}
-                          />
-                          {AddressFromChangeError && (
-                            <div className="text-danger position-absolute bottom-error">
-                              {AddressFromChangeError}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-lg-6 d-flex w-100 addressTo-input pr-0">
-                        <div className="form-group align-self-end">
-                          <label className="font-weight-bold">Điểm đến</label>
-                          <select
-                            className="form-control first_null"
-                            onChange={handleCityTo}
-                            defaultValue=""
-                          >
-                            <option value="" disabled>
-                              Chọn Tỉnh/Thành
-                            </option>
-                            {cities.map((city) => (
-                              <option value={city.name}>{city.name}</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div className="flex-1 custom-input">
-                          <FormInput
-                            tag={"input"}
-                            type={"text"}
-                            name={"city"}
-                            id={"city"}
-                            classes={"form-control position-relative"}
-                            placeholder={"Nhập điểm đến"}
-                            label="Nhập Điểm đến"
-                            value={driverAddressTo}
-                            onChange={handleDriverAddressToChange}
-                          />
-                          {AddressToChangeError && (
-                            <div className="text-danger position-absolute bottom-error">
-                              {AddressToChangeError}
-                            </div>
-                          )}
+                        <div className="col-lg-5 d-flex addressTo-input pr-0">
+                          <div className="form-group align-self-end w-100">
+                            <label className="font-weight-bold">Điểm đến</label>
+                            <select
+                              className="form-control"
+                              onChange={handleCityTo}
+                              defaultValue=""
+                            >
+                              <option value="" disabled>
+                                Chọn Tỉnh/Thành
+                              </option>
+                              {cities.map((city) => (
+                                <option key={city.name} value={city.name}>
+                                  {city.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
                   )}
+
                   {!isDriverExist && (
                     <div className="col-lg-6">
                       <FormInput
