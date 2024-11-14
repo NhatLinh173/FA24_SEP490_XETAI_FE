@@ -49,6 +49,7 @@ const RequestQuoteForm = () => {
   const [recipientPhoneError, setRecipientPhoneError] = useState("");
   const [newPhoneError, setNewPhoneError] = useState("");
   const [orderDescriptionError, setOrderDescriptionError] = useState("");
+  const [decriptionDriverError, setDecriptionDriverError] = useState("");
   const [isDisable, setIsDisable] = useState(false);
   const [paymentMethodError, setPaymentMethodError] = useState("");
   const [imgs, setImgs] = useState([]);
@@ -79,6 +80,13 @@ const RequestQuoteForm = () => {
   }, [email, phone, fullName, balance]);
 
   const handleDescriptionDriverChange = (e) => {
+    if (e.target.value.length > 150) {
+      setDecriptionDriverError("Trường này giới hạn 150 kí tự");
+      setIsDisable(true);
+    } else {
+      setDecriptionDriverError("");
+      setIsDisable(false);
+    }
     setDecriptionDriver(e.target.value);
   };
   const handleOrderTypeChange = (e) => {
@@ -660,9 +668,9 @@ const RequestQuoteForm = () => {
                         value={decriptionDriver}
                         onChange={handleDescriptionDriverChange}
                       />
-                      {orderDescriptionError && (
+                      {decriptionDriverError && (
                         <div className="text-danger position-absolute marginBottom-error">
-                          {orderDescriptionError}
+                          {decriptionDriverError}
                         </div>
                       )}{" "}
                     </div>
