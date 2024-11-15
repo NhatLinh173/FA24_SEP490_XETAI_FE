@@ -36,13 +36,36 @@ const LogisticsService = () => {
   }, [driverId]);
 
   const handleThreeDotsClick = (postId) => {
-    setShowReportButtons((prevState) => ({
-      ...prevState,
-      [postId]: !prevState[postId],
-    }));
+    setSelectedPostId(postId);
+    setShowReportButtons((prevState) => {
+      const newState = {};
+
+      Object.keys(prevState).forEach((id) => {
+        newState[id] = false;
+      });
+
+      newState[postId] = !prevState[postId];
+
+      return newState;
+    });
+
     setSelectedPostId(postId);
   };
+  useEffect(() => {
+    if (selectedPostId) {
+      setShowReportButtons((prevState) => {
+        const newState = {};
 
+        Object.keys(prevState).forEach((id) => {
+          newState[id] = false;
+        });
+
+        newState[selectedPostId] = true;
+
+        return newState;
+      });
+    }
+  }, [selectedPostId]);
   const handleReportClick = () => setShowReportModal(true);
   const handleCloseModal = () => {
     setShowReportModal(false);
@@ -99,15 +122,14 @@ const LogisticsService = () => {
                     <>
                       <OwlCarousel
                         className="owl-theme text-left"
-                        autoplay={true}
                         autoplayHoverPause={true}
-                        autoplayTimeout={2500}
                         margin={20}
                         nav={false}
                         dots={true}
                       >
                         {PostDriver.map((PostDriver) => (
                           <PostItem
+                            key={PostDriver._id}
                             PostDriver={PostDriver}
                             handleThreeDotsClick={handleThreeDotsClick}
                             showReportButtons={showReportButtons}
