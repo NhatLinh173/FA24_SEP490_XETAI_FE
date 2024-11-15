@@ -35,10 +35,18 @@ const Post = ({ PostDriver }) => {
   };
 
   const handleThreeDotsClick = (postId) => {
-    setShowReportButtons((prevState) => ({
-      ...prevState,
-      [postId]: !prevState[postId],
-    }));
+    setShowReportButtons((prevState) => {
+      const newState = {};
+
+      Object.keys(prevState).forEach((id) => {
+        newState[id] = false;
+      });
+
+      newState[postId] = !prevState[postId];
+
+      return newState;
+    });
+
     setSelectedPostId(postId);
   };
 
