@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import { TripHistory } from "./TripHistory";
 import HistoryPost from "./HistoryPost";
 import Statistical from "./Statistical";
+import HistoryPostDriver from "./HistoryPostDriver";
 
 const DashboardProfile = () => {
   const location = useLocation();
@@ -70,6 +71,7 @@ const DashboardProfile = () => {
             {tab === "favoriteDriver" && <FavoriteDriver />}
             {tab === "vehicals" && <Vehicals />}
             {tab === "statistical" && <Statistical driverId={driverId} />}
+            {tab === "historyPostDriver" && <HistoryPostDriver />}
           </div>
         </div>
       </div>
