@@ -351,20 +351,22 @@ const HistoryPost = () => {
                     </button>
                   )}
                 </div>
-                <div
-                  className="position-absolute"
-                  style={{ right: "10px", top: "10px" }}
-                >
-                  <button
-                    className="btn-danger btn-sm align-self-start border-0"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleOpenModal(post._id);
-                    }}
+                {!isDriverExist && (
+                  <div
+                    className="position-absolute"
+                    style={{ right: "10px", top: "10px" }}
                   >
-                    <MdDelete />
-                  </button>
-                </div>
+                    <button
+                      className="btn-danger btn-sm align-self-start border-0"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleOpenModal(post._id);
+                      }}
+                    >
+                      <MdDelete />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </Link>
