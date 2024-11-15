@@ -9,7 +9,7 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import axios from "../../../config/axiosConfig";
 
 const ReportManagement = () => {
-  const { data: report, refetch } = useInstanceData("/report");
+  const { data: report, refetch } = useInstanceData("/report/post");
   console.log(report);
 
   const [reports, setReports] = useState([]);
@@ -215,8 +215,9 @@ const ReportManagement = () => {
                       {post?.images &&
                         post?.images.map((img, index) => (
                           <div
-                            className={`carousel-item text-center ${index === activeIndex ? "active" : ""
-                              }`}
+                            className={`carousel-item text-center ${
+                              index === activeIndex ? "active" : ""
+                            }`}
                           >
                             <img src={img} className="fix-img" alt="service" />
                           </div>
