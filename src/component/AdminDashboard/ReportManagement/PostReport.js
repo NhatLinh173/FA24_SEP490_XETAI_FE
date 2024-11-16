@@ -1,74 +1,67 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 import { formatDate } from "../../../utils/formatDate";
+import useInstanceData from "../../../config/useInstanceData";
+import { toast } from "react-toastify";
+import axios from "../../../config/axiosConfig";
 
 const PostReport = () => {
   // Mock data for reports
-  const reports = [
-    {
-      _id: "1",
-      postId: {
-        _id: "101",
-        title: "Post 1",
-        description: "Description of Post 1",
-        creator: { fullName: "Creator 1" },
-        images: ["image1.jpg", "image2.jpg"],
-      },
-      description: "Report Reason 1",
-      reporterId: { fullName: "Reporter 1" },
-      createdAt: "2024-11-01T12:00:00Z",
-    },
-    {
-      _id: "2",
-      postId: {
-        _id: "102",
-        title: "Post 2",
-        description: "Description of Post 2",
-        creator: { fullName: "Creator 2" },
-        images: ["image3.jpg", "image4.jpg"],
-      },
-      description: "Report Reason 2",
-      reporterId: { fullName: "Reporter 2" },
-      createdAt: "2024-11-02T12:00:00Z",
-    },
-    // Add more mock reports here
-  ];
-
+  const [reportPostDriver, setReportPostDriver] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const [postId, setPostId] = useState(null);
-  const [reportId, setReportId] = useState(null);
+  const [reportPostId, setReportPostId] = useState(null);
+  const [Post, setPost] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Logic for pagination
-  const displayedReports = reports.slice(
-    currentPage * 5,
-    (currentPage + 1) * 5
-  );
+  const { data: postReport, refetch } = useInstanceData("/report/driverPost");
+  console.log(postReport);
 
-  // Handling previous and next slide for carousel in details modal
   const nextSlide = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % postId?.images.length);
+    setActiveIndex((prevIndex) => (prevIndex + 1) % Post.images.length);
   };
 
   const prevSlide = () => {
     setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? postId?.images.length - 1 : prevIndex - 1
+      prevIndex === 0 ? Post.images.length - 1 : prevIndex - 1
     );
   };
+  useEffect(() => {
+    if (postReport) {
+      setReportPostDriver(postReport);
+    } else {
+      toast.error("Không có báo cáo bài đăng!!");
+    }
+  }, [postReport]);
 
-  const handleViewDetails = (post) => {
-    setPostId(post);
-    setShowDetailModal(true);
+  const displayedReports = reportPostDriver.slice(
+    currentPage * 5,
+    (currentPage + 1) * 5
+  );
+  const confirmDelete = async () => {
+    try {
+      await axios.delete(`/report/${reportPostId}`);
+      setShowDeleteModal(false);
+      toast.success("Xóa báo cáo bài đăng thành công");
+      refetch();
+    } catch (error) {
+      toast.error("có xảy ra lỗi!!");
+    }
   };
-
   const handleDelete = (reportId) => {
-    setReportId(reportId);
+    setReportPostId(reportId);
     setShowDeleteModal(true);
+    console.log(reportId);
+  };
+  const handleViewDetails = (postId) => {
+    setPost(postId);
+    console.log(postId);
+
+    setShowDetailModal(true);
   };
 
   return (
@@ -89,23 +82,23 @@ const PostReport = () => {
           </tr>
         </thead>
         <tbody>
-          {displayedReports.map((report) => (
-            <tr key={report._id}>
-              <td>{report?.postId._id}</td>
-              <td>{report?.description}</td>
-              <td>{report?.postId?.creator.fullName}</td>
-              <td>{report?.reporterId?.fullName}</td>
-              <td>{formatDate(report?.createdAt)}</td>
+          {displayedReports?.map((postReport) => (
+            <tr key={postReport?._id}>
+              <td>{postReport?.driverPostId._id}</td>
+              <td>{postReport?.description}</td>
+              <td>{postReport?.postId?.creator.fullName}</td>
+              <td>{postReport?.reporterId?.email}</td>
+              <td>{formatDate(postReport?.createdAt)}</td>
               <td className="d-flex justify-content-center">
                 <Button
                   variant="info"
-                  onClick={() => handleViewDetails(report.postId)}
+                  onClick={() => handleViewDetails(postReport?.driverPostId)}
                 >
                   <IoIosInformationCircleOutline className="icon-large" />
                 </Button>
                 <Button
                   variant="danger"
-                  onClick={() => handleDelete(report._id)}
+                  onClick={() => handleDelete(postReport._id)}
                   className="ms-2"
                 >
                   <FaTrash />
@@ -116,11 +109,11 @@ const PostReport = () => {
         </tbody>
       </Table>
 
-      <p>{`Displaying ${reports.length} reports.`}</p>
+      <p>{`Displaying ${postReport.length} reports.`}</p>
 
       <div className="pagination-controls text-center">
         <ReactPaginate
-          pageCount={Math.ceil(reports.length / 5)}
+          pageCount={Math.ceil(postReport.length / 5)}
           onPageChange={({ selected }) => setCurrentPage(selected)}
           containerClassName={"pagination justify-content-center"}
           pageClassName={"page-item"}
@@ -146,16 +139,13 @@ const PostReport = () => {
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this report?</Modal.Body>
+        <Modal.Body>Bạn có muốn xóa bài đăng này không??</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
+            Hủy
           </Button>
-          <Button
-            variant="danger"
-            onClick={() => setShowDeleteModal(false)} // Removed toast
-          >
-            Delete
+          <Button variant="danger" onClick={confirmDelete}>
+            Xóa
           </Button>
         </Modal.Footer>
       </Modal>
@@ -165,33 +155,124 @@ const PostReport = () => {
         show={showDetailModal}
         onHide={() => setShowDetailModal(false)}
         centered
-        className="bg-dark bg-opacity-75"
+        className="custom-modal-admin  bg-dark bg-opacity-75 "
       >
         <Modal.Header closeButton>
           <Modal.Title>Chi tiết bài đăng</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="modal-body-scrollable" size="lg">
           <div className="row">
-            {/* Left Side: Report Information */}
-            <div className="col-md-10">
-              <div>
-                <p>
-                  <strong>Người đăng bài:</strong> {postId?.creator?.fullName}
-                </p>
-                <p>
-                  <strong>Người báo cáo:</strong>{" "}
-                  {reports?.reporterId?.fullName}
-                </p>
-                <p>
-                  <strong>Ngày báo cáo:</strong>{" "}
-                  {formatDate(reports?.createdAt)}
-                </p>
-                <p>
-                  <strong>Lý do:</strong> {reports?.description}
-                </p>
-                <p>
-                  <strong>Nội dung bài đăng:</strong> {postId?.description}
-                </p>
+            <div>
+              <div className="border rounded p-3 shadow-sm">
+                {/* Service Information */}
+                <div className="w-100 border-bottom pb-3 mb-3">
+                  <div
+                    id="carouselExampleControls"
+                    className="carousel slide"
+                    data-ride="carousel"
+                  >
+                    <div className="carousel-inner">
+                      {Post?.images &&
+                        Post?.images.map((img, index) => (
+                          <div
+                            className={`carousel-item text-center ${
+                              index === activeIndex ? "active" : ""
+                            }`}
+                          >
+                            <img src={img} className="fix-img" alt="service" />
+                          </div>
+                        ))}
+                    </div>
+                    <button
+                      className="carousel-control-prev border-0 carousel-bg"
+                      type="button"
+                      data-target="#carouselExampleControls"
+                      data-slide="prev"
+                      onClick={prevSlide}
+                    >
+                      <span
+                        className="carousel-control-prev-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="sr-only">Previous</span>
+                    </button>
+                    <button
+                      className="carousel-control-next border-0  carousel-bg"
+                      type="button"
+                      data-target="#carouselExampleControls"
+                      data-slide="next"
+                      onClick={nextSlide}
+                    >
+                      <span
+                        className="carousel-control-next-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="sr-only">Next</span>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <form>
+                    <div className="border rounded p-3 shadow-sm">
+                      <div className="form-row">
+                        <div className="form-group col-md-12">
+                          <label
+                            htmlFor="pickupLocation"
+                            className="font-weight-bold"
+                          >
+                            Điểm đi
+                          </label>
+                          <div className="d-flex">
+                            <div className="flex-1">
+                              <input
+                                id="pickupLocation"
+                                value={Post?.startCity}
+                                type="text"
+                                className="form-control position-relative"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="form-group col-md-12">
+                          <label
+                            htmlFor="dropoffLocation"
+                            className="font-weight-bold"
+                          >
+                            Điểm đến
+                          </label>
+                          <div className="d-flex ">
+                            <div className="flex-1">
+                              <input
+                                id="dropoffLocation"
+                                value={Post?.destinationCity}
+                                type="text"
+                                className="form-control position-relative"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="form-group col-md-12">
+                          <label
+                            htmlFor="description"
+                            className="font-weight-bold"
+                          >
+                            Nội dung bài đăng
+                          </label>
+                          <textarea
+                            id="description"
+                            value={Post?.description}
+                            className="form-control position-relative"
+                            rows="4"
+                            disabled
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
