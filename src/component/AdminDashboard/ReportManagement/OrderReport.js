@@ -61,6 +61,7 @@ const ReportManagement = () => {
   const handleDelete = (reportId) => {
     setReportId(reportId);
     setShowDeleteModal(true);
+    console.log(reportId);
   };
 
   return (
@@ -108,7 +109,7 @@ const ReportManagement = () => {
                   paddingTop: "25px",
                 }}
               >
-                {report?.postId?.creator.fullName}
+                {report?.postId?.creator.email}
               </td>
               <td
                 style={{
@@ -117,7 +118,7 @@ const ReportManagement = () => {
                   paddingTop: "25px",
                 }}
               >
-                {report?.reporterId?.fullName}
+                {report?.reporterId?.email}
               </td>
               <td
                 style={{
