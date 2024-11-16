@@ -27,12 +27,14 @@ const HistoryPost = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: posts, refetch } = useInstanceData(`/posts/${userId}/users`);
+  console.log(posts);
 
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
 
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
+  console.log(dealPriceDriver);
 
   const handleDelete = async () => {
     try {
@@ -351,22 +353,23 @@ const HistoryPost = () => {
                     </button>
                   )}
                 </div>
-                {!isDriverExist && (
-                  <div
-                    className="position-absolute"
-                    style={{ right: "10px", top: "10px" }}
-                  >
-                    <button
-                      className="btn-danger btn-sm align-self-start border-0"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleOpenModal(post._id);
-                      }}
+                {!isDriverExist &&
+                  (post.status === "hide" || post.status === "cancel") && ( // Kiểm tra trạng thái
+                    <div
+                      className="position-absolute"
+                      style={{ right: "10px", top: "10px" }}
                     >
-                      <MdDelete />
-                    </button>
-                  </div>
-                )}
+                      <button
+                        className="btn-danger btn-sm align-self-start border-0"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleOpenModal(post._id);
+                        }}
+                      >
+                        <MdDelete />
+                      </button>
+                    </div>
+                  )}
               </div>
             </div>
           </Link>
