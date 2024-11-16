@@ -5,13 +5,13 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import useInstanceData from "../../../config/useInstanceData";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import LoadingAnimation from "../../Animation/loadingAnimation";
 import PostItem from "../../postDriver/PostItem";
 import Post from "../../postDriver/Post";
 import PostDriver from "../../postDriver/PostDriver";
 import { Button, Modal } from "react-bootstrap";
 import axiosInstance from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
+
 
 const LogisticsService = () => {
   const [isDriverExist, setIsDriverExist] = useState(false);

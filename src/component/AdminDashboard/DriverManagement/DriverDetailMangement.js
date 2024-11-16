@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axiosInstance from "../../../config/axiosConfig";
 import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
+import * as XLSX from "xlsx";
 
 const DriverInfo = ({ userInfor }) => (
   <header className="bg-light p-4 rounded mb-4 border">
@@ -58,7 +59,7 @@ const VehicleList = ({ vehicles = [], onVehicleClick }) => (
   </section>
 );
 
-const TransactionList = ({ transactions = [] }) => {
+const TransactionList = ({ transactions = [], userInfor }) => {
   const getDescription = (type) => {
     switch (type) {
       case "POST_PAYMENT":
@@ -84,12 +85,39 @@ const TransactionList = ({ transactions = [] }) => {
     }
   };
 
+  const handleExportExcel = () => {
+    if (!userInfor) {
+      console.log("Không có thông tin người dùng để xuất");
+      return;
+    }
+
+    const ws = XLSX.utils.json_to_sheet(
+      transactions.map((transaction) => ({
+        "ID người dùng": userInfor._id,
+        "Tên người dùng": userInfor.fullName,
+        Ngày: new Date(transaction.createdAt).toLocaleDateString(),
+        "Mô tả": getDescription(transaction.type),
+        "Số tiền": transaction.amount.toLocaleString() + " VNĐ",
+        "Trạng thái": getStatus(transaction.status),
+      }))
+    );
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Lịch sử giao dịch");
+    XLSX.writeFile(wb, `lich_su_giao_dich_${userInfor.email}.xlsx`);
+  };
+
   return (
     <section
       className="transactions mb-4 border p-3 rounded"
       style={{ marginBottom: "30px" }}
     >
-      <h2>Lịch sử giao dịch</h2>
+      <div className="d-flex justify-content-between align-items-center">
+        <h2>Lịch sử giao dịch</h2>
+        <button className="btn btn-primary" onClick={handleExportExcel}>
+          Xuất Excel
+        </button>
+      </div>
       <div className="table-responsive" style={{ marginTop: "20px" }}>
         <table className="table table-striped">
           <thead>
@@ -245,6 +273,7 @@ const DriverDetails = () => {
       try {
         const response = await axiosInstance.get(`/auth/transaction/${userId}`);
         setTransactionsUser(response.data.transactions);
+        console.log(response.data);
       } catch (error) {
         console.error("Lỗi khi lấy thông tin người dùng:", error);
       }
@@ -284,7 +313,7 @@ const DriverDetails = () => {
 
       <VehicleList vehicles={car || []} onVehicleClick={setSelectedVehicle} />
 
-      <TransactionList transactions={transactionsUser} />
+      <TransactionList transactions={transactionsUser} userInfor={userInfor} />
 
       {selectedVehicle && (
         <VehicleModal

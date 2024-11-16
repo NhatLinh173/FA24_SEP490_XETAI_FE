@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import SectionHeading from "../SectionHeading";
 import ServiceCard from "./ServiceCard";
 import ReactPaginate from "react-paginate";
-import axiosInstance from "../../../config/axiosConfig";
-import Fuse from "fuse.js";
+import axios from "axios";
 
 const ServicesCard = () => {
   const itemsPerPage = 9;
@@ -15,7 +14,7 @@ const ServicesCard = () => {
   useEffect(() => {
     const getDataPost = async () => {
       try {
-        const response = await axiosInstance.get("/posts/");
+        const response = await axios.get("http://localhost:3005/posts/");
         setDataPost(response.data.salePosts || []);
         setFilteredData(response.data.salePosts || []);
       } catch (error) {
@@ -25,23 +24,8 @@ const ServicesCard = () => {
     getDataPost();
   }, []);
 
-  const handleSearch = ({ pickupLocation, dropoffLocation, weight }) => {
-    const options = {
-      keys: ["startPointCity", "destinationCity", "load"],
-      threshold: 0.3,
-    };
-
-    const fuse = new Fuse(dataPost, options);
-    const searchResults = fuse.search({
-      $and: [
-        { startPointCity: pickupLocation },
-        { destinationCity: dropoffLocation },
-        { load: weight.toString() },
-      ],
-    });
-    const filtered = searchResults.map((result) => result.item);
-
-    setFilteredData(filtered);
+  const handleSearch = (searchResults) => {
+    setFilteredData(searchResults);
     setCurrentPage(0);
   };
 
@@ -63,7 +47,7 @@ const ServicesCard = () => {
           <SectionHeading onSearch={handleSearch} />
         </div>
         <div className="service_wrapper_top">
-          <div className="row">
+          <div className="row" >
             {currentItems.map((data) => (
               <div className="col-lg-4" key={data._id}>
                 <ServiceCard

@@ -1,9 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../assets/css/paymentStatus.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import axiosInstance from "../../config/axiosConfig";
 
 const PaymentFailed = () => {
   const history = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+
+    const status = queryParams.get("status");
+    const orderCode = queryParams.get("orderCode");
+
+    console.log("Status:", status, "orderCode:", orderCode);
+    if (orderCode) {
+      sessionStorage.setItem("orderCode", orderCode);
+    }
+    const token = localStorage.getItem("accessToken");
+    const fetchPaymentCallback = async () => {
+      try {
+        const response = await axiosInstance.post(
+          "/payment/callback-success",
+          {
+            status,
+            orderCode,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          console.log("Response Data:", response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchPaymentCallback();
+  }, [location.search]);
 
   const handleGoToWallet = () => {
     history.push("/profile?tab=wallet");

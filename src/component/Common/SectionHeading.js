@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
 
 const SectionHeading = ({ onSearch }) => {
@@ -7,43 +8,86 @@ const SectionHeading = ({ onSearch }) => {
   const [weight, setWeight] = useState("");
   const [pickupSuggestions, setPickupSuggestions] = useState([]);
   const [dropoffSuggestions, setDropoffSuggestions] = useState([]);
+  const [provinces, setProvinces] = useState([]);
 
-  const handleSearch = () => {
+  const fetchProvinces = async () => {
+    try {
+      const response = await axios.get("https://provinces.open-api.vn/api/");
+      setProvinces(response.data);
+    } catch (error) {
+      console.error("Error fetching provinces:", error);
+      toast.error("Không thể tải danh sách tỉnh.");
+    }
+  };
+
+  useEffect(() => {
+    fetchProvinces();
+  }, []);
+
+  useEffect(() => {
+    handleSearch();
+  }, [pickupLocation, dropoffLocation, weight]);
+
+  const handleSearch = async () => {
     const weightValue = parseInt(weight, 10);
-    if (isNaN(weightValue) || weightValue <= 0) {
+    if (weight && (isNaN(weightValue) || weightValue <= 0)) {
       toast.error("Vui lòng nhập khối lượng hợp lệ.");
       return;
     }
-    onSearch({ pickupLocation, dropoffLocation, weight: weightValue });
+
+    if (!pickupLocation && !dropoffLocation && !weight) {
+      try {
+        const response = await axios.get("http://localhost:3005/posts/");
+        onSearch(response.data.salePosts || []);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        toast.error("Lỗi khi tải danh sách bài đăng.");
+      }
+      return;
+    }
+
+    try {
+      const response = await axios.get("http://localhost:3005/search", {
+        params: {
+          startPointCity: pickupLocation,
+          destinationCity: dropoffLocation,
+          load: weight,
+        },
+      });
+      onSearch(response.data.posts);
+    } catch (error) {
+      console.error("Error searching posts:", error);
+      toast.error("Lỗi khi tìm kiếm bài đăng.");
+    }
   };
 
-  // const handlePickupChange = (e) => {
-  //   const value = e.target.value;
-  //   setPickupLocation(value);
-  //   if (value) {
-  //     setPickupSuggestions(
-  //       provinces.filter((province) =>
-  //         province.toLowerCase().includes(value.toLowerCase())
-  //       )
-  //     );
-  //   } else {
-  //     setPickupSuggestions([]);
-  //   }
-  // };
+  const handlePickupChange = (e) => {
+    const value = e.target.value;
+    setPickupLocation(value);
 
-  // const handleDropoffChange = (e) => {
-  //   const value = e.target.value;
-  //   setDropoffLocation(value);
-  //   if (value) {
-  //     setDropoffSuggestions(
-  //       provinces.filter((province) =>
-  //         province.toLowerCase().includes(value.toLowerCase())
-  //       )
-  //     );
-  //   } else {
-  //     setDropoffSuggestions([]);
-  //   }
-  // };
+    if (value) {
+      const filteredProvinces = provinces.filter((province) =>
+        province.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setPickupSuggestions(filteredProvinces);
+    } else {
+      setPickupSuggestions([]);
+    }
+  };
+
+  const handleDropoffChange = (e) => {
+    const value = e.target.value;
+    setDropoffLocation(value);
+
+    if (value) {
+      const filteredProvinces = provinces.filter((province) =>
+        province.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setDropoffSuggestions(filteredProvinces);
+    } else {
+      setDropoffSuggestions([]);
+    }
+  };
 
   const handleWeightChange = (e) => {
     setWeight(e.target.value);
@@ -69,7 +113,7 @@ const SectionHeading = ({ onSearch }) => {
               <input
                 type="text"
                 value={pickupLocation}
-                // onChange={handlePickupChange}
+                onChange={handlePickupChange}
                 placeholder="Địa điểm lấy hàng"
                 className="search_input"
               />
@@ -79,10 +123,10 @@ const SectionHeading = ({ onSearch }) => {
                     <li
                       key={index}
                       onClick={() =>
-                        handleSuggestionClick(suggestion, "pickup")
+                        handleSuggestionClick(suggestion.name, "pickup")
                       }
                     >
-                      {suggestion}
+                      {suggestion.name}
                     </li>
                   ))}
                 </ul>
@@ -92,7 +136,7 @@ const SectionHeading = ({ onSearch }) => {
               <input
                 type="text"
                 value={dropoffLocation}
-                // onChange={handleDropoffChange}
+                onChange={handleDropoffChange}
                 placeholder="Địa điểm trả hàng"
                 className="search_input"
               />
@@ -102,10 +146,10 @@ const SectionHeading = ({ onSearch }) => {
                     <li
                       key={index}
                       onClick={() =>
-                        handleSuggestionClick(suggestion, "dropoff")
+                        handleSuggestionClick(suggestion.name, "dropoff")
                       }
                     >
-                      {suggestion}
+                      {suggestion.name}
                     </li>
                   ))}
                 </ul>
@@ -120,10 +164,6 @@ const SectionHeading = ({ onSearch }) => {
                 className="search_input"
               />
             </div>
-            {/* Nút tìm kiếm */}
-            <button className="btn-theme" onClick={handleSearch}>
-              Tìm kiếm
-            </button>
           </div>
         </div>
       </div>

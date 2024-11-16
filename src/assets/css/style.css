@@ -3191,7 +3191,7 @@ Search Overlay CSS
 /* Wrapper chứa các card dịch vụ */
 .service_wrapper_top {
   margin-top: 20px;
-  /* Khoảng cách giữa SectionHeading và các card */
+
 }
 
 /* Điều chỉnh độ rộng của các card dịch vụ */
@@ -5201,6 +5201,11 @@ input[type="number"]::-webkit-inner-spin-button {
 /* Nội dung blog */
 .blog-content {
   padding: 15px;
+  height: 110px; /* Chiều cao cố định cho blog-content */
+  overflow: hidden; /* Ẩn phần nội dung vượt quá */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Số dòng tối đa trước khi cắt ngắn */
+  -webkit-box-orient: vertical;
 }
 
 .blog-time {
@@ -5213,6 +5218,12 @@ input[type="number"]::-webkit-inner-spin-button {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Số dòng tối đa trước khi cắt ngắn */
+  -webkit-box-orient: vertical;
+  white-space: normal; /* Cho phép ngắt dòng */
 }
 
 .blog-heading a {
@@ -5464,10 +5475,32 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 8px;
 }
 
+.admin-dashboard-sidebar {
+  min-width: 250px;
+}
+
 .admin-sidebar-divider {
   border: none;
   border-top: 3px solid #ddd;
 }
+
+.sidebar-toggle-btn {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 992px) {
+  .admin-dashboard-sidebar {
+    width: 100%;
+    position: absolute;
+    z-index: 999;
+    background-color: white;
+  }
+  .sidebar-title {
+    display: inline;
+    font-size: 14px;
+  }
+}
+
 
 .admin-dashboard-sidebar .sidebar-title {
   font-size: 1rem;
@@ -7566,6 +7599,62 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 12px;
     /* Giảm kích thước chữ */
   }
+
+
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Chiều cao toàn màn hình */
+  }
+  
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #09f;
+    animation: spin 1s ease infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* Withdraw  */
+.withdraw-modal-details {
+  display: flex;
+  flex-direction: column; /* Sắp xếp các dòng theo chiều dọc */
+  gap: 10px; /* Khoảng cách giữa các dòng */
+  font-size: 16px; /* Kích thước chữ */
+}
+
+/* Mỗi dòng thông tin */
+.withdraw-modal-row {
+  display: flex;
+  justify-content: space-between; /* Căn trái và phải */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+/* Định dạng cho nhãn */
+.withdraw-modal-label {
+  font-weight: bold; /* Làm đậm nhãn */
+  flex-basis: 40%; /* Chiếm 40% chiều rộng dòng */
+}
+
+/* Định dạng cho giá trị */
+.withdraw-modal-value {
+  margin-left: 10px; /* Khoảng cách giữa nhãn và giá trị */
+  text-align: right; /* Canh phải giá trị */
+  flex-basis: 60%; /* Chiếm 60% chiều rộng dòng */
+}
+
 }
 
 .vehicle-manager-container {
@@ -7631,3 +7720,4 @@ input[type="number"]::-webkit-inner-spin-button {
 /* =============================
        Vehicle Management End
 ============================== */
+

@@ -5,7 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import axiosInstance from "../../../config/axiosConfig";
 import { jwtDecode } from "jwt-decode";
-import LoadingAnimation from "../../Animation/loadingAnimation";
 
 const ServiceDetail = () => {
   const { id } = useParams();
@@ -103,10 +102,6 @@ const ServiceDetail = () => {
       getCreatorInfo();
     }
   }, [idPoster]);
-
-  if (loading) {
-    return <LoadingAnimation />;
-  }
 
   const handleAcceptOrder = async () => {
     setShowModal(true);
@@ -264,7 +259,7 @@ const ServiceDetail = () => {
                           index === activeIndex ? "active" : ""
                         }`}
                       >
-                        <img src={img} className="fix-img" alt="service" />
+                        <img src={img} className="" alt="service" />
                       </div>
                     ))}
                 </div>
@@ -364,6 +359,21 @@ const ServiceDetail = () => {
                       <input
                         id="dropoffLocation"
                         defaultValue={postData.destination}
+                        type="text"
+                        className="form-control"
+                        readOnly
+                      />
+                    </div>
+                    <div className="form-group col-md-6">
+                      <label
+                        htmlFor="dropoffLocation"
+                        className="font-weight-bold"
+                      >
+                        Phương thức thanh toán
+                      </label>
+                      <input
+                        id="dropoffLocation"
+                        defaultValue={postData.paymentMethod}
                         type="text"
                         className="form-control"
                         readOnly
