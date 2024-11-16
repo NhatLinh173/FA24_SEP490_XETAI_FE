@@ -61,6 +61,7 @@ import StaffManagement from "./component/AdminDashboard/StaffManagement/StaffMan
 import Unauthorized from "./component/Unauthorized/unauthorized";
 import ResetPassword from "./component/ForgotPassword/resetPassword";
 import VehicleManager from "./component/AdminDashboard/VehicleManagement/vehicleManagement";
+import ConfirmWithDraw from "./component/AdminDashboard/ConfirmWithDraw/confirmWithDraw";
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const location = useLocation();
@@ -134,6 +135,12 @@ const AppContent = () => {
           allowedRoles={["admin", "customer", "staff"]}
         />
         <ProtectedRoute
+          path="/confirm-withdraw"
+          exact
+          component={ConfirmWithDraw}
+          allowedRoles={["admin", "customer", "staff"]}
+        />
+        <ProtectedRoute
           path="/dashboard-admin/customers"
           exact
           component={CustomerManagement}
@@ -150,7 +157,6 @@ const AppContent = () => {
           exact
           component={StaffManagement}
           // allowedRoles={["admin", "staff", "customer"]}
-
         />
         <ProtectedRoute
           path="/dashboard-admin/vehicle"

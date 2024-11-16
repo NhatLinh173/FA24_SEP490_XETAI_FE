@@ -25,8 +25,12 @@ const ForgotPassword = () => {
         "http://localhost:3005/verify/send-otp",
         { email }
       );
-      toast.success("Mã xác nhận đã được gửi đến email của bạn!");
-      setShowOtpInput(true);
+      if (response.status === 200) {
+        toast.success("Mã xác nhận đã được gửi đến email của bạn!");
+        setShowOtpInput(true);
+      } else {
+        toast.error("Email không tồn tại!");
+      }
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Đã có lỗi xảy ra, vui lòng thử lại!"
@@ -50,11 +54,15 @@ const ForgotPassword = () => {
         "http://localhost:3005/verify/verify-otp",
         { email, otpCode }
       );
-      toast.success("Xác thực mã OTP thành công!");
-      history.push({
-        pathname: "/reset-password",
-        state: { email },
-      });
+      if (response.status === 200) {
+        toast.success("Xác thực mã OTP thành công!");
+        history.push({
+          pathname: "/reset-password",
+          state: { email },
+        });
+      } else {
+        toast.error("Mã OTP không chính xác hoặc đã hết hạn!");
+      }
     } catch (error) {
       toast.error(
         error.response?.data?.message ||

@@ -5,7 +5,6 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import useInstanceData from "../../../config/useInstanceData";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import LoadingAnimation from "../../Animation/loadingAnimation";
 
 const LogisticsService = () => {
   const { data: post, loading } = useInstanceData(`/posts`);

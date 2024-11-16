@@ -8,7 +8,7 @@ const DriverDetail = () => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const { driverId } = useParams();
-  console.log(driverId);
+  
   useEffect(() => {
     const getInfoDriver = async () => {
       try {

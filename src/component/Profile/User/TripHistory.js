@@ -12,9 +12,7 @@ export const TripHistory = () => {
   const driverId = localStorage.getItem("driverId");
 
   const itemPerPage = 5;
-
   const offset = currentPage * itemPerPage;
-
   const currentPageItems = tripHistories.slice(offset, offset + itemPerPage);
 
   const role = localStorage.getItem("accessToken")
@@ -38,6 +36,11 @@ export const TripHistory = () => {
 
   const getTripHistory = async () => {
     try {
+      // Only attempt the request if userId or driverId is available
+      if (!userId && !driverId) {
+        return;
+      }
+
       const url = isDriverRole
         ? `/posts/${driverId}/driver`
         : `/posts/${userId}/users`;
@@ -49,7 +52,9 @@ export const TripHistory = () => {
       } else {
         setTripHistories(getFinishTrip(response.data.salePosts));
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Failed to fetch trip history:", error);
+    }
   };
 
   useEffect(() => {
@@ -79,7 +84,7 @@ export const TripHistory = () => {
             <div className="p-3 d-flex">
               <img
                 src={
-                  item.images.length
+                  item.images?.length
                     ? item.images[0]
                     : "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg"
                 }
@@ -111,8 +116,8 @@ export const TripHistory = () => {
                     {isDriverRole ? "Người tạo đơn:" : "Tài xế:"}
                   </span>
                   {isDriverRole
-                    ? item.creator.fullName
-                    : item.dealId.driverId.userId.fullName}
+                    ? item.creator?.fullName
+                    : item.dealId?.driverId?.userId?.fullName || "N/A"}
                 </div>
 
                 <div className="mt-3 fs-18 font-weight-bold total-amount  mr-2">

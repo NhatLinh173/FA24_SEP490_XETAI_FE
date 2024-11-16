@@ -11,7 +11,7 @@ const Vehicals = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [vehicals, setVehicals] = useState([]);
-
+  const driverId = localStorage.getItem("driverId");
   const itemPerPage = 5;
   const offset = currentPage * itemPerPage;
   const currentPageItems = vehicals.slice(offset, offset + itemPerPage);
@@ -50,8 +50,9 @@ const Vehicals = () => {
 
   const getMyVehicals = async () => {
     try {
-      const response = await axiosInstance.get("/car");
+      const response = await axiosInstance.get(`/car/driver/${driverId}`);
       setVehicals(response.data);
+      console.log(response.data);
     } catch (error) {}
   };
 

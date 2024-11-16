@@ -38,3 +38,18 @@
     border-radius: 4px;
     border: 1px solid #ced4da;
   }
+
+  .bank-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .bank-logo {
+    width: 30px; 
+    height: 30px; 
+    margin-right: 10px; 
+  }
+  
+  .bank-name {
+    flex: 1;
+  }
