@@ -202,9 +202,9 @@ const ProfileUser = ({ data, refetch }) => {
               />
               <label
                 htmlFor="avatar-upload"
-                className="icon-avt rounded-circle p-1"
+                className="icon-avt rounded-circle p-1   "
               >
-                <CiCamera />
+                <CiCamera className="mb-2" />
               </label>
               <input
                 type="file"
