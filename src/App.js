@@ -62,6 +62,10 @@ import Unauthorized from "./component/Unauthorized/unauthorized";
 import ResetPassword from "./component/ForgotPassword/resetPassword";
 import VehicleManager from "./component/AdminDashboard/VehicleManagement/vehicleManagement";
 import ConfirmWithDraw from "./component/AdminDashboard/ConfirmWithDraw/confirmWithDraw";
+import Post from "./page/Post";
+import HistoryPostDriver from "./component/Profile/User/HistoryPostDriver";
+import HistoryPostDriverDetail from "./component/Profile/User/HistoryPostDriverDetail";
+
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const location = useLocation();
@@ -78,6 +82,7 @@ const AppContent = () => {
         <Route path="/" exact component={Home_One} />
         <Route path="/about" exact component={About} />
         <Route path="/order" exact component={Service} />
+        <Route path="/post-driver" component={Post} />
         <Route path="/order/:id" extract component={ServiceDetail} />
         <Route path="/history-post/:id" extract component={HistoryPostDetail} />
         <Route path="/order_details" exact component={ServiceDetails} />
@@ -116,6 +121,8 @@ const AppContent = () => {
         <Route path="/error" exact component={Error} />
         <Route path="/favorite-drivers" exact component={FavoriteDrivers} />
         <Route path="/driver/:driverId" exact component={DriverDetail} />
+        <Route path="/history-post-driver" exact component={HistoryPostDriver} />
+        <Route path="/history-post-driver/detail/:postId" exact component={HistoryPostDriverDetail} />
         <Route path="/trip/detail/:id" exact component={TripDetail} />
         <Route path="/payment/success" exact component={PaymentSuccess} />
         <Route path="/payment/failed" exact component={PaymentFailed} />
@@ -144,13 +151,13 @@ const AppContent = () => {
           path="/dashboard-admin/customers"
           exact
           component={CustomerManagement}
-          // allowedRoles={["admin"]}
+        // allowedRoles={["admin"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/drivers"
           exact
           component={DriverManagement}
-          // allowedRoles={["admin", "staff", "customer"]}
+        // allowedRoles={["admin", "staff", "customer"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/staffs"

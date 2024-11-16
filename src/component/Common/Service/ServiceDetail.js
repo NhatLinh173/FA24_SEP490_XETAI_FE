@@ -500,7 +500,7 @@ const ServiceDetail = () => {
                     Chấp nhận đơn hàng
                   </button>
                 )}
-              <button className="btn btn-close-order" onClick={handleClose}>
+              <button className="btn btn-theme" onClick={handleClose}>
                 Đóng
               </button>
             </div>
@@ -623,7 +623,7 @@ const ServiceDetail = () => {
                       {inforPoster.phone}
                     </span>
                   </li> */}
-                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light">
+                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
                     <strong className="text-left">Email:</strong>
                     <span className="contact-email text-muted text-right">
                       {inforPoster.email}

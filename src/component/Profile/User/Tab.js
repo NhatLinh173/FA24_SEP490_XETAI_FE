@@ -9,6 +9,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { MdDirectionsCar } from "react-icons/md";
 import { PiPackage } from "react-icons/pi";
 import { FaChartLine } from "react-icons/fa6";
+import { BsFileEarmarkPost } from "react-icons/bs";
 import useAuth from "../../../hooks/useAuth";
 
 const Tab = ({ tab1, setTab1 }) => {
@@ -34,6 +35,10 @@ const Tab = ({ tab1, setTab1 }) => {
   const handleClickPost = () => {
     setTab1("historyPost");
     localStorage.setItem("tabHistory", "historyPost");
+  };
+  const handleClickHistoryPostDriver = () => {
+    setTab1("historyPostDriver");
+    localStorage.setItem("tabHistory", "historyPostDriver");
   };
   const handleClickFarvoriteDriver = () => {
     setTab1("favoriteDriver");
@@ -68,9 +73,8 @@ const Tab = ({ tab1, setTab1 }) => {
         <ul>
           <li className="tab-item">
             <button
-              className={`btn-tab d-flex align-items-center ${
-                tab1 === "profile" ? "active" : ""
-              }`}
+              className={`btn-tab d-flex align-items-center ${tab1 === "profile" ? "active" : ""
+                }`}
               onClick={handleClickProfile}
             >
               <CgProfile />
@@ -79,21 +83,30 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li className="my-3 ">
             <button
-              className={`btn-tab d-flex align-items-center ${
-                tab1 === "historyPost" ? "active" : ""
-              }`}
+              className={`btn-tab d-flex align-items-center ${tab1 === "historyPost" ? "active" : ""
+                }`}
               onClick={handleClickPost}
             >
               <PiPackage />
-              <span className="px-1">Đơn hàng</span>
+              <span className="px-2">Đơn hàng</span>
             </button>
           </li>
+          {(role === "personal" || role === "business") && (
+            <li className="my-3">
+              <button
+                className={`btn-tab d-flex align-items-center ${tab1 === "historyPostDriver" ? "active" : ""}`}
+                onClick={handleClickHistoryPostDriver}
+              >
+                <BsFileEarmarkPost />
+                <span className="px-2">Bài Đăng</span>
+              </button>
+            </li>
+          )}
           {role === "customer" && (
             <li className="tab-item">
               <button
-                className={`btn-tab d-flex align-items-center ${
-                  tab1 === "favoriteDriver" ? "active" : ""
-                }`}
+                className={`btn-tab d-flex align-items-center ${tab1 === "favoriteDriver" ? "active" : ""
+                  }`}
                 onClick={handleClickFarvoriteDriver}
               >
                 <FaRegHeart />
@@ -103,7 +116,7 @@ const Tab = ({ tab1, setTab1 }) => {
           )}
           <li className="my-3">
             <button
-              className={`btn-tab ${tab1 === "changePassword" ? "active" : ""}`}
+              className={`btn-tab d-flex align-items-center ${tab1 === "changePassword" ? "active" : ""}`}
               onClick={handleClickChangePassword}
             >
               <RiLockPasswordLine />
@@ -112,9 +125,8 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li className="my-3">
             <button
-              className={`btn-tab d-flex align-items-center ${
-                tab1 === "tripHistory" ? "active" : ""
-              }`}
+              className={`btn-tab d-flex align-items-center ${tab1 === "tripHistory" ? "active" : ""
+                }`}
               onClick={handleClickTripHistory}
             >
               <MdAccessTime />
@@ -127,7 +139,7 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li className="my-3">
             <button
-              className={`btn-tab ${tab1 === "wallet" ? "active" : ""}`}
+              className={`btn-tab d-flex align-items-center ${tab1 === "wallet" ? "active" : ""}`}
               onClick={handleClickWallet}
             >
               <LuWallet />
@@ -138,7 +150,7 @@ const Tab = ({ tab1, setTab1 }) => {
           {(role === "personal" || role === "business") && (
             <li className="my-3">
               <button
-                className={`btn-tab ${tab1 === "vehicals" ? "active" : ""}`}
+                className={`btn-tab d-flex align-items-center ${tab1 === "vehicals" ? "active" : ""}`}
                 onClick={handleClickVehicals}
               >
                 <MdDirectionsCar />
@@ -149,7 +161,7 @@ const Tab = ({ tab1, setTab1 }) => {
           {(role === "personal" || role === "business") && (
             <li className="my-3">
               <button
-                className={`btn-tab ${tab1 === "statistical" ? "active" : ""}`}
+                className={`btn-tab d-flex align-items-center ${tab1 === "statistical" ? "active" : ""}`}
                 onClick={handleClickStatistical}
               >
                 <FaChartLine />

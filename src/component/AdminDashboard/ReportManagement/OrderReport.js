@@ -9,7 +9,7 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import axios from "../../../config/axiosConfig";
 
 const ReportManagement = () => {
-  const { data: report, refetch } = useInstanceData("/report");
+  const { data: report, refetch } = useInstanceData("/report/post");
   console.log(report);
 
   const [reports, setReports] = useState([]);
@@ -61,6 +61,7 @@ const ReportManagement = () => {
   const handleDelete = (reportId) => {
     setReportId(reportId);
     setShowDeleteModal(true);
+    console.log(reportId);
   };
 
   return (
@@ -108,7 +109,7 @@ const ReportManagement = () => {
                   paddingTop: "25px",
                 }}
               >
-                {report?.postId?.creator.fullName}
+                {report?.postId?.creator.email}
               </td>
               <td
                 style={{
@@ -117,7 +118,7 @@ const ReportManagement = () => {
                   paddingTop: "25px",
                 }}
               >
-                {report?.reporterId?.fullName}
+                {report?.reporterId?.email}
               </td>
               <td
                 style={{
@@ -215,8 +216,9 @@ const ReportManagement = () => {
                       {post?.images &&
                         post?.images.map((img, index) => (
                           <div
-                            className={`carousel-item text-center ${index === activeIndex ? "active" : ""
-                              }`}
+                            className={`carousel-item text-center ${
+                              index === activeIndex ? "active" : ""
+                            }`}
                           >
                             <img src={img} className="fix-img" alt="service" />
                           </div>

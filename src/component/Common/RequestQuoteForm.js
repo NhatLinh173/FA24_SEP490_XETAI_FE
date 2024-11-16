@@ -29,8 +29,12 @@ const RequestQuoteForm = () => {
   const [recipientPhone, setRecipientPhone] = useState("");
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
+  console.log(cityFrom);
+
   const [cityTo, setCityTo] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+
+  const [decriptionDriver, setDecriptionDriver] = useState("");
 
   // các biến lỗi
   const [weightError, setWeightError] = useState("");
@@ -45,6 +49,7 @@ const RequestQuoteForm = () => {
   const [recipientPhoneError, setRecipientPhoneError] = useState("");
   const [newPhoneError, setNewPhoneError] = useState("");
   const [orderDescriptionError, setOrderDescriptionError] = useState("");
+  const [decriptionDriverError, setDecriptionDriverError] = useState("");
   const [isDisable, setIsDisable] = useState(false);
   const [paymentMethodError, setPaymentMethodError] = useState("");
   const [imgs, setImgs] = useState([]);
@@ -74,6 +79,16 @@ const RequestQuoteForm = () => {
     getCity();
   }, [email, phone, fullName, balance]);
 
+  const handleDescriptionDriverChange = (e) => {
+    if (e.target.value.length > 150) {
+      setDecriptionDriverError("Trường này giới hạn 150 kí tự");
+      setIsDisable(true);
+    } else {
+      setDecriptionDriverError("");
+      setIsDisable(false);
+    }
+    setDecriptionDriver(e.target.value);
+  };
   const handleOrderTypeChange = (e) => {
     if (e.target.value.length > 30) {
       setOrderTypeChangeError("*Trường này giới hạn 50 kí tự");
@@ -243,29 +258,71 @@ const RequestQuoteForm = () => {
   };
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    if (files.length + imgs.length > 3) {
-      toast.error("Bạn chỉ được chọn 3 ảnh.");
-      return;
-    }
-    const filePreviews = files.map((file) => ({
+    let filePreviews = files.map((file) => ({
       url: URL.createObjectURL(file),
       file,
     }));
 
-    setImgs((prevImgs) => [...prevImgs, ...filePreviews]);
+    if (isDriverExist) {
+      // Nếu role là tài xế, chỉ cho phép một ảnh
+      if (filePreviews.length > 1) {
+        toast.error("Tài xế chỉ được chọn một ảnh.");
+        return;
+      }
+      // Nếu đã có ảnh, thay thế bằng ảnh mới
+      setImgs(filePreviews);
+    } else {
+      // Nếu không phải tài xế, giới hạn tối đa 3 ảnh
+      if (files.length + imgs.length > 3) {
+        toast.error("Bạn chỉ được chọn 3 ảnh.");
+        return;
+      }
+      setImgs((prevImgs) => [...prevImgs, ...filePreviews]);
+    }
   };
+
   const handleDeleteImage = (index) => {
     const updatedImgs = imgs.filter((_, i) => i !== index);
     setImgs(updatedImgs);
   };
-  useEffect(() => {
-    if (imgs.length === 0) {
-      setIsDisable(true);
-    } else {
-      setIsDisable(false);
+  // useEffect(() => {
+  //   if (imgs.length === 0) {
+  //     setIsDisable(true);
+  //   } else {
+  //     setIsDisable(false);
+  //   }
+  // }, [imgs]);
+  const handleSubmitDriver = async (e) => {
+    e.preventDefault();
+    console.log("Ảnh đã chọn:", imgs);
+    if (!imgs || imgs.length === 0) {
+      toast.error("Vui lòng chọn ít nhất một ảnh!");
+      return; // Ngăn không cho gửi dữ liệu nếu imgs trống
     }
-  }, [imgs]);
+    const formData = new FormData();
+    imgs.forEach((img) => {
+      console.log("Đang thêm ảnh vào FormData:", img.file);
+      formData.append("images", img.file);
+    });
+    formData.append("creatorId", driverId);
+    formData.append("startCity", cityFrom);
+    formData.append("destinationCity", cityTo);
 
+    formData.append("description", decriptionDriver);
+
+    try {
+      const response = await axiosInstance.post("/driverpost", formData);
+      console.log(response);
+      if (response.status === 200) {
+        toast.success("Đăng bài thành công");
+        setCityFrom("");
+        setCityTo("");
+        setDecriptionDriver("");
+      }
+    } catch (error) {
+      toast.error("có lỗi xảy ra");
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!imgs || imgs.length === 0) {
@@ -497,82 +554,50 @@ const RequestQuoteForm = () => {
                     </div>
                   )}
                   {isDriverExist && (
-                    <div class="container d-flex justify-content-center mb-3">
-                      <div className="col-lg-6 d-flex w-100 addressFrom-input  pl-0">
-                        <div className="form-group align-self-end">
-                          <label className="font-weight-bold">Điểm đi</label>
-                          <select
-                            className="form-control first_null"
-                            onChange={handleCityFrom}
-                            defaultValue=""
-                          >
-                            <option value="" disabled>
-                              Chọn Tỉnh/Thành
-                            </option>
-                            {cities.map((city) => (
-                              <option value={city.name}>{city.name}</option>
-                            ))}
-                          </select>
+                    <div className="container d-flex justify-content-center mb-3">
+                      <div className="row w-100 justify-content-between">
+                        <div className="col-lg-5 d-flex addressFrom-input pl-0">
+                          <div className="form-group align-self-end w-100">
+                            <label className="font-weight-bold">Điểm đi</label>
+                            <select
+                              className="form-control"
+                              onChange={handleCityFrom}
+                              defaultValue=""
+                            >
+                              <option value="" disabled>
+                                Chọn Tỉnh/Thành
+                              </option>
+                              {cities.map((city) => (
+                                <option key={city.name} value={city.name}>
+                                  {city.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         </div>
-                        <div className="flex-1 custom-input">
-                          <FormInput
-                            tag={"input"}
-                            type={"text"}
-                            name={"departure"}
-                            id={"departure"}
-                            classes={
-                              "form-control align-self-end position-relative"
-                            }
-                            placeholder={"Nhập điểm đi"}
-                            label="Nhập điểm đi"
-                            value={addressFrom}
-                            onChange={handleAddressFromChange}
-                          />
-                          {AddressFromChangeError && (
-                            <div className="text-danger position-absolute bottom-error">
-                              {AddressFromChangeError}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-lg-6 d-flex w-100 addressTo-input pr-0">
-                        <div className="form-group align-self-end">
-                          <label className="font-weight-bold">Điểm đến</label>
-                          <select
-                            className="form-control first_null"
-                            onChange={handleCityTo}
-                            defaultValue=""
-                          >
-                            <option value="" disabled>
-                              Chọn Tỉnh/Thành
-                            </option>
-                            {cities.map((city) => (
-                              <option value={city.name}>{city.name}</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div className="flex-1 custom-input">
-                          <FormInput
-                            tag={"input"}
-                            type={"text"}
-                            name={"city"}
-                            id={"city"}
-                            classes={"form-control position-relative"}
-                            placeholder={"Nhập điểm đến"}
-                            label="Nhập Điểm đến"
-                            value={addressTo}
-                            onChange={handleAddressToChange}
-                          />
-                          {AddressToChangeError && (
-                            <div className="text-danger position-absolute bottom-error">
-                              {AddressToChangeError}
-                            </div>
-                          )}
+                        <div className="col-lg-5 d-flex addressTo-input pr-0">
+                          <div className="form-group align-self-end w-100">
+                            <label className="font-weight-bold">Điểm đến</label>
+                            <select
+                              className="form-control"
+                              onChange={handleCityTo}
+                              defaultValue=""
+                            >
+                              <option value="" disabled>
+                                Chọn Tỉnh/Thành
+                              </option>
+                              {cities.map((city) => (
+                                <option key={city.name} value={city.name}>
+                                  {city.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
                   )}
+
                   {!isDriverExist && (
                     <div className="col-lg-6">
                       <FormInput
@@ -594,38 +619,42 @@ const RequestQuoteForm = () => {
                     </div>
                   )}
 
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"weight"}
-                      id={"weight"}
-                      classes={"form-control"}
-                      placeholder={"Tổng Trọng Lượng (KG)"}
-                      label="Tổng Trọng Lượng (KG)"
-                      value={totalWeight}
-                      onChange={handleTotalWeightChange}
-                    />
-                    {weightError && (
-                      <div className="text-danger position-absolute marginBottom-error">
-                        {weightError}
-                      </div>
-                    )}{" "}
-                    {/* Hiển thị thông báo lỗi cho trọng lượng */}
-                  </div>
-                  <div className="col-lg-6">
-                    <FormInput
-                      tag={"input"}
-                      type={"text"}
-                      name={"bill"}
-                      id={"bill"}
-                      classes={"form-control"}
-                      placeholder={"Giá vận chuyển"}
-                      label="Giá vận chuyển (VND)"
-                      value={cost}
-                      onChange={handleCostChange}
-                    />
-                  </div>
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"weight"}
+                        id={"weight"}
+                        classes={"form-control"}
+                        placeholder={"Tổng Trọng Lượng (KG)"}
+                        label="Tổng Trọng Lượng (KG)"
+                        value={totalWeight}
+                        onChange={handleTotalWeightChange}
+                      />
+                      {weightError && (
+                        <div className="text-danger position-absolute marginBottom-error">
+                          {weightError}
+                        </div>
+                      )}{" "}
+                      {/* Hiển thị thông báo lỗi cho trọng lượng */}
+                    </div>
+                  )}
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <FormInput
+                        tag={"input"}
+                        type={"text"}
+                        name={"bill"}
+                        id={"bill"}
+                        classes={"form-control"}
+                        placeholder={"Giá vận chuyển"}
+                        label="Giá vận chuyển (VND)"
+                        value={cost}
+                        onChange={handleCostChange}
+                      />
+                    </div>
+                  )}
 
                   {isDriverExist && (
                     <div className="col-lg-12">
@@ -636,41 +665,43 @@ const RequestQuoteForm = () => {
                         classes={"form-control"}
                         placeholder={"Nhập nội dung"}
                         label=" Nội dung  "
-                        value={orderDescription}
-                        onChange={handleOrderDescriptionChange}
+                        value={decriptionDriver}
+                        onChange={handleDescriptionDriverChange}
                       />
-                      {orderDescriptionError && (
+                      {decriptionDriverError && (
                         <div className="text-danger position-absolute marginBottom-error">
-                          {orderDescriptionError}
+                          {decriptionDriverError}
                         </div>
                       )}{" "}
                     </div>
                   )}
-                  <div className="col-lg-6">
-                    <div className="form-group">
-                      <label className="font-weight-bold">
-                        Phương thức thanh toán
-                      </label>
-                      <select
-                        className="form-control"
-                        value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                      >
-                        <option value="" disabled>
-                          Chọn phương thức thanh toán
-                        </option>
-                        <option value="bank_transfer">
-                          Chuyển khoản ngân hàng
-                        </option>
-                        <option value="cash">Tiền mặt</option>
-                      </select>
-                      {paymentMethodError && (
-                        <div className="text-danger position-absolute marginBottom-error">
-                          {paymentMethodError}
-                        </div>
-                      )}
+                  {!isDriverExist && (
+                    <div className="col-lg-6">
+                      <div className="form-group">
+                        <label className="font-weight-bold">
+                          Phương thức thanh toán
+                        </label>
+                        <select
+                          className="form-control"
+                          value={paymentMethod}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Chọn phương thức thanh toán
+                          </option>
+                          <option value="bank_transfer">
+                            Chuyển khoản ngân hàng
+                          </option>
+                          <option value="cash">Tiền mặt</option>
+                        </select>
+                        {paymentMethodError && (
+                          <div className="text-danger position-absolute marginBottom-error">
+                            {paymentMethodError}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {!isDriverExist && (
                     <div className="col-lg-12">
@@ -823,19 +854,35 @@ const RequestQuoteForm = () => {
                     </>
                   )}
                   <div className="col-lg-12">
-                    <div className="quote_submit_button d-flex justify-content-center">
-                      <button
-                        className={`btn ${
-                          isDisable
-                            ? "btn-secondary cursor-disable"
-                            : "btn-theme"
-                        }`}
-                        onClick={handleSubmit}
-                        disabled={isDisable}
-                      >
-                        Gửi
-                      </button>
-                    </div>
+                    {!isDriverExist && (
+                      <div className="quote_submit_button d-flex justify-content-center">
+                        <button
+                          className={`btn ${
+                            isDisable
+                              ? "btn-secondary cursor-disable"
+                              : "btn-theme"
+                          }`}
+                          onClick={handleSubmit}
+                          disabled={isDisable}
+                        >
+                          Gửi
+                        </button>
+                      </div>
+                    )}
+                    {isDriverExist && (
+                      <div className="quote_submit_button d-flex justify-content-center">
+                        <button
+                          className={`btn ${
+                            isDisable
+                              ? "btn-secondary cursor-disable"
+                              : "btn-theme"
+                          }`}
+                          onClick={handleSubmitDriver}
+                        >
+                          Gửi
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </form>
