@@ -89,7 +89,8 @@ const HistoryPostDriver = ({ posts, onDelete }) => {
                                 <button
                                     className="btn-danger btn-sm align-self-start border-0"
                                     onClick={(e) => {
-                                        e.preventDefault();
+                                        e.stopPropagation(); // Ngăn sự kiện nổi bọt
+                                        handleShowModal(post._id); // Hiển thị modal xóa
                                     }}
                                 >
                                     <MdDelete />
