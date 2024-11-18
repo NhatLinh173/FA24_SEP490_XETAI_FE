@@ -20,6 +20,11 @@ const HistoryPost = () => {
   const [postID, setPostID] = useState(null);
   const [isDriverExist, setIsDriverExist] = useState(null);
   const [currentPosts, setCurrentPost] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [currentFilter, setCurrentFilter] = useState("all");
+  const postsPerPage = 3;
+
+  const offset = currentPage * postsPerPage;
   const [noPostsMessage, setNoPostsMessage] = useState("");
   const [pageCount, setPageCount] = useState(0);
 
@@ -27,14 +32,12 @@ const HistoryPost = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: posts, refetch } = useInstanceData(`/posts/${userId}/users`);
-  console.log(posts);
 
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
 
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
-  console.log(dealPriceDriver);
 
   const handleDelete = async () => {
     try {
@@ -57,11 +60,8 @@ const HistoryPost = () => {
     setPostID(null);
   };
 
-  const [currentPage, setCurrentPage] = useState(0);
-  const postsPerPage = 3;
-
-  const offset = currentPage * postsPerPage;
   useEffect(() => {
+    setCurrentPage(0);
     if (driverId !== "undefined") {
       setPageCount(Math.ceil(postdriver?.data?.length / 3));
       setIsDriverExist(true);
@@ -71,169 +71,143 @@ const HistoryPost = () => {
       setIsDriverExist(false);
       setCurrentPost(posts?.salePosts?.slice(offset, offset + postsPerPage));
     }
-  }, [driverId, offset, posts, postdriver]);
+  }, [driverId, offset, posts, postdriver, currentPage]);
 
-  const handlePageClick = (event) => {
-    const selectedPage = event.selected;
-    setCurrentPage(selectedPage);
-  };
-  const handleFilterWaitPosts = () => {
-    setCurrentPage(0); // Đặt lại trang hiện tại về 0
+  const applyFilter = () => {
     let filteredPosts = [];
-    if (driverId !== "undefined") {
-      const filter = dealPriceDriver.filter((dealPriceDriver) => {
-        return (
-          dealPriceDriver.status === "wait" && dealPriceDriver.postId != null
-        );
-      });
-      filteredPosts = filter.map((deal) => deal.postId);
-    } else {
-      filteredPosts = posts?.salePosts?.filter(
-        (post) => post.status === "wait"
-      );
-    }
-    setPageCount(Math.ceil(filteredPosts?.length / 3));
-    setCurrentPost(filteredPosts);
-    setNoPostsMessage(
-      filteredPosts.length === 0 ? "Không có bài post nào đang chờ." : ""
-    );
-  };
+    switch (currentFilter) {
+      case "wait":
+        if (driverId !== "undefined") {
+          filteredPosts = dealPriceDriver
+            ?.filter((deal) => deal.status === "wait" && deal.postId != null)
+            .map((deal) => deal.postId);
+        } else {
+          filteredPosts = posts?.salePosts?.filter(
+            (post) => post.status === "wait"
+          );
+        }
+        break;
 
-  const handleFilterApprovePosts = () => {
-    setCurrentPage(0); // Đặt lại trang hiện tại về 0
-    let filteredPosts = [];
-    if (driverId !== "undefined") {
-      const filter = dealPriceDriver.filter((dealPriceDriver) => {
-        // Sử dụng optional chaining để tránh lỗi khi postId là null
-        return (
-          dealPriceDriver.status === "approve" &&
-          dealPriceDriver.postId?.status === "approve" &&
-          dealPriceDriver.postId != null
-        );
-      });
-      filteredPosts = filter.map((deal) => deal.postId);
-    } else {
-      filteredPosts = posts?.salePosts?.filter(
-        (post) => post.status === "approve"
-      );
+      case "approve":
+        if (driverId !== "undefined") {
+          filteredPosts = dealPriceDriver
+            ?.filter(
+              (deal) =>
+                deal.status === "approve" &&
+                deal.postId?.status === "approve" &&
+                deal.postId != null
+            )
+            .map((deal) => deal.postId);
+        } else {
+          filteredPosts = posts?.salePosts?.filter(
+            (post) => post.status === "approve"
+          );
+        }
+        break;
+
+      case "inprogress":
+        if (driverId !== "undefined") {
+          filteredPosts = dealPriceDriver
+            ?.filter(
+              (deal) =>
+                deal.status === "approve" &&
+                deal.postId?.status === "inprogress" &&
+                deal.postId != null
+            )
+            .map((deal) => deal.postId);
+        } else {
+          filteredPosts = posts?.salePosts?.filter(
+            (post) => post.status === "inprogress"
+          );
+        }
+        break;
+
+      case "cancel":
+        if (driverId !== "undefined") {
+          filteredPosts = dealPriceDriver
+            ?.filter((deal) => deal.status === "cancel" && deal.postId != null)
+            .map((deal) => deal.postId);
+        } else {
+          filteredPosts = posts?.salePosts?.filter(
+            (post) => post.status === "cancel"
+          );
+        }
+        break;
+
+      case "hide":
+        if (driverId !== "undefined") {
+          filteredPosts = dealPriceDriver
+            ?.filter((deal) => deal.status === "hide" && deal.postId != null)
+            .map((deal) => deal.postId);
+        } else {
+          filteredPosts = posts?.salePosts?.filter(
+            (post) => post.status === "hide"
+          );
+        }
+        break;
+
+      default:
+        filteredPosts =
+          driverId !== "undefined" ? postdriver?.data : posts?.salePosts || [];
     }
-    setPageCount(Math.ceil(filteredPosts?.length / 3));
-    setCurrentPost(filteredPosts);
+    setPageCount(Math.ceil(filteredPosts?.length / postsPerPage));
+    setCurrentPost(filteredPosts?.slice(offset, offset + postsPerPage));
     setNoPostsMessage(
-      filteredPosts.length === 0 ? "Không có đơn hàng nào đã nhận đơn." : ""
+      filteredPosts?.length === 0 ? "Không có bài post nào phù hợp." : ""
     );
   };
-  const handleFilterInprogressPosts = () => {
-    setCurrentPage(0); // Đặt lại trang hiện tại về 0
-    let filteredPosts = [];
-    if (driverId !== "undefined") {
-      const filter = dealPriceDriver.filter((dealPriceDriver) => {
-        // Sử dụng optional chaining để tránh lỗi khi postId là null
-        return (
-          dealPriceDriver.status === "approve" &&
-          dealPriceDriver.postId?.status === "inprogress" &&
-          dealPriceDriver.postId != null
-        );
-      });
-      filteredPosts = filter.map((deal) => deal.postId);
-    } else {
-      filteredPosts = posts?.salePosts?.filter(
-        (post) => post.status === "inprogress"
-      );
-    }
-    setPageCount(Math.ceil(filteredPosts?.length / 3));
-    setCurrentPost(filteredPosts);
-    setNoPostsMessage(
-      filteredPosts.length === 0 ? "Không có đơn hàng nào đang giao." : ""
-    );
-  };
-  const handleFilterCancelPosts = () => {
+  const handleFilterChange = (filter) => {
     setCurrentPage(0);
-    let filteredPosts = [];
-
-    if (driverId !== "undefined") {
-      const filter = dealPriceDriver.filter((dealPriceDriver) => {
-        return (
-          dealPriceDriver.status === "cancel" && dealPriceDriver.postId != null
-        );
-      });
-      filteredPosts = filter.map((deal) => deal.postId);
-    } else {
-      filteredPosts = posts?.salePosts?.filter(
-        (post) => post.status === "cancel"
-      );
-    }
-    setPageCount(Math.ceil(filteredPosts?.length / 3));
-    setCurrentPost(filteredPosts);
-    setNoPostsMessage(
-      filteredPosts.length === 0 ? "Không có đơn hàng nào đã hủy." : ""
-    );
+    setCurrentFilter(filter);
   };
 
-  const handleFilterHidePosts = () => {
-    setCurrentPage(0); // Đặt lại trang hiện tại về 0
-    let filteredPosts = [];
-    if (driverId !== "undefined") {
-      const filter = dealPriceDriver.filter((dealPriceDriver) => {
-        return (
-          dealPriceDriver.status === "hide" && dealPriceDriver.postId != null
-        );
-      });
-      filteredPosts = filter.map((deal) => deal.postId);
-    } else {
-      filteredPosts = posts?.salePosts?.filter(
-        (post) => post.status === "hide"
-      );
-    }
-    setPageCount(Math.ceil(filteredPosts?.length / 3));
-    setCurrentPost(filteredPosts);
-    setNoPostsMessage(
-      filteredPosts.length === 0 ? "Không có đơn hàng nào tạm ẩn." : ""
-    );
-  };
-  const handleShowAllPosts = () => {
+  const handlePageChange = (e) => {
     setCurrentPage(0);
-    if (driverId !== "undefined") {
-      setPageCount(Math.ceil(postdriver?.data?.length / postsPerPage));
-      setCurrentPost(postdriver?.data?.slice(0, postsPerPage));
-    } else {
-      setPageCount(Math.ceil(posts?.salePosts?.length / postsPerPage));
-      setCurrentPost(posts?.salePosts?.slice(0, postsPerPage));
-    }
-    setNoPostsMessage("");
-  };
 
+    setCurrentFilter(e.selected);
+  };
+  useEffect(() => {
+    setCurrentPage(0);
+
+    applyFilter();
+  }, [currentFilter, offset, posts, postdriver, dealPriceDriver, currentPage]);
+  useEffect(() => {
+    if (currentFilter !== null) {
+      setCurrentPage(0);
+    }
+    console.log("log");
+  }, [currentFilter]);
   return (
     <div>
       <h2>Đơn Hàng</h2>
       <div className="mb-3 mt-2 d-flex justify-content-center gap-2">
         <button
           className="btn btn-info btn-custom mx-1 d-flex align-items-center"
-          onClick={handleShowAllPosts}
+          onClick={() => handleFilterChange("all")}
         >
           Hiện tất cả
         </button>
         <button
           className="btn btn-warning btn-custom mx-1 d-flex align-items-center"
-          onClick={handleFilterWaitPosts}
+          onClick={() => handleFilterChange("wait")}
         >
           <CiNoWaitingSign className="mr-1" /> Đang chờ
         </button>
         <button
           className="btn btn-secondary btn-custom mx-1 d-flex align-items-center"
-          onClick={handleFilterApprovePosts}
+          onClick={() => handleFilterChange("approve")}
         >
           <FaCheck className="mr-1" /> Đã nhận đơn
         </button>
         <button
           className="btn btn-primary  btn-custom mx-1 d-flex align-items-center"
-          onClick={handleFilterInprogressPosts}
+          onClick={() => handleFilterChange("inprogress")}
         >
           <FaCarSide className="mr-1" /> Đang giao
         </button>
         <button
           className="btn btn-danger btn-custom mx-1 d-flex align-items-center"
-          onClick={handleFilterCancelPosts}
+          onClick={() => handleFilterChange("cancel")}
         >
           <MdOutlinePersonAdd className="mr-1" /> Đã hủy
         </button>
@@ -241,7 +215,7 @@ const HistoryPost = () => {
         {!isDriverExist && (
           <button
             className="btn btn-dark btn-custom mx-1 d-flex align-items-center"
-            onClick={handleFilterHidePosts}
+            onClick={() => handleFilterChange("hide")}
           >
             <GrHide className="mr-1" /> Tạm ẩn
           </button>
@@ -328,17 +302,26 @@ const HistoryPost = () => {
                       Đang giao hàng
                     </button>
                   )}
-                  {post.status === "cancel" && (
+                  {post?.status === "cancel" && (
                     <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
                       <GiCancel className="mr-2" />
                       Đã hủy
                     </button>
                   )}
-                  {post.status === "wait" && (
-                    <button className="btn-sm btn-warning mt-3 border-0 d-flex align-items-center">
+                  {post.status === "wait" &&
+                  post.dealId?.status === "cancel" &&
+                  isDriverExist ? (
+                    <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
                       <CiNoWaitingSign className="mr-2" />
-                      Đang chờ xác nhận
+                      Đã hủy
                     </button>
+                  ) : (
+                    post.status === "wait" && (
+                      <button className="btn-sm btn-warning mt-3 border-0 d-flex align-items-center">
+                        <CiNoWaitingSign className="mr-2" />
+                        Đang chờ xác nhận
+                      </button>
+                    )
                   )}
                   {post.status === "hide" && (
                     <button className="btn-sm btn-bg-secondary mt-3 border-0 d-flex align-items-center">
@@ -378,7 +361,7 @@ const HistoryPost = () => {
       {pageCount >= 1 && (
         <ReactPaginate
           pageCount={pageCount}
-          onPageChange={handlePageClick}
+          onPageChange={handlePageChange}
           containerClassName={"pagination"}
           pageClassName={"page-item"}
           pageLinkClassName={"page-link"}
