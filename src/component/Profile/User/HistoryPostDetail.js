@@ -79,7 +79,9 @@ const HistoryPostDetail = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: post } = useInstanceData(`/posts/${id}`);
+
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
+
   const isDealPriceAvailable = deals && deals.length > 0;
 
   useEffect(() => {
@@ -190,6 +192,26 @@ const HistoryPostDetail = () => {
   const submitFormData = async (formData) => {
     try {
       if (post.status === "wait" && status === "cancel" && isDriverExist) {
+        try {
+          const response = await axiosInstance.patch(
+            `/dealPrice/status/${id}`,
+            {
+              dealId: deals[0]._id,
+              status: "cancel",
+            }
+          );
+          const res = await axiosInstance.patch(`/posts/${id}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          if (response.status === 200 && res.status === 200) {
+            toast.success("Cập nhật thành công!");
+          }
+        } catch (error) {
+          toast.error(error.message);
+        }
+      } else if (status === "cancel" && !isDriverExist) {
         try {
           const response = await axiosInstance.patch(
             `/dealPrice/status/${id}`,
@@ -651,6 +673,14 @@ const HistoryPostDetail = () => {
                   Đã hủy
                 </button>
               )}
+              {post.status === "wait" &&
+                post?.dealId?.status === "cancel" &&
+                isDriverExist && (
+                  <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
+                    <GiCancel className="mr-2" />
+                    Đã hủy
+                  </button>
+                )}
 
               {(post.status === "wait" || post.status === "hide") &&
                 !isDriverExist && (
@@ -679,31 +709,33 @@ const HistoryPostDetail = () => {
                     </option>
                   </select>
                 )}
-              {post.status === "wait" && isDriverExist && (
-                <select
-                  id="orderAction"
-                  className={`form-control custom-select-arrow w-75 ${
-                    status === "cancel"
-                      ? "bg-danger text-white "
-                      : status === "wait"
-                      ? "bg-warning text-Black"
-                      : ""
-                  } `}
-                  value={status}
-                  onChange={handleStatus}
-                >
-                  <option
-                    value="wait"
-                    disabled
-                    className="bg-white options-text"
+              {post.status === "wait" &&
+                post?.dealId?.status === "wait" &&
+                isDriverExist && (
+                  <select
+                    id="orderAction"
+                    className={`form-control custom-select-arrow w-75 ${
+                      status === "cancel"
+                        ? "bg-danger text-white "
+                        : status === "wait"
+                        ? "bg-warning text-Black"
+                        : ""
+                    } `}
+                    value={status}
+                    onChange={handleStatus}
                   >
-                    Đang chờ duyệt
-                  </option>
-                  <option value="cancel" class="bg-white options-text">
-                    Hủy đơn hàng
-                  </option>
-                </select>
-              )}
+                    <option
+                      value="wait"
+                      disabled
+                      className="bg-white options-text"
+                    >
+                      Đang chờ duyệt
+                    </option>
+                    <option value="cancel" class="bg-white options-text">
+                      Hủy đơn hàng
+                    </option>
+                  </select>
+                )}
               {post.status === "inprogress" && !isDriverExist && (
                 <button className="btn-sm btn-primary  mt-3 border-0 d-flex align-items-center">
                   <FaCarSide className="mr-2" />
