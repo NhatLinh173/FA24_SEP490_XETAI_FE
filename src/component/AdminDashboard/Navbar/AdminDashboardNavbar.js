@@ -1,7 +1,25 @@
-import React from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Navbar, Nav } from "react-bootstrap";
+import useUserData from "../../../hooks/useUserData";
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 
 function AdminDashboardNavbar() {
+  const { userData, loading } = useUserData();
+  const [avatar, setAvatar] = useState(null);
+  const [fullName, setFullName] = useState(null);
+
+  useEffect(() => {
+    if (userData) {
+      setFullName(userData.fullName);
+      if (userData.avatar) {
+        localStorage.setItem("avatar", userData.avatar);
+        setAvatar(userData.avatar);
+      } else {
+        setAvatar(avatarDefault);
+      }
+    }
+  }, [userData]);
+
   return (
     <Navbar
       bg="primary"
@@ -16,25 +34,26 @@ function AdminDashboardNavbar() {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto admin-dashboard-navbar-nav"></Nav>
-        <NavDropdown
-          title={
-            <>
-              <img
-                src="https://ispacedanang.edu.vn/wp-content/uploads/2024/05/hinh-anh-dep-ve-hoc-sinh-cap-3-1.jpg"
-                alt="Admin Avatar"
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  marginRight: "8px",
-                }}
-              />
-              Quốc Khánh
-            </>
-          }
-          id="admin-avatar-dropdown"
-          align="end"
-        ></NavDropdown>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginRight: "20px",
+          }}
+        >
+          <img
+            src={avatar || avatarDefault}
+            alt="Admin Avatar"
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "50%",
+              marginRight: "8px",
+            }}
+          />
+          <span style={{ color: "white", fontWeight: "bold" }}>{fullName}</span>
+        </div>
       </Navbar.Collapse>
     </Navbar>
   );

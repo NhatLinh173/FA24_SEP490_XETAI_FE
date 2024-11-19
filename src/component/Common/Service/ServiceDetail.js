@@ -132,11 +132,13 @@ const ServiceDetail = () => {
       return;
     }
 
-    const currentTime = new Date();
-    if (new Date(deliveryTime) <= currentTime) {
-      toast.error(
-        "Thời gian giao hàng dự kiến không được ở quá khứ hoặc bằng hiện tại"
-      );
+    const currentDate = new Date().toLocaleDateString("en-CA");
+    const deliveryDate = new Date(deliveryTime).toLocaleDateString("en-CA");
+
+    console.log(currentDate + " " + deliveryDate);
+
+    if (deliveryDate < currentDate) {
+      toast.error("Thời gian giao hàng dự kiến không được ở quá khứ");
       return;
     }
 
@@ -162,11 +164,11 @@ const ServiceDetail = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 402) {
-        toast.error(
-          "Thời gian giao hàng dự kiến không được ở quá khứ và bằng hiện tại!"
-        );
+        toast.error("Thời gian giao hàng dự kiến không hợp lệ!");
+      } else if (error.response && error.response.status === 422) {
+        toast.error("Tài xế chưa đăng ký xe");
       } else {
-        console.error(error);
+        toast.error("Đã xảy ra lỗi, vui lòng thử lại sau!");
       }
     }
   };
@@ -177,13 +179,17 @@ const ServiceDetail = () => {
       return;
     }
 
-    const currentTime = new Date();
-    if (new Date(deliveryTime) <= currentTime) {
-      toast.error(
-        "Thời gian giao hàng dự kiến không được ở quá khứ hoặc bằng hiện tại"
-      );
+    const currentDate = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD
+    const deliveryDate = new Date(deliveryTime).toLocaleDateString("en-CA"); // YYYY-MM-DD
+
+    console.log(currentDate + " " + deliveryDate);
+
+    // Kiểm tra nếu ngày giao hàng trước ngày hiện tại
+    if (deliveryDate < currentDate) {
+      toast.error("Thời gian giao hàng dự kiến không được ở quá khứ");
       return;
     }
+
     try {
       const response = await axiosInstance.patch(`/posts/${postId}/deal`, {
         driverId,
@@ -208,9 +214,7 @@ const ServiceDetail = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 402) {
-        toast.error(
-          "Thời gian giao hàng dự kiến không được ở quá khứ và bằng hiện tại!"
-        );
+        toast.error("Thời gian giao hàng dự kiến không hợp lệ!");
       } else {
         console.error(error);
       }

@@ -13,15 +13,16 @@ import {
   FaKey,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { GrTransaction } from "react-icons/gr";
 import { PiHandWithdrawBold } from "react-icons/pi";
-
+import useAuth from "../../../hooks/useAuth";
 function AdminDashboardSidebar({ setActiveSection, activeSection }) {
+  const { handleLogout, isAuthenticated } = useAuth();
   const [isReportsExpanded, setIsReportsExpanded] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem("tabAdmin");
-    window.location.href = "/signIn";
+  const handleLogoutClick = async () => {
+    await handleLogout();
   };
 
   const toggleSidebar = () => setShowSidebar(!showSidebar);
@@ -52,7 +53,7 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
             activeSection={activeSection}
             isReportsExpanded={isReportsExpanded}
             setIsReportsExpanded={setIsReportsExpanded}
-            handleLogout={handleLogout}
+            handleLogoutClick={handleLogoutClick}
           />
         </Offcanvas.Body>
       </Offcanvas>
@@ -64,7 +65,7 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
           activeSection={activeSection}
           isReportsExpanded={isReportsExpanded}
           setIsReportsExpanded={setIsReportsExpanded}
-          handleLogout={handleLogout}
+          handleLogoutClick={handleLogoutClick}
         />
       </Nav>
     </>
@@ -76,7 +77,7 @@ function SidebarContent({
   activeSection,
   isReportsExpanded,
   setIsReportsExpanded,
-  handleLogout,
+  handleLogoutClick,
 }) {
   return (
     <>
@@ -193,6 +194,18 @@ function SidebarContent({
       </Nav.Link>
       <Nav.Link
         onClick={() => {
+          setActiveSection("transaction-system");
+          localStorage.setItem("tabAdmin", "transaction-system");
+        }}
+        className={`sidebar-link ${
+          activeSection === "transaction-system" ? "active" : ""
+        }`}
+      >
+        <GrTransaction className="admin-dashboard-sidebar-icon" />
+        <div className="sidebar-title">Lịch sử giao dịch của hệ thống</div>
+      </Nav.Link>
+      <Nav.Link
+        onClick={() => {
           setActiveSection("vehicles");
           localStorage.setItem("tabAdmin", "vehicles");
         }}
@@ -233,7 +246,7 @@ function SidebarContent({
       </Nav.Link>
       <hr className="admin-sidebar-divider" />
       <div className="logout-section mt-1">
-        <Nav.Link onClick={handleLogout} className={`sidebar-link`}>
+        <Nav.Link onClick={handleLogoutClick} className={`sidebar-link`}>
           <FaSignOutAlt className="admin-dashboard-sidebar-icon" />
           <div className="sidebar-title">Đăng xuất</div>
         </Nav.Link>

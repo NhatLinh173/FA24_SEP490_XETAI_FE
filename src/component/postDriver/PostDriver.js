@@ -1,6 +1,5 @@
 import React from "react";
 import useInstanceData from "../../config/useInstanceData";
-
 import Post from "./Post";
 
 const PostDriver = () => {
