@@ -63,6 +63,7 @@ const useAuth = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("avatar");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("tabAdmin");
     Cookies.remove("refreshToken", {
       path: "/",
     });

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import useUserData from "../../hooks/useUserData";
 
 const SectionHeading = ({ onSearch }) => {
+  const { userData, loading, error } = useUserData();
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffLocation, setDropoffLocation] = useState("");
   const [weight, setWeight] = useState("");
   const [pickupSuggestions, setPickupSuggestions] = useState([]);
   const [dropoffSuggestions, setDropoffSuggestions] = useState([]);
   const [provinces, setProvinces] = useState([]);
-
+  const [userRole, setUserRole] = useState("");
   const fetchProvinces = async () => {
     try {
       const response = await axios.get("https://provinces.open-api.vn/api/");
@@ -21,6 +23,12 @@ const SectionHeading = ({ onSearch }) => {
   };
 
   useEffect(() => {
+    if (userData) {
+      setUserRole(userData.role);
+    }
+  }, [userData]);
+
+  useEffect(() => {
     fetchProvinces();
   }, []);
 
@@ -28,36 +36,72 @@ const SectionHeading = ({ onSearch }) => {
     handleSearch();
   }, [pickupLocation, dropoffLocation, weight]);
 
+  useEffect(() => {
+    handleSearch();
+  }, [pickupLocation, dropoffLocation]);
+
   const handleSearch = async () => {
-    const weightValue = parseInt(weight, 10);
-    if (weight && (isNaN(weightValue) || weightValue <= 0)) {
-      toast.error("Vui lòng nhập khối lượng hợp lệ.");
-      return;
-    }
-
-    if (!pickupLocation && !dropoffLocation && !weight) {
-      try {
-        const response = await axios.get("http://localhost:3005/posts/");
-        onSearch(response.data.salePosts || []);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        toast.error("Lỗi khi tải danh sách bài đăng.");
+    if (userRole === "personal" || userRole === "business") {
+      const weightValue = parseInt(weight, 10);
+      if (weight && (isNaN(weightValue) || weightValue <= 0)) {
+        toast.error("Vui lòng nhập khối lượng hợp lệ.");
+        return;
       }
-      return;
-    }
 
-    try {
-      const response = await axios.get("http://localhost:3005/search", {
-        params: {
-          startPointCity: pickupLocation,
-          destinationCity: dropoffLocation,
-          load: weight,
-        },
-      });
-      onSearch(response.data.posts);
-    } catch (error) {
-      console.error("Error searching posts:", error);
-      toast.error("Lỗi khi tìm kiếm bài đăng.");
+      if (!pickupLocation && !dropoffLocation && !weight) {
+        try {
+          const response = await axios.get("http://localhost:3005/posts/");
+          console.log("Response from /posts:", response.data);
+          onSearch(response.data.salePosts || []);
+        } catch (error) {
+          toast.error("Lỗi khi tải danh sách bài đăng.");
+        }
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://localhost:3005/search", {
+          params: {
+            startPointCity: pickupLocation,
+            destinationCity: dropoffLocation,
+            load: weight,
+          },
+        });
+        console.log("Response from /search:", response.data);
+        onSearch(response.data.posts);
+      } catch (error) {
+        console.error("Error searching posts:", error);
+        toast.error("Lỗi khi tìm kiếm bài đăng.");
+      }
+    } else if (userRole === "customer") {
+      if (!pickupLocation && !dropoffLocation) {
+        try {
+          const response = await axios.get("http://localhost:3005/driverpost/");
+          console.log("Response from /driverpost:", response.data);
+          onSearch(response.data || []);
+        } catch (error) {
+          console.error("Error loading posts:", error);
+          toast.error("Lỗi khi tải danh sách bài đăng.");
+        }
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          "http://localhost:3005/search/driver-post",
+          {
+            params: {
+              startCity: pickupLocation,
+              destinationCity: dropoffLocation,
+            },
+          }
+        );
+        console.log("Response from /search/driver-post:", response.data);
+        onSearch(response.data.posts);
+      } catch (error) {
+        console.error("Error searching posts:", error);
+        toast.error("Lỗi khi tìm kiếm bài đăng.");
+      }
     }
   };
 
@@ -155,15 +199,17 @@ const SectionHeading = ({ onSearch }) => {
                 </ul>
               )}
             </div>
-            <div className="search_input_container">
-              <input
-                type="number"
-                value={weight}
-                onChange={handleWeightChange}
-                placeholder="Khối lượng (kg)"
-                className="search_input"
-              />
-            </div>
+            {userRole !== "customer" && (
+              <div className="search_input_container">
+                <input
+                  type="number"
+                  value={weight}
+                  onChange={handleWeightChange}
+                  placeholder="Khối lượng (kg)"
+                  className="search_input"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

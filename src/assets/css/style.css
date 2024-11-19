@@ -5584,12 +5584,19 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* Thẻ thống kê */
+.custom-background {
+  background-color: #f9fafc;  /* Màu nền sáng */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo hiệu ứng đổ bóng cho Card */
+  border-radius: 8px; /* Bo tròn góc */
+}
+
 .admin-stat-card {
   border: none;
   border-radius: 10px;
   transition: transform 0.3s ease;
   color: white;
   min-height: 200px !important;
+  color: #666;
 }
 
 .admin-stat-card:hover {
@@ -5597,15 +5604,18 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .admin-stat-title {
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: 600;
   opacity: 0.9;
+  color: #333;
+  margin-top: px;
 }
 
 .admin-stat-value {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 0;
+  color: #333333; 
 }
 
 .admin-stat-trend {
@@ -5613,14 +5623,15 @@ input[type="number"]::-webkit-inner-spin-button {
   opacity: 0.9;
 }
 
-/* Base styles for statistics subtitles */
+
 .admin-stat-subtitle {
-  font-size: 0.875rem;
+  font-size: 1.2rem;
   color: #ffffff;
   line-height: 1.5;
   margin-bottom: 0.5rem;
   padding-top: 0.5rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: #333333; 
 }
 
 /* Thẻ biểu đồ */
@@ -7655,7 +7666,7 @@ input[type="number"]::-webkit-inner-spin-button {
   flex-basis: 60%; /* Chiếm 60% chiều rộng dòng */
 }
 
-}
+
 
 .vehicle-manager-container {
   background-color: #ffffff;
@@ -7721,3 +7732,38 @@ input[type="number"]::-webkit-inner-spin-button {
        Vehicle Management End
 ============================== */
 
+.transaction-container {
+  max-width: 1000px;
+  background-color: #ffffff;
+}
+
+.transaction-title {
+  color: #333333;
+  font-weight: bold;
+}
+
+.transaction-header {
+  background-color: #f2f2f2;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  display: inline-block;
+}
+
+.status-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-failed {
+  background-color: #f8d7da;
+  color: #721c24;
+}

@@ -12,7 +12,6 @@ import { Button, Modal } from "react-bootstrap";
 import axiosInstance from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
 
-
 const LogisticsService = () => {
   const [isDriverExist, setIsDriverExist] = useState(false);
   const [showReportButtons, setShowReportButtons] = useState({});
@@ -229,9 +228,16 @@ const LogisticsService = () => {
                 )}
               </div>
               <div className="review_button">
-                <Link to="/order" className="btn btn-theme mb-2">
-                  Xem thêm
-                </Link>
+                {!isDriverExist && (
+                  <Link to="/post-driver" className="btn btn-theme mb-2">
+                    Xem thêm
+                  </Link>
+                )}
+                {isDriverExist && (
+                  <Link to="/order" className="btn btn-theme mb-2">
+                    Xem thêm
+                  </Link>
+                )}
               </div>
             </div>
           </div>

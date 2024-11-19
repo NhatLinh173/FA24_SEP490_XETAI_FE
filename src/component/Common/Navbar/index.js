@@ -19,7 +19,7 @@ const Navbar = ({ openModal }) => {
   const [avatar, setAvatar] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  console.log(avatarDefault);
+
   useEffect(() => {
     if (userData && userData.avatar) {
       localStorage.setItem("avatar", userData.avatar);
@@ -83,19 +83,6 @@ const Navbar = ({ openModal }) => {
     setClick(!click);
   };
 
-  const handleSearchOpen = (event) => {
-    event.preventDefault();
-    const searchInputElement = document.getElementById("home-search-input");
-    if (!searchInputElement) return;
-
-    const scheduleSection = document.getElementById("schedule_one");
-    searchInputElement.focus();
-    window.scroll({
-      top: scheduleSection.getBoundingClientRect().top + window.scrollY,
-      behavior: "smooth",
-    });
-  };
-
   const handleLogoutClick = async () => {
     await handleLogout();
   };
@@ -115,9 +102,7 @@ const Navbar = ({ openModal }) => {
             <div className="container">
               <nav className="navbar navbar-expand-md navbar-light">
                 <Link className="navbar-brand" to="/">
-
                   <img src={logo} alt="logo" />
-
                 </Link>
 
                 <div className="mean-menu" id="navbarSupportedContent">

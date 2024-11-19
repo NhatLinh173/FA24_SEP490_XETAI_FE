@@ -47,7 +47,7 @@ const ServicesCard = () => {
           <SectionHeading onSearch={handleSearch} />
         </div>
         <div className="service_wrapper_top">
-          <div className="row" >
+          <div className="row">
             {currentItems.map((data) => (
               <div className="col-lg-4" key={data._id}>
                 <ServiceCard

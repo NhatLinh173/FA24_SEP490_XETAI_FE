@@ -13,7 +13,7 @@ import PostReport from "../component/AdminDashboard/ReportManagement/PostReport"
 import VehicleManager from "../component/AdminDashboard/VehicleManagement/vehicleManagement";
 import StaffChangePassword from "../component/AdminDashboard/AdminProfile/StaffChangePassword.js";
 import ConfirmWithDraw from "../component/AdminDashboard/ConfirmWithDraw/confirmWithDraw";
-
+import TransactionSystem from "../component/AdminDashboard/TransactionSystem/transactionSystem.js";
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState(
     localStorage.getItem("tabAdmin") || "dashboard"
@@ -47,6 +47,8 @@ function AdminDashboard() {
         return <VehicleManager />;
       case "confirm-withdraw":
         return <ConfirmWithDraw />;
+      case "transaction-system":
+        return <TransactionSystem />;
       default:
         return <DashboardHome />;
     }
