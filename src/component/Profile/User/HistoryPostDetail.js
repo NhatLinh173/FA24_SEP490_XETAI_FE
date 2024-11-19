@@ -41,6 +41,7 @@ const HistoryPostDetail = () => {
   const [images, setImages] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [formData, setFormData] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   // các biến lỗi
   const [titleError, setTitleError] = useState("");
@@ -60,7 +61,6 @@ const HistoryPostDetail = () => {
   const [totalImage, setTotalImage] = useState([]);
 
   const [isDriverExist, setIsDriverExist] = useState(false);
-  const averageRating = 4.5;
   const nextSlide = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
@@ -79,6 +79,7 @@ const HistoryPostDetail = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: post } = useInstanceData(`/posts/${id}`);
+  console.log(post);
 
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
 
@@ -143,6 +144,7 @@ const HistoryPostDetail = () => {
       setRecipentName(post.recipientName);
       setRecipentPhone(post.recipientPhone);
       setStatus(post.status);
+      setPaymentMethod(post.paymentMethod);
     }
   }, [post]);
 
@@ -567,7 +569,8 @@ const HistoryPostDetail = () => {
               post.status === "inprogress" ||
               post.status === "finish" ||
               post.status === "complete" ||
-              post.status === "approve") && (
+              post.status === "approve" ||
+              (post.status === "hide" && isDriverExist)) && (
               <div className="w-100 border-bottom pb-3 mb-3">
                 <div
                   id="carouselExampleControls"
@@ -679,6 +682,14 @@ const HistoryPostDetail = () => {
                   <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
                     <GiCancel className="mr-2" />
                     Đã hủy
+                  </button>
+                )}
+              {post.status === "hide" &&
+                post?.dealId?.status === "wait" &&
+                isDriverExist && (
+                  <button className="btn-sm btn-dark  mt-3 border-0 d-flex align-items-center">
+                    <GrHide className="mr-2" />
+                    Tạm ẩn
                   </button>
                 )}
 
@@ -1100,6 +1111,52 @@ const HistoryPostDetail = () => {
                           {priceError}
                         </div>
                       )}
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="form-group">
+                        <label className="font-weight-bold">
+                          Phương thức thanh toán
+                        </label>
+                        <select
+                          className="form-control"
+                          value={paymentMethod}
+                          disabled={
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel" ||
+                            post.status === "complete" ||
+                            (post.status === "wait" && isDriverExist) ||
+                            isDealPriceAvailable
+                          }
+                          style={{
+                          cursor:
+                            post.status === "approve" ||
+                            post.status === "inprogress" ||
+                            post.status === "finish" ||
+                            post.status === "cancel" ||
+                            post.status === "complete" ||
+                            (post.status === "wait" && isDriverExist) ||
+                            isDealPriceAvailable
+                              ? "not-allowed"
+                              : "auto",
+                        }}
+                          onChange={(e) => setPaymentMethod(e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Chọn phương thức thanh toán
+                          </option>
+                          <option value="bank_transfer">
+                            Chuyển khoản ngân hàng
+                          </option>
+                          <option value="cash">Tiền mặt</option>
+                        </select>
+                        {/* {paymentMethodError && (
+                          <div className="text-danger position-absolute marginBottom-error">
+                            {paymentMethodError}
+                          </div>
+                        )} */}
+                      </div>
                     </div>
 
                     <div className="form-group col-md-12">
@@ -1652,7 +1709,7 @@ const HistoryPostDetail = () => {
         )}
         {isShowModalCancel && (
           <div
-            className="modal fade show"
+            className="modal fade show  bg-dark bg-opacity-75"
             id="exampleModal"
             tabIndex="-1"
             aria-labelledby="exampleModalLabel"

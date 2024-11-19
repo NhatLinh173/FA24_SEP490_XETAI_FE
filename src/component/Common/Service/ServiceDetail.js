@@ -549,7 +549,7 @@ const ServiceDetail = () => {
                       onChange={handlePriceChange}
                       placeholder="Nhập giá mong muốn"
                     />
-                    <span className="currency-unit">VND</span>
+                    <span className="currency-unit ml-2">VND</span>
                   </div>
                   <p>Thời gian dự kiến giao hàng:</p>
                   <input
