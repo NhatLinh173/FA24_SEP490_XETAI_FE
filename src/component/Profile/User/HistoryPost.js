@@ -1,3 +1,4 @@
+// FA24_SEP490_XETAI_FE/src/component/Profile/User/HistoryPost.js
 import React, { useEffect, useState } from "react";
 import { FaBoxArchive, FaCheck } from "react-icons/fa6";
 import { FaWeightHanging } from "react-icons/fa";
@@ -11,7 +12,7 @@ import { GrHide } from "react-icons/gr";
 import { FaCheckCircle } from "react-icons/fa";
 import axios from "../../../config/axiosConfig";
 import useInstanceData from "../../../config/useInstanceData";
-import ReactPaginate from "react-paginate";
+import { Pagination } from "react-bootstrap"; // Thêm import cho Bootstrap Pagination
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -24,7 +25,6 @@ const HistoryPost = () => {
   const [currentFilter, setCurrentFilter] = useState("all");
   const postsPerPage = 3;
 
-  const offset = currentPage * postsPerPage;
   const [noPostsMessage, setNoPostsMessage] = useState("");
   const [pageCount, setPageCount] = useState(0);
 
@@ -32,9 +32,7 @@ const HistoryPost = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: posts, refetch } = useInstanceData(`/posts/${userId}/users`);
-
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
-
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );
@@ -59,19 +57,6 @@ const HistoryPost = () => {
     setIsShowModal(false);
     setPostID(null);
   };
-
-  useEffect(() => {
-    setCurrentPage(0);
-    if (driverId !== "undefined") {
-      setPageCount(Math.ceil(postdriver?.data?.length / 3));
-      setIsDriverExist(true);
-      setCurrentPost(postdriver?.data?.slice(offset, offset + postsPerPage));
-    } else {
-      setPageCount(Math.ceil(posts?.salePosts?.length / 3));
-      setIsDriverExist(false);
-      setCurrentPost(posts?.salePosts?.slice(offset, offset + postsPerPage));
-    }
-  }, [driverId, offset, posts, postdriver, currentPage]);
 
   const applyFilter = () => {
     let filteredPosts = [];
@@ -150,33 +135,104 @@ const HistoryPost = () => {
         filteredPosts =
           driverId !== "undefined" ? postdriver?.data : posts?.salePosts || [];
     }
+
+    // Cập nhật số trang và bài viết hiện tại
     setPageCount(Math.ceil(filteredPosts?.length / postsPerPage));
-    setCurrentPost(filteredPosts?.slice(offset, offset + postsPerPage));
+    setCurrentPost(
+      filteredPosts?.slice(
+        currentPage * postsPerPage,
+        (currentPage + 1) * postsPerPage
+      )
+    );
     setNoPostsMessage(
       filteredPosts?.length === 0 ? "Không có bài post nào phù hợp." : ""
     );
   };
+
   const handleFilterChange = (filter) => {
     setCurrentPage(0);
     setCurrentFilter(filter);
   };
 
-  const handlePageChange = (e) => {
-    setCurrentPage(0);
-
-    setCurrentFilter(e.selected);
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber - 1); // Cập nhật trang hiện tại
   };
-  useEffect(() => {
-    setCurrentPage(0);
 
-    applyFilter();
-  }, [currentFilter, offset, posts, postdriver, dealPriceDriver, currentPage]);
-  useEffect(() => {
-    if (currentFilter !== null) {
-      setCurrentPage(0);
+  const getPaginationItems = () => {
+    const items = [];
+    const totalPages = pageCount;
+
+    if (totalPages <= 5) {
+      // Nếu tổng số trang nhỏ hơn hoặc bằng 5, hiển thị tất cả
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(
+          <Pagination.Item
+            key={i}
+            active={i === currentPage + 1}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </Pagination.Item>
+        );
+      }
+    } else {
+      // Nếu tổng số trang lớn hơn 5, hiển thị theo kiểu "1234 ... 8910"
+      const startPage = Math.max(2, currentPage); // Trang bắt đầu
+      const endPage = Math.min(totalPages - 1, currentPage + 2); // Trang kết thúc
+
+      // Hiển thị trang đầu tiên
+      items.push(
+        <Pagination.Item
+          key={1}
+          active={1 === currentPage + 1}
+          onClick={() => handlePageChange(1)}
+        >
+          1
+        </Pagination.Item>
+      );
+
+      // Hiển thị dấu ba chấm nếu cần
+      if (startPage > 2) {
+        items.push(<Pagination.Ellipsis key="ellipsis-start" />);
+      }
+
+      // Hiển thị các trang giữa
+      for (let i = startPage; i <= endPage; i++) {
+        items.push(
+          <Pagination.Item
+            key={i}
+            active={i === currentPage + 1}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </Pagination.Item>
+        );
+      }
+
+      // Hiển thị dấu ba chấm nếu cần
+      if (endPage < totalPages - 1) {
+        items.push(<Pagination.Ellipsis key="ellipsis-end" />);
+      }
+
+      // Hiển thị trang cuối cùng
+      items.push(
+        <Pagination.Item
+          key={totalPages}
+          active={totalPages === currentPage + 1}
+          onClick={() => handlePageChange(totalPages)}
+        >
+          {totalPages}
+        </Pagination.Item>
+      );
     }
-    console.log("log");
-  }, [currentFilter]);
+
+    return items;
+  };
+
+  useEffect(() => {
+    applyFilter(); // Gọi applyFilter khi currentPage hoặc currentFilter thay đổi
+  }, [currentPage, currentFilter, posts, postdriver, dealPriceDriver]);
+
   return (
     <div>
       <h2>Đơn Hàng</h2>
@@ -197,7 +253,7 @@ const HistoryPost = () => {
           className="btn btn-secondary btn-custom mx-1 d-flex align-items-center"
           onClick={() => handleFilterChange("approve")}
         >
-          <FaCheck className="mr-1" /> Đã nhận đơn
+          <MdOutlinePersonAdd className="mr-1" /> Đã nhận đơn
         </button>
         <button
           className="btn btn-primary  btn-custom mx-1 d-flex align-items-center"
@@ -209,7 +265,7 @@ const HistoryPost = () => {
           className="btn btn-danger btn-custom mx-1 d-flex align-items-center"
           onClick={() => handleFilterChange("cancel")}
         >
-          <MdOutlinePersonAdd className="mr-1" /> Đã hủy
+          <GiCancel className="mr-1" /> Đã hủy
         </button>
 
         {!isDriverExist && (
@@ -359,22 +415,19 @@ const HistoryPost = () => {
         ))}
 
       {pageCount >= 1 && (
-        <ReactPaginate
-          pageCount={pageCount}
-          onPageChange={handlePageChange}
-          containerClassName={"pagination"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-          previousLabel={"<<"}
-          nextLabel={">>"}
-        />
+        <Pagination>
+          <Pagination.Prev
+            onClick={() => currentPage > 0 && handlePageChange(currentPage)}
+            disabled={currentPage === 0}
+          />
+          {getPaginationItems()}
+          <Pagination.Next
+            onClick={() =>
+              currentPage < pageCount - 1 && handlePageChange(currentPage + 2)
+            }
+            disabled={currentPage === pageCount - 1}
+          />
+        </Pagination>
       )}
 
       {isShowModal && (
