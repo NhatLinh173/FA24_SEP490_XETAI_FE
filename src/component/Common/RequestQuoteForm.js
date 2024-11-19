@@ -11,9 +11,12 @@ import { useHistory } from "react-router-dom";
 const RequestQuoteForm = () => {
   const history = useHistory();
   const userId = localStorage.getItem("userId");
-  const { data, loading, error, refetch } = useInstanceData(
-    `/auth/user/${userId}`
-  );
+  const {
+    data,
+    loading: instanceLoading,
+    error,
+    refetch,
+  } = useInstanceData(`/auth/user/${userId}`);
   const { email, phone, fullName, balance } = data || {};
   const [newEmail, setNewEmail] = useState("");
   const [newPhone, setNewPhone] = useState(0);
@@ -30,7 +33,7 @@ const RequestQuoteForm = () => {
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
   console.log(cityFrom);
-
+  const [loading, setLoading] = useState(false);
   const [cityTo, setCityTo] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
 
@@ -349,6 +352,7 @@ const RequestQuoteForm = () => {
     formData.append("recipientName", recipientName);
     formData.append("recipientPhone", recipientPhone);
     formData.append("paymentMethod", paymentMethod);
+    setLoading(true); // Bắt đầu loading
 
     try {
       const response = await axiosInstance.post("/posts", formData);
@@ -383,6 +387,8 @@ const RequestQuoteForm = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Kết thúc loading
     }
   };
 
@@ -863,9 +869,9 @@ const RequestQuoteForm = () => {
                               : "btn-theme"
                           }`}
                           onClick={handleSubmit}
-                          disabled={isDisable}
+                          disabled={isDisable || loading}
                         >
-                          Gửi
+                          {loading ? "Đang gửi..." : "Gửi"}
                         </button>
                       </div>
                     )}
