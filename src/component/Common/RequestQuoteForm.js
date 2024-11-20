@@ -871,7 +871,7 @@ const RequestQuoteForm = () => {
                           onClick={handleSubmit}
                           disabled={isDisable || loading}
                         >
-                          {loading ? "Đang gửi..." : "Gửi"}
+                          {loading ? "Đang tạo..." : "Tạo đơn"}
                         </button>
                       </div>
                     )}
@@ -884,8 +884,9 @@ const RequestQuoteForm = () => {
                               : "btn-theme"
                           }`}
                           onClick={handleSubmitDriver}
+                          disabled={isDisable || loading}
                         >
-                          Gửi
+                          {loading ? "Đang đăng..." : "Đăng bài"}
                         </button>
                       </div>
                     )}
