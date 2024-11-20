@@ -75,7 +75,7 @@ const WithdrawRequests = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className=" Withdraw-requests_container mt-5">
       <h3 className="mb-4 text-center display-4 font-weight-bold">
         Danh sách yêu cầu rút tiền
       </h3>
