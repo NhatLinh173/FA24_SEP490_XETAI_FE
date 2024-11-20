@@ -5,14 +5,15 @@ import AdminDashboardSidebar from "../component/AdminDashboard/Sidebar/AdminDash
 import DashboardHome from "../component/AdminDashboard/DashboardHome/DashboardHome";
 import DriverManagement from "../component/AdminDashboard/DriverManagement/DriverManagement";
 import CustomerManagement from "../component/AdminDashboard/CustomerManagement/CustomerManagement";
-import StaffManagement from "../component/AdminDashboard/StaffManagement/StaffManagement"; // Quản lý nhân viên
+import StaffManagement from "../component/AdminDashboard/StaffManagement/StaffManagement";
 import OrderReport from "../component/AdminDashboard/ReportManagement/OrderReport";
 import NewsManagement from "../component/AdminDashboard/NewsManagement/NewManagement";
 import AdminProfile from "../component/AdminDashboard/AdminProfile/AdminProfile";
 import PostReport from "../component/AdminDashboard/ReportManagement/PostReport";
 import VehicleManager from "../component/AdminDashboard/VehicleManagement/vehicleManagement";
 import StaffChangePassword from "../component/AdminDashboard/AdminProfile/StaffChangePassword.js";
-
+import ConfirmWithDraw from "../component/AdminDashboard/ConfirmWithDraw/confirmWithDraw";
+import TransactionSystem from "../component/AdminDashboard/TransactionSystem/transactionSystem.js";
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState(
     localStorage.getItem("tabAdmin") || "dashboard"
@@ -33,9 +34,9 @@ function AdminDashboard() {
       case "staff":
         return <StaffManagement />;
       case "orders-report":
-        return <OrderReport />
+        return <OrderReport />;
       case "posts-report":
-        return <PostReport />
+        return <PostReport />;
       case "news":
         return <NewsManagement />;
       case "admin-profile":
@@ -44,8 +45,12 @@ function AdminDashboard() {
         return <StaffChangePassword />;
       case "vehicles":
         return <VehicleManager />;
+      case "confirm-withdraw":
+        return <ConfirmWithDraw />;
+      case "transaction-system":
+        return <TransactionSystem />;
       default:
-        return <DashboardHome />;;
+        return <DashboardHome />;
     }
   };
 

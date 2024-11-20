@@ -8,9 +8,7 @@ import { Rating } from "react-simple-star-rating";
 import { jwtDecode } from "jwt-decode";
 import TripCarousel from "./TripCarousel";
 import { BsHeartFill } from "react-icons/bs";
-import { BsHeart } from "react-icons/bs";
 import { FaBoxOpen } from "react-icons/fa";
-import { CiHeart } from "react-icons/ci";
 import dayjs from "dayjs";
 
 const TripDetail = () => {
@@ -107,6 +105,7 @@ const TripDetail = () => {
       setDriver(response.data.dealId.driverId.userId._id);
       setDriverId(response.data.dealId.driverId._id);
       await getRatingDetails(response.data.dealId.driverId.userId._id);
+      console.log(response.data);
     } catch (error) {}
   };
 
@@ -149,22 +148,24 @@ const TripDetail = () => {
               />
 
               <div className="mt-3 d-flex justify-content-between align-items-center">
-                <button
-                  className="btn-sm btn-success border-0 d-flex align-items-center"
-                  style={{ width: "fit-content" }}
-                >
-                  <FaCheck className="mr-2" />
-                  Đã giao hàng
-                </button>
-
-                <button
-                  className="btn-sm btn-primary border-0 d-flex align-items-center"
-                  style={{ width: "fit-content" }}
-                  onClick={handleConfirmReceived}
-                >
-                  <FaBoxOpen className="mr-2" />
-                  Đã nhận hàng
-                </button>
+                {tripDetail.status === "finish" ? (
+                  <button
+                    className="btn-sm btn-primary border-0 d-flex align-items-center"
+                    style={{ width: "fit-content" }}
+                    onClick={handleConfirmReceived}
+                  >
+                    <FaBoxOpen className="mr-2" />
+                    Đã nhận hàng
+                  </button>
+                ) : (
+                  <button
+                    className="btn-sm btn-success border-0 d-flex align-items-center"
+                    style={{ width: "fit-content" }}
+                  >
+                    <FaCheck className="mr-2" />
+                    Đã giao hàng
+                  </button>
+                )}
               </div>
             </div>
 

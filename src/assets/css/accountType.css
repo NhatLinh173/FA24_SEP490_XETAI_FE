@@ -51,11 +51,11 @@
 }
 
 
-.row {
+/* .row {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-}
+} */
 
 .list-unstyled {
   padding: 0; 

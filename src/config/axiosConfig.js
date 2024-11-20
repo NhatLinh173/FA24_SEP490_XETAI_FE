@@ -3,7 +3,7 @@ import refreshAccessToken from "../component/Service/refreshToken";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3005",
-  timeout: 10000,
+  timeout: 50000,
   withCredentials: true,
 });
 

@@ -1,7 +1,6 @@
 export const getMenuData = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
   const userRole = localStorage.getItem("userRole");
-  console.log(localStorage.getItem("userRole"));
 
   const MenuData = [
     {

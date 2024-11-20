@@ -20,8 +20,9 @@ const StaffManagement = () => {
   useEffect(() => {
     const fetchStaff = async () => {
       try {
-        const response = await axiosInstance.get("/auth/users/staff");
+        const response = await axiosInstance.get("/auth/users/getAllStaff");
         setStaff(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching staff:", error);
       }
@@ -101,13 +102,11 @@ const StaffManagement = () => {
     const newStaffMember = {
       fullName: newStaff.fullName,
       email: newStaff.email,
-      phone: newStaff.phone,
-      address: newStaff.address,
     };
 
     try {
       const response = await axiosInstance.post(
-        "/auth/users/addStaff",
+        "/auth/users/add-staff",
         newStaffMember
       );
 
@@ -117,8 +116,6 @@ const StaffManagement = () => {
         setNewStaff({
           fullName: "",
           email: "",
-          phone: "",
-          address: "",
           avatar: avatarDefault,
         });
         setValidated(false);
@@ -185,8 +182,6 @@ const StaffManagement = () => {
           <tr>
             <th>Tên</th>
             <th>Email</th>
-            <th>Điện thoại</th>
-            <th>Địa chỉ</th>
             <th>Hành động</th>
           </tr>
         </thead>
@@ -202,8 +197,6 @@ const StaffManagement = () => {
                 {member.fullName}
               </td>
               <td>{member.email}</td>
-              <td>{member.phone}</td>
-              <td>{member.address}</td>
               <td style={{ textAlign: "center" }}>
                 <div
                   style={{
@@ -325,37 +318,6 @@ const StaffManagement = () => {
               />
               <Form.Control.Feedback type="invalid">
                 Vui lòng nhập email hợp lệ
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="phone">
-              <Form.Label>Số điện thoại</Form.Label>
-              <Form.Control
-                type="tel"
-                placeholder="Nhập số điện thoại"
-                name="phone"
-                value={newStaff.phone}
-                onChange={handleInputChange}
-                required
-                pattern="[0-9]{10}"
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập số điện thoại hợp lệ (10 số)
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="address">
-              <Form.Label>Địa chỉ</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Nhập địa chỉ"
-                name="address"
-                value={newStaff.address}
-                onChange={handleInputChange}
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Vui lòng nhập địa chỉ
               </Form.Control.Feedback>
             </Form.Group>
 

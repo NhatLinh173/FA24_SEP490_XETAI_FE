@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../config/axiosConfig";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { toast } from "react-toastify";
+import LoadingSpinner from "../../Animation/LoadingSpinner";
+
 function VehicleManager() {
   const [registrations, setRegistrations] = useState([]);
   const [selectedRegistration, setSelectedRegistration] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedReason, setSelectedReason] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleViewDetails = (registration) => {
     setSelectedRegistration(registration);
@@ -20,6 +23,7 @@ function VehicleManager() {
     }
 
     const { _id } = selectedRegistration;
+    setLoading(true); // Bắt đầu loading
 
     try {
       const response = await axiosInstance.patch(`/car/update/status`, {
@@ -33,13 +37,20 @@ function VehicleManager() {
           templateName: "carApprovalNotification",
           templateArgs: [selectedRegistration.driverId.userId.fullName, _id],
         });
+
+        setRegistrations((prevRegistrations) =>
+          prevRegistrations.filter((registration) => registration._id !== _id)
+        );
+
+        toast.success("Đã xác nhận đăng ký xe thành công.");
+        setTimeout(() => {
+          handleCloseDetailModal();
+        }, 2000);
       }
-      toast.success("Đã xác nhận đăng ký xe thành công.");
-      setTimeout(() => {
-        handleCloseDetailModal();
-      }, 2000);
     } catch (error) {
       console.error("Lỗi khi cập nhật trạng thái:", error);
+    } finally {
+      setLoading(false); // Kết thúc loading
     }
   };
 
@@ -50,6 +61,8 @@ function VehicleManager() {
   const handleConfirmDelete = async () => {
     if (selectedReason && selectedRegistration) {
       const { driverId, _id } = selectedRegistration;
+      setLoading(true); // Bắt đầu loading
+
       try {
         const response = await axiosInstance.patch(`/car/update/status`, {
           id: _id,
@@ -67,6 +80,13 @@ function VehicleManager() {
                 selectedReason,
               ],
             });
+
+            setRegistrations((prevRegistrations) =>
+              prevRegistrations.filter(
+                (registration) => registration._id !== _id
+              )
+            );
+
             toast.success("Đã xóa đăng ký xe thành công.");
             setTimeout(() => {
               handleCloseDetailModal();
@@ -80,6 +100,8 @@ function VehicleManager() {
         }
       } catch (error) {
         console.error("Lỗi khi cập nhật trạng thái:", error);
+      } finally {
+        setLoading(false); // Kết thúc loading
       }
     }
   };
@@ -95,11 +117,14 @@ function VehicleManager() {
 
   useEffect(() => {
     const fetchCar = async () => {
+      setLoading(true); // Bắt đầu loading
       try {
         const response = await axiosInstance.get("/car/wait");
         setRegistrations(response.data);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu đăng ký xe:", error);
+      } finally {
+        setLoading(false); // Kết thúc loading
       }
     };
 
@@ -112,50 +137,54 @@ function VehicleManager() {
         Quản lý Đăng ký Xe
       </h1>
 
-      <table className="vehicle-manager__table table table-striped table-bordered">
-        <thead>
-          <tr>
-            <th>Tên xe</th>
-            <th>Biển số xe</th>
-            <th>Tên chủ xe</th>
-            <th>Trọng tải</th>
-            <th>Ngày hết hạn</th>
-            <th>Hành động</th>
-          </tr>
-        </thead>
-        <tbody>
-          {registrations.map((registration, index) => (
-            <tr key={index}>
-              <td>{registration.nameCar}</td>
-              <td>{registration.licensePlate}</td>
-              <td>{registration.driverId.userId.fullName}</td>
-              <td>{registration.load} KG</td>
-              <td>
-                {new Date(registration.registrationDate).toLocaleDateString(
-                  "vi-VN"
-                )}
-              </td>
-
-              <td
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: "10px",
-                }}
-              >
-                <IoIosInformationCircleOutline
-                  onClick={() => handleViewDetails(registration)}
-                  style={{
-                    cursor: "pointer",
-                    fontSize: "1.5rem",
-                  }}
-                />
-              </td>
+      {loading ? (
+        <LoadingSpinner /> // Hiển thị component loading khi loading là true
+      ) : (
+        <table className="vehicle-manager__table table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Tên xe</th>
+              <th>Biển số xe</th>
+              <th>Tên chủ xe</th>
+              <th>Trọng tải</th>
+              <th>Ngày hết hạn</th>
+              <th>Hành động</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {registrations.map((registration, index) => (
+              <tr key={index}>
+                <td>{registration.nameCar}</td>
+                <td>{registration.licensePlate}</td>
+                <td>{registration.driverId.userId.fullName}</td>
+                <td>{registration.load} KG</td>
+                <td>
+                  {new Date(registration.registrationDate).toLocaleDateString(
+                    "vi-VN"
+                  )}
+                </td>
+
+                <td
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "10px",
+                  }}
+                >
+                  <IoIosInformationCircleOutline
+                    onClick={() => handleViewDetails(registration)}
+                    style={{
+                      cursor: "pointer",
+                      fontSize: "1.5rem",
+                    }}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       {selectedRegistration && (
         <div

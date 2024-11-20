@@ -5,7 +5,6 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import useInstanceData from "../../../config/useInstanceData";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import LoadingAnimation from "../../Animation/loadingAnimation";
 import PostItem from "../../postDriver/PostItem";
 import Post from "../../postDriver/Post";
 import PostDriver from "../../postDriver/PostDriver";
@@ -229,9 +228,16 @@ const LogisticsService = () => {
                 )}
               </div>
               <div className="review_button">
-                <Link to="/order" className="btn btn-theme mb-2">
-                  Xem thêm
-                </Link>
+                {!isDriverExist && (
+                  <Link to="/post-driver" className="btn btn-theme mb-2">
+                    Xem thêm
+                  </Link>
+                )}
+                {isDriverExist && (
+                  <Link to="/order" className="btn btn-theme mb-2">
+                    Xem thêm
+                  </Link>
+                )}
               </div>
             </div>
           </div>

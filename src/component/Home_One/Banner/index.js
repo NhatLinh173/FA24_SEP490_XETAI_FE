@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; // Corrected import
-//  OwlCarousel Slider Import
+import useUserData from "../../../hooks/useUserData";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 
 const HomeBanner = () => {
-  const [roleUser, setRoleUser] = useState(null);
+  const { userData, loading, error } = useUserData();
+
   const [buttonLink, setButtonLink] = useState("");
   const [buttonText, setButtonText] = useState("");
 
   useEffect(() => {
-    setRoleUser(localStorage.getItem("userRole"));
-
-    if (roleUser === "personal" || roleUser === "business") {
-      setButtonLink("/order");
-      setButtonText("Tìm Đơn Hàng");
-    } else {
-      setButtonLink("/request_quote");
-      setButtonText("Tạo Đơn Hàng");
+    if (userData) {
+      const roleUser = userData.role;
+      if (roleUser === "personal" || roleUser === "business") {
+        setButtonLink("/order");
+        setButtonText("Tìm Đơn Hàng");
+      } else {
+        setButtonLink("/request_quote");
+        setButtonText("Tạo Đơn Hàng");
+      }
     }
-  }, []);
+  }, [userData]);
 
   let responsive = {
     0: {

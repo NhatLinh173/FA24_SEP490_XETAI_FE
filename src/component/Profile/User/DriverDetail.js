@@ -2,13 +2,13 @@ import { useParams } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../config/axiosConfig";
-
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 const DriverDetail = () => {
   const [driver, setDriver] = useState(null);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const { driverId } = useParams();
-  console.log(driverId);
+
   useEffect(() => {
     const getInfoDriver = async () => {
       try {
@@ -60,7 +60,7 @@ const DriverDetail = () => {
             {/* Driver Information */}
             <div className="d-flex border-bottom pb-3 mb-3">
               <img
-                src={driver.avatar}
+                src={driver.avatar || avatarDefault}
                 alt="vehicle"
                 className="img-fluid rounded"
                 style={{ width: "150px", height: "150px", objectFit: "cover" }}
@@ -216,7 +216,7 @@ const DriverDetail = () => {
           <div className="border rounded p-3 shadow-sm">
             <div className="d-flex align-items-center border-bottom pb-3">
               <img
-                src={driver.avatar}
+                src={driver.avatar || avatarDefault}
                 className="border rounded mr-3"
                 style={{ width: "120px", height: "120px", objectFit: "cover" }}
                 alt="driver avatar"

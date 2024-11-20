@@ -63,7 +63,10 @@ const useAuth = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("avatar");
     localStorage.removeItem("userRole");
-    Cookies.remove("refreshToken");
+    localStorage.removeItem("tabAdmin");
+    Cookies.remove("refreshToken", {
+      path: "/",
+    });
     setAvatar(null);
     setIsAuthenticated(false);
     window.location.href = "/";

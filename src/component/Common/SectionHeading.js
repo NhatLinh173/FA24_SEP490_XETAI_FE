@@ -1,49 +1,137 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
+import useUserData from "../../hooks/useUserData";
 
 const SectionHeading = ({ onSearch }) => {
+  const { userData, loading, error } = useUserData();
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffLocation, setDropoffLocation] = useState("");
   const [weight, setWeight] = useState("");
   const [pickupSuggestions, setPickupSuggestions] = useState([]);
   const [dropoffSuggestions, setDropoffSuggestions] = useState([]);
-
-  const handleSearch = () => {
-    const weightValue = parseInt(weight, 10);
-    if (isNaN(weightValue) || weightValue <= 0) {
-      toast.error("Vui lòng nhập khối lượng hợp lệ.");
-      return;
+  const [provinces, setProvinces] = useState([]);
+  const [userRole, setUserRole] = useState("");
+  const fetchProvinces = async () => {
+    try {
+      const response = await axios.get("https://provinces.open-api.vn/api/");
+      setProvinces(response.data);
+    } catch (error) {
+      console.error("Error fetching provinces:", error);
+      toast.error("Không thể tải danh sách tỉnh.");
     }
-    onSearch({ pickupLocation, dropoffLocation, weight: weightValue });
   };
 
-  // const handlePickupChange = (e) => {
-  //   const value = e.target.value;
-  //   setPickupLocation(value);
-  //   if (value) {
-  //     setPickupSuggestions(
-  //       provinces.filter((province) =>
-  //         province.toLowerCase().includes(value.toLowerCase())
-  //       )
-  //     );
-  //   } else {
-  //     setPickupSuggestions([]);
-  //   }
-  // };
+  useEffect(() => {
+    if (userData) {
+      setUserRole(userData.role);
+    }
+  }, [userData]);
 
-  // const handleDropoffChange = (e) => {
-  //   const value = e.target.value;
-  //   setDropoffLocation(value);
-  //   if (value) {
-  //     setDropoffSuggestions(
-  //       provinces.filter((province) =>
-  //         province.toLowerCase().includes(value.toLowerCase())
-  //       )
-  //     );
-  //   } else {
-  //     setDropoffSuggestions([]);
-  //   }
-  // };
+  useEffect(() => {
+    fetchProvinces();
+  }, []);
+
+  useEffect(() => {
+    handleSearch();
+  }, [pickupLocation, dropoffLocation, weight]);
+
+  useEffect(() => {
+    handleSearch();
+  }, [pickupLocation, dropoffLocation]);
+
+  const handleSearch = async () => {
+    if (userRole === "personal" || userRole === "business") {
+      const weightValue = parseInt(weight, 10);
+      if (weight && (isNaN(weightValue) || weightValue <= 0)) {
+        toast.error("Vui lòng nhập khối lượng hợp lệ.");
+        return;
+      }
+
+      if (!pickupLocation && !dropoffLocation && !weight) {
+        try {
+          const response = await axios.get("http://localhost:3005/posts/");
+          console.log("Response from /posts:", response.data);
+          onSearch(response.data.salePosts || []);
+        } catch (error) {
+          toast.error("Lỗi khi tải danh sách bài đăng.");
+        }
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://localhost:3005/search", {
+          params: {
+            startPointCity: pickupLocation,
+            destinationCity: dropoffLocation,
+            load: weight,
+          },
+        });
+        console.log("Response from /search:", response.data);
+        onSearch(response.data.posts);
+      } catch (error) {
+        console.error("Error searching posts:", error);
+        toast.error("Lỗi khi tìm kiếm bài đăng.");
+      }
+    } else if (userRole === "customer") {
+      if (!pickupLocation && !dropoffLocation) {
+        try {
+          const response = await axios.get("http://localhost:3005/driverpost/");
+          console.log("Response from /driverpost:", response.data);
+          onSearch(response.data || []);
+        } catch (error) {
+          console.error("Error loading posts:", error);
+          toast.error("Lỗi khi tải danh sách bài đăng.");
+        }
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          "http://localhost:3005/search/driver-post",
+          {
+            params: {
+              startCity: pickupLocation,
+              destinationCity: dropoffLocation,
+            },
+          }
+        );
+        console.log("Response from /search/driver-post:", response.data);
+        onSearch(response.data.posts);
+      } catch (error) {
+        console.error("Error searching posts:", error);
+        toast.error("Lỗi khi tìm kiếm bài đăng.");
+      }
+    }
+  };
+
+  const handlePickupChange = (e) => {
+    const value = e.target.value;
+    setPickupLocation(value);
+
+    if (value) {
+      const filteredProvinces = provinces.filter((province) =>
+        province.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setPickupSuggestions(filteredProvinces);
+    } else {
+      setPickupSuggestions([]);
+    }
+  };
+
+  const handleDropoffChange = (e) => {
+    const value = e.target.value;
+    setDropoffLocation(value);
+
+    if (value) {
+      const filteredProvinces = provinces.filter((province) =>
+        province.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setDropoffSuggestions(filteredProvinces);
+    } else {
+      setDropoffSuggestions([]);
+    }
+  };
 
   const handleWeightChange = (e) => {
     setWeight(e.target.value);
@@ -69,7 +157,7 @@ const SectionHeading = ({ onSearch }) => {
               <input
                 type="text"
                 value={pickupLocation}
-                // onChange={handlePickupChange}
+                onChange={handlePickupChange}
                 placeholder="Địa điểm lấy hàng"
                 className="search_input"
               />
@@ -79,10 +167,10 @@ const SectionHeading = ({ onSearch }) => {
                     <li
                       key={index}
                       onClick={() =>
-                        handleSuggestionClick(suggestion, "pickup")
+                        handleSuggestionClick(suggestion.name, "pickup")
                       }
                     >
-                      {suggestion}
+                      {suggestion.name}
                     </li>
                   ))}
                 </ul>
@@ -92,7 +180,7 @@ const SectionHeading = ({ onSearch }) => {
               <input
                 type="text"
                 value={dropoffLocation}
-                // onChange={handleDropoffChange}
+                onChange={handleDropoffChange}
                 placeholder="Địa điểm trả hàng"
                 className="search_input"
               />
@@ -102,28 +190,26 @@ const SectionHeading = ({ onSearch }) => {
                     <li
                       key={index}
                       onClick={() =>
-                        handleSuggestionClick(suggestion, "dropoff")
+                        handleSuggestionClick(suggestion.name, "dropoff")
                       }
                     >
-                      {suggestion}
+                      {suggestion.name}
                     </li>
                   ))}
                 </ul>
               )}
             </div>
-            <div className="search_input_container">
-              <input
-                type="number"
-                value={weight}
-                onChange={handleWeightChange}
-                placeholder="Khối lượng (kg)"
-                className="search_input"
-              />
-            </div>
-            {/* Nút tìm kiếm */}
-            <button className="btn-theme" onClick={handleSearch}>
-              Tìm kiếm
-            </button>
+            {userRole !== "customer" && (
+              <div className="search_input_container">
+                <input
+                  type="number"
+                  value={weight}
+                  onChange={handleWeightChange}
+                  placeholder="Khối lượng (kg)"
+                  className="search_input"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

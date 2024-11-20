@@ -7,14 +7,30 @@ import { formatDate } from "../../utils/formatDate";
 const PostItem = ({
   PostDriver,
   handleThreeDotsClick,
-  handleContactClick,
-  handleReportClick,
   showReportButtons,
+  handleReportClick,
+  handleContactClick,
 }) => {
+  if (!PostDriver) {
+    return null;
+  }
+  const {
+    _id,
+    images,
+    startCity,
+    destinationCity,
+    description,
+    creatorId,
+    createdAt,
+  } = PostDriver;
+  const userId = creatorId?.userId?._id;
+  const avatar = creatorId?.userId?.avatar || avatarDefault;
+  const fullName = creatorId?.userId?.fullName;
+
   return (
     <div>
       <div
-        key={PostDriver.id}
+        key={_id}
         style={{
           position: "relative",
           margin: "13px",
@@ -23,12 +39,12 @@ const PostItem = ({
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
           backgroundColor: "#f8f9fa",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
-          display: "flex", // Sử dụng Flexbox
-          flexDirection: "column", // Dọc theo trục Y
-          justifyContent: "space-between", // Đảm bảo các phần tử đều được căn chỉnh đều
-          width: "350px", // Chiều rộng của mỗi card
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          width: "350px",
           height: "550px",
-          flexShrink: 0, // Đảm bảo các card không bị co lại
+          flexShrink: 0,
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = "scale(1.02)";
@@ -47,7 +63,7 @@ const PostItem = ({
             cursor: "pointer",
             zIndex: 10,
           }}
-          onClick={() => handleThreeDotsClick(PostDriver._id)}
+          onClick={() => handleThreeDotsClick(_id)}
           title="Báo cáo bài đăng"
         >
           <span
@@ -61,7 +77,7 @@ const PostItem = ({
           </span>
         </div>
 
-        {showReportButtons[PostDriver._id] && (
+        {showReportButtons[_id] && (
           <div
             style={{
               position: "absolute",
@@ -89,12 +105,12 @@ const PostItem = ({
             display: "flex",
             alignItems: "center",
             marginBottom: "15px",
-            flexShrink: 0, // Giúp ngăn avatar và tên bị dồn xuống khi có nội dung dài
+            flexShrink: 0,
           }}
         >
-          <Link to={`/driver/${PostDriver.creatorId.userId._id}`}>
+          <Link to={`/driver/${userId}`}>
             <img
-              src={PostDriver.creatorId.userId.avatar || avatarDefault}
+              src={avatar}
               alt="Avatar"
               style={{
                 borderRadius: "50%",
@@ -106,38 +122,38 @@ const PostItem = ({
             />
           </Link>
           <div>
-            <Link to={`/driver/${PostDriver.creatorId.userId._id}`}>
+            <Link to={`/driver/${userId}`}>
               <h4 style={{ margin: 0, color: "#007bff", fontSize: "18px" }}>
-                {PostDriver.creatorId.userId.fullName}
+                {fullName}
               </h4>
             </Link>
             <p style={{ fontSize: "0.9em", color: "#888" }}>
-              {formatDate(PostDriver.createdAt)}
+              {formatDate(createdAt)}
             </p>
           </div>
         </div>
         <p>
-          <strong>Điểm đi:</strong> {PostDriver.startCity}
+          <strong>Điểm đi:</strong> {startCity}
         </p>
         <p>
-          <strong>Điểm đến:</strong> {PostDriver.destinationCity}
+          <strong>Điểm đến:</strong> {destinationCity}
         </p>
         <p
           style={{
             marginBottom: "10px",
             color: "#555",
             maxWidth: "100%",
-            display: "-webkit-box", // Dùng flexbox cho hỗ trợ đa dòng
-            WebkitBoxOrient: "vertical", // Cấu hình chiều dọc
-            overflow: "hidden", // Ẩn phần dư thừa
-            WebkitLineClamp: 3, // Giới hạn số dòng là 4
-            lineHeight: "1.5", // Điều chỉnh khoảng cách dòng nếu cần
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            WebkitLineClamp: 3,
+            lineHeight: "1.5",
           }}
         >
-          {PostDriver.description}
+          {description}
         </p>
         <img
-          src={PostDriver.images}
+          src={images}
           alt="Post"
           style={{
             width: "100%",
@@ -157,7 +173,7 @@ const PostItem = ({
         >
           <Button
             className="btn-theme border-0"
-            onClick={() => handleContactClick(PostDriver.creatorId.userId)}
+            onClick={() => handleContactClick(creatorId.userId)}
           >
             Liên hệ
           </Button>

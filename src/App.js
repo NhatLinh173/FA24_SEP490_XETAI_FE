@@ -61,9 +61,11 @@ import StaffManagement from "./component/AdminDashboard/StaffManagement/StaffMan
 import Unauthorized from "./component/Unauthorized/unauthorized";
 import ResetPassword from "./component/ForgotPassword/resetPassword";
 import VehicleManager from "./component/AdminDashboard/VehicleManagement/vehicleManagement";
+import ConfirmWithDraw from "./component/AdminDashboard/ConfirmWithDraw/confirmWithDraw";
 import Post from "./page/Post";
 import HistoryPostDriver from "./component/Profile/User/HistoryPostDriver";
 import HistoryPostDriverDetail from "./component/Profile/User/HistoryPostDriverDetail";
+
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const location = useLocation();
@@ -77,6 +79,13 @@ const AppContent = () => {
     <>
       {!isDashboardPage && <Navbar openModal={openModal} />}
       <Switch>
+        <Route path="/signup" exact component={SignUp} />
+        <Route path="/signin" exact component={SignIn} />
+        <Route path="/accountType" exact component={AccountTypes} />
+        <Route path="/signUp-customer" exact component={SignUpCustomerPage} />
+        <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
+        <Route path="/terms" exact component={TermsCondition} />
+        <Route path="/contact" exact component={Contact} />
         <Route path="/" exact component={Home_One} />
         <Route path="/about" exact component={About} />
         <Route path="/order" exact component={Service} />
@@ -95,73 +104,81 @@ const AppContent = () => {
         <Route path="/track_ship" exact component={TrackYourShip} />
         <Route path="/pricing" exact component={PricingContent} />
         <Route path="/unauthorized" exact component={Unauthorized} />
+        <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
+        <Route path="/vehical/add" exact component={VehicalAdd} />
+        <Route path="/forgot-password" exact component={ForgotPassword} />
+        <Route path="/reset-password" exact component={ResetPassword} />
+        <Route path="/error" exact component={Error} />
+        <Route path="/favorite-drivers" exact component={FavoriteDrivers} />
+        <Route path="/driver/:driverId" exact component={DriverDetail} />
+        <Route path="/trip/detail/:id" exact component={TripDetail} />
+        <Route path="/payment/success" exact component={PaymentSuccess} />
+        <Route path="/payment/failed" exact component={PaymentFailed} />
+        <Route path="/chat/:id?" exact component={Chat} />
+        <Route
+          path="/history-post-driver/detail/:postId"
+          exact
+          component={HistoryPostDriverDetail}
+        />
+        <Route
+          path="/history-post-driver"
+          exact
+          component={HistoryPostDriver}
+        />
         <ProtectedRoute
           path="/request_quote"
           exact
           component={RequestQuote}
           allowedRoles={["customer", "personal", "business"]}
         />
-        <Route path="/signup" exact component={SignUp} />
-        <Route path="/signin" exact component={SignIn} />
-        <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
-        <Route path="/terms" exact component={TermsCondition} />
-        <Route path="/contact" exact component={Contact} />
-        <Route path="/forgot-password" exact component={ForgotPassword} />
-        <Route path="/reset-password" exact component={ResetPassword} />
         <ProtectedRoute
           path="/profile"
           exact
           component={Profile}
           allowedRoles={["customer", "personal", "business  "]}
         />
-        <Route path="/accountType" exact component={AccountTypes} />
-        <Route path="/signUp-customer" exact component={SignUpCustomerPage} />
-        <Route path="/error" exact component={Error} />
-        <Route path="/favorite-drivers" exact component={FavoriteDrivers} />
-        <Route path="/driver/:driverId" exact component={DriverDetail} />
-        <Route path="/history-post-driver" exact component={HistoryPostDriver} />
-        <Route path="/history-post-driver/detail/:postId" exact component={HistoryPostDriverDetail} />
-        <Route path="/trip/detail/:id" exact component={TripDetail} />
-        <Route path="/payment/success" exact component={PaymentSuccess} />
-        <Route path="/payment/failed" exact component={PaymentFailed} />
-        <Route path="/chat/:id" exact component={Chat} />
-        <Route
+
+        <ProtectedRoute
           path="/driverDetailManagement/:driverId"
           exact
-          component={DriverDetailManagement}
+          component={RequestQuote}
+          allowedRoles={["admin", "staff"]}
         />
-        <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
-        <Route path="/vehical/add" exact component={VehicalAdd} />
-
         <ProtectedRoute
           path="/dashboard-admin"
           exact
           component={Admin}
-          allowedRoles={["admin", "customer", "staff"]}
+          allowedRoles={["admin", "staff"]}
+        />
+        <ProtectedRoute
+          path="/confirm-withdraw"
+          exact
+          component={ConfirmWithDraw}
+          allowedRoles={["admin", "staff"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/customers"
           exact
           component={CustomerManagement}
-        // allowedRoles={["admin"]}
+          allowedRoles={["admin", "staff"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/drivers"
           exact
           component={DriverManagement}
-        // allowedRoles={["admin", "staff", "customer"]}
+          allowedRoles={["admin", "staff"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/staffs"
           exact
           component={StaffManagement}
-        // allowedRoles={["admin", "staff", "customer"]}
+          allowedRoles={["admin", "staff"]}
         />
         <ProtectedRoute
           path="/dashboard-admin/vehicle"
           exact
           component={VehicleManager}
-          allowedRoles={["admin", "customer"]}
+          allowedRoles={["admin", "staff"]}
         />
       </Switch>
       {!isDashboardPage && <Footer />}

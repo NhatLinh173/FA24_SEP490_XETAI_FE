@@ -5,7 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import axiosInstance from "../../../config/axiosConfig";
 import { jwtDecode } from "jwt-decode";
-import LoadingAnimation from "../../Animation/loadingAnimation";
 
 const ServiceDetail = () => {
   const { id } = useParams();
@@ -104,10 +103,6 @@ const ServiceDetail = () => {
     }
   }, [idPoster]);
 
-  if (loading) {
-    return <LoadingAnimation />;
-  }
-
   const handleAcceptOrder = async () => {
     setShowModal(true);
     setIsConfirming(true);
@@ -137,11 +132,13 @@ const ServiceDetail = () => {
       return;
     }
 
-    const currentTime = new Date();
-    if (new Date(deliveryTime) <= currentTime) {
-      toast.error(
-        "Thời gian giao hàng dự kiến không được ở quá khứ hoặc bằng hiện tại"
-      );
+    const currentDate = new Date().toLocaleDateString("en-CA");
+    const deliveryDate = new Date(deliveryTime).toLocaleDateString("en-CA");
+
+    console.log(currentDate + " " + deliveryDate);
+
+    if (deliveryDate < currentDate) {
+      toast.error("Thời gian giao hàng dự kiến không được ở quá khứ");
       return;
     }
 
@@ -167,11 +164,11 @@ const ServiceDetail = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 402) {
-        toast.error(
-          "Thời gian giao hàng dự kiến không được ở quá khứ và bằng hiện tại!"
-        );
+        toast.error("Thời gian giao hàng dự kiến không hợp lệ!");
+      } else if (error.response && error.response.status === 422) {
+        toast.error("Tài xế chưa đăng ký xe");
       } else {
-        console.error(error);
+        toast.error("Đã xảy ra lỗi, vui lòng thử lại sau!");
       }
     }
   };
@@ -182,13 +179,17 @@ const ServiceDetail = () => {
       return;
     }
 
-    const currentTime = new Date();
-    if (new Date(deliveryTime) <= currentTime) {
-      toast.error(
-        "Thời gian giao hàng dự kiến không được ở quá khứ hoặc bằng hiện tại"
-      );
+    const currentDate = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD
+    const deliveryDate = new Date(deliveryTime).toLocaleDateString("en-CA"); // YYYY-MM-DD
+
+    console.log(currentDate + " " + deliveryDate);
+
+    // Kiểm tra nếu ngày giao hàng trước ngày hiện tại
+    if (deliveryDate < currentDate) {
+      toast.error("Thời gian giao hàng dự kiến không được ở quá khứ");
       return;
     }
+
     try {
       const response = await axiosInstance.patch(`/posts/${postId}/deal`, {
         driverId,
@@ -213,9 +214,7 @@ const ServiceDetail = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 402) {
-        toast.error(
-          "Thời gian giao hàng dự kiến không được ở quá khứ và bằng hiện tại!"
-        );
+        toast.error("Thời gian giao hàng dự kiến không hợp lệ!");
       } else {
         console.error(error);
       }
@@ -264,7 +263,7 @@ const ServiceDetail = () => {
                           index === activeIndex ? "active" : ""
                         }`}
                       >
-                        <img src={img} className="fix-img" alt="service" />
+                        <img src={img} className="" alt="service" />
                       </div>
                     ))}
                 </div>
@@ -364,6 +363,21 @@ const ServiceDetail = () => {
                       <input
                         id="dropoffLocation"
                         defaultValue={postData.destination}
+                        type="text"
+                        className="form-control"
+                        readOnly
+                      />
+                    </div>
+                    <div className="form-group col-md-6">
+                      <label
+                        htmlFor="dropoffLocation"
+                        className="font-weight-bold"
+                      >
+                        Phương thức thanh toán
+                      </label>
+                      <input
+                        id="dropoffLocation"
+                        defaultValue={postData.paymentMethod}
                         type="text"
                         className="form-control"
                         readOnly
