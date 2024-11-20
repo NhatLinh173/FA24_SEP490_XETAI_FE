@@ -9,9 +9,7 @@ import { CiCamera } from "react-icons/ci";
 
 const AdminProfile = () => {
   const [fullNameStaff, setFullNameStaff] = useState("");
-  const [phoneStaff, setPhoneStaff] = useState("");
   const [emailStaff, setEmailStaff] = useState("");
-  const [addressStaff, setAdressStaff] = useState("");
   const [role, setRole] = useState("");
   const [newAvatar, setNewAvatar] = useState(null);
   const [avatar, setAvarta] = useState("");
@@ -61,8 +59,6 @@ const AdminProfile = () => {
     if (
       fullNameStaff === staff.fullName &&
       emailStaff === staff.email &&
-      phoneStaff === staff.phone &&
-      addressStaff === staff.address &&
       !newAvatar
     ) {
       toast.error("Không có thay đổi nào để cập nhật");
@@ -94,9 +90,7 @@ const AdminProfile = () => {
           `http://localhost:3005/auth/update-user/${userId}`,
           {
             fullName: fullNameStaff,
-            phone: phoneStaff,
             email: emailStaff,
-            address: addressStaff,
             avatar: avatarUrl,
           }
         );
@@ -116,30 +110,17 @@ const AdminProfile = () => {
     setFullNameStaff(e.target.value);
     console.log(e.target.value);
   };
-  const handlePhoneStaff = (e) => {
-    setPhoneStaff(e.target.value);
-  };
+
   const handleEmailChange = (e) => {
     setEmailStaff(e.target.value);
   };
-  const handleAdressStaff = (e) => {
-    setAdressStaff(e.target.value);
-  };
+
   useEffect(() => {
     setFullNameStaff(staff.fullName);
-    setPhoneStaff(staff.phone);
     setEmailStaff(staff.email);
-    setAdressStaff(staff.address);
     setRole(staff.role);
     setAvarta(staff.avatar);
-  }, [
-    staff.fullName,
-    staff.phone,
-    staff.email,
-    staff.address,
-    staff.role,
-    staff.avatar,
-  ]);
+  }, [staff.fullName, staff.email, staff.role, staff.avatar]);
 
   return (
     <div className="admin-profile-container" style={{ marginTop: "100px" }}>
@@ -208,32 +189,6 @@ const AdminProfile = () => {
             className="admin-profile-input admin-profile-disabled-input"
             value={role}
             disabled
-          />
-        </div>
-
-        <div className="admin-profile-detail-field">
-          <label htmlFor="phone" className="admin-profile-label">
-            Số điện thoại
-          </label>
-          <input
-            type="text"
-            name="phone"
-            className="admin-profile-input"
-            onChange={handlePhoneStaff}
-            value={phoneStaff}
-          />
-        </div>
-
-        <div className="admin-profile-detail-field">
-          <label htmlFor="address" className="admin-profile-label">
-            Địa chỉ
-          </label>
-          <input
-            type="text"
-            name="address"
-            className="admin-profile-input"
-            onChange={handleAdressStaff}
-            value={addressStaff}
           />
         </div>
       </div>

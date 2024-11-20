@@ -132,7 +132,7 @@ function VehicleManager() {
   }, []);
 
   return (
-    <div className="vehicle-manager container mt-5">
+    <div className="vehicle-manager-container mt-5">
       <h1 className="vehicle-manager__title text-center mb-4">
         Quản lý Đăng ký Xe
       </h1>
