@@ -321,6 +321,7 @@ const RequestQuoteForm = () => {
         setCityFrom("");
         setCityTo("");
         setDecriptionDriver("");
+        setImgs("");
       }
     } catch (error) {
       toast.error("có lỗi xảy ra");
