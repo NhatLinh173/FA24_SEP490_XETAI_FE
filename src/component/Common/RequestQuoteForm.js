@@ -296,6 +296,8 @@ const RequestQuoteForm = () => {
   //   }
   // }, [imgs]);
   const handleSubmitDriver = async (e) => {
+    console.log("driver");
+
     e.preventDefault();
     console.log("Ảnh đã chọn:", imgs);
     if (!imgs || imgs.length === 0) {
@@ -324,10 +326,14 @@ const RequestQuoteForm = () => {
         setImgs("");
       }
     } catch (error) {
-      toast.error("có lỗi xảy ra");
+      if (error.status === 400) {
+        toast.error("Vui lòng điền đầy đủ thông tin");
+      }
     }
   };
   const handleSubmit = async (e) => {
+    console.log("uer");
+
     e.preventDefault();
     if (!imgs || imgs.length === 0) {
       toast.error("Vui lòng chọn ít nhất một ảnh!");
@@ -353,9 +359,9 @@ const RequestQuoteForm = () => {
     formData.append("recipientName", recipientName);
     formData.append("recipientPhone", recipientPhone);
     formData.append("paymentMethod", paymentMethod);
-    setLoading(true); // Bắt đầu loading
 
     try {
+      setLoading(true);
       const response = await axiosInstance.post("/posts", formData);
 
       if (response.status === 201) {
@@ -378,8 +384,6 @@ const RequestQuoteForm = () => {
         setPaymentMethod("");
         refetch();
         history.pushState("/");
-      } else if (error.response?.status === 400) {
-        toast.error("Vui lòng điền đầy đủ thông tin");
       }
       if (response.status === 402) {
         toast.error(
@@ -387,7 +391,9 @@ const RequestQuoteForm = () => {
         );
       }
     } catch (error) {
-      console.log(error);
+      if (error.status === 400) {
+        toast.error("Vui lòng điền đầy đủ thông tin");
+      }
     } finally {
       setLoading(false); // Kết thúc loading
     }
@@ -489,7 +495,7 @@ const RequestQuoteForm = () => {
                           <select
                             className="form-control first_null"
                             onChange={handleCityFrom}
-                            defaultValue=""
+                            value={cityFrom}
                           >
                             <option value="" disabled>
                               Chọn Tỉnh/Thành
@@ -528,7 +534,7 @@ const RequestQuoteForm = () => {
                           <select
                             className="form-control first_null"
                             onChange={handleCityTo}
-                            defaultValue=""
+                            value={cityTo}
                           >
                             <option value="" disabled>
                               Chọn Tỉnh/Thành
@@ -569,7 +575,7 @@ const RequestQuoteForm = () => {
                             <select
                               className="form-control"
                               onChange={handleCityFrom}
-                              defaultValue=""
+                              value={cityFrom}
                             >
                               <option value="" disabled>
                                 Chọn Tỉnh/Thành
@@ -588,7 +594,7 @@ const RequestQuoteForm = () => {
                             <select
                               className="form-control"
                               onChange={handleCityTo}
-                              defaultValue=""
+                              value={cityTo}
                             >
                               <option value="" disabled>
                                 Chọn Tỉnh/Thành
@@ -861,36 +867,27 @@ const RequestQuoteForm = () => {
                     </>
                   )}
                   <div className="col-lg-12">
-                    {!isDriverExist && (
-                      <div className="quote_submit_button d-flex justify-content-center">
-                        <button
-                          className={`btn ${
-                            isDisable
-                              ? "btn-secondary cursor-disable"
-                              : "btn-theme"
-                          }`}
-                          onClick={handleSubmit}
-                          disabled={isDisable || loading}
-                        >
-                          {loading ? "Đang tạo..." : "Tạo đơn"}
-                        </button>
-                      </div>
-                    )}
-                    {isDriverExist && (
-                      <div className="quote_submit_button d-flex justify-content-center">
-                        <button
-                          className={`btn ${
-                            isDisable
-                              ? "btn-secondary cursor-disable"
-                              : "btn-theme"
-                          }`}
-                          onClick={handleSubmitDriver}
-                          disabled={isDisable || loading}
-                        >
-                          {loading ? "Đang đăng..." : "Đăng bài"}
-                        </button>
-                      </div>
-                    )}
+                    <div className="quote_submit_button d-flex justify-content-center">
+                      <button
+                        className={`btn ${
+                          isDisable || loading
+                            ? "btn-secondary cursor-disable"
+                            : "btn-theme"
+                        }`}
+                        onClick={
+                          isDriverExist ? handleSubmitDriver : handleSubmit
+                        }
+                        disabled={isDisable || loading}
+                      >
+                        {loading
+                          ? isDriverExist
+                            ? "Đang đăng ..."
+                            : "Đang tạo ..."
+                          : isDriverExist
+                          ? "Đăng bài"
+                          : "Tạo đơn"}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </form>
