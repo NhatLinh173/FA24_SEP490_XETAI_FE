@@ -115,19 +115,6 @@ const Navbar = ({ openModal }) => {
                       />
                     ))}
 
-                    <li className="nav-item">
-                      <a
-                        href="#!"
-                        onClick={handleNotificationClick}
-                        className="nav-link notification-box"
-                        style={{
-                          marginTop: "6px",
-                          fontSize: "20px",
-                        }}
-                      >
-                        <FaBell />
-                      </a>
-                    </li>
                     {isAuthenticated && userData && (
                       <div className="nav-avatar rounded-circle ml-4">
                         <a href="/profile">
