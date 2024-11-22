@@ -2846,10 +2846,10 @@ Search Overlay CSS
   display: flex;
   flex-wrap: wrap;
 }
-
+/* 
 .form-group {
   margin-bottom: 2rem;
-}
+} */
 
 .col-md-8,
 .col-md-4 {

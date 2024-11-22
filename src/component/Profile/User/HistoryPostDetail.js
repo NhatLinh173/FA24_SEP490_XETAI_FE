@@ -177,6 +177,7 @@ const HistoryPostDetail = () => {
     formData.append("recipientEmail", recipientEmail);
     formData.append("recipientName", recipientName);
     formData.append("recipientPhone", recipientPhone);
+    formData.append("paymentMethod", paymentMethod);
     if (status === "cancel" && post.status === "wait" && isDriverExist) {
       formData.append("status", "wait");
     } else {
@@ -254,8 +255,8 @@ const HistoryPostDetail = () => {
             const trips = 1;
 
             await axiosInstance.put(`/driver/statistics/${driverId}`, {
-              earnings,
-              trips,
+              earnings: Number(earnings),
+              trips: Number(trips),
             });
           }
           if (isDriverExist === true) {
@@ -1130,17 +1131,18 @@ const HistoryPostDetail = () => {
                             isDealPriceAvailable
                           }
                           style={{
-                          cursor:
-                            post.status === "approve" ||
-                            post.status === "inprogress" ||
-                            post.status === "finish" ||
-                            post.status === "cancel" ||
-                            post.status === "complete" ||
-                            (post.status === "wait" && isDriverExist) ||
-                            isDealPriceAvailable
-                              ? "not-allowed"
-                              : "auto",
-                        }}
+                            cursor:
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel" ||
+                              post.status === "complete" ||
+                              (post.status === "wait" && isDriverExist) ||
+                              isDealPriceAvailable
+                                ? "not-allowed"
+                                : "auto",
+                          }}
+
                           onChange={(e) => setPaymentMethod(e.target.value)}
                         >
                           <option value="" disabled>

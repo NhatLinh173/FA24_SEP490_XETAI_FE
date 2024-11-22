@@ -6,14 +6,25 @@ import axios from "axios";
 import regexPattern from "../../config/regexConfig";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
-
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 const SignUpCustomer = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [errors, setErrors] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    phone: "",
+    fullName: "",
+    confirmPassword: "",
+  });
 
   const fieldLabels = {
     fullName: "Họ và Tên",
@@ -23,25 +34,46 @@ const SignUpCustomer = () => {
     nameCompany: "Tên công ty",
   };
 
-  const validateField = (field, value) => {
-    if (!value) {
-      toast.warn(`Trường ${fieldLabels[field]} không được để trống`);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible((prev) => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setConfirmPasswordVisible((prev) => !prev);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    validateFieldWithError(name, value);
+  };
+
+  const validateFieldWithError = (field, value) => {
+    if (!value.trim()) {
+      setErrors((prev) => ({
+        ...prev,
+        [field]: `${fieldLabels[field]} không được để trống`,
+      }));
       return false;
     }
 
     if (!regexPattern[field].test(value)) {
-      toast.warn(`Trường ${fieldLabels[field]} sai định dạng`);
+      setErrors((prev) => ({
+        ...prev,
+        [field]: `${fieldLabels[field]} sai định dạng`,
+      }));
       return false;
     }
 
+    setErrors((prev) => ({ ...prev, [field]: "" }));
     return true;
   };
 
   const handleRegister = async () => {
-    // if (!validateField("fullName", fullName)) return;
-    // if (!validateField("email", email)) return;
-    // if (!validateField("password", password)) return;
-    // if (!validateField("phone", phone)) return;
+    const { email, password, fullName, phone, confirmPassword } = formData;
 
     if (!isChecked) {
       toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
@@ -117,65 +149,108 @@ const SignUpCustomer = () => {
                   }}
                 >
                   <div className="row">
-                    <div className="col-lg-12">
+                    <div className="col-lg-12 full-name-group">
                       <FormInput
                         tag={"input"}
                         type={"text"}
-                        name={"lastName"}
-                        classes={"form-control"}
+                        name={"fullName"}
+                        classes={"form-control full-name-input"}
                         placeholder={"Họ và Tên"}
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
+                        value={formData.fullName}
+                        onChange={handleInputChange}
                         required
                       />
+                      {errors.fullName && (
+                        <p className="error-text full-name-error">
+                          {errors.fullName}
+                        </p>
+                      )}
                     </div>
 
-                    <div className="col-lg-12">
+                    <div className="col-lg-12 email-group">
                       <FormInput
                         tag={"input"}
                         type={"email"}
                         name={"email"}
-                        classes={"form-control"}
+                        classes={"form-control email-input"}
                         placeholder={"Địa Chỉ Email"}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={formData.email}
+                        onChange={handleInputChange}
                         required
                       />
+                      {errors.email && (
+                        <p className="error-text email-error">{errors.email}</p>
+                      )}
                     </div>
-                    <div className="col-lg-12">
+
+                    <div className="col-lg-12 phone-group">
                       <FormInput
                         tag={"input"}
                         type={"tel"}
                         name={"phone"}
-                        classes={"form-control"}
+                        classes={"form-control phone-input"}
                         placeholder={"Số Điện Thoại"}
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        value={formData.phone}
+                        onChange={handleInputChange}
                         required
                       />
+                      {errors.phone && (
+                        <p className="error-text phone-error">{errors.phone}</p>
+                      )}
                     </div>
-                    <div className="col-lg-12">
-                      <FormInput
-                        tag={"input"}
-                        type={"password"}
-                        name={"password"}
-                        classes={"form-control"}
-                        placeholder={"Mật Khẩu"}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
+
+                    <div className="col-lg-12 .password-group">
+                      <div className="password-field-wrapper">
+                        <FormInput
+                          tag={"input"}
+                          type={isPasswordVisible ? "text" : "password"}
+                          name={"password"}
+                          classes={"form-control"}
+                          placeholder={"Mật Khẩu"}
+                          value={formData.password}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        <span
+                          className="toggle-password"
+                          onClick={togglePasswordVisibility}
+                        >
+                          {isPasswordVisible ? (
+                            <AiOutlineEyeInvisible />
+                          ) : (
+                            <AiOutlineEye />
+                          )}
+                        </span>
+                        {errors.password && (
+                          <p className="error-text password-error">
+                            {errors.password}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div className="col-lg-12">
-                      <FormInput
-                        tag={"input"}
-                        type={"password"}
-                        name={"confirmPassword"}
-                        classes={"form-control"}
-                        placeholder={"Xác Nhận Mật Khẩu"}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                      />
+                    <div className="col-lg-12 .confirm-password-group">
+                      <div className="password-field-wrapper">
+                        <FormInput
+                          tag={"input"}
+                          type={isConfirmPasswordVisible ? "text" : "password"}
+                          name={"confirmPassword"}
+                          classes={"form-control"}
+                          placeholder={"Xác Nhận Mật Khẩu"}
+                          value={formData.confirmPassword}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        <span
+                          className="toggle-password"
+                          onClick={toggleConfirmPasswordVisibility}
+                        >
+                          {isConfirmPasswordVisible ? (
+                            <AiOutlineEyeInvisible />
+                          ) : (
+                            <AiOutlineEye />
+                          )}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="col-lg-12">

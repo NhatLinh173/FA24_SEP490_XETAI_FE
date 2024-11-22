@@ -6,10 +6,12 @@ import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 const SignInForm = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const { handleLogin } = useAuth();
   const history = useHistory();
   const openModal = () => {
@@ -18,6 +20,10 @@ const SignInForm = (props) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
   };
 
   const handleSubmit = async (e) => {
@@ -33,8 +39,7 @@ const SignInForm = (props) => {
         }
       }
     } catch (error) {
-      console.error("Login failed:", error);
-      toast.error("Đăng Nhập Thất Bại");
+      console.log(error);
     }
   };
 
@@ -74,10 +79,13 @@ const SignInForm = (props) => {
                           required
                         />
                       </div>
-                      <div className="col-lg-12">
+                      <div
+                        className="form-group"
+                        style={{ position: "relative" }}
+                      >
                         <FormInput
                           tag={"input"}
-                          type={"password"}
+                          type={showPassword ? "text" : "password"} // Đổi type dựa trên state
                           name={"password"}
                           classes={"form-control"}
                           placeholder={"Mật khẩu"}
@@ -85,6 +93,22 @@ const SignInForm = (props) => {
                           onChange={(e) => setPassword(e.target.value)}
                           required
                         />
+                        <span
+                          onClick={togglePasswordVisibility}
+                          style={{
+                            position: "absolute",
+                            top: "50%",
+                            right: "20px",
+                            transform: "translateY(-80%)",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {showPassword ? (
+                            <AiOutlineEyeInvisible />
+                          ) : (
+                            <AiOutlineEye />
+                          )}
+                        </span>
                       </div>
                       <div className="col-lg-12">
                         <div className="form-group form-check">

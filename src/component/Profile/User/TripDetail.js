@@ -121,14 +121,25 @@ const TripDetail = () => {
       if (response.status === 200) {
         toast.success("Xác nhận đã nhận hàng thành công");
         getTripHistoryDetail();
-      } else if (response.status === 402) {
-        toast.error("Bạn đã xác nhận đơn hàng này rồi");
-      } else {
-        toast.error("Xác nhận đã nhận hàng thất bại");
       }
     } catch (error) {
-      console.error("Error confirm received:", error);
-      toast.error("Có lỗi xảy ra khi xác nhận đã nhận hàng.");
+      if (error.response) {
+        const { code } = error.response.data;
+        if (code === "ORDER_ALREADY_CONFIRMED") {
+          toast.error("Bạn đã xác nhận đơn hàng này rồi");
+        } else if (code === "INSUFFICIENT_BALANCE") {
+          toast.error(
+            "Số dư trong tài khoản không đủ! Vui lòng nạp tiền để nhận hàng"
+          );
+        } else if (code === "ORDER_NOT_CONFIRMED") {
+          toast.error("Đơn hàng chưa được tài xế xác nhận giao hàng.");
+        } else {
+          toast.error("Có lỗi xảy ra khi xác nhận đã nhận hàng.");
+        }
+      } else {
+        console.error("Error confirm received:", error);
+        toast.error("Có lỗi xảy ra khi xác nhận đã nhận hàng.");
+      }
     }
   };
 
@@ -148,7 +159,7 @@ const TripDetail = () => {
               />
 
               <div className="mt-3 d-flex justify-content-between align-items-center">
-                {tripDetail.status === "finish" ? (
+                {tripDetail.status === "finish" && !isDriverRole ? (
                   <button
                     className="btn-sm btn-primary border-0 d-flex align-items-center"
                     style={{ width: "fit-content" }}

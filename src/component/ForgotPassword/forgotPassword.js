@@ -88,7 +88,6 @@ const ForgotPassword = () => {
             required
           />
         </div>
-        {/* Ẩn nút khi mã OTP đã được gửi thành công */}
         {!showOtpInput && (
           <button type="submit" disabled={loading} className="submit-button">
             {loading ? "Đang gửi..." : "Gửi yêu cầu"}

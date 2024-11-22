@@ -50,10 +50,13 @@ const Vehicals = () => {
 
   const getMyVehicals = async () => {
     try {
-      const response = await axiosInstance.get(`/car/driver/${driverId}`);
+      const response = await axiosInstance.get(
+        `/car/driver/${driverId}/status`
+      );
       setVehicals(response.data);
-      console.log(response.data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

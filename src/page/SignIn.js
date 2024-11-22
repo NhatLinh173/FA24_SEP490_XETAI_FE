@@ -5,7 +5,7 @@ import SignInForm from "../component/SignIn";
 const SignIn = () => {
   return (
     <>
-      <CommonBanner />
+      <CommonBanner heading="Đăng Nhập" page="Dăng Nhập" />
       <SignInForm heading="Đăng nhập" />
     </>
   );
