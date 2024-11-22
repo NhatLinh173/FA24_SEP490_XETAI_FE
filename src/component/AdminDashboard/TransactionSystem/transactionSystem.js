@@ -35,7 +35,7 @@ const TransactionSystem = () => {
 
   return (
     <div>
-      <div className="container transaction-container mt-4 p-4 bg-white rounded shadow-sm">
+      <div className=" transaction-container mt-5 ">
         <h2 className="text-center transaction-title">
           Giao dịch của hệ thống
         </h2>

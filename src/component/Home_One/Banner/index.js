@@ -15,8 +15,8 @@ const HomeBanner = () => {
     if (userData) {
       const roleUser = userData.role;
       if (roleUser === "personal" || roleUser === "business") {
-        setButtonLink("/order");
-        setButtonText("Tìm Đơn Hàng");
+        setButtonLink("/request_quote");
+        setButtonText("Tạo Bài Đăng");
       } else {
         setButtonLink("/request_quote");
         setButtonText("Tạo Đơn Hàng");

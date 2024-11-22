@@ -145,7 +145,6 @@ const HistoryPostDetail = () => {
       setRecipentPhone(post.recipientPhone);
       setStatus(post.status);
       setPaymentMethod(post.paymentMethod);
-      console.log(post.paymentMethod);
     }
   }, [post]);
 
@@ -1143,6 +1142,7 @@ const HistoryPostDetail = () => {
                                 ? "not-allowed"
                                 : "auto",
                           }}
+
                           onChange={(e) => setPaymentMethod(e.target.value)}
                         >
                           <option value="" disabled>

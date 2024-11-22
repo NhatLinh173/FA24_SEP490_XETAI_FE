@@ -5830,6 +5830,14 @@ input[type="number"]::-webkit-inner-spin-button {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   /* Bóng đổ nhẹ nhàng */
 }
+.Withdraw-requests_container{
+  background-color: #ffffff;
+  /* Màu nền trắng cho container */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Bóng đổ nhẹ nhàng */
+}
 
 .report-management-title {
   font-family: "Arial", sans-serif;
@@ -7164,6 +7172,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 
+
 .vehicle-manager-container {
   background-color: #ffffff;
   /* Màu nền trắng cho container */
@@ -7230,8 +7239,12 @@ input[type="number"]::-webkit-inner-spin-button {
 ============================== */
 
 .transaction-container {
-  max-width: 1000px;
   background-color: #ffffff;
+  /* Màu nền trắng cho container */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Bóng đổ nhẹ nhàng */
 }
 
 .transaction-title {

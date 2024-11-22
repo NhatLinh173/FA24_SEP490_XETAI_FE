@@ -11,9 +11,31 @@ const CustomModal = ({ isOpen, closeModal }) => {
       isOpen={isOpen}
       onRequestClose={closeModal}
       contentLabel="User selection Modal"
-      className="modal-content custom-modal"
-      overlayClassName="modal-overlay custom-modal-overlay"
-      style={{ zIndex: "1001" }}
+      overlayClassName="modal-overlay custom-modal-overlay "
+      style={{
+        overlay: {
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.75)",
+          backdropFilter: "blur(5px)",
+          zIndex: 1001,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        },
+        content: {
+          position: "relative",
+          background: "white",
+          padding: "20px",
+          borderRadius: "4px",
+          maxWidth: "500px",
+          width: "90%",
+          margin: "auto",
+        },
+      }}
     >
       <div className="modal-header custom-modal-header">
         <button onClick={closeModal} className="close-btn custom-close-btn">

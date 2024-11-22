@@ -5,7 +5,7 @@ import RequestQuoteForm from "../component/Common/RequestQuoteForm";
 const RequestQuote = () => {
   return (
     <>
-      <CommonBanner heading="Tạo đơn hàng" />
+      <CommonBanner />
       <RequestQuoteForm />
     </>
   );

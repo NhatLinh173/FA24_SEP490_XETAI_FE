@@ -4,6 +4,7 @@ import AccountType from "../component/SignUp/accountType";
 const AccountTypes = () => {
   return (
     <>
+
       <CommonBanner heading="Đăng ký tài khoản" page="Đăng ký" />
       <AccountType />
     </>

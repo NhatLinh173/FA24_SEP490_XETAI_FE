@@ -57,6 +57,13 @@ const HistoryPost = () => {
     setIsShowModal(false);
     setPostID(null);
   };
+  useEffect(() => {
+    if (driverId !== "undefined" && driverId) {
+      setIsDriverExist(true);
+    } else {
+      setIsDriverExist(false);
+    }
+  }, [driverId]);
 
   const applyFilter = () => {
     let filteredPosts = [];
@@ -145,7 +152,7 @@ const HistoryPost = () => {
       )
     );
     setNoPostsMessage(
-      filteredPosts?.length === 0 ? "Không có bài post nào phù hợp." : ""
+      filteredPosts?.length === 0 ? "Không có đơn hàng nào để hiển thị." : ""
     );
   };
 
@@ -380,7 +387,7 @@ const HistoryPost = () => {
                     )
                   )}
                   {post.status === "hide" && (
-                    <button className="btn-sm btn-bg-secondary mt-3 border-0 d-flex align-items-center">
+                    <button className="btn-sm btn-dark  mt-3 border-0 d-flex align-items-center">
                       <GrHide className="mr-2" />
                       Tạm ẩn
                     </button>
