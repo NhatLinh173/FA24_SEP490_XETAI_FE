@@ -6,7 +6,7 @@ import OurPartner from "../component/Common/OurPartner";
 const SignUp = () => {
   return (
     <>
-      <CommonBanner heading="SignUp" page="SignUp" />
+      <CommonBanner />  
       <SignUpForm heading="Create an Account!" />
     </>
   );
