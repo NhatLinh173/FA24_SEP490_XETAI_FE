@@ -52,7 +52,6 @@ const Statistical = ({ driverId }) => {
         `http://localhost:3005/driver/${driverId}/statistics?range=${range}`
       );
       const data = response.data;
-      console.log("Dữ Liệu: ", data);
       setStatistics({
         tripsThisWeek: data.tripsThisWeek || 0,
         tripsThisMonth: data.tripsThisMonth || 0,
@@ -69,13 +68,15 @@ const Statistical = ({ driverId }) => {
         switch (mappedRange) {
           case "yesterday":
           case "today":
-            newLabels = Array.from({ length: 24 }, (_, i) =>
-              i.toString().padStart(2, "0")
+            newLabels = Array.from(
+              { length: 24 },
+              (_, i) => `${i.toString().padStart(2, "0")}:00`
             );
             newTripDataPoints = newLabels.map((hour) => {
               const hourData = selectedData.find((item) => item.hour === hour);
               return hourData ? hourData.trips : 0;
             });
+
             newLineDataPoints = newLabels.map((hour) => {
               const hourData = selectedData.find((item) => item.hour === hour);
               return hourData ? hourData.earnings : 0;
@@ -92,44 +93,55 @@ const Statistical = ({ driverId }) => {
               "Thứ 7",
               "CN",
             ];
-
             const currentDate = new Date();
-            const currentDay = (currentDate.getDay() + 6) % 7;
+            const currentDay = currentDate.getDay(); // 0 (Chủ Nhật) đến 6 (Thứ Bảy)
+            const weekStartDate = new Date(currentDate);
+            weekStartDate.setDate(currentDate.getDate() - currentDay + 1); // Lấy Thứ Hai đầu tuần
 
+            newLabels = daysOfWeek;
             newTripDataPoints = daysOfWeek.map((day, index) => {
-              const targetDate = new Date(currentDate);
-              targetDate.setDate(currentDate.getDate() - (currentDay - index));
+              const targetDate = new Date(weekStartDate);
+              targetDate.setDate(weekStartDate.getDate() + index);
 
-              const formattedDate = `${targetDate.getDate()}-${
-                targetDate.getMonth() + 1
-              }`;
+              const formattedDate = `${String(targetDate.getDate()).padStart(
+                2,
+                "0"
+              )}-${String(targetDate.getMonth() + 1).padStart(2, "0")}`;
+
               const dayData = selectedData.find(
-                (item) => item.day === formattedDate
+                (item) =>
+                  item.day === formattedDate ||
+                  item.day ===
+                    targetDate.toLocaleDateString("en-US", { weekday: "long" })
               );
+
               return dayData ? dayData.trips : 0;
             });
 
             newLineDataPoints = daysOfWeek.map((day, index) => {
-              const targetDate = new Date(currentDate);
-              targetDate.setDate(currentDate.getDate() - (currentDay - index));
+              const targetDate = new Date(weekStartDate);
+              targetDate.setDate(weekStartDate.getDate() + index);
 
-              const formattedDate = `${targetDate.getDate()}-${
-                targetDate.getMonth() + 1
-              }`;
+              const formattedDate = `${String(targetDate.getDate()).padStart(
+                2,
+                "0"
+              )}-${String(targetDate.getMonth() + 1).padStart(2, "0")}`;
+
               const dayData = selectedData.find(
-                (item) => item.day === formattedDate
+                (item) =>
+                  item.day === formattedDate ||
+                  item.day ===
+                    targetDate.toLocaleDateString("en-US", { weekday: "long" })
               );
+
               return dayData ? dayData.earnings : 0;
             });
-
-            newLabels = daysOfWeek;
             break;
 
           case "month":
-            const month = new Date().getMonth() + 1; // Current month (1-12)
-            const monthLabel = `Tháng ${month}`; // Label for the current month
+            const month = new Date().getMonth() + 1;
+            const monthLabel = `Tháng ${month}`;
 
-            // Generate labels for the days in the month
             const totalDaysInMonth = new Date(
               new Date().getFullYear(),
               month,
@@ -140,16 +152,14 @@ const Statistical = ({ driverId }) => {
               (i + 1).toString()
             );
 
-            // Initialize data points
             newTripDataPoints = Array(totalDaysInMonth).fill(0);
             newLineDataPoints = Array(totalDaysInMonth).fill(0);
 
-            // Loop through selected data to fill in the trip and earnings data
             selectedData.forEach((item) => {
-              const day = new Date(item.timestamp).getDate(); // Extract day from timestamp
+              const day = new Date(item.timestamp).getDate();
               if (item.date === monthLabel) {
-                newTripDataPoints[day - 1] += item.trips; // Day index is 0-based
-                newLineDataPoints[day - 1] += item.earnings; // Day index is 0-based
+                newTripDataPoints[day - 1] += item.trips;
+                newLineDataPoints[day - 1] += item.earnings;
               }
             });
 
@@ -178,7 +188,6 @@ const Statistical = ({ driverId }) => {
 
           case "year":
           case "lastYear":
-            // Tạo nhãn tháng
             const monthNames = [
               "Tháng 1",
               "Tháng 2",
@@ -194,7 +203,7 @@ const Statistical = ({ driverId }) => {
               "Tháng 12",
             ];
 
-            newLabels = monthNames; // Sử dụng mảng tháng đã định nghĩa
+            newLabels = monthNames;
             newTripDataPoints = newLabels.map((month) => {
               const monthData = selectedData.find(
                 (item) => item.month === month
@@ -207,9 +216,6 @@ const Statistical = ({ driverId }) => {
               );
               return monthData ? monthData.earnings : 0;
             });
-            console.log(selectedData);
-            console.log(newTripDataPoints);
-            console.log(newLineDataPoints);
             break;
 
           default:

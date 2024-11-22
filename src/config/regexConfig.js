@@ -1,9 +1,9 @@
 const regexPattern = {
-  fullName: /^[a-zA-Z]{2,30}$/,
+  fullName: /^[\p{L} .'-]+$/u,
+  nameCompany: /^[\p{L} .'-]+$/u,
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  phone: /^\d{10}$/, // Số điện thoại (10-11 số)
   password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-  phone: /^\d{10,11}$/,
-  nameCompany: /^[a-zA-Z0-9\s]{2,50}$/,
+  confirmPassword: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
 };
-
 export default regexPattern;

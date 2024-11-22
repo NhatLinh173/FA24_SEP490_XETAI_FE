@@ -5,8 +5,8 @@ import SignUpCustomer from "../component/SignUp/signupCustomer";
 const SignUpCustomerPage = () => {
   return (
     <>
-      <CommonBanner heading="SignUpCustomer" page="SignUpCustomer" />
-      <SignUpCustomer heading="Create an Account!" />
+      <CommonBanner heading="Đăng ký" page="Đăng Ký" />
+      <SignUpCustomer heading="Tạo tài khoản" />
     </>
   );
 };

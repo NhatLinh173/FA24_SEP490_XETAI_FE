@@ -141,7 +141,7 @@ const AppContent = () => {
         <ProtectedRoute
           path="/driverDetailManagement/:driverId"
           exact
-          component={RequestQuote}
+          component={DriverDetailManagement}
           allowedRoles={["admin", "staff"]}
         />
         <ProtectedRoute

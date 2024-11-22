@@ -65,9 +65,11 @@ const HomeBanner = () => {
                           mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
                           chuyến hàng khắp mọi miền tổ quốc."
                         </p>
-                        <a className="btn btn-theme" href={buttonLink}>
-                          {buttonText}
-                        </a>
+                        {userData?.role && (
+                          <a className="btn btn-theme" href={buttonLink}>
+                            {buttonText}
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -86,10 +88,11 @@ const HomeBanner = () => {
                           mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
                           chuyến hàng khắp mọi miền tổ quốc."
                         </p>
-
-                        <Link className="btn btn-theme" to={buttonLink}>
-                          {buttonText}
-                        </Link>
+                        {userData?.role && (
+                          <Link className="btn btn-theme" to={buttonLink}>
+                            {buttonText}
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -108,9 +111,11 @@ const HomeBanner = () => {
                           mang đến sự gắn kết, tin tưởng và thuận tiện trong mỗi
                           chuyến hàng khắp mọi miền tổ quốc."
                         </p>
-                        <Link className="btn btn-theme" to={buttonLink}>
-                          {buttonText}
-                        </Link>
+                        {userData?.role && (
+                          <Link className="btn btn-theme" to={buttonLink}>
+                            {buttonText}
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>

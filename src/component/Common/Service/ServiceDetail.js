@@ -377,7 +377,13 @@ const ServiceDetail = () => {
                       </label>
                       <input
                         id="dropoffLocation"
-                        defaultValue={postData.paymentMethod}
+                        defaultValue={
+                          postData.paymentMethod === "bank_transfer"
+                            ? "Chuyển khoản ngân hàng"
+                            : postData.paymentMethod === "cash"
+                            ? "Tiền mặt"
+                            : "Không xác định"
+                        }
                         type="text"
                         className="form-control"
                         readOnly
@@ -495,7 +501,7 @@ const ServiceDetail = () => {
             </div>
             <div className="mt-3 d-flex justify-content-end">
               {(userRole === "personal" || userRole === "business") &&
-                dealId !== driverId &&
+                // dealId !== driverId &&
                 !isOrderAccepted && (
                   <button
                     className="btn btn-accept-order"
