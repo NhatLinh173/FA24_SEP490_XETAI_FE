@@ -133,11 +133,16 @@ function SidebarContent({
       <h2 className="sidebar-title text-uppercase fw-bold">Quản lý hệ thống</h2>
       <Nav.Link
         onClick={() => {
-          setActiveSection("reports");
+          // Chỉ mở hoặc đóng danh mục con, không cập nhật activeSection
           setIsReportsExpanded(!isReportsExpanded);
-          localStorage.setItem("tabAdmin", "reports");
         }}
-        className="sidebar-link"
+        className={`sidebar-link ${
+          activeSection === "reports" ||
+          activeSection === "posts-report" ||
+          activeSection === "orders-report"
+            ? "active"
+            : ""
+        }`}
       >
         <FaChartLine className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý báo cáo</div>
@@ -146,7 +151,7 @@ function SidebarContent({
         <div className="sidebar-submenu">
           <Nav.Link
             onClick={() => {
-              setActiveSection("posts-report");
+              setActiveSection("posts-report"); // Cập nhật activeSection khi chọn Báo cáo bài đăng
               localStorage.setItem("tabAdmin", "posts-report");
             }}
             className={`sidebar-link ${
@@ -158,7 +163,7 @@ function SidebarContent({
           </Nav.Link>
           <Nav.Link
             onClick={() => {
-              setActiveSection("orders-report");
+              setActiveSection("orders-report"); // Cập nhật activeSection khi chọn Báo cáo đơn hàng
               localStorage.setItem("tabAdmin", "orders-report");
             }}
             className={`sidebar-link ${
