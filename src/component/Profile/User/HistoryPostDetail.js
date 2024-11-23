@@ -216,22 +216,40 @@ const HistoryPostDetail = () => {
         }
       } else if (status === "cancel" && !isDriverExist) {
         try {
-          const response = await axiosInstance.patch(
-            `/dealPrice/status/${id}`,
-            {
-              dealId: deals[0]._id,
-              status: "cancel",
+          // Kiểm tra xem bài đăng có deal không
+          if (!post.dealId) {
+            // Nếu không có deal, cho phép hủy hoặc thực hiện hành động khác
+            const res = await axiosInstance.patch(`/posts/${id}`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            });
+
+            if (res.status === 200) {
+              toast.success("Cập nhật thành công!");
             }
-          );
-          const res = await axiosInstance.patch(`/posts/${id}`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-          if (response.status === 200 && res.status === 200) {
-            toast.success("Cập nhật thành công!");
+          } else {
+            // Nếu có deal, thực hiện hủy deal
+            const response = await axiosInstance.patch(
+              `/dealPrice/status/${id}`,
+              {
+                dealId: deals[0]._id,
+                status: "cancel",
+              }
+            );
+            const res = await axiosInstance.patch(`/posts/${id}`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            });
+
+            if (response.status === 200 && res.status === 200) {
+              toast.success("Cập nhật thành công!");
+            }
           }
-        } catch (error) {}
+        } catch (error) {
+          toast.error(error.message);
+        }
       } else {
         const res = await axiosInstance.patch(`/posts/${id}`, formData, {
           headers: {
