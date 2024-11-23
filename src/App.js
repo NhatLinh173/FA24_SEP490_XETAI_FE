@@ -120,6 +120,11 @@ const AppContent = () => {
           exact
           component={HistoryPostDriverDetail}
         />
+         <Route
+          path="/history-post-driver-add"
+          exact
+          component={HistoryPostDriverDetail}
+        />
         <Route
           path="/history-post-driver"
           exact

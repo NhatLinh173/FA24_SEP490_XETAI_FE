@@ -1,180 +1,302 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { IoCloseCircleOutline } from 'react-icons/io5';
+import React, { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import { IoCloseCircleOutline } from "react-icons/io5"
+import axiosInstance from "../../../config/axiosConfig"
+import axios from "axios"
+import { toast } from "react-toastify"
+
+const PLACEHOLDER_IMAGE =
+  "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg"
+
+const defaultPost = {
+  startCity: "",
+  destinationCity: "",
+  description: "",
+  images: [],
+}
 
 const HistoryPostDriverDetail = () => {
-    const { postId } = useParams(); // Lấy postId từ URL
+  const { postId } = useParams() // Lấy postId từ URL
+  const [post, setPost] = useState(defaultPost)
+  const [provinces, setProvinces] = useState([])
+  const [tempImages, setTempImages] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
-    // Dữ liệu giả cho bài đăng
-    const postsData = [
-        { _id: '1', image: 'https://product.hstatic.net/200000411383/product/xe-tai-veam-3t5_a454cb1ce8bd47a68b56370772e5eaf5_master.jpg', startPointCity: 'Hà Nội', destinationCity: 'TP.HCM', content: 'Vận chuyển hàng điện tử, bảo đảm an toàn và nhanh chóng.' },
-        { _id: '2', image: 'https://via.placeholder.com/360x200?text=Image+2', startPointCity: 'Đà Nẵng', destinationCity: 'Hải Phòng', content: 'Hàng thực phẩm, yêu cầu vận chuyển nhiệt độ thấp.' },
-        { _id: '3', image: 'https://via.placeholder.com/360x200?text=Image+3', startPointCity: 'Nha Trang', destinationCity: 'Cần Thơ', content: 'Giao hàng gia dụng, yêu cầu đóng gói cẩn thận.' },
-    ];
+  const userId = localStorage.getItem("userId")
 
-    // Tìm bài đăng từ mảng dữ liệu
-    const post = postsData.find(p => p._id === postId);
+  const uploadTempImages = (event) => {
+    const files = event.target.files
+    setTempImages((prevImages) => [...prevImages, ...files])
+  }
 
-    // State để quản lý giá trị các trường
-    const [formData, setFormData] = useState({
-        startPointCity: '',
-        destinationCity: '',
-        content: '',
-    });
+  const getPost = React.useCallback(async () => {
+    const response = await axiosInstance.get(`/driverpost/${postId}`)
+    setPost(response.data)
+  }, [postId])
 
-    const [imgUpload, setImgUpload] = useState(post?.image || ''); // Trạng thái ảnh tải lên
+  const createImageUrl = (imageFile) => {
+    return URL.createObjectURL(imageFile)
+  }
 
-    // Chạy khi component mount hoặc postId thay đổi
-    useEffect(() => {
-        if (post) {
-            setFormData({
-                startPointCity: post.startPointCity,
-                destinationCity: post.destinationCity,
-                content: post.content,
-            });
-            setImgUpload(post.image); // Cập nhật ảnh của bài đăng
-        }
-    }, [postId, post]);
-
-    // Hàm xử lý thay đổi các trường
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    // Hàm xử lý khi người dùng tải ảnh lên
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImgUpload(reader.result); // Lưu ảnh đã tải lên
-            };
-            reader.readAsDataURL(file); // Đọc ảnh dưới dạng base64
-        }
-    };
-
-    // Hàm xử lý xóa ảnh
-    const handleRemoveImage = () => {
-        setImgUpload(''); // Xóa ảnh
-    };
-
-    // Hàm lưu dữ liệu
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Cập nhật thông tin bài đăng (có thể gọi API nếu cần)
-        console.log('Dữ liệu đã thay đổi:', formData);
-        console.log('Ảnh đã thay đổi:', imgUpload);
-    };
-
-    // Nếu không tìm thấy bài đăng
-    if (!post) {
-        return <div>Loading...</div>;
+  const getImageUrl = (data) => {
+    if (typeof data === "string" && data.length > 0) {
+      return data
     }
 
-    return (
-        <div className="container mt-4">
-            <h2 className="mb-4">Chỉnh sửa bài đăng</h2>
-            <div className="row">
-                <div className="col-12">
-                    {/* Hiển thị ảnh bài đăng */}
-                    <div>
-                        {/* Hiển thị ảnh đã tải lên */}
-                        <div
-                            className={`d-flex image-form align-items-center mb-3 ${post.image ? "justify-content-center" : "justify-content-between w-100"
-                                }`}
-                        >
-                            <div className="position-relative border rounded-12 p-3 d-inline-block">
-                                <img
-                                    src={imgUpload || post.image}  // Sử dụng ảnh tải lên nếu có, nếu không thì sử dụng ảnh mặc định
-                                    alt="Post"
-                                    className="img-fluid rounded-12"
-                                    style={{ height: '300px', objectFit: 'cover' }}
-                                />
-                                <IoCloseCircleOutline
-                                    className="position-absolute delete-img"
-                                    onClick={handleRemoveImage}  // Xóa ảnh
-                                />
-                            </div>
-                        </div>
+    if (typeof data === "object" && data !== null) {
+      return createImageUrl(data)
+    }
 
-                        {/* Phần tải ảnh lên */}
-                        <div className="text-center">
-                            <input
-                                className="input-custom"
-                                id="file-upload"
-                                type="file"
-                                onChange={handleFileChange}
-                            />
-                            <label
-                                className="border rounded-12 p-3 pointer img-upload width-img"
-                                htmlFor="file-upload"
-                            >
-                                <img src={imgUpload} alt="upload" />
-                            </label>
-                            <p className="font-weight-bold">Tải ảnh lên</p>
-                        </div>
+    return PLACEHOLDER_IMAGE
+  }
+
+  const getProvinces = React.useCallback(async () => {
+    try {
+      const result = await axios.get(
+        "https://provinces.open-api.vn/api/?depth=1"
+      )
+      const transformedData = result.data.map((item) => ({
+        value: item.code,
+        label: item.name,
+      }))
+      setProvinces(transformedData)
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (postId) {
+      getPost()
+    }
+    getProvinces()
+  }, [getPost, getProvinces, postId])
+
+  // Hàm xử lý thay đổi các trường
+  const handleChange = (e, field) => {
+    setPost((prevPost) => ({
+      ...prevPost,
+      [field]: e.target.value,
+    }))
+  }
+
+  // Hàm xử lý xóa ảnh
+  const handleRemoveImage = (index) => {
+    setPost((prevPost) => ({
+      ...prevPost,
+      images: prevPost.images.filter((_, i) => i !== index),
+    }))
+  }
+
+  const handleRemoveTempImage = (index) => {
+    setTempImages((prevImages) => prevImages.filter((_, i) => i !== index))
+  }
+
+  // Hàm lưu dữ liệu
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+    formData.append("startCity", post.startCity)
+    formData.append("destinationCity", post.destinationCity)
+    formData.append("description", post.description)
+    formData.append("creatorId", userId)
+    post.images.forEach((image) => {
+      formData.append("images", image)
+    })
+
+    tempImages.forEach((image) => {
+      formData.append("images", image)
+    })
+
+    if (postId) {
+      setIsLoading(true)
+      await axiosInstance.put(`/driverpost/${postId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      setIsLoading(false)
+      toast.success("Cập nhật bài đăng thành công")
+      setTempImages([])
+      getPost()
+
+      return
+    }
+
+    setIsLoading(true)
+    await axiosInstance.post("/driverpost", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    setIsLoading(false)
+    toast.success("Tạo bài đăng thành công")
+    setTempImages([])
+    getPost()
+
+    return
+  }
+
+  // Nếu không tìm thấy bài đăng
+  if (!post) {
+    return <div>Loading...</div>
+  }
+
+  return (
+    <div className="container mt-4">
+      <h2 className="mb-4">Chỉnh sửa bài đăng</h2>
+      <div className="row">
+        <div className="col-12">
+          {/* Hiển thị ảnh bài đăng */}
+          <div>
+            {/* Hiển thị ảnh đã tải lên */}
+
+            {post.images.length || tempImages.length > 0 ? (
+              <div
+                className={`d-flex image-form align-items-center mb-3 ${
+                  post.images
+                    ? "justify-content-center"
+                    : "justify-content-between w-100"
+                }`}
+              >
+                <div className="position-relative border rounded-12 p-3 d-flex gap-4 flex-wrap">
+                  {post.images.map((image, index) => (
+                    <div className="position-relative">
+                      <img
+                        src={image} // Sử dụng ảnh tải lên nếu có, nếu không thì sử dụng ảnh mặc định
+                        alt="Post"
+                        className="img-fluid rounded-12"
+                        style={{
+                          width: "340px",
+                          height: "340px",
+                          objectFit: "cover",
+                        }}
+                      />
+                      <IoCloseCircleOutline
+                        className="position-absolute delete-img"
+                        onClick={() => handleRemoveImage(index)} // Xóa ảnh
+                      />
                     </div>
-                </div>
+                  ))}
 
-                <div className="col-12">
-                    <form onSubmit={handleSubmit} className="form">
-                        <div className="row">
-                            <div className="col-md-6 mb-3">
-                                <label className="form-label" style={{ fontWeight: 'bold' }}>Điểm đi</label>
-                                <select
-                                    name="startPointCity"
-                                    value={formData.startPointCity}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    required
-                                >
-                                    <option value="">Chọn điểm đi</option>
-                                    <option value="Hà Nội">Hà Nội</option>
-                                    <option value="Đà Nẵng">Đà Nẵng</option>
-                                    <option value="TP.HCM">TP.HCM</option>
-                                    {/* Thêm các thành phố khác nếu cần */}
-                                </select>
-                            </div>
-                            <div className="col-md-6 mb-3">
-                                <label className="form-label" style={{ fontWeight: 'bold' }}>Điểm đến</label>
-                                <select
-                                    name="destinationCity"
-                                    value={formData.destinationCity}
-                                    onChange={handleChange}
-                                    className="form-control"
-                                    required
-                                >
-                                    <option value="">Chọn điểm đến</option>
-                                    <option value="Hà Nội">Hà Nội</option>
-                                    <option value="Đà Nẵng">Đà Nẵng</option>
-                                    <option value="TP.HCM">TP.HCM</option>
-                                    {/* Thêm các thành phố khác nếu cần */}
-                                </select>
-                            </div>
-                        </div>
-                        <div className="mb-3">
-                            <label className="form-label" style={{ fontWeight: 'bold' }}>Nội dung</label>
-                            <textarea
-                                name="content"
-                                value={formData.content}
-                                onChange={handleChange}
-                                rows="6"
-                                className="form-control"
-                                required
-                            />
-                        </div>
-                        <div className="d-flex justify-content-center mt-3 mb-2">
-                            <button type="submit" className="btn btn-primary">Lưu</button>
-                        </div>
-                    </form>
+                  {tempImages.length > 0 &&
+                    tempImages.map((image, index) => (
+                      <div className="position-relative">
+                        <img
+                          key={image.name}
+                          src={getImageUrl(image)}
+                          alt="Post"
+                          style={{
+                            width: "340px",
+                            height: "340px",
+                            objectFit: "cover",
+                          }}
+                          className="img-fluid rounded-12"
+                        />
+                        <IoCloseCircleOutline
+                          className="position-absolute delete-img"
+                          onClick={() => handleRemoveTempImage(index)} // Xóa ảnh
+                        />
+                      </div>
+                    ))}
                 </div>
+              </div>
+            ) : null}
 
+            {/* Phần tải ảnh lên */}
+            <div className="d-flex justify-content-center">
+              <input
+                className="input-custom"
+                id="file-upload"
+                type="file"
+                multiple
+                onChange={uploadTempImages}
+                accept="image/*"
+              />
+              <label
+                className="btn btn-danger btn-custom mx-1 d-flex align-items-center"
+                style={{ width: "fit-content" }}
+                htmlFor="file-upload"
+              >
+                Tải ảnh lên
+              </label>
             </div>
+          </div>
         </div>
-    );
-};
 
-export default HistoryPostDriverDetail;
+        <div className="col-12">
+          <form onSubmit={handleSubmit} className="form">
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  Điểm đi
+                </label>
+                <select
+                  name="startPointCity"
+                  value={post.startCity}
+                  onChange={(e) => handleChange(e, "startCity")}
+                  className="form-control"
+                  required
+                >
+                  <option value="">Chọn điểm đi</option>
+
+                  {provinces.map((province) => (
+                    <option key={province.label} value={province.label}>
+                      {province.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-6 mb-3">
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  Điểm đến
+                </label>
+                <select
+                  name="destinationCity"
+                  value={post.destinationCity}
+                  onChange={(e) => handleChange(e, "destinationCity")}
+                  className="form-control"
+                  required
+                >
+                  <option value="">Chọn điểm đến</option>
+
+                  {provinces.map((province) => (
+                    <option key={province.label} value={province.label}>
+                      {province.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="mb-3">
+              <label className="form-label" style={{ fontWeight: "bold" }}>
+                Nội dung
+              </label>
+              <textarea
+                name="content"
+                value={post.description}
+                onChange={(e) => handleChange(e, "description")}
+                rows="6"
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="d-flex justify-content-center mt-3 mb-2">
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
+                {isLoading ? "Đang tải..." : "Lưu"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default HistoryPostDriverDetail
