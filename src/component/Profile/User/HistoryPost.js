@@ -139,11 +139,14 @@ const HistoryPost = () => {
         break;
 
       default:
-        filteredPosts =
-          driverId !== "undefined"
-            ? postdriver?.data?.filter((post) => post.status !== "finish")
-            : posts?.salePosts?.filter((post) => post.status !== "finish") ||
-              [];
+        if (driverId !== "undefined") {
+          filteredPosts = postdriver?.data?.filter(
+            (post) => post.status !== "finish"
+          );
+        } else {
+          filteredPosts =
+            posts?.salePosts?.filter((post) => post.status !== "finish") || [];
+        }
     }
 
     // Cập nhật số trang và bài viết hiện tại
@@ -372,7 +375,7 @@ const HistoryPost = () => {
                   post.dealId?.status === "cancel" &&
                   isDriverExist ? (
                     <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
-                      <CiNoWaitingSign className="mr-2" />
+                      <GiCancel className="mr-2" />
                       Đã hủy
                     </button>
                   ) : (

@@ -72,6 +72,8 @@ const Post = ({ PostDriver }) => {
       });
       if (response.status === 201) {
         toast.success("Báo cáo bài đăng thành công!!");
+        setReportReason("");
+        setShowReportButtons(false);
       }
     } catch (error) {
       toast.error("Có lỗi xảy ra!!!!");
