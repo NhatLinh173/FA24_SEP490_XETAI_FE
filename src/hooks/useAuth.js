@@ -51,8 +51,12 @@ const useAuth = () => {
     } catch (error) {
       if (error.response?.status === 401) {
         toast.warn("Sai Tài Khoản Hoặc Mật Khẩu");
+      } else if (error.response?.status === 403) {
+        toast.warn("Tài khoản đã bị khóa");
+      } else if (error.response?.status === 404) {
+        toast.warn("Tài khoản không tồn tại");
       } else {
-        toast.error("Đăng Nhập Thất Bại");
+        toast.warn("Đăng nhập thất bại");
       }
     }
   };

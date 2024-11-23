@@ -61,6 +61,12 @@ const Wallet = ({ data }) => {
     setDepositAmount(formattedValue);
   };
 
+  const handleWithdrawAmountChange = (e) => {
+    const rawValue = e.target.value.replace(/,/g, "");
+    const formattedValue = formatNumberWithCommas(rawValue);
+    setWithdrawAmount(formattedValue);
+  };
+
   const handleDepositSubmit = async () => {
     const amount = parseInt(depositAmount.replace(/,/g, ""), 10);
     if (amount < 5000 || amount > 1000000) {
@@ -416,7 +422,7 @@ const Wallet = ({ data }) => {
                     type="text"
                     className="form-control"
                     value={withdrawAmount}
-                    onChange={(e) => setWithdrawAmount(e.target.value)}
+                    onChange={handleWithdrawAmountChange}
                     placeholder="Số tiền (VND)"
                     required
                   />

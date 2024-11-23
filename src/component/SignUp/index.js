@@ -6,23 +6,42 @@ import { toast } from "react-toastify";
 import regexPattern from "../../config/regexConfig";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
-
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 const SignUpForm = () => {
   const [activeTab, setActiveTab] = useState("personal");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [nameCompany, setNameCompany] = useState("");
-  const [workEmail, setWorkEmail] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const location = useLocation();
   const history = useHistory();
+  const [errors, setErrors] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    nameCompany: "",
+  });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    phone: "",
+    fullName: "",
+    confirmPassword: "",
+    nameCompany: "",
+  });
 
   const axiosInstance = axios.create({
     baseURL: "http://localhost:3005/",
   });
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible((prev) => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setConfirmPasswordVisible((prev) => !prev);
+  };
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -43,35 +62,40 @@ const SignUpForm = () => {
     nameCompany: "Tên công ty",
   };
 
-  const validateField = (field, value) => {
-    if (!value) {
-      toast.warn(`Trường ${fieldLabels[field]} không được để trống`);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    validateFieldWithError(name, value);
+  };
+
+  const validateFieldWithError = (field, value) => {
+    if (!value.trim()) {
+      setErrors((prev) => ({
+        ...prev,
+        [field]: `${fieldLabels[field]} không được để trống`,
+      }));
       return false;
     }
 
     if (!regexPattern[field].test(value)) {
-      toast.warn(`Trường ${fieldLabels[field]} sai định dạng`);
+      setErrors((prev) => ({
+        ...prev,
+        [field]: `${fieldLabels[field]} sai định dạng`,
+      }));
       return false;
     }
 
+    setErrors((prev) => ({ ...prev, [field]: "" }));
     return true;
   };
 
   const handleRegisterDriver = async () => {
     const role = activeTab === "personal" ? "personal" : "business";
-    // if (role === "personal") {
-    //   if (!validateField("fullName", fullName)) return;
-    //   if (!validateField("email", email)) return;
-    //   if (!validateField("password", password)) return;
-    //   if (!validateField("phone", phone)) return;
-    // } else {
-    //   if (!validateField("fullName", fullName)) return;
-    //   if (!validateField("email", email)) return;
-    //   if (!validateField("password", password)) return;
-    //   if (!validateField("phone", phone)) return;
-    //   if (!validateField("Name Company", nameCompany)) return;
-    // }
-
+    const { email, password, fullName, phone, confirmPassword, nameCompany } =
+      formData;
     const payloadPersonnal = {
       email,
       password,
@@ -201,10 +225,15 @@ const SignUpForm = () => {
                             name={"lastName"}
                             classes={"form-control"}
                             placeholder={"Họ và Tên"}
-                            value={fullName}
-                            onChange={(e) => setFullName(e.target.value)}
+                            value={formData.fullName}
+                            onChange={handleInputChange}
                             required
                           />
+                          {errors.fullName && (
+                            <p className="error-text full-name-error">
+                              {errors.fullName}
+                            </p>
+                          )}
                         </div>
                         <div className="col-lg-12">
                           <FormInput
@@ -213,10 +242,15 @@ const SignUpForm = () => {
                             name={"email"}
                             classes={"form-control"}
                             placeholder={"Địa Chỉ Email"}
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={formData.email}
+                            onChange={handleInputChange}
                             required
                           />
+                          {errors.email && (
+                            <p className="error-text email-error">
+                              {errors.email}
+                            </p>
+                          )}
                         </div>
                         <div className="col-lg-12">
                           <FormInput
@@ -225,33 +259,70 @@ const SignUpForm = () => {
                             name={"phone"}
                             classes={"form-control"}
                             placeholder={"Số Điện Thoại"}
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            value={formData.phone}
+                            onChange={handleInputChange}
                             required
                           />
+                          {errors.phone && (
+                            <p className="error-text phone-error">
+                              {errors.phone}
+                            </p>
+                          )}
                         </div>
                         <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"password"}
-                            name={"password"}
-                            classes={"form-control"}
-                            placeholder={"Mật Khẩu"}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                          />
+                          <div className="password-field-wrapper">
+                            <FormInput
+                              tag={"input"}
+                              type={isPasswordVisible ? "text" : "password"}
+                              name={"password"}
+                              classes={"form-control"}
+                              placeholder={"Mật Khẩu"}
+                              value={formData.password}
+                              onChange={handleInputChange}
+                              required
+                            />
+                            <span
+                              className="toggle-password"
+                              onClick={togglePasswordVisibility}
+                            >
+                              {isPasswordVisible ? (
+                                <AiOutlineEyeInvisible />
+                              ) : (
+                                <AiOutlineEye />
+                              )}
+                            </span>
+                            {errors.password && (
+                              <p className="error-text password-error">
+                                {errors.password}
+                              </p>
+                            )}
+                          </div>
                         </div>
                         <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"password"}
-                            name={"confirmPassword"}
-                            classes={"form-control"}
-                            placeholder={"Xác Nhận Mật Khẩu"}
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                          />
+                          <div className="password-field-wrapper">
+                            <FormInput
+                              tag={"input"}
+                              type={
+                                isConfirmPasswordVisible ? "text" : "password"
+                              }
+                              name={"confirmPassword"}
+                              classes={"form-control"}
+                              placeholder={"Xác Nhận Mật Khẩu"}
+                              value={formData.confirmPassword}
+                              onChange={handleInputChange}
+                              required
+                            />
+                            <span
+                              className="toggle-password"
+                              onClick={toggleConfirmPasswordVisibility}
+                            >
+                              {isConfirmPasswordVisible ? (
+                                <AiOutlineEyeInvisible />
+                              ) : (
+                                <AiOutlineEye />
+                              )}
+                            </span>
+                          </div>
                         </div>
                       </>
                     ) : (
@@ -261,37 +332,52 @@ const SignUpForm = () => {
                           <FormInput
                             tag={"input"}
                             type={"text"}
-                            name={"company_name"}
+                            name={"nameCompany"}
                             classes={"form-control"}
                             placeholder={"Tên Công Ty"}
-                            value={nameCompany}
-                            onChange={(e) => setNameCompany(e.target.value)}
+                            value={formData.nameCompany}
+                            onChange={handleInputChange}
                             required
                           />
+                          {errors.nameCompany && (
+                            <p className="error-text email-error">
+                              {errors.email}
+                            </p>
+                          )}
                         </div>
                         <div className="col-lg-12">
                           <FormInput
                             tag={"input"}
                             type={"text"}
-                            name={"lastName"}
+                            name={"fullName"}
                             classes={"form-control"}
                             placeholder={"Tên Chủ Doanh Nghiệp"}
-                            value={fullName}
-                            onChange={(e) => setFullName(e.target.value)}
+                            value={formData.fullName}
+                            onChange={handleInputChange}
                             required
                           />
+                          {errors.fullName && (
+                            <p className="error-text full-name-error">
+                              {errors.fullName}
+                            </p>
+                          )}
                         </div>
                         <div className="col-lg-12">
                           <FormInput
                             tag={"input"}
                             type={"text"}
-                            name={"work_email"}
+                            name={"email"}
                             classes={"form-control"}
                             placeholder={"Email Công Việc"}
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={formData.email}
+                            onChange={handleInputChange}
                             required
                           />
+                          {errors.email && (
+                            <p className="error-text email-error">
+                              {errors.email}
+                            </p>
+                          )}
                         </div>
                         <div className="col-lg-12">
                           <FormInput
@@ -300,33 +386,70 @@ const SignUpForm = () => {
                             name={"phone"}
                             classes={"form-control"}
                             placeholder={"Số Điện Thoại"}
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            value={formData.phone}
+                            onChange={handleInputChange}
                             required
                           />
+                          {errors.phone && (
+                            <p className="error-text phone-error">
+                              {errors.phone}
+                            </p>
+                          )}
                         </div>
                         <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"password"}
-                            name={"password"}
-                            classes={"form-control"}
-                            placeholder={"Mật Khẩu"}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                          />
+                          <div className="password-field-wrapper">
+                            <FormInput
+                              tag={"input"}
+                              type={isPasswordVisible ? "text" : "password"}
+                              name={"password"}
+                              classes={"form-control"}
+                              placeholder={"Mật Khẩu"}
+                              value={formData.password}
+                              onChange={handleInputChange}
+                              required
+                            />
+                            <span
+                              className="toggle-password"
+                              onClick={togglePasswordVisibility}
+                            >
+                              {isPasswordVisible ? (
+                                <AiOutlineEyeInvisible />
+                              ) : (
+                                <AiOutlineEye />
+                              )}
+                            </span>
+                            {errors.password && (
+                              <p className="error-text password-error">
+                                {errors.password}
+                              </p>
+                            )}
+                          </div>
                         </div>
                         <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"password"}
-                            name={"confirmPassword"}
-                            classes={"form-control"}
-                            placeholder={"Xác Nhận Mật Khẩu"}
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                          />
+                          <div className="password-field-wrapper">
+                            <FormInput
+                              tag={"input"}
+                              type={
+                                isConfirmPasswordVisible ? "text" : "password"
+                              }
+                              name={"confirmPassword"}
+                              classes={"form-control"}
+                              placeholder={"Xác Nhận Mật Khẩu"}
+                              value={formData.confirmPassword}
+                              onChange={handleInputChange}
+                              required
+                            />
+                            <span
+                              className="toggle-password"
+                              onClick={toggleConfirmPasswordVisibility}
+                            >
+                              {isConfirmPasswordVisible ? (
+                                <AiOutlineEyeInvisible />
+                              ) : (
+                                <AiOutlineEye />
+                              )}
+                            </span>
+                          </div>
                         </div>
                       </>
                     )}
