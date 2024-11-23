@@ -1130,17 +1130,17 @@ const HistoryPostDetail = () => {
                             isDealPriceAvailable
                           }
                           style={{
-                          cursor:
-                            post.status === "approve" ||
-                            post.status === "inprogress" ||
-                            post.status === "finish" ||
-                            post.status === "cancel" ||
-                            post.status === "complete" ||
-                            (post.status === "wait" && isDriverExist) ||
-                            isDealPriceAvailable
-                              ? "not-allowed"
-                              : "auto",
-                        }}
+                            cursor:
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "finish" ||
+                              post.status === "cancel" ||
+                              post.status === "complete" ||
+                              (post.status === "wait" && isDriverExist) ||
+                              isDealPriceAvailable
+                                ? "not-allowed"
+                                : "auto",
+                          }}
                           onChange={(e) => setPaymentMethod(e.target.value)}
                         >
                           <option value="" disabled>
