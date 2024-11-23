@@ -1142,7 +1142,6 @@ const HistoryPostDetail = () => {
                                 ? "not-allowed"
                                 : "auto",
                           }}
-
                           onChange={(e) => setPaymentMethod(e.target.value)}
                         >
                           <option value="" disabled>

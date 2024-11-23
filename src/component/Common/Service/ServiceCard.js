@@ -37,11 +37,13 @@ const ServiceCard = ({
       });
       if (response.status === 201) {
         toast.success("Báo cáo đơn hàng thành công!!");
+        setReportReason("");
       }
     } catch (error) {
       toast.error("Có lỗi xảy ra!!!!");
     }
     setShowReportModal(false);
+    setShowReportButton(false);
   };
 
   return (
