@@ -161,7 +161,7 @@ const ProfileUser = ({ data, refetch }) => {
           }
         );
         if (res.status === 200) {
-          toast.success("Cập nhập thông tin thành công!");
+          toast.success("Cập nhật thông tin thành công!");
 
           localStorage.setItem("avatar", avatarUrl);
           setNewAvatar(avatarUrl);
@@ -174,7 +174,7 @@ const ProfileUser = ({ data, refetch }) => {
           setIsAddress(true);
         }
       } catch (error) {
-        console.log("Error updating user information:", error);
+        toast.error("Cập nhật thông tin không thành công!!");
       }
     }
   };

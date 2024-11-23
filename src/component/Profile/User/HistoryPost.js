@@ -140,7 +140,10 @@ const HistoryPost = () => {
 
       default:
         filteredPosts =
-          driverId !== "undefined" ? postdriver?.data : posts?.salePosts || [];
+          driverId !== "undefined"
+            ? postdriver?.data?.filter((post) => post.status !== "finish")
+            : posts?.salePosts?.filter((post) => post.status !== "finish") ||
+              [];
     }
 
     // Cập nhật số trang và bài viết hiện tại
@@ -353,12 +356,6 @@ const HistoryPost = () => {
                     </button>
                   )}
 
-                  {post.status === "finish" && (
-                    <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
-                      <FaCheck className="mr-2" />
-                      Đã giao hàng
-                    </button>
-                  )}
                   {post.status === "inprogress" && (
                     <button className="btn-sm btn-primary mt-3 border-0 d-flex align-items-center">
                       <FaCarSide className="mr-2" />
@@ -390,12 +387,6 @@ const HistoryPost = () => {
                     <button className="btn-sm btn-dark  mt-3 border-0 d-flex align-items-center">
                       <GrHide className="mr-2" />
                       Tạm ẩn
-                    </button>
-                  )}
-                  {post.status === "complete" && (
-                    <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
-                      <FaCheckCircle className="mr-2" />
-                      Đã hoàn thành
                     </button>
                   )}
                 </div>

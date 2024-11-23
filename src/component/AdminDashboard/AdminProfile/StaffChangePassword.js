@@ -142,7 +142,7 @@ const AdminChangePassword = () => {
 
       <div className="admin-profile-save-section">
         <button className="btn btn-primary" onClick={handleSubmit}>
-          Cập nhật mật khẩu
+          Cập nhật
         </button>
       </div>
     </div>
