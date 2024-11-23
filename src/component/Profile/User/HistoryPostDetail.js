@@ -231,9 +231,7 @@ const HistoryPostDetail = () => {
           if (response.status === 200 && res.status === 200) {
             toast.success("Cập nhật thành công!");
           }
-        } catch (error) {
-          toast.error(error.message);
-        }
+        } catch (error) {}
       } else {
         const res = await axiosInstance.patch(`/posts/${id}`, formData, {
           headers: {
@@ -568,6 +566,8 @@ const HistoryPostDetail = () => {
             {/* Service Information */}
             {(post.status === "cancel" ||
               post.status === "inprogress" ||
+              post.status === "finish" ||
+              post.status === "complete" ||
               post.status === "approve" ||
               (post.status === "hide" && isDriverExist)) && (
               <div className="w-100 border-bottom pb-3 mb-3">
