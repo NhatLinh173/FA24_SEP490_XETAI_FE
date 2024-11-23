@@ -568,8 +568,6 @@ const HistoryPostDetail = () => {
             {/* Service Information */}
             {(post.status === "cancel" ||
               post.status === "inprogress" ||
-              post.status === "finish" ||
-              post.status === "complete" ||
               post.status === "approve" ||
               (post.status === "hide" && isDriverExist)) && (
               <div className="w-100 border-bottom pb-3 mb-3">
@@ -827,18 +825,6 @@ const HistoryPostDetail = () => {
                   </option>
                 </select>
               )}
-              {post.status === "finish" && (
-                <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
-                  <FaCheck className="mr-2" />
-                  Đã giao hàng
-                </button>
-              )}
-              {post.status === "complete" && (
-                <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
-                  <FaCheckCircle className="mr-2" />
-                  Đã hoàn thành
-                </button>
-              )}
             </div>
 
             <div>
@@ -857,15 +843,13 @@ const HistoryPostDetail = () => {
                       </label>
                       <div className="d-flex">
                         <select
-                          className="w-25 "
+                          className="w-25 custom-select_input "
                           onChange={handleCityFrom}
                           value={cityFrom}
                           disabled={
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                           } // Kiểm tra trạng thái đơn
@@ -873,9 +857,7 @@ const HistoryPostDetail = () => {
                             cursor:
                               post.status === "approve" ||
                               post.status === "inprogress" ||
-                              post.status === "finish" ||
                               post.status === "cancel" ||
-                              post.status === "complete" ||
                               (post.status === "wait" && isDriverExist) ||
                               isDealPriceAvailable
                                 ? "not-allowed"
@@ -896,9 +878,7 @@ const HistoryPostDetail = () => {
                             disabled={
                               post.status === "approve" ||
                               post.status === "inprogress" ||
-                              post.status === "finish" ||
                               post.status === "cancel" ||
-                              post.status === "complete" ||
                               (post.status === "wait" && isDriverExist) ||
                               isDealPriceAvailable
                             } // Kiểm tra trạng thái đơn
@@ -906,9 +886,7 @@ const HistoryPostDetail = () => {
                               cursor:
                                 post.status === "approve" ||
                                 post.status === "inprogress" ||
-                                post.status === "finish" ||
                                 post.status === "cancel" ||
-                                post.status === "complete" ||
                                 (post.status === "wait" && isDriverExist) ||
                                 isDealPriceAvailable
                                   ? "not-allowed"
@@ -932,15 +910,13 @@ const HistoryPostDetail = () => {
                       </label>
                       <div className="d-flex ">
                         <select
-                          className="w-25"
+                          className="w-25 custom-select_input"
                           onChange={handleCityTo}
                           value={cityTo}
                           disabled={
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                           } // Kiểm tra trạng thái đơn
@@ -948,9 +924,7 @@ const HistoryPostDetail = () => {
                             cursor:
                               post.status === "approve" ||
                               post.status === "inprogress" ||
-                              post.status === "finish" ||
                               post.status === "cancel" ||
-                              post.status === "complete" ||
                               (post.status === "wait" && isDriverExist) ||
                               isDealPriceAvailable
                                 ? "not-allowed"
@@ -971,9 +945,7 @@ const HistoryPostDetail = () => {
                             disabled={
                               post.status === "approve" ||
                               post.status === "inprogress" ||
-                              post.status === "finish" ||
                               post.status === "cancel" ||
-                              post.status === "complete" ||
                               (post.status === "wait" && isDriverExist) ||
                               isDealPriceAvailable
                             } // Kiểm tra trạng thái đơn
@@ -981,9 +953,7 @@ const HistoryPostDetail = () => {
                               cursor:
                                 post.status === "approve" ||
                                 post.status === "inprogress" ||
-                                post.status === "finish" ||
                                 post.status === "cancel" ||
-                                post.status === "complete" ||
                                 (post.status === "wait" && isDriverExist) ||
                                 isDealPriceAvailable
                                   ? "not-allowed"
@@ -1011,9 +981,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1021,9 +989,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1050,9 +1016,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1060,9 +1024,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1088,9 +1050,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1098,9 +1058,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1124,9 +1082,7 @@ const HistoryPostDetail = () => {
                           disabled={
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                           }
@@ -1134,9 +1090,7 @@ const HistoryPostDetail = () => {
                             cursor:
                               post.status === "approve" ||
                               post.status === "inprogress" ||
-                              post.status === "finish" ||
                               post.status === "cancel" ||
-                              post.status === "complete" ||
                               (post.status === "wait" && isDriverExist) ||
                               isDealPriceAvailable
                                 ? "not-allowed"
@@ -1173,9 +1127,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1183,9 +1135,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1221,9 +1171,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1231,9 +1179,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1259,9 +1205,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1269,9 +1213,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1297,9 +1239,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1307,9 +1247,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1346,9 +1284,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1356,9 +1292,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1384,9 +1318,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1394,9 +1326,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1422,9 +1352,7 @@ const HistoryPostDetail = () => {
                         disabled={
                           post.status === "approve" ||
                           post.status === "inprogress" ||
-                          post.status === "finish" ||
                           post.status === "cancel" ||
-                          post.status === "complete" ||
                           (post.status === "wait" && isDriverExist) ||
                           isDealPriceAvailable
                         } // Kiểm tra trạng thái đơn
@@ -1432,9 +1360,7 @@ const HistoryPostDetail = () => {
                           cursor:
                             post.status === "approve" ||
                             post.status === "inprogress" ||
-                            post.status === "finish" ||
                             post.status === "cancel" ||
-                            post.status === "complete" ||
                             (post.status === "wait" && isDriverExist) ||
                             isDealPriceAvailable
                               ? "not-allowed"
@@ -1457,10 +1383,8 @@ const HistoryPostDetail = () => {
                     onClick={handleSubmitForm}
                     disabled={
                       isDisable ||
-                      post.status === "finish" ||
                       (post.status === "inprogress" && !isDriverExist) ||
-                      post.status === "cancel" ||
-                      post.status === "complete"
+                      post.status === "cancel"
                     }
                   >
                     <span>Cập nhật</span>
@@ -1615,10 +1539,7 @@ const HistoryPostDetail = () => {
           </div>
         )}
         {/* Hiển thị tài xế nếu đơn hàng đã được approve */}
-        {(post?.status === "approve" ||
-          post?.status === "inprogress" ||
-          post?.status === "complete" ||
-          post?.status === "finish") &&
+        {(post?.status === "approve" || post?.status === "inprogress") &&
           !isDriverExist && (
             <div className="col-md-4">
               <div className="border rounded p-3 shadow-sm ">
