@@ -4,6 +4,7 @@ import { IoCloseCircleOutline } from "react-icons/io5"
 import axiosInstance from "../../../config/axiosConfig"
 import axios from "axios"
 import { toast } from "react-toastify"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 const PLACEHOLDER_IMAGE =
   "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary.svg"
@@ -23,6 +24,7 @@ const HistoryPostDriverDetail = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const userId = localStorage.getItem("userId")
+  const history = useHistory()
 
   const uploadTempImages = (event) => {
     const files = event.target.files
@@ -96,51 +98,54 @@ const HistoryPostDriverDetail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const formData = new FormData()
-    formData.append("startCity", post.startCity)
-    formData.append("destinationCity", post.destinationCity)
-    formData.append("description", post.description)
-    formData.append("creatorId", userId)
-    post.images.forEach((image) => {
-      formData.append("images", image)
-    })
+    try {
+      const formData = new FormData()
+      formData.append("startCity", post.startCity)
+      formData.append("destinationCity", post.destinationCity)
+      formData.append("description", post.description)
+      formData.append("creatorId", userId)
+      post.images.forEach((image) => {
+        formData.append("images", image)
+      })
 
-    tempImages.forEach((image) => {
-      formData.append("images", image)
-    })
+      tempImages.forEach((image) => {
+        formData.append("images", image)
+      })
 
-    if (postId) {
       setIsLoading(true)
-      await axiosInstance.put(`/driverpost/${postId}`, formData, {
+
+      if (postId) {
+        await axiosInstance.put(`/driverpost/${postId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        toast.success("Cập nhật thành công.")
+        setTempImages([])
+        getPost()
+        return
+      }
+
+      const response = await axiosInstance.post("/driverpost", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
-      setIsLoading(false)
-      toast.success("Cập nhật bài đăng thành công")
+      toast.success("Gửi yêu cầu thêm xe thành công.")
       setTempImages([])
-      getPost()
-
-      return
+      history.push(`/history-post-driver/detail/${response.data._id}`)
+    } catch (error) {
+      // Hiển thị thông báo lỗi cụ thể nếu có
+      const errorMessage = error.response?.data?.message || "Đã có lỗi xảy ra"
+      toast.error(errorMessage)
+      console.error("Error submitting post:", error)
+    } finally {
+      setIsLoading(false)
     }
-
-    setIsLoading(true)
-    await axiosInstance.post("/driverpost", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    setIsLoading(false)
-    toast.success("Tạo bài đăng thành công")
-    setTempImages([])
-    getPost()
-
-    return
   }
 
-  // Nếu không tìm thấy bài đăng
   if (!post) {
-    return <div>Loading...</div>
+    return <div>Đang tải...</div>
   }
 
   return (
@@ -225,6 +230,79 @@ const HistoryPostDriverDetail = () => {
           </div>
         </div>
 
+        <div className="col-12">
+          <form onSubmit={handleSubmit} className="form">
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  Điểm đi
+                </label>
+                <select
+                  name="startPointCity"
+                  value={post.startCity}
+                  onChange={(e) => handleChange(e, "startCity")}
+                  className="form-control"
+                  required
+                >
+                  <option value="">Chọn điểm đi</option>
+
+                  {provinces.map((province) => (
+                    <option key={province.label} value={province.label}>
+                      {province.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-6 mb-3">
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  Điểm đến
+                </label>
+                <select
+                  name="destinationCity"
+                  value={post.destinationCity}
+                  onChange={(e) => handleChange(e, "destinationCity")}
+                  className="form-control"
+                  required
+                >
+                  <option value="">Chọn điểm đến</option>
+
+                  {provinces.map((province) => (
+                    <option key={province.label} value={province.label}>
+                      {province.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="mb-3">
+              <label className="form-label" style={{ fontWeight: "bold" }}>
+                Nội dung
+              </label>
+              <textarea
+                name="content"
+                value={post.description}
+                onChange={(e) => handleChange(e, "description")}
+                rows="6"
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="d-flex justify-content-center mt-3 mb-2">
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
+                {isLoading ? "Đang tải..." : "Lưu"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+}
         <div className="col-12">
           <form onSubmit={handleSubmit} className="form">
             <div className="row">
