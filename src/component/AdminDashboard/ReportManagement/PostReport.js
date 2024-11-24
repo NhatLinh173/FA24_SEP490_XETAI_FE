@@ -16,20 +16,10 @@ const PostReport = () => {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [reportPostId, setReportPostId] = useState(null);
   const [Post, setPost] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const { data: postReport, refetch } = useInstanceData("/report/driverPost");
   console.log(postReport);
 
-  const nextSlide = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % Post.images.length);
-  };
-
-  const prevSlide = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? Post.images.length - 1 : prevIndex - 1
-    );
-  };
   useEffect(() => {
     if (postReport) {
       setReportPostDriver(postReport);
@@ -155,125 +145,82 @@ const PostReport = () => {
         show={showDetailModal}
         onHide={() => setShowDetailModal(false)}
         centered
-        className="custom-modal-admin  bg-dark bg-opacity-75 "
+        className="custom-modal-admin bg-dark bg-opacity-75"
+        size="lg"
       >
         <Modal.Header closeButton>
           <Modal.Title>Chi tiết bài đăng</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="modal-body-scrollable" size="lg">
+        <Modal.Body className="modal-body-scrollable">
           <div className="row">
-            <div>
-              <div className="border rounded p-3 shadow-sm">
-                {/* Service Information */}
-                <div className="w-100 border-bottom pb-3 mb-3">
-                  <div
-                    id="carouselExampleControls"
-                    className="carousel slide"
-                    data-ride="carousel"
-                  >
-                    <div className="carousel-inner">
-                      {Post?.images &&
-                        Post?.images.map((img, index) => (
-                          <div
-                            className={`carousel-item text-center ${
-                              index === activeIndex ? "active" : ""
-                            }`}
-                          >
-                            <img src={img} className="fix-img" alt="service" />
-                          </div>
-                        ))}
-                    </div>
-                    <button
-                      className="carousel-control-prev border-0 carousel-bg"
-                      type="button"
-                      data-target="#carouselExampleControls"
-                      data-slide="prev"
-                      onClick={prevSlide}
+            <div className="border rounded p-3 shadow-sm w-100">
+              {/* Service Information */}
+              <div className="w-100 border-bottom pb-3 mb-3">
+                {Post?.images?.length > 0 ? (
+                  <div>
+                    {Post.images.map((img, index) => (
+                      <div key={index} className="mb-3">
+                        <img
+                          src={img}
+                          alt={`service-${index}`}
+                          className="w-100 rounded shadow-sm"
+                          style={{ objectFit: "cover" }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-muted">Không có hình ảnh</p>
+                )}
+              </div>
+
+              {/* Post Details */}
+              <form>
+                <div className="border rounded p-3 shadow-sm">
+                  <div className="form-group">
+                    <label
+                      htmlFor="pickupLocation"
+                      className="font-weight-bold"
                     >
-                      <span
-                        className="carousel-control-prev-icon"
-                        aria-hidden="true"
-                      ></span>
-                      <span class="sr-only">Previous</span>
-                    </button>
-                    <button
-                      className="carousel-control-next border-0  carousel-bg"
-                      type="button"
-                      data-target="#carouselExampleControls"
-                      data-slide="next"
-                      onClick={nextSlide}
+                      Điểm đi
+                    </label>
+                    <input
+                      id="pickupLocation"
+                      value={Post?.startCity || ""}
+                      type="text"
+                      className="form-control"
+                      disabled
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label
+                      htmlFor="dropoffLocation"
+                      className="font-weight-bold"
                     >
-                      <span
-                        className="carousel-control-next-icon"
-                        aria-hidden="true"
-                      ></span>
-                      <span className="sr-only">Next</span>
-                    </button>
+                      Điểm đến
+                    </label>
+                    <input
+                      id="dropoffLocation"
+                      value={Post?.destinationCity || ""}
+                      type="text"
+                      className="form-control"
+                      disabled
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="description" className="font-weight-bold">
+                      Nội dung bài đăng
+                    </label>
+                    <textarea
+                      id="description"
+                      value={Post?.description || ""}
+                      className="form-control"
+                      rows="4"
+                      disabled
+                    />
                   </div>
                 </div>
-                <div>
-                  <form>
-                    <div className="border rounded p-3 shadow-sm">
-                      <div className="form-row">
-                        <div className="form-group col-md-12">
-                          <label
-                            htmlFor="pickupLocation"
-                            className="font-weight-bold"
-                          >
-                            Điểm đi
-                          </label>
-                          <div className="d-flex">
-                            <div className="flex-1">
-                              <input
-                                id="pickupLocation"
-                                value={Post?.startCity}
-                                type="text"
-                                className="form-control position-relative"
-                                disabled
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="form-group col-md-12">
-                          <label
-                            htmlFor="dropoffLocation"
-                            className="font-weight-bold"
-                          >
-                            Điểm đến
-                          </label>
-                          <div className="d-flex ">
-                            <div className="flex-1">
-                              <input
-                                id="dropoffLocation"
-                                value={Post?.destinationCity}
-                                type="text"
-                                className="form-control position-relative"
-                                disabled
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="form-group col-md-12">
-                          <label
-                            htmlFor="description"
-                            className="font-weight-bold"
-                          >
-                            Nội dung bài đăng
-                          </label>
-                          <textarea
-                            id="description"
-                            value={Post?.description}
-                            className="form-control position-relative"
-                            rows="4"
-                            disabled
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
+              </form>
             </div>
           </div>
         </Modal.Body>

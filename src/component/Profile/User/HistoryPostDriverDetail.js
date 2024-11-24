@@ -303,5 +303,78 @@ const HistoryPostDriverDetail = () => {
     </div>
   )
 }
+        <div className="col-12">
+          <form onSubmit={handleSubmit} className="form">
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  Điểm đi
+                </label>
+                <select
+                  name="startPointCity"
+                  value={post.startCity}
+                  onChange={(e) => handleChange(e, "startCity")}
+                  className="form-control"
+                  required
+                >
+                  <option value="">Chọn điểm đi</option>
+
+                  {provinces.map((province) => (
+                    <option key={province.label} value={province.label}>
+                      {province.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-6 mb-3">
+                <label className="form-label" style={{ fontWeight: "bold" }}>
+                  Điểm đến
+                </label>
+                <select
+                  name="destinationCity"
+                  value={post.destinationCity}
+                  onChange={(e) => handleChange(e, "destinationCity")}
+                  className="form-control"
+                  required
+                >
+                  <option value="">Chọn điểm đến</option>
+
+                  {provinces.map((province) => (
+                    <option key={province.label} value={province.label}>
+                      {province.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="mb-3">
+              <label className="form-label" style={{ fontWeight: "bold" }}>
+                Nội dung
+              </label>
+              <textarea
+                name="content"
+                value={post.description}
+                onChange={(e) => handleChange(e, "description")}
+                rows="6"
+                className="form-control"
+                required
+              />
+            </div>
+            <div className="d-flex justify-content-center mt-3 mb-2">
+              <button
+                disabled={isLoading}
+                type="submit"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
+                {isLoading ? "Đang tải..." : "Lưu"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default HistoryPostDriverDetail

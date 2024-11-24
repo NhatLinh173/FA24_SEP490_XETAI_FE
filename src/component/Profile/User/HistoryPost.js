@@ -139,8 +139,14 @@ const HistoryPost = () => {
         break;
 
       default:
-        filteredPosts =
-          driverId !== "undefined" ? postdriver?.data : posts?.salePosts || [];
+        if (driverId !== "undefined") {
+          filteredPosts = postdriver?.data?.filter(
+            (post) => post.status !== "finish"
+          );
+        } else {
+          filteredPosts =
+            posts?.salePosts?.filter((post) => post.status !== "finish") || [];
+        }
     }
 
     // Cập nhật số trang và bài viết hiện tại
@@ -353,12 +359,6 @@ const HistoryPost = () => {
                     </button>
                   )}
 
-                  {post.status === "finish" && (
-                    <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
-                      <FaCheck className="mr-2" />
-                      Đã giao hàng
-                    </button>
-                  )}
                   {post.status === "inprogress" && (
                     <button className="btn-sm btn-primary mt-3 border-0 d-flex align-items-center">
                       <FaCarSide className="mr-2" />
@@ -375,7 +375,7 @@ const HistoryPost = () => {
                   post.dealId?.status === "cancel" &&
                   isDriverExist ? (
                     <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
-                      <CiNoWaitingSign className="mr-2" />
+                      <GiCancel className="mr-2" />
                       Đã hủy
                     </button>
                   ) : (
@@ -390,12 +390,6 @@ const HistoryPost = () => {
                     <button className="btn-sm btn-dark  mt-3 border-0 d-flex align-items-center">
                       <GrHide className="mr-2" />
                       Tạm ẩn
-                    </button>
-                  )}
-                  {post.status === "complete" && (
-                    <button className="btn-sm btn-success mt-3 border-0 d-flex align-items-center">
-                      <FaCheckCircle className="mr-2" />
-                      Đã hoàn thành
                     </button>
                   )}
                 </div>
