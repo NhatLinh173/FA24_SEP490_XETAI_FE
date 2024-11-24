@@ -1169,7 +1169,7 @@ const HistoryPostDetail = () => {
                     <div className="form-group col-md-12">
                       <h5
                         className="font-weight-bold"
-                        style={{ marginTop: "20px" }}
+                        style={{ marginTop: "50px" }}
                       >
                         Thông tin người nhận
                       </h5>
@@ -1279,117 +1279,120 @@ const HistoryPostDetail = () => {
                       )}
                     </div>
 
-                    <div className="form-group col-md-12">
-                      <h5
-                        className="font-weight-bold"
-                        style={{ marginTop: "20px" }}
-                      >
-                        Thông tin người đặt
-                      </h5>
-                    </div>
-                    <div className="form-group col-md-6 mt-3">
-                      <label htmlFor="name" className="font-weight-bold">
-                        Họ và Tên
-                      </label>
-
-                      <input
-                        id="name"
-                        type="text"
-                        className="form-control position-relative"
-                        value={newFullName}
-                        onChange={handleNameChange}
-                        disabled={
-                          post.status === "approve" ||
-                          post.status === "inprogress" ||
-                          post.status === "cancel" ||
-                          (post.status === "wait" && isDriverExist) ||
-                          isDealPriceAvailable
-                        } // Kiểm tra trạng thái đơn
-                        style={{
-                          cursor:
-                            post.status === "approve" ||
-                            post.status === "inprogress" ||
-                            post.status === "cancel" ||
-                            (post.status === "wait" && isDriverExist) ||
-                            isDealPriceAvailable
-                              ? "not-allowed"
-                              : "auto",
-                        }}
-                      />
-                      {fullNameError && (
-                        <div className="text-danger position-absolute bt-error">
-                          {fullNameError}
+                    {!(post.status === "wait" && isDriverExist) && (
+                      <>
+                        <div className="form-group col-md-12">
+                          <h5
+                            className="font-weight-bold"
+                            style={{ marginTop: "20px" }}
+                          >
+                            Thông tin người đặt
+                          </h5>
                         </div>
-                      )}
-                    </div>
-                    <div className="form-group col-md-6 mt-3">
-                      <label htmlFor="email" className="font-weight-bold">
-                        Email
-                      </label>
-                      <input
-                        id="email"
-                        type="email"
-                        className="form-control position-relative"
-                        value={newEmail}
-                        onChange={handleEmailChange}
-                        disabled={
-                          post.status === "approve" ||
-                          post.status === "inprogress" ||
-                          post.status === "cancel" ||
-                          (post.status === "wait" && isDriverExist) ||
-                          isDealPriceAvailable
-                        } // Kiểm tra trạng thái đơn
-                        style={{
-                          cursor:
-                            post.status === "approve" ||
-                            post.status === "inprogress" ||
-                            post.status === "cancel" ||
-                            (post.status === "wait" && isDriverExist) ||
-                            isDealPriceAvailable
-                              ? "not-allowed"
-                              : "auto",
-                        }}
-                      />
-                      {emailError && (
-                        <div className="text-danger position-absolute bt-error">
-                          {emailError}
+                        <div className="form-group col-md-6 mt-3">
+                          <label htmlFor="name" className="font-weight-bold">
+                            Họ và Tên
+                          </label>
+                          <input
+                            id="name"
+                            type="text"
+                            className="form-control position-relative"
+                            value={newFullName}
+                            onChange={handleNameChange}
+                            disabled={
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist) ||
+                              isDealPriceAvailable
+                            }
+                            style={{
+                              cursor:
+                                post.status === "approve" ||
+                                post.status === "inprogress" ||
+                                post.status === "cancel" ||
+                                (post.status === "wait" && isDriverExist) ||
+                                isDealPriceAvailable
+                                  ? "not-allowed"
+                                  : "auto",
+                            }}
+                          />
+                          {fullNameError && (
+                            <div className="text-danger position-absolute bt-error">
+                              {fullNameError}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                    <div className="form-group col-md-6 mt-3">
-                      <label htmlFor="phone" className="font-weight-bold">
-                        Số điện thoại
-                      </label>
-                      <input
-                        id="phone"
-                        type="phone"
-                        className="form-control position-relative"
-                        value={newPhone}
-                        onChange={handlePhoneChange}
-                        disabled={
-                          post.status === "approve" ||
-                          post.status === "inprogress" ||
-                          post.status === "cancel" ||
-                          (post.status === "wait" && isDriverExist) ||
-                          isDealPriceAvailable
-                        } // Kiểm tra trạng thái đơn
-                        style={{
-                          cursor:
-                            post.status === "approve" ||
-                            post.status === "inprogress" ||
-                            post.status === "cancel" ||
-                            (post.status === "wait" && isDriverExist) ||
-                            isDealPriceAvailable
-                              ? "not-allowed"
-                              : "auto",
-                        }}
-                      />
-                      {phoneError && (
-                        <div className="text-danger position-absolute bt-error">
-                          {phoneError}
+                        <div className="form-group col-md-6 mt-3">
+                          <label htmlFor="email" className="font-weight-bold">
+                            Email
+                          </label>
+                          <input
+                            id="email"
+                            type="email"
+                            className="form-control position-relative"
+                            value={newEmail}
+                            onChange={handleEmailChange}
+                            disabled={
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist) ||
+                              isDealPriceAvailable
+                            }
+                            style={{
+                              cursor:
+                                post.status === "approve" ||
+                                post.status === "inprogress" ||
+                                post.status === "cancel" ||
+                                (post.status === "wait" && isDriverExist) ||
+                                isDealPriceAvailable
+                                  ? "not-allowed"
+                                  : "auto",
+                            }}
+                          />
+                          {emailError && (
+                            <div className="text-danger position-absolute bt-error">
+                              {emailError}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
+                        <div className="form-group col-md-6 mt-3">
+                          <label htmlFor="phone" className="font-weight-bold">
+                            Số điện thoại
+                          </label>
+                          <input
+                            id="phone"
+                            type="phone"
+                            className="form-control position-relative"
+                            value={newPhone}
+                            onChange={handlePhoneChange}
+                            disabled={
+                              post.status === "approve" ||
+                              post.status === "inprogress" ||
+                              post.status === "cancel" ||
+                              (post.status === "wait" && isDriverExist) ||
+                              isDealPriceAvailable
+                            }
+                            style={{
+                              cursor:
+                                post.status === "approve" ||
+                                post.status === "inprogress" ||
+                                post.status === "cancel" ||
+                                (post.status === "wait" && isDriverExist) ||
+                                isDealPriceAvailable
+                                  ? "not-allowed"
+                                  : "auto",
+                            }}
+                          />
+                          {phoneError && (
+                            <div className="text-danger position-absolute bt-error">
+                              {phoneError}
+                            </div>
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -1632,14 +1635,22 @@ const HistoryPostDetail = () => {
                         {post?.creator.fullName}
                       </span>
                     </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                      <strong>Số điện thoại:</strong>
-                      <span className="text-muted">{post?.creator.phone}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                      <strong>Email:</strong>
-                      <span className="text-muted">{post?.creator.email}</span>
-                    </li>
+                    {!(post.status === "wait" && isDriverExist) && (
+                      <>
+                        <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                          <strong>Số điện thoại:</strong>
+                          <span className="text-muted">
+                            {post?.creator.phone}
+                          </span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
+                          <strong>Email:</strong>
+                          <span className="text-muted">
+                            {post?.creator.email}
+                          </span>
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </div>
               </div>
