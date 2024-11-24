@@ -289,21 +289,20 @@ const HistoryPostDriverDetail = () => {
               ></textarea>
             </div>
 
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center mt-3 mb-2">
               <button
-                type="submit"
-                className="btn btn-danger btn-custom"
-                style={{ width: "fit-content" }}
                 disabled={isLoading}
+                type="submit"
+                className="btn btn-primary"
+                onClick={handleSubmit}
               >
-                {isLoading ? "Đang xử lý..." : "Cập nhật bài đăng"}
+                {isLoading ? "Đang tải..." : "Lưu"}
               </button>
             </div>
           </form>
         </div>
       </div>
     </div>
-  );
-};
-
+  )
+}
 export default HistoryPostDriverDetail;

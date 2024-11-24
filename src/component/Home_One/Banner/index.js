@@ -15,7 +15,7 @@ const HomeBanner = () => {
     if (userData) {
       const roleUser = userData.role;
       if (roleUser === "personal" || roleUser === "business") {
-        setButtonLink("/request_quote");
+        setButtonLink("/history-post-driver-add");
         setButtonText("Tạo Bài Đăng");
       } else {
         setButtonLink("/request_quote");
