@@ -1666,10 +1666,16 @@ const HistoryPostDetail = () => {
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
+                    onClick={handleCloseModalCancel}
                   ></button>
                 </div>
                 <div className="modal-body">
-                  <p>Bạn có chắc chắn muốn hủy đơn hàng này không?</p>
+                  <div className="">
+                    <p>Bạn có chắc chắn muốn hủy đơn hàng này không?</p>
+                    <p>
+                      Nếu đã có tài xế nhận đơn, khi bạn hủy sẽ bị trừ tiền.
+                    </p>
+                  </div>
                 </div>
                 <div className="modal-footer">
                   <button

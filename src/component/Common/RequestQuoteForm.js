@@ -32,7 +32,6 @@ const RequestQuoteForm = () => {
   const [recipientPhone, setRecipientPhone] = useState("");
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
-  console.log(cityFrom);
   const [loading, setLoading] = useState(false);
   const [cityTo, setCityTo] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -296,8 +295,6 @@ const RequestQuoteForm = () => {
   //   }
   // }, [imgs]);
   const handleSubmitDriver = async (e) => {
-    console.log("driver");
-
     e.preventDefault();
     console.log("Ảnh đã chọn:", imgs);
     if (!imgs || imgs.length === 0) {
@@ -317,7 +314,6 @@ const RequestQuoteForm = () => {
 
     try {
       const response = await axiosInstance.post("/driverpost", formData);
-      console.log(response);
       if (response.status === 200) {
         toast.success("Đăng bài thành công");
         setCityFrom("");
@@ -332,8 +328,6 @@ const RequestQuoteForm = () => {
     }
   };
   const handleSubmit = async (e) => {
-    console.log("uer");
-
     e.preventDefault();
     if (!imgs || imgs.length === 0) {
       toast.error("Vui lòng chọn ít nhất một ảnh!");

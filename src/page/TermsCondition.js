@@ -1,16 +1,14 @@
-import React from 'react'
-import TermsConditionContent from '../component/TermsCondition'
-import CommonBanner from '../component/Common/Banner'
-import OurPartner from '../component/Common/OurPartner'
+import React from "react";
+import TermsConditionContent from "../component/TermsCondition";
+import CommonBanner from "../component/Common/Banner";
 
 const TermsCondition = () => {
-    return (
-        <>
-            <CommonBanner heading="Terms & Condition" page="Terms & Condition"/>
-            <TermsConditionContent/>
-            <OurPartner/>
-        </>
-    )
-}
+  return (
+    <>
+      <CommonBanner />
+      <TermsConditionContent />
+    </>
+  );
+};
 
-export default TermsCondition
+export default TermsCondition;

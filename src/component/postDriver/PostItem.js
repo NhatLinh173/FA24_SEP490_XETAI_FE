@@ -133,10 +133,10 @@ const PostItem = ({
           </div>
         </div>
         <p>
-          <strong>Điểm đi:</strong> {startCity}
+          <strong>Điạ điểm lấy hàng:</strong> {startCity}
         </p>
         <p>
-          <strong>Điểm đến:</strong> {destinationCity}
+          <strong>Địa điểm trả hàng:</strong> {destinationCity}
         </p>
         <p
           style={{
