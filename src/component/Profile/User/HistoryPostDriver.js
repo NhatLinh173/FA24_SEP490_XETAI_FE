@@ -57,13 +57,8 @@ const HistoryPostDriver = () => {
   }
 
   return (
-    <div>
-      <div className="mb-4 d-flex justify-content-between">
-        <h2>Bài đăng</h2>
-        <Link to="/history-post-driver-add" className="btn btn-theme">
-          Tạo bài đăng
-        </Link>
-      </div>
+    <>
+      <h2 className="mb-4">Bài đăng</h2>
 
       {posts.map((post) => (
         <div
@@ -144,7 +139,7 @@ const HistoryPostDriver = () => {
           </button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   )
 }
 
