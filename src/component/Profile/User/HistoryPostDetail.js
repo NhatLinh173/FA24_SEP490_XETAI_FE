@@ -79,7 +79,6 @@ const HistoryPostDetail = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: post } = useInstanceData(`/posts/${id}`);
-  console.log(post);
 
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
 
