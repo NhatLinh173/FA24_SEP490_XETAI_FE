@@ -106,7 +106,7 @@ const VehicalDetail = () => {
                   disabled={loading}
                   onClick={handleSubmit}
                 >
-                  {loading ? "Loading" : "Xác nhận"}
+                  {loading ? "Đang tải..." : "Xác nhận"}
                 </button>
               )}
             </div>

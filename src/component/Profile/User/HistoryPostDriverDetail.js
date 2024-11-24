@@ -144,9 +144,8 @@ const HistoryPostDriverDetail = () => {
     }
   }
 
-  // Nếu không tìm thấy bài đăng
   if (!post) {
-    return <div>Loading...</div>
+    return <div>Đang tải...</div>
   }
 
   return (

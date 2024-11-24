@@ -138,7 +138,7 @@ const VehicalAdd = () => {
                 className="btn btn-theme"
                 onClick={handleSubmit}
               >
-                {loading ? "Loading..." : "Thêm xe mới"}
+                {loading ? "Đang tải..." : "Thêm xe mới"}
               </button>
             </div>
           </div>
