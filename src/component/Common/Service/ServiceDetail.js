@@ -326,18 +326,7 @@ const ServiceDetail = () => {
                         readOnly
                       />
                     </div>
-                    <div className="form-group col-md-6">
-                      <label htmlFor="price" className="font-weight-bold">
-                        Giá
-                      </label>
-                      <input
-                        id="price"
-                        defaultValue={postData.price}
-                        type="text"
-                        className="form-control"
-                        readOnly
-                      />
-                    </div>
+
                     <div className="form-group col-md-6">
                       <label
                         htmlFor="pickupLocation"
@@ -363,6 +352,18 @@ const ServiceDetail = () => {
                       <input
                         id="dropoffLocation"
                         defaultValue={postData.destination}
+                        type="text"
+                        className="form-control"
+                        readOnly
+                      />
+                    </div>
+                    <div className="form-group col-md-6">
+                      <label htmlFor="price" className="font-weight-bold">
+                        Giá
+                      </label>
+                      <input
+                        id="price"
+                        defaultValue={postData.price}
                         type="text"
                         className="form-control"
                         readOnly
