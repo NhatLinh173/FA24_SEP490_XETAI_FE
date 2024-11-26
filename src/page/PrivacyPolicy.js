@@ -1,16 +1,14 @@
-import React from 'react'
-import OurPolicies from '../component/PrivacyPolicy'
-import CommonBanner from '../component/Common/Banner'
-import OurPartner from '../component/Common/OurPartner'
+import React from "react";
+import OurPolicies from "../component/PrivacyPolicy";
+import CommonBanner from "../component/Common/Banner";
 
 const PrivacyPolicy = () => {
-    return (
-        <>
-            <CommonBanner heading="Privacy Policy" page="Privacy Policy"/>
-            <OurPolicies/>
-            <OurPartner/>
-        </>
-    )
-}
+  return (
+    <>
+      <CommonBanner />
+      <OurPolicies />
+    </>
+  );
+};
 
-export default PrivacyPolicy
+export default PrivacyPolicy;

@@ -399,7 +399,7 @@ const HistoryPost = () => {
                   )}
                 </div>
                 {!isDriverExist &&
-                  (post.status === "hide" || post.status === "cancel") && ( // Kiểm tra trạng thái
+                  post.status === "cancel" && ( // Kiểm tra trạng thái
                     <div
                       className="position-absolute"
                       style={{ right: "10px", top: "10px" }}

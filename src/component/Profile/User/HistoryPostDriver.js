@@ -57,17 +57,15 @@ const HistoryPostDriver = () => {
   }
 
   return (
-    <div>
-      <div className="mb-4 d-flex justify-content-between">
-        <h2>Bài đăng</h2>
-      </div>
+    <>
+      <h2 className="mb-4">Bài đăng</h2>
 
       {posts.map((post) => (
         <div
           key={post._id}
           className="my-4 border rounded-12 card-hover position-relative"
-          onClick={() => handlePostClick(post._id)}
-          style={{ cursor: "pointer" }}
+          onClick={() => handlePostClick(post._id)} // Điều hướng khi nhấp vào bài đăng
+          style={{ cursor: "pointer" }} // Thêm con trỏ chuột dạng tay để chỉ ra đây là một mục có thể nhấp
         >
           <div className="p-3 d-flex">
             {/* Ảnh */}
@@ -114,8 +112,8 @@ const HistoryPostDriver = () => {
                 <button
                   className="btn-danger btn-sm align-self-start border-0"
                   onClick={(e) => {
-                    e.stopPropagation(); // Ngăn sự kiện nổi bọt
-                    handleShowModal(post._id); // Hiển thị modal xóa
+                    e.stopPropagation() // Ngăn sự kiện nổi bọt
+                    handleShowModal(post._id) // Hiển thị modal xóa
                   }}
                 >
                   <MdDelete />
@@ -141,8 +139,9 @@ const HistoryPostDriver = () => {
           </button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 };
+
 
 export default HistoryPostDriver;
