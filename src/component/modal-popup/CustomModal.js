@@ -43,7 +43,7 @@ const CustomModal = ({ isOpen, closeModal }) => {
         </button>
       </div>
       <div className="modal-body custom-modal-body">
-        <a href="/accountType">
+        <a href="/signup?type=personal">
           <div className="option custom-option">
             <MdDriveEta className="icon custom-icon" />
             <span className="text custom-text">Đối tác tài xế</span>

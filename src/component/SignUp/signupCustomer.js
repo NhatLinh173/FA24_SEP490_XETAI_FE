@@ -31,7 +31,7 @@ const SignUpCustomer = () => {
     email: "Email",
     password: "Mật khẩu",
     phone: "Số điện thoại",
-    nameCompany: "Tên công ty",
+    confirmPassword: "Xác nhận mật khẩu",
   };
 
   const togglePasswordVisibility = () => {
@@ -149,110 +149,179 @@ const SignUpCustomer = () => {
                   }}
                 >
                   <div className="row">
-                    <div className="col-lg-12 full-name-group">
-                      <FormInput
-                        tag={"input"}
-                        type={"text"}
-                        name={"fullName"}
-                        classes={"form-control full-name-input"}
-                        placeholder={"Họ và Tên"}
-                        value={formData.fullName}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.fullName && (
-                        <p className="error-text full-name-error">
-                          {errors.fullName}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="col-lg-12 email-group">
-                      <FormInput
-                        tag={"input"}
-                        type={"email"}
-                        name={"email"}
-                        classes={"form-control email-input"}
-                        placeholder={"Địa Chỉ Email"}
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.email && (
-                        <p className="error-text email-error">{errors.email}</p>
-                      )}
-                    </div>
-
-                    <div className="col-lg-12 phone-group">
-                      <FormInput
-                        tag={"input"}
-                        type={"tel"}
-                        name={"phone"}
-                        classes={"form-control phone-input"}
-                        placeholder={"Số Điện Thoại"}
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.phone && (
-                        <p className="error-text phone-error">{errors.phone}</p>
-                      )}
-                    </div>
-
-                    <div className="col-lg-12 .password-group">
-                      <div className="password-field-wrapper">
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
                         <FormInput
                           tag={"input"}
-                          type={isPasswordVisible ? "text" : "password"}
-                          name={"password"}
+                          type={"text"}
+                          name={"fullName"}
                           classes={"form-control"}
-                          placeholder={"Mật Khẩu"}
-                          value={formData.password}
+                          placeholder={"Họ và Tên"}
+                          value={formData.fullName}
                           onChange={handleInputChange}
                           required
                         />
-                        <span
-                          className="toggle-password"
-                          onClick={togglePasswordVisibility}
-                        >
-                          {isPasswordVisible ? (
-                            <AiOutlineEyeInvisible />
-                          ) : (
-                            <AiOutlineEye />
-                          )}
-                        </span>
+                        {errors.fullName && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "250px",
+                              textAlign: "left",
+                            }}
+                          >
+                            {errors.fullName}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
+                        <FormInput
+                          tag={"input"}
+                          type={"email"}
+                          name={"email"}
+                          classes={"form-control"}
+                          placeholder={"Địa Chỉ Email"}
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.email && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "250px",
+                              textAlign: "left",
+                            }}
+                          >
+                            {errors.email}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
+                        <FormInput
+                          tag={"input"}
+                          type={"tel"}
+                          name={"phone"}
+                          classes={"form-control"}
+                          placeholder={"Số Điện Thoại"}
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.phone && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "250px",
+                              textAlign: "left",
+                            }}
+                          >
+                            {errors.phone}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
+                        <div style={{ position: "relative" }}>
+                          <FormInput
+                            tag={"input"}
+                            type={isPasswordVisible ? "text" : "password"}
+                            name={"password"}
+                            classes={"form-control"}
+                            placeholder={"Mật Khẩu"}
+                            value={formData.password}
+                            onChange={handleInputChange}
+                            required
+                          />
+                          <span
+                            style={{
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              cursor: "pointer",
+                            }}
+                            onClick={togglePasswordVisibility}
+                          >
+                            {isPasswordVisible ? (
+                              <AiOutlineEyeInvisible />
+                            ) : (
+                              <AiOutlineEye />
+                            )}
+                          </span>
+                        </div>
                         {errors.password && (
-                          <p className="error-text password-error">
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "250px",
+                              textAlign: "left",
+                            }}
+                          >
                             {errors.password}
                           </p>
                         )}
                       </div>
                     </div>
-                    <div className="col-lg-12 .confirm-password-group">
-                      <div className="password-field-wrapper">
-                        <FormInput
-                          tag={"input"}
-                          type={isConfirmPasswordVisible ? "text" : "password"}
-                          name={"confirmPassword"}
-                          classes={"form-control"}
-                          placeholder={"Xác Nhận Mật Khẩu"}
-                          value={formData.confirmPassword}
-                          onChange={handleInputChange}
-                          required
-                        />
-                        <span
-                          className="toggle-password"
-                          onClick={toggleConfirmPasswordVisibility}
-                        >
-                          {isConfirmPasswordVisible ? (
-                            <AiOutlineEyeInvisible />
-                          ) : (
-                            <AiOutlineEye />
-                          )}
-                        </span>
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
+                        <div style={{ position: "relative" }}>
+                          <FormInput
+                            tag={"input"}
+                            type={
+                              isConfirmPasswordVisible ? "text" : "password"
+                            }
+                            name={"confirmPassword"}
+                            classes={"form-control"}
+                            placeholder={"Xác Nhận Mật Khẩu"}
+                            value={formData.confirmPassword}
+                            onChange={handleInputChange}
+                            required
+                          />
+                          <span
+                            style={{
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              cursor: "pointer",
+                            }}
+                            onClick={toggleConfirmPasswordVisibility}
+                          >
+                            {isConfirmPasswordVisible ? (
+                              <AiOutlineEyeInvisible />
+                            ) : (
+                              <AiOutlineEye />
+                            )}
+                          </span>
+                        </div>
+                        {errors.confirmPassword && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "350px",
+                              textAlign: "left",
+                            }}
+                          >
+                            {errors.confirmPassword}
+                          </p>
+                        )}
                       </div>
                     </div>
-
                     <div className="col-lg-12">
                       <div className="form-group form-check">
                         <input

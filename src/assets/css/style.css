@@ -7474,121 +7474,122 @@ input[type="number"]::-webkit-inner-spin-button {
 /* =============================
        Vehicle Management Start
 ============================== */
-.vehicle-modal {
-  background-color: rgba(0, 0, 0, 0.5);
-  /* Màu nền mờ */
-  padding: 20px;
+.vehicle-detail-modal {
+  background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* Dialog trong modal */
-.vehicle-dialog {
-  max-width: 100%;
-  /* Modal sẽ chiếm 100% chiều rộng trên màn hình nhỏ */
-  margin: 50px auto;
-  width: 80%;
-  /* Đặt chiều rộng tối đa của modal */
-  max-width: 800px;
-  /* Modal không vượt quá 800px */
-}
-
-/* Nội dung modal */
-.vehicle-content {
-  background-color: #ffffff;
-  border-radius: 8px;
   padding: 20px;
 }
 
-/* Tiêu đề modal */
-.vehicle-title {
-  font-size: 1.75rem;
-  font-weight: bold;
-  color: #fff;
+.vehicle-detail-dialog {
+  max-width: 90%;
+  width: 90%;
+  margin: 50px auto;
 }
 
-/* Header modal */
-.vehicle-header {
+.vehicle-detail-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto; 
+}
+
+
+.vehicle-detail-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
 }
 
-/* Nút đóng modal */
-.vehicle-close {
+.vehicle-detail-title {
   font-size: 1.5rem;
-  color: #007bff;
+  font-weight: bold;
 }
 
-/* Body modal */
-.vehicle-body {
+.vehicle-detail-body {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
-  align-items: flex-start;
-  padding: 15px;
+  margin-top: 20px;
 }
 
-/* Hình ảnh trong modal */
-.vehicle-image {
-  max-width: 100%;
+/* .vehicle-detail-body img.vehicle-detail-image {
+  max-width: 50%;
   height: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  gap:10px
+} */
+
+.vehicle-detail-day ,
+.vehicle-detail-licensePlate{
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-.vehicle-footer {
+.vehicle-detail-info-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px; /* Khoảng cách giữa các khối ảnh */
+}
+
+/* Phần chứa từng ảnh và tiêu đề */
+.vehicle-detail-info {
+  display: flex;
+  flex-direction: column; /* Đặt tiêu đề và ảnh theo chiều dọc */
+  align-items: center; /* Căn giữa tiêu đề với ảnh */
+  text-align: center;
+}
+
+/* Tiêu đề nằm trên ảnh */
+.vehicle-detail-info strong {
+  margin-bottom: 10px; /* Khoảng cách giữa chữ và ảnh */
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333; /* Màu chữ */
+}
+
+
+.vehicle-detail-image {
+  max-width: 400px; 
+  max-height: 400px;
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.vehicle-detail-footer {
+  display: flex;
+  justify-content: flex-end;
   gap: 10px;
-  padding: 10px 15px;
-  flex-wrap: wrap;
-  width: 100%;
+  margin-top: 20px;
 }
 
-.vehicle-btn-accept {
+.vehicle-detail-btn-accept {
   background-color: #28a745;
-  color: white;
-  font-size: 1rem;
-  padding: 10px 20px;
-  flex: 1 1 auto;
-  /* Đảm bảo nút có thể co giãn */
-  min-width: 150px;
-  /* Đặt độ rộng tối thiểu */
-  max-width: 100%;
-  /* Đảm bảo nút không vượt quá 100% chiều rộng */
-  box-sizing: border-box;
+  color: #fff;
 }
 
-/* Nút xóa */
-.vehicle-btn-delete {
+.vehicle-detail-btn-delete {
   background-color: #dc3545;
-  color: white;
-  font-size: 1rem;
-  padding: 10px 20px;
-  margin-left: 10px;
-  flex: 1 1 auto;
-  /* Đảm bảo nút có thể co giãn */
-  min-width: 150px;
-  /* Đặt độ rộng tối thiểu */
-  max-width: 100%;
-  /* Đảm bảo nút không vượt quá 100% chiều rộng */
-  box-sizing: border-box;
+  color: #fff;
 }
 
-/* Responsive cho thiết bị nhỏ (dưới 768px) */
 @media (max-width: 768px) {
-  .vehicle-footer {
+  .vehicle-detail-footer {
     flex-direction: column;
-    /* Đặt các nút xếp theo chiều dọc */
     align-items: center;
-    /* Căn giữa các nút */
     padding: 5px 15px;
-    /* Giảm padding của footer */
   }
 
-  .vehicle-btn-accept,
-  .vehicle-btn-delete {
+  .vehicle-detail-btn-accept,
+  .vehicle-detail-btn-delete  {
     width: 100%;
     /* Các nút chiếm toàn bộ chiều rộng */
     font-size: 14px;
@@ -7599,7 +7600,7 @@ input[type="number"]::-webkit-inner-spin-button {
     /* Thêm khoảng cách giữa các nút */
   }
 
-  .vehicle-btn-delete {
+  .vehicle-detail-btn-delete  {
     margin-top: 10px;
     /* Thêm khoảng cách ở trên nút xóa */
   }
@@ -7607,7 +7608,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Responsive cho thiết bị di động nhỏ (dưới 480px) */
 @media (max-width: 480px) {
-  .vehicle-footer {
+  .vehicle-detail-footer {
     flex-direction: column;
     /* Đặt các nút xếp theo chiều dọc */
     align-items: center;
@@ -7615,8 +7616,8 @@ input[type="number"]::-webkit-inner-spin-button {
     padding: 5px 15px;
   }
 
-  .vehicle-btn-accept,
-  .vehicle-btn-delete {
+  .vehicle-detail-btn-accept,
+  .vehicle-detail-btn-delete {
     width: 100%;
     /* Các nút chiếm toàn bộ chiều rộng */
     font-size: 12px;

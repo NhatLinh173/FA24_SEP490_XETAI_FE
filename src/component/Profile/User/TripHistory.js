@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 import axiosInstance from "../../../config/axiosConfig";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
-
+import { FaBarcode } from "react-icons/fa";
 export const TripHistory = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [tripHistories, setTripHistories] = useState([]);
@@ -119,7 +119,6 @@ export const TripHistory = () => {
                     ? item.creator?.fullName
                     : item.dealId?.driverId?.userId?.fullName || "N/A"}
                 </div>
-
                 <div className="mt-3 fs-18 font-weight-bold total-amount  mr-2">
                   Tổng tiền: {item.price} VND
                 </div>

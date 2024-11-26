@@ -11,8 +11,9 @@ import PostDriver from "../../postDriver/PostDriver";
 import { Button, Modal } from "react-bootstrap";
 import axiosInstance from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
-
+import { useHistory } from "react-router-dom";
 const LogisticsService = () => {
+  const history = useHistory();
   const [isDriverExist, setIsDriverExist] = useState(false);
   const [showReportButtons, setShowReportButtons] = useState({});
   const [showReportModal, setShowReportModal] = useState(false);
@@ -100,7 +101,18 @@ const LogisticsService = () => {
     setShowContactModal(true);
   };
   const handleCloseContactModal = () => setShowContactModal(false);
+
   const handleConfirmContact = () => {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      history.push("/signIn");
+    } else if (selectedDriver && selectedDriver._id) {
+      history.push(`/chat/${selectedDriver._id}`);
+    } else {
+      toast.error("Không thể xác định tài xế.");
+    }
+
     setShowContactModal(false);
   };
 

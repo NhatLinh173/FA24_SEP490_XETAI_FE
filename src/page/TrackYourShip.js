@@ -1,16 +1,14 @@
-import React from 'react'
-import CommonBanner from '../component/Common/Banner'
-import TrackShipment from '../component/TrackYourShipment'
-import OurPartner from '../component/Common/OurPartner'
+import React from "react";
+import CommonBanner from "../component/Common/Banner";
+import TrackShipment from "../component/TrackYourShipment";
 
 const TrackYourShip = () => {
-    return (
-        <>
-            <CommonBanner heading="Track Your Shipment" page="Track Your Shipment"/>
-            <TrackShipment/>
-            <OurPartner/>
-        </>
-    )
-}
+  return (
+    <>
+      <CommonBanner heading="Theo dõi đơn hàng" page="Theo dõi đơn hàng" />
+      <TrackShipment />
+    </>
+  );
+};
 
-export default TrackYourShip
+export default TrackYourShip;

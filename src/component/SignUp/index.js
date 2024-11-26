@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import FormInput from "../Common/FormInput";
 import axios from "axios";
 import { toast } from "react-toastify";
 import regexPattern from "../../config/regexConfig";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+
 const SignUpForm = () => {
-  const [activeTab, setActiveTab] = useState("personal");
   const [isChecked, setIsChecked] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-  const location = useLocation();
   const history = useHistory();
   const [errors, setErrors] = useState({
     fullName: "",
@@ -20,7 +17,6 @@ const SignUpForm = () => {
     phone: "",
     password: "",
     confirmPassword: "",
-    nameCompany: "",
   });
   const [formData, setFormData] = useState({
     email: "",
@@ -28,7 +24,6 @@ const SignUpForm = () => {
     phone: "",
     fullName: "",
     confirmPassword: "",
-    nameCompany: "",
   });
 
   const axiosInstance = axios.create({
@@ -43,23 +38,12 @@ const SignUpForm = () => {
     setConfirmPasswordVisible((prev) => !prev);
   };
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const type = queryParams.get("type") || "personal";
-    setActiveTab(type);
-  }, [location]);
-
-  const handleTabSwitch = (tab) => {
-    setActiveTab(tab);
-    history.push(`/signup?type=${tab}`);
-  };
-
   const fieldLabels = {
     fullName: "Họ và Tên",
     email: "Email",
     password: "Mật khẩu",
     phone: "Số điện thoại",
-    nameCompany: "Tên công ty",
+    confirmPassword: "Xác nhận mật khẩu",
   };
 
   const handleInputChange = (e) => {
@@ -93,24 +77,13 @@ const SignUpForm = () => {
   };
 
   const handleRegisterDriver = async () => {
-    const role = activeTab === "personal" ? "personal" : "business";
-    const { email, password, fullName, phone, confirmPassword, nameCompany } =
-      formData;
-    const payloadPersonnal = {
+    const { email, password, fullName, phone, confirmPassword } = formData;
+    const payload = {
       email,
       password,
       phone,
       fullName,
-      role: role,
-    };
-
-    const payloadBusiness = {
-      password,
-      phone,
-      fullName,
-      companyName: nameCompany,
-      email,
-      role: role,
+      role: "personal",
     };
 
     if (!isChecked) {
@@ -123,61 +96,18 @@ const SignUpForm = () => {
       return;
     }
 
-    if (role === "personal") {
-      try {
-        const response = await axiosInstance.post(
-          "/auth/register",
-          payloadPersonnal
-        );
-        if (response.status === 201) {
-          toast.success("Đăng ký thành công");
-          history.push("/");
-        } else {
-          toast.error("Đăng ký thất bại");
-          return;
-        }
-      } catch (error) {
-        console.error("Register error:", error);
+    try {
+      const response = await axiosInstance.post("/auth/register", payload);
+      if (response.status === 201) {
+        toast.success("Đăng ký thành công");
+        history.push("/signIn");
+      } else {
+        toast.error("Đăng ký thất bại");
       }
-    } else {
-      try {
-        const response = await axiosInstance.post(
-          "/auth/register",
-          payloadBusiness
-        );
-        if (response.status === 201) {
-          toast.success("Đăng ký thành công");
-          history.push("/");
-        } else {
-          toast.error("Đăng ký thất bại");
-          return;
-        }
-      } catch (error) {
-        console.error("Register error:", error);
-      }
+    } catch (error) {
+      console.error("Register error:", error);
+      toast.error("Có lỗi xảy ra, vui lòng thử lại sau.");
     }
-  };
-
-  const handleGoogleLogin = () => {
-    if (!isChecked) {
-      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
-      return;
-    }
-    const role = activeTab === "personal" ? "personal" : "business";
-    const url = `http://localhost:3005/auth/google?state=${role}`;
-    console.log("Redirecting to:", url);
-    window.open(url, "_self");
-  };
-
-  const handleFacebookLogin = () => {
-    if (!isChecked) {
-      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
-      return;
-    }
-    const role = "customer";
-    const url = `http://localhost:3005/auth/facebook?state=${role}`;
-
-    window.open(url, "_self");
   };
 
   return (
@@ -186,27 +116,7 @@ const SignUpForm = () => {
         <div className="row">
           <div className="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
             <div className="user_area_wrapper">
-              <h2>
-                {activeTab === "personal"
-                  ? "Đăng Ký Cá Nhân"
-                  : "Đăng Ký Doanh Nghiệp"}
-              </h2>
-              <div className="form-tabs">
-                <a
-                  type="button"
-                  className={`btn ${activeTab === "personal" ? "active" : ""}`}
-                  onClick={() => handleTabSwitch("personal")}
-                >
-                  Cá Nhân
-                </a>
-                <a
-                  type="button"
-                  className={`btn ${activeTab === "business" ? "active" : ""}`}
-                  onClick={() => handleTabSwitch("business")}
-                >
-                  Doanh Nghiệp
-                </a>
-              </div>
+              <h2>Đăng Ký Tài Xế</h2>
               <div className="user_area_form">
                 <form
                   id="form_signIn"
@@ -216,243 +126,179 @@ const SignUpForm = () => {
                   }}
                 >
                   <div className="row">
-                    {activeTab === "personal" ? (
-                      <>
-                        <div className="col-lg-12">
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
+                        <FormInput
+                          tag={"input"}
+                          type={"text"}
+                          name={"fullName"}
+                          classes={"form-control"}
+                          placeholder={"Họ và Tên"}
+                          value={formData.fullName}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.fullName && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "250px",
+                              textAlign: "left",
+                            }}
+                          >
+                            {errors.fullName}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
+                        <FormInput
+                          tag={"input"}
+                          type={"email"}
+                          name={"email"}
+                          classes={"form-control"}
+                          placeholder={"Địa Chỉ Email"}
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.email && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "250px",
+                              textAlign: "left",
+                            }}
+                          >
+                            {errors.email}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
+                        <FormInput
+                          tag={"input"}
+                          type={"tel"}
+                          name={"phone"}
+                          classes={"form-control"}
+                          placeholder={"Số Điện Thoại"}
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.phone && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "250px",
+                              textAlign: "left",
+                            }}
+                          >
+                            {errors.phone}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
+                        <div style={{ position: "relative" }}>
                           <FormInput
                             tag={"input"}
-                            type={"text"}
-                            name={"lastName"}
+                            type={isPasswordVisible ? "text" : "password"}
+                            name={"password"}
                             classes={"form-control"}
-                            placeholder={"Họ và Tên"}
-                            value={formData.fullName}
+                            placeholder={"Mật Khẩu"}
+                            value={formData.password}
                             onChange={handleInputChange}
                             required
                           />
-                          {errors.fullName && (
-                            <p className="error-text full-name-error">
-                              {errors.fullName}
-                            </p>
-                          )}
-                        </div>
-                        <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"email"}
-                            name={"email"}
-                            classes={"form-control"}
-                            placeholder={"Địa Chỉ Email"}
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required
-                          />
-                          {errors.email && (
-                            <p className="error-text email-error">
-                              {errors.email}
-                            </p>
-                          )}
-                        </div>
-                        <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"tel"}
-                            name={"phone"}
-                            classes={"form-control"}
-                            placeholder={"Số Điện Thoại"}
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            required
-                          />
-                          {errors.phone && (
-                            <p className="error-text phone-error">
-                              {errors.phone}
-                            </p>
-                          )}
-                        </div>
-                        <div className="col-lg-12">
-                          <div className="password-field-wrapper">
-                            <FormInput
-                              tag={"input"}
-                              type={isPasswordVisible ? "text" : "password"}
-                              name={"password"}
-                              classes={"form-control"}
-                              placeholder={"Mật Khẩu"}
-                              value={formData.password}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            <span
-                              className="toggle-password"
-                              onClick={togglePasswordVisibility}
-                            >
-                              {isPasswordVisible ? (
-                                <AiOutlineEyeInvisible />
-                              ) : (
-                                <AiOutlineEye />
-                              )}
-                            </span>
-                            {errors.password && (
-                              <p className="error-text password-error">
-                                {errors.password}
-                              </p>
+                          <span
+                            style={{
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              cursor: "pointer",
+                            }}
+                            onClick={togglePasswordVisibility}
+                          >
+                            {isPasswordVisible ? (
+                              <AiOutlineEyeInvisible />
+                            ) : (
+                              <AiOutlineEye />
                             )}
-                          </div>
+                          </span>
                         </div>
-                        <div className="col-lg-12">
-                          <div className="password-field-wrapper">
-                            <FormInput
-                              tag={"input"}
-                              type={
-                                isConfirmPasswordVisible ? "text" : "password"
-                              }
-                              name={"confirmPassword"}
-                              classes={"form-control"}
-                              placeholder={"Xác Nhận Mật Khẩu"}
-                              value={formData.confirmPassword}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            <span
-                              className="toggle-password"
-                              onClick={toggleConfirmPasswordVisibility}
-                            >
-                              {isConfirmPasswordVisible ? (
-                                <AiOutlineEyeInvisible />
-                              ) : (
-                                <AiOutlineEye />
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {/* Các trường thông tin doanh nghiệp */}
-                        <div className="col-lg-12">
+                        {errors.password && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "250px",
+                              textAlign: "left",
+                            }}
+                          >
+                            {errors.password}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-lg-12">
+                      <div style={{ marginBottom: "20px" }}>
+                        <div style={{ position: "relative" }}>
                           <FormInput
                             tag={"input"}
-                            type={"text"}
-                            name={"nameCompany"}
+                            type={
+                              isConfirmPasswordVisible ? "text" : "password"
+                            }
+                            name={"confirmPassword"}
                             classes={"form-control"}
-                            placeholder={"Tên Công Ty"}
-                            value={formData.nameCompany}
+                            placeholder={"Xác Nhận Mật Khẩu"}
+                            value={formData.confirmPassword}
                             onChange={handleInputChange}
                             required
                           />
-                          {errors.nameCompany && (
-                            <p className="error-text email-error">
-                              {errors.email}
-                            </p>
-                          )}
-                        </div>
-                        <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"text"}
-                            name={"fullName"}
-                            classes={"form-control"}
-                            placeholder={"Tên Chủ Doanh Nghiệp"}
-                            value={formData.fullName}
-                            onChange={handleInputChange}
-                            required
-                          />
-                          {errors.fullName && (
-                            <p className="error-text full-name-error">
-                              {errors.fullName}
-                            </p>
-                          )}
-                        </div>
-                        <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"text"}
-                            name={"email"}
-                            classes={"form-control"}
-                            placeholder={"Email Công Việc"}
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required
-                          />
-                          {errors.email && (
-                            <p className="error-text email-error">
-                              {errors.email}
-                            </p>
-                          )}
-                        </div>
-                        <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"tel"}
-                            name={"phone"}
-                            classes={"form-control"}
-                            placeholder={"Số Điện Thoại"}
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            required
-                          />
-                          {errors.phone && (
-                            <p className="error-text phone-error">
-                              {errors.phone}
-                            </p>
-                          )}
-                        </div>
-                        <div className="col-lg-12">
-                          <div className="password-field-wrapper">
-                            <FormInput
-                              tag={"input"}
-                              type={isPasswordVisible ? "text" : "password"}
-                              name={"password"}
-                              classes={"form-control"}
-                              placeholder={"Mật Khẩu"}
-                              value={formData.password}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            <span
-                              className="toggle-password"
-                              onClick={togglePasswordVisibility}
-                            >
-                              {isPasswordVisible ? (
-                                <AiOutlineEyeInvisible />
-                              ) : (
-                                <AiOutlineEye />
-                              )}
-                            </span>
-                            {errors.password && (
-                              <p className="error-text password-error">
-                                {errors.password}
-                              </p>
+                          <span
+                            style={{
+                              position: "absolute",
+                              right: "10px",
+                              top: "50%",
+                              transform: "translateY(-50%)",
+                              cursor: "pointer",
+                            }}
+                            onClick={toggleConfirmPasswordVisibility}
+                          >
+                            {isConfirmPasswordVisible ? (
+                              <AiOutlineEyeInvisible />
+                            ) : (
+                              <AiOutlineEye />
                             )}
-                          </div>
+                          </span>
                         </div>
-                        <div className="col-lg-12">
-                          <div className="password-field-wrapper">
-                            <FormInput
-                              tag={"input"}
-                              type={
-                                isConfirmPasswordVisible ? "text" : "password"
-                              }
-                              name={"confirmPassword"}
-                              classes={"form-control"}
-                              placeholder={"Xác Nhận Mật Khẩu"}
-                              value={formData.confirmPassword}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            <span
-                              className="toggle-password"
-                              onClick={toggleConfirmPasswordVisibility}
-                            >
-                              {isConfirmPasswordVisible ? (
-                                <AiOutlineEyeInvisible />
-                              ) : (
-                                <AiOutlineEye />
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                      </>
-                    )}
+                        {errors.confirmPassword && (
+                          <p
+                            style={{
+                              color: "red",
+                              fontSize: "14px",
+                              marginRight: "15px",
+                              width: "350px",
+                              textAlign: "left",
+                            }}
+                          >
+                            {errors.confirmPassword}
+                          </p>
+                        )}
+                      </div>
+                    </div>
                     <div className="col-lg-12">
                       <div className="form-group form-check">
                         <input
@@ -488,63 +334,6 @@ const SignUpForm = () => {
                           disabled={!isChecked}
                         />
                       </div>
-                    </div>
-                    <div className="col-lg-12" style={{ marginBottom: "15px" }}>
-                      <div>HOẶC</div>
-                    </div>
-                    <div className="col-lg-12">
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-block"
-                        style={{
-                          height: "50px",
-                          backgroundColor: "#3b5898",
-                          fontWeight: "600",
-                          color: "#fff",
-                          marginBottom: "10px",
-                          border: "none",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                        onClick={handleGoogleLogin}
-                        disabled={!isChecked}
-                      >
-                        <FcGoogle
-                          style={{
-                            marginRight: "10px",
-                            fontSize: "20px",
-                          }}
-                        />{" "}
-                        Đăng nhập với Google
-                      </button>
-                    </div>
-                    <div className="col-lg-12">
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-block"
-                        style={{
-                          height: "50px",
-                          backgroundColor: "#4285f4",
-                          fontWeight: "600",
-                          color: "#fff",
-                          border: "none",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                        onClick={handleFacebookLogin}
-                        disabled={!isChecked}
-                      >
-                        <FaFacebookF
-                          style={{ marginRight: "10px", fontSize: "18px" }}
-                        />{" "}
-                        Đăng nhập với Facebook
-                      </button>
                     </div>
                     <div className="col-lg-12">
                       <div className="not_remember_area">

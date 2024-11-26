@@ -15,7 +15,7 @@ import useInstanceData from "../../../config/useInstanceData";
 import { Pagination } from "react-bootstrap"; // Thêm import cho Bootstrap Pagination
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { FaBarcode } from "react-icons/fa";
 const HistoryPost = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [postID, setPostID] = useState(null);
@@ -337,12 +337,17 @@ const HistoryPost = () => {
                     <div className="font-weight-bold mr-2">Loại hàng:</div>
                     {post.title}
                   </div>
-
-                  <div className="mb-4 text-secondary d-flex align-items-center">
-                    <FaWeightHanging className="mr-2" />
+                  <div className="mb-2 text-secondary d-flex align-items-center">
+                    <FaBoxArchive className="mr-2" />
                     <div className="font-weight-bold mr-2">Khối lượng:</div>
                     {post.load}
                   </div>
+                  <div className="mb-4 text-secondary d-flex align-items-center">
+                    <FaBarcode className="mr-2" />
+                    <div className="font-weight-bold mr-2">Mã đơn hàng:</div>
+                    {post.orderCode}
+                  </div>
+
                   <div className="fs-18 font-weight-bold">
                     Giá vận chuyển: {post.price.toLocaleString()} vnd
                   </div>

@@ -20,7 +20,7 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
   const { handleLogout, isAuthenticated } = useAuth();
   const [isReportsExpanded, setIsReportsExpanded] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
-
+  const userRole = localStorage.getItem("userRole");
   const handleLogoutClick = async () => {
     await handleLogout();
   };
@@ -54,6 +54,7 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
             isReportsExpanded={isReportsExpanded}
             setIsReportsExpanded={setIsReportsExpanded}
             handleLogoutClick={handleLogoutClick}
+            userRole={userRole}
           />
         </Offcanvas.Body>
       </Offcanvas>
@@ -66,6 +67,7 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
           isReportsExpanded={isReportsExpanded}
           setIsReportsExpanded={setIsReportsExpanded}
           handleLogoutClick={handleLogoutClick}
+          userRole={userRole}
         />
       </Nav>
     </>
@@ -78,6 +80,7 @@ function SidebarContent({
   isReportsExpanded,
   setIsReportsExpanded,
   handleLogoutClick,
+  userRole,
 }) {
   return (
     <>
@@ -122,13 +125,17 @@ function SidebarContent({
         <FaCar className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý tài xế</div>
       </Nav.Link>
-      <Nav.Link
-        onClick={() => setActiveSection("staff")}
-        className={`sidebar-link ${activeSection === "staff" ? "active" : ""}`}
-      >
-        <FaUserTie className="admin-dashboard-sidebar-icon" />
-        <div className="sidebar-title">Quản lý nhân viên</div>
-      </Nav.Link>
+      {userRole !== "staff" && (
+        <Nav.Link
+          onClick={() => setActiveSection("staff")}
+          className={`sidebar-link ${
+            activeSection === "staff" ? "active" : ""
+          }`}
+        >
+          <FaUserTie className="admin-dashboard-sidebar-icon" />
+          <div className="sidebar-title">Quản lý nhân viên</div>
+        </Nav.Link>
+      )}
       <hr className="admin-sidebar-divider" />
       <h2 className="sidebar-title text-uppercase fw-bold">Quản lý hệ thống</h2>
       <Nav.Link
