@@ -67,7 +67,7 @@ const DriverDetail = () => {
               />
               <div className="ml-3 d-flex flex-column justify-content-center">
                 <h4 className="mb-2">{driver.fullName}</h4>
-                <div className="mb-2">{getStars(driver.rating)}</div>
+                <div className="mb-2">{getStars(driver.averageRating)}</div>
               </div>
             </div>
             <div>
@@ -229,7 +229,7 @@ const DriverDetail = () => {
             </div>
 
             <div className="pt-3 statistics-section">
-              <h6>Thống kê hoạt động</h6>
+              <h6>averageRating</h6>
               <div className="statistics-item">
                 <p className="stat-label">Chuyến đi tuần này:</p>
                 <p className="stat-value">{driver.tripsThisWeek}</p>

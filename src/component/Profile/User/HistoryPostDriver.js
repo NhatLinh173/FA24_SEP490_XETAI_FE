@@ -1,76 +1,73 @@
-import React, { useEffect, useState } from "react"
-import { MdDelete } from "react-icons/md"
-import { useHistory } from "react-router-dom"
-import { Modal } from "react-bootstrap"
-import { FaMapLocation } from "react-icons/fa6"
-import { BsFillFilePostFill } from "react-icons/bs"
-import axiosInstance from "../../../config/axiosConfig"
-import { toast } from "react-toastify"
-import { Link } from "react-router-dom/cjs/react-router-dom.min"
+import React, { useEffect, useState } from "react";
+import { MdDelete } from "react-icons/md";
+import { useHistory } from "react-router-dom";
+import { Modal } from "react-bootstrap";
+import { FaMapLocation } from "react-icons/fa6";
+import { BsFillFilePostFill } from "react-icons/bs";
+import axiosInstance from "../../../config/axiosConfig";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const HistoryPostDriver = () => {
-  const history = useHistory()
-  const [posts, setPosts] = useState([])
-  const [showModal, setShowModal] = useState(false)
-  const [postToDelete, setPostToDelete] = useState(null)
-
+  const history = useHistory();
+  const [posts, setPosts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [postToDelete, setPostToDelete] = useState(null);
+  const driverId = localStorage.getItem("driverId");
   const getPosts = async () => {
-    const response = await axiosInstance.get(`/driverpost`)
-    setPosts(response.data)
-  }
+    const response = await axiosInstance.get(`/driverpost/${driverId}`);
+    setPosts(response.data);
+  };
 
   // Điều hướng đến trang chi tiết bài đăng
   const handlePostClick = (postId) => {
-    history.push(`/history-post-driver/detail/${postId}`)
-  }
+    history.push(`/history-post-driver/detail/${postId}`);
+  };
 
   // Hiển thị modal xác nhận xoá
   const handleShowModal = (postId) => {
-    setPostToDelete(postId)
-    setShowModal(true)
-  }
+    setPostToDelete(postId);
+    setShowModal(true);
+  };
 
   // Ẩn modal
   const handleCloseModal = () => {
-    setShowModal(false)
-    setPostToDelete(null)
-  }
+    setShowModal(false);
+    setPostToDelete(null);
+  };
 
   // Xoá bài đăng
   const handleDeletePost = async () => {
-    const response = await axiosInstance.delete(`/driverpost/${postToDelete}`)
+    const response = await axiosInstance.delete(`/driverpost/${postToDelete}`);
 
     if (response.status === 200) {
-      toast.success("Xoá bài đăng thành công")
-      getPosts()
+      toast.success("Xoá bài đăng thành công");
+      getPosts();
     }
 
-    handleCloseModal()
-  }
+    handleCloseModal();
+  };
 
   useEffect(() => {
-    getPosts()
-  }, [])
+    getPosts();
+  }, []);
 
   if (!posts) {
-    return <div>Không có bài đăng nào</div>
+    return <div>Không có bài đăng nào</div>;
   }
 
   return (
     <div>
       <div className="mb-4 d-flex justify-content-between">
         <h2>Bài đăng</h2>
-        <Link to="/history-post-driver-add" className="btn btn-theme">
-          Tạo bài đăng
-        </Link>
       </div>
 
       {posts.map((post) => (
         <div
           key={post._id}
           className="my-4 border rounded-12 card-hover position-relative"
-          onClick={() => handlePostClick(post._id)} // Điều hướng khi nhấp vào bài đăng
-          style={{ cursor: "pointer" }} // Thêm con trỏ chuột dạng tay để chỉ ra đây là một mục có thể nhấp
+          onClick={() => handlePostClick(post._id)}
+          style={{ cursor: "pointer" }}
         >
           <div className="p-3 d-flex">
             {/* Ảnh */}
@@ -117,8 +114,8 @@ const HistoryPostDriver = () => {
                 <button
                   className="btn-danger btn-sm align-self-start border-0"
                   onClick={(e) => {
-                    e.stopPropagation() // Ngăn sự kiện nổi bọt
-                    handleShowModal(post._id) // Hiển thị modal xóa
+                    e.stopPropagation(); // Ngăn sự kiện nổi bọt
+                    handleShowModal(post._id); // Hiển thị modal xóa
                   }}
                 >
                   <MdDelete />
@@ -145,7 +142,7 @@ const HistoryPostDriver = () => {
         </Modal.Footer>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default HistoryPostDriver
+export default HistoryPostDriver;

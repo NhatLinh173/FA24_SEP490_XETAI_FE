@@ -107,6 +107,7 @@ function VehicleManager() {
   };
 
   const handleCloseDetailModal = () => {
+    console.log("aloo");
     setSelectedRegistration(null);
   };
 
@@ -188,56 +189,71 @@ function VehicleManager() {
 
       {selectedRegistration && (
         <div
-          className="modal show fade vehicle-modal"
+          className="modal show fade vehicle-detail-modal"
           style={{ display: "block" }}
           tabIndex="-1"
           role="dialog"
         >
-          <div className="modal-dialog vehicle-dialog" role="document">
-            <div className="modal-content vehicle-content">
-              <div className="modal-header vehicle-header">
-                <h5 className="modal-title vehicle-title">
+          <div className="modal-dialog vehicle-detail-dialog" role="document">
+            <div
+              className="modal-content vehicle-detail-content"
+            
+            >
+              <div className="modal-header vehicle-detail-header">
+                <h5 className="modal-title vehicle-detail-title">
                   Chi tiết Đăng ký Xe
                 </h5>
                 <button
                   type="button"
-                  className="close vehicle-close"
+                  className="close vehicle-detail-close"
                   onClick={handleCloseDetailModal}
                 >
                   <span>&times;</span>
                 </button>
               </div>
-              <div className="modal-body vehicle-body">
-                <strong>Giấy phép đăng kiểm xe:</strong>
-                <div>
-                  <img
-                    src={selectedRegistration.imageRegistration}
-                    alt="Giấy xe đăng kiểm"
-                    className="vehicle-image"
-                  />
+              <div className="modal-body vehicle-detail-body">
+                <div className="vehicle-detail-info-container">
+                  <div className="vehicle-detail-info">
+                    <strong>Hình ảnh xe:</strong>
+                    <img
+                      src={selectedRegistration.imageCar}
+                      alt="Hình ảnh xe"
+                      className="vehicle-detail-image"
+                    />
+                  </div>
+                  <div className="vehicle-detail-info">
+                    <strong>Giấy phép đăng kiểm xe:</strong>
+                    <img
+                      src={selectedRegistration.imageRegistration}
+                      alt="Giấy xe đăng kiểm"
+                      className="vehicle-detail-image"
+                    />
+                  </div>
                 </div>
                 <p>
-                  <strong>Ngày hết hạn:</strong>{" "}
+                  <strong className="vehicle-detail-day">Ngày hết hạn:</strong>{" "}
                   {new Date(
                     selectedRegistration.registrationDate
                   ).toLocaleDateString("vi-VN")}
                 </p>
                 <p>
-                  <strong>Biển số xe:</strong>{" "}
+                  <strong className="vehicle-detail-licensePlate">
+                    Biển số xe:
+                  </strong>{" "}
                   {selectedRegistration.licensePlate}
                 </p>
               </div>
-              <div className="modal-footer vehicle-footer">
+              <div className="modal-footer vehicle-detail-footer">
                 <button
                   type="button"
-                  className="btn btn-success vehicle-btn-accept"
+                  className="btn btn-success vehicle-detail-btn-accept"
                   onClick={handleAccept}
                 >
                   Chấp nhận
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger vehicle-btn-delete"
+                  className="btn btn-danger vehicle-detail-btn-delete"
                   onClick={handleDeleteRequest}
                 >
                   Xóa

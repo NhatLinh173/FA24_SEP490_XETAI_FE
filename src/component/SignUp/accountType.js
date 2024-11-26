@@ -29,7 +29,7 @@ const AccountType = () => {
           </a>
         </div>
 
-        <div className="col-md-6 mb-4">
+        {/* <div className="col-md-6 mb-4">
           <a href="/signup?type=business">
             <div className="account-type__card card text-center">
               <div className="card-body">
@@ -49,7 +49,7 @@ const AccountType = () => {
               </div>
             </div>
           </a>
-        </div>
+        </div> */}
       </div>
 
       <div className="account-type__footer text-center my-4">

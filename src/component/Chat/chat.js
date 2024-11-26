@@ -18,7 +18,7 @@ const Chat = () => {
   const senderId = localStorage.getItem("userId");
   const messageContainerRef = useRef(null);
   const socket = useWebSocket();
-  const { id } = useParams(); // Destructure id from useParams
+  const { id } = useParams();
 
   useEffect(() => {
     if (id) {
@@ -28,7 +28,6 @@ const Chat = () => {
             `http://localhost:3005/auth/user/${id}`
           );
           const user = response.data;
-          console.log("User data:", user);
           setUserEmail(user.email);
           setReceiverId(user._id);
           setReceiver(user);

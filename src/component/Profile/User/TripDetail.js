@@ -7,7 +7,7 @@ import axiosInstance from "../../../config/axiosConfig";
 import { Rating } from "react-simple-star-rating";
 import { jwtDecode } from "jwt-decode";
 import TripCarousel from "./TripCarousel";
-import { BsHeartFill } from "react-icons/bs";
+import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
 import { FaBoxOpen } from "react-icons/fa";
 import dayjs from "dayjs";
 
@@ -20,6 +20,7 @@ const TripDetail = () => {
   const [driver, setDriver] = useState("");
   const [ratingDetails, setRatingDetails] = useState(null);
   const [driverId, setDriverId] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const role = localStorage.getItem("accessToken")
     ? jwtDecode(localStorage.getItem("accessToken")).role
     : "";
@@ -32,13 +33,12 @@ const TripDetail = () => {
   const { id } = useParams();
 
   const userId = localStorage.getItem("userId");
-  console.log(userId);
 
   const handleFavoriteDriver = async () => {
     try {
       const response = await axiosInstance.post("/favorites/add", {
-        driverId,
-        userId,
+        driverId: driverId,
+        userId: userId,
       });
       if (response.status === 200) {
         toast.success("Đã thêm tài xế vào danh sách yêu thích");
@@ -48,6 +48,35 @@ const TripDetail = () => {
     } catch (error) {
       console.error("Error adding favorite driver:", error);
       toast.error("Có lỗi xảy ra khi thêm tài xế vào danh sách yêu thích.");
+    }
+  };
+
+  const handleRemoveFavoriteDriver = async () => {
+    try {
+      const response = await axiosInstance.post("/favorites/remove", {
+        driverId: driverId,
+        userId: userId,
+      });
+      if (response.status === 200) {
+        toast.success("Đã xóa tài xế khỏi danh sách yêu thích");
+      } else {
+        toast.error("Xóa tài xế khỏi danh sách yêu thích thất bại");
+      }
+    } catch (error) {
+      console.error("Error removing favorite driver:", error);
+      toast.error("Có lỗi xảy ra khi xóa tài xế khỏi danh sách yêu thích.");
+    }
+  };
+
+  const checkFavoriteStatus = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/favorites/check/status?driverId=${driverId}&userId=${userId}`
+      );
+      console.log(response.data.isFavorite);
+      setIsFavorite(response.data.isFavorite);
+    } catch (error) {
+      console.error("Error fetching favorite status:", error);
     }
   };
 
@@ -105,13 +134,21 @@ const TripDetail = () => {
       setDriver(response.data.dealId.driverId.userId._id);
       setDriverId(response.data.dealId.driverId._id);
       await getRatingDetails(response.data.dealId.driverId.userId._id);
-      console.log(response.data);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   useEffect(() => {
     getTripHistoryDetail();
   }, []);
+
+  useEffect(() => {
+    console.log("driverId:", driverId);
+    if (driverId) {
+      checkFavoriteStatus();
+    }
+  }, [driverId]);
 
   const handleConfirmReceived = async () => {
     try {
@@ -511,19 +548,52 @@ const TripDetail = () => {
                     alt="contact avatar"
                   />
 
-                  {!isDriverRole && (
-                    <BsHeartFill
-                      style={{
-                        cursor: "pointer",
-                        color: "#ec0101",
-                        fontSize: "22",
-                        position: "absolute",
-                        right: "10px",
-                        top: "5px",
-                      }}
-                      onClick={handleFavoriteDriver}
-                    />
-                  )}
+                  {!isDriverRole &&
+                    (isFavorite ? (
+                      <IoHeartSharp
+                        style={{
+                          cursor: "pointer",
+                          color: "#ec0101",
+                          fontSize: "22",
+                          position: "absolute",
+                          right: "10px",
+                          top: "5px",
+                        }}
+                        onClick={async () => {
+                          try {
+                            await handleRemoveFavoriteDriver(); // Gọi hàm xóa yêu thích
+                            setIsFavorite(false); // Cập nhật lại state nếu thành công
+                          } catch (error) {
+                            console.error(
+                              "Error removing favorite driver:",
+                              error
+                            );
+                          }
+                        }}
+                      />
+                    ) : (
+                      <IoHeartOutline
+                        style={{
+                          cursor: "pointer",
+                          color: "#ec0101",
+                          fontSize: "22",
+                          position: "absolute",
+                          right: "10px",
+                          top: "5px",
+                        }}
+                        onClick={async () => {
+                          try {
+                            await handleFavoriteDriver(); // Gọi hàm thêm yêu thích
+                            setIsFavorite(true); // Cập nhật lại state nếu thành công
+                          } catch (error) {
+                            console.error(
+                              "Error adding favorite driver:",
+                              error
+                            );
+                          }
+                        }}
+                      />
+                    ))}
                 </div>
               </div>
 
