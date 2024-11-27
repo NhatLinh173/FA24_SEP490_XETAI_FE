@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 import axiosInstance from "../../../config/axiosConfig";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
-import { FaBarcode } from "react-icons/fa";
+
 export const TripHistory = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [tripHistories, setTripHistories] = useState([]);
@@ -36,7 +36,6 @@ export const TripHistory = () => {
 
   const getTripHistory = async () => {
     try {
-      // Only attempt the request if userId or driverId is available
       if (!userId && !driverId) {
         return;
       }

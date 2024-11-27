@@ -195,9 +195,6 @@ const VehicleModal = ({ vehicle, onClose }) => {
                   <strong>Biển số xe:</strong> {vehicle.licensePlate}
                 </p>
                 <p>
-                  <strong>Đời xe:</strong> {vehicle.model}
-                </p>
-                <p>
                   <strong>Đăng kiểm gần nhất:</strong>{" "}
                   {new Date(vehicle.registrationDate).toLocaleDateString(
                     "vi-VN"
@@ -205,7 +202,7 @@ const VehicleModal = ({ vehicle, onClose }) => {
                 </p>
                 <p>
                   <strong>Thời gian hết đăng kiểm:</strong>{" "}
-                  {vehicle.nextMaintenance}
+                  {new Date(vehicle.expirationDate).toLocaleDateString("vi-VN")}
                 </p>
               </div>
             </div>

@@ -42,6 +42,7 @@ const HistoryPostDetail = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [formData, setFormData] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [orderCode, setOrderCode] = useState("");
 
   // các biến lỗi
   const [titleError, setTitleError] = useState("");
@@ -59,6 +60,7 @@ const HistoryPostDetail = () => {
   const [isDisable, setIsDisable] = useState(false);
   const [newImages, setNewImages] = useState([]);
   const [totalImage, setTotalImage] = useState([]);
+  const [orderCodeError, setOrderCodeError] = useState([]);
 
   const [isDriverExist, setIsDriverExist] = useState(false);
   const nextSlide = () => {
@@ -79,7 +81,7 @@ const HistoryPostDetail = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: post } = useInstanceData(`/posts/${id}`);
-
+  console.log(post);
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
 
   const isDealPriceAvailable = deals && deals.length > 0;
@@ -144,6 +146,7 @@ const HistoryPostDetail = () => {
       setRecipentPhone(post.recipientPhone);
       setStatus(post.status);
       setPaymentMethod(post.paymentMethod);
+      setOrderCode(post.orderCode);
     }
   }, [post]);
 
@@ -177,6 +180,7 @@ const HistoryPostDetail = () => {
     formData.append("recipientName", recipientName);
     formData.append("recipientPhone", recipientPhone);
     formData.append("paymentMethod", paymentMethod);
+    formData.append("orderCode", orderCode);
     if (status === "cancel" && post.status === "wait" && isDriverExist) {
       formData.append("status", "wait");
     } else {
@@ -1414,7 +1418,6 @@ const HistoryPostDetail = () => {
             </div>
           </div>
         </div>
-        {/* Right Side: Contact Info */}
 
         {post.status === "wait" &&
           driverId === "undefined" &&

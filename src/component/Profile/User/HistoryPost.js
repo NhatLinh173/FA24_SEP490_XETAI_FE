@@ -12,7 +12,7 @@ import { GrHide } from "react-icons/gr";
 import { FaCheckCircle } from "react-icons/fa";
 import axios from "../../../config/axiosConfig";
 import useInstanceData from "../../../config/useInstanceData";
-import { Pagination } from "react-bootstrap"; // Thêm import cho Bootstrap Pagination
+import { Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaBarcode } from "react-icons/fa";
@@ -67,6 +67,8 @@ const HistoryPost = () => {
 
   const applyFilter = () => {
     let filteredPosts = [];
+    const allowedStatuses = ["wait", "approve", "inprogress", "cancel", "hide"];
+
     switch (currentFilter) {
       case "wait":
         if (driverId !== "undefined") {
@@ -140,16 +142,17 @@ const HistoryPost = () => {
 
       default:
         if (driverId !== "undefined") {
-          filteredPosts = postdriver?.data?.filter(
-            (post) => post.status !== "finish"
+          filteredPosts = postdriver?.data?.filter((post) =>
+            allowedStatuses.includes(post.status)
           );
         } else {
           filteredPosts =
-            posts?.salePosts?.filter((post) => post.status !== "finish") || [];
+            posts?.salePosts?.filter((post) =>
+              allowedStatuses.includes(post.status)
+            ) || [];
         }
     }
 
-    // Cập nhật số trang và bài viết hiện tại
     setPageCount(Math.ceil(filteredPosts?.length / postsPerPage));
     setCurrentPost(
       filteredPosts?.slice(

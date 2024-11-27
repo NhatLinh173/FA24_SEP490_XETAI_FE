@@ -8,6 +8,7 @@ const DriverCard = () => {
   const [driver, setDriver] = useState(null);
   const userId = localStorage.getItem("userId");
   const [driverId, setDriverId] = useState(null);
+  const [driverFavorite, setDriverFavorite] = useState(null);
 
   const handleViewDetails = () => {
     if (driver && driverId) {
@@ -21,7 +22,8 @@ const DriverCard = () => {
         const response = await axiosInstance.get(`/driver/${userId}`);
         if (response.status === 200 && response.data.favorite) {
           setDriver(response.data.favorite.driverId);
-          setDriverId(response.data.favorite.driverId._id);
+          setDriverFavorite(response.data.favorite.driverId._id);
+          setDriverId(response.data.favorite.driverId.userId._id);
         } else {
           toast.error("Lấy thông tin tài xế thất bại");
         }
@@ -34,20 +36,20 @@ const DriverCard = () => {
     }
   }, [userId]);
 
-  const handleRemoveFavorites = async () => {
+  const handleRemoveFavoriteDriver = async () => {
     try {
-      const response = await axiosInstance.post(`/favorites/remove`, {
-        driverId,
-        userId,
+      const response = await axiosInstance.post("/favorites/remove", {
+        driverId: driverFavorite,
+        userId: userId,
       });
       if (response.status === 200) {
-        toast.success("Bỏ yêu thích tài xế thành công");
-        setDriver(null);
+        toast.success("Đã xóa tài xế khỏi danh sách yêu thích");
       } else {
-        toast.error("Bỏ yêu thích tài xế thất bại");
+        toast.error("Xóa tài xế khỏi danh sách yêu thích thất bại");
       }
     } catch (error) {
-      console.error("Error removing favorite:", error);
+      console.error("Error removing favorite driver:", error);
+      toast.error("Có lỗi xảy ra khi xóa tài xế khỏi danh sách yêu thích.");
     }
   };
 
@@ -70,7 +72,7 @@ const DriverCard = () => {
               <div className="vertical-line"></div>
               <button
                 className="btn btn-theme mb-2 w-50"
-                onClick={handleRemoveFavorites}
+                onClick={handleRemoveFavoriteDriver}
               >
                 Bỏ thích
               </button>

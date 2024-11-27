@@ -15,7 +15,7 @@ const TripDetail = () => {
   const [tripDetail, setTripDetail] = useState(null);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
-  const [feedback, setfeedback] = useState("");
+  const [feedback, setFeedback] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
   const [driver, setDriver] = useState("");
   const [ratingDetails, setRatingDetails] = useState(null);
@@ -73,7 +73,6 @@ const TripDetail = () => {
       const response = await axiosInstance.get(
         `/favorites/check/status?driverId=${driverId}&userId=${userId}`
       );
-      console.log(response.data.isFavorite);
       setIsFavorite(response.data.isFavorite);
     } catch (error) {
       console.error("Error fetching favorite status:", error);
@@ -89,7 +88,7 @@ const TripDetail = () => {
   };
 
   const handleFeedback = (e) => {
-    setfeedback(e.target.value);
+    setFeedback(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -112,13 +111,17 @@ const TripDetail = () => {
     }
   };
 
-  const getRatingDetails = async (driver) => {
+  const getRatingDetails = async () => {
     try {
-      const res = await axiosInstance.get(
-        `/rating/rating-driver?reviewerId=${userId}&userId=${driver}`
-      );
-      setRatingDetails(res.data.rating);
+      const res = await axiosInstance.get(`/rating/ratings/post/${id}`);
+      console.log("Rating details response:", res.data);
+      if (res.data.ratings && res.data.ratings.length > 0) {
+        setRatingDetails(res.data.ratings[0]); // Lấy đánh giá đầu tiên trong mảng
+      } else {
+        setRatingDetails(null);
+      }
     } catch (error) {
+      console.error("Error fetching rating details:", error);
       setRatingDetails(null);
     }
   };
@@ -144,7 +147,6 @@ const TripDetail = () => {
   }, []);
 
   useEffect(() => {
-    console.log("driverId:", driverId);
     if (driverId) {
       checkFavoriteStatus();
     }

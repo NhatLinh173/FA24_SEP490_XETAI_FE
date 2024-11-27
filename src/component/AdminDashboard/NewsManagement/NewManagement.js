@@ -6,6 +6,7 @@ import axiosInstance from "../../../config/axiosConfig";
 import { ToastContainer, toast } from "react-toastify";
 const NewManagement = () => {
   const [news, setNews] = useState([]);
+  const [filteredNews, setFilteredNews] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddEditModal, setShowAddEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -25,7 +26,9 @@ const NewManagement = () => {
     try {
       const response = await axiosInstance.get(`/blog/`);
       setNews(response.data);
+      setFilteredNews(response.data);
       setSelectedNews(response.data[0]);
+      console.log(filteredNews);
     } catch (error) {
       console.error("Error fetching news:", error);
     }
@@ -138,6 +141,14 @@ const NewManagement = () => {
     setShowDetailModal(true);
   };
 
+  useEffect(() => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const filtered = news.filter((newItem) =>
+      newItem.title.toLowerCase().includes(lowerCaseSearchTerm)
+    );
+    setFilteredNews(filtered);
+  }, [searchTerm, news]);
+
   return (
     <div className="new-management-container mt-5">
       <h2 className="new-management-title mb-4 text-center">Quản Lý Tin Tức</h2>
@@ -158,6 +169,7 @@ const NewManagement = () => {
             type="text"
             placeholder="Tìm kiếm tin tức..."
             value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Form.Group>
       </Form>
@@ -178,7 +190,7 @@ const NewManagement = () => {
       <Table striped bordered hover className="new-management-table mt-3">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>STT</th>
             <th>Tiêu đề</th>
             <th>Ngày đăng</th>
             <th>Người đăng</th>
@@ -187,9 +199,9 @@ const NewManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {news.map((newItem) => (
+          {filteredNews.map((newItem, index) => (
             <tr key={newItem.id}>
-              <td>{newItem.id}</td>
+              <td>{index + 1}</td>
               <td>{newItem.title}</td>
               <td>{new Date(newItem.createdAt).toLocaleDateString()}</td>
               <td>{newItem?.creatorId?.fullName}</td>
