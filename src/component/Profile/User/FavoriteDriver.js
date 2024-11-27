@@ -13,10 +13,9 @@ const FavoriteDrivers = () => {
     const fetchData = async () => {
       try {
         const response = await axiosIntance.get(`/favorites/${userId}`);
-
+        console.log(response.data);
         if (response.data && response.data.favorite) {
           const driver = response.data.favorite.driverId;
-          console.log(driver.userId.avatar);
           if (driver) {
             setDrivers(Array.isArray(driver) ? driver : [driver]);
           } else {

@@ -3,11 +3,10 @@ import ReactPaginate from "react-paginate";
 import axiosInstance from "../../../config/axiosConfig";
 
 const TransactionSystem = () => {
-  const [transaction, setTransaction] = useState([]); // Dữ liệu giao dịch
-  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
-  const transactionsPerPage = 10; // Số lượng giao dịch mỗi trang
+  const [transaction, setTransaction] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const transactionsPerPage = 10;
 
-  // Hàm lấy dữ liệu từ API
   useEffect(() => {
     const fetchTransaction = async () => {
       try {

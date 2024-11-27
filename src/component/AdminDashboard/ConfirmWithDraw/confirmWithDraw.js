@@ -21,7 +21,6 @@ const WithdrawRequests = () => {
     }
   };
 
-  // Gọi API khi component được mount
   useEffect(() => {
     fetchWithdrawRequests();
   }, []);
