@@ -130,7 +130,7 @@ const LogisticsService = () => {
                   )}
                   {!isDriverExist && (
                     <li>
-                      <h2 className="mb-5">Hàng tìm xe</h2>
+                      <h2 className="mb-5">Xe tìm hành</h2>
                     </li>
                   )}
                   {!isDriverExist && (
