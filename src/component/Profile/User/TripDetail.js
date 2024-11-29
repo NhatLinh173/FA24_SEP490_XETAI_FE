@@ -25,10 +25,7 @@ const TripDetail = () => {
     ? jwtDecode(localStorage.getItem("accessToken")).role
     : "";
 
-  const isDriverRole = useMemo(
-    () => role === "personal",
-    [role]
-  );
+  const isDriverRole = useMemo(() => role === "personal", [role]);
 
   const { id } = useParams();
 
@@ -350,10 +347,10 @@ const TripDetail = () => {
 
             <div className="pt-4">
               <h3 className="mb-3 font-weight-bold">Thông tin người nhận</h3>
-
               <form>
                 <div className="row">
-                  <div className="col">
+                  {/* Ô đầu tiên */}
+                  <div className="col-md-6">
                     <label htmlFor="customer-name" className="font-weight-bold">
                       Họ và tên
                     </label>
@@ -361,30 +358,14 @@ const TripDetail = () => {
                       id="customer-name"
                       defaultValue={tripDetail.recipientName}
                       type="text"
-                      className="form-control"
+                      className="form-control custom-input_trip"
                       placeholder="Họ và tên"
                       readOnly
                     />
                   </div>
 
-                  <div className="col">
-                    <label htmlFor="email" className="font-weight-bold">
-                      Email
-                    </label>
-
-                    <input
-                      id="email"
-                      defaultValue={tripDetail.recipientEmail}
-                      type="email"
-                      className="form-control"
-                      placeholder="Email"
-                      readOnly
-                    />
-                  </div>
-                </div>
-
-                <div className="row mt-3">
-                  <div className="col">
+                  {/* Ô thứ hai */}
+                  <div className="col-md-6">
                     <label htmlFor="phone-number" className="font-weight-bold">
                       Số điện thoại
                     </label>
@@ -392,13 +373,11 @@ const TripDetail = () => {
                       id="phone-number"
                       defaultValue={tripDetail.recipientPhone}
                       type="tel"
-                      className="form-control"
+                      className="form-control custom-input_trip"
                       placeholder="Số điện thoại"
                       readOnly
                     />
                   </div>
-
-                  <div className="col"></div>
                 </div>
               </form>
             </div>
@@ -408,7 +387,8 @@ const TripDetail = () => {
 
               <form>
                 <div className="row">
-                  <div className="col">
+                  {/* Ô đầu tiên */}
+                  <div className="col-md-6">
                     <label htmlFor="customer-name" className="font-weight-bold">
                       Họ và tên
                     </label>
@@ -416,30 +396,14 @@ const TripDetail = () => {
                       id="customer-name"
                       defaultValue={tripDetail.fullname}
                       type="text"
-                      className="form-control"
+                      className="form-control custom-input_trip"
                       placeholder="Họ và tên"
                       readOnly
                     />
                   </div>
 
-                  <div className="col">
-                    <label htmlFor="email" className="font-weight-bold">
-                      Email
-                    </label>
-
-                    <input
-                      id="email"
-                      defaultValue={tripDetail.email}
-                      type="email"
-                      className="form-control"
-                      placeholder="Email"
-                      readOnly
-                    />
-                  </div>
-                </div>
-
-                <div className="row mt-3">
-                  <div className="col">
+                  {/* Ô thứ hai */}
+                  <div className="col-md-6">
                     <label htmlFor="phone-number" className="font-weight-bold">
                       Số điện thoại
                     </label>
@@ -447,13 +411,11 @@ const TripDetail = () => {
                       id="phone-number"
                       defaultValue={tripDetail.phone}
                       type="tel"
-                      className="form-control"
+                      className="form-control custom-input_trip"
                       placeholder="Số điện thoại"
                       readOnly
                     />
                   </div>
-
-                  <div className="col"></div>
                 </div>
               </form>
             </div>
@@ -616,15 +578,6 @@ const TripDetail = () => {
                       {isDriverRole
                         ? tripDetail.creator.phone
                         : tripDetail.dealId.driverId.userId.phone}
-                    </span>
-                  </li>
-
-                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                    <strong>Email:</strong>
-                    <span className="text-muted">
-                      {isDriverRole
-                        ? tripDetail.creator.email
-                        : tripDetail.dealId.driverId.userId.email}
                     </span>
                   </li>
                 </ul>

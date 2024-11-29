@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import axiosInstance from "../../../config/axiosConfig";
 import { jwtDecode } from "jwt-decode";
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 
 const ServiceDetail = () => {
   const { id } = useParams();
@@ -489,18 +490,6 @@ const ServiceDetail = () => {
                       readOnly
                     />
                   </div>
-                  <div className="form-group col-md-12">
-                    <label htmlFor="receiverEmail" className="font-weight-bold">
-                      Email
-                    </label>
-                    <input
-                      id="receiverEmail"
-                      defaultValue={postData.recipientEmail}
-                      type="text"
-                      className="form-control"
-                      readOnly
-                    />
-                  </div>
                 </div>
               </div>
             </div>
@@ -628,7 +617,7 @@ const ServiceDetail = () => {
             <div className="contact-info text-center">
               <div className="contact-avatar-wrapper mb-3">
                 <img
-                  src={inforPoster.avatar}
+                  src={inforPoster.avatar || avatarDefault}
                   className="contact-avatar rounded-circle border"
                   alt="contact avatar"
                   style={{
@@ -652,12 +641,6 @@ const ServiceDetail = () => {
                       {inforPoster.phone}
                     </span>
                   </li> */}
-                  <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                    <strong className="text-left">Email:</strong>
-                    <span className="contact-email text-muted text-right">
-                      {inforPoster.email}
-                    </span>
-                  </li>
                 </ul>
               </div>
             </div>
