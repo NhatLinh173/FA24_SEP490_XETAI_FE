@@ -93,10 +93,6 @@ const HistoryPostDetail = () => {
       }
     }
   }, [deals]);
-  const handleClickChat = () => {
-    const id = receiverId;
-    history.push(`/chat/${id}`);
-  };
 
   const handleConfirmDriver = async () => {
     try {
@@ -1338,10 +1334,10 @@ const HistoryPostDetail = () => {
                           <strong>Giá: </strong>
                           <span>{deal.dealPrice} VND</span>
                           <br />
-
                           <strong>Ngày giao dự kiến:</strong>
                           <br />
-                          <span className="mr-1">
+                          <span className="ml-1">
+                            {deal.estimatedHour} -{" "}
                             {formatDate(deal.estimatedTime)}
                           </span>
                           <br />
@@ -1390,17 +1386,6 @@ const HistoryPostDetail = () => {
                             onClick={() => handleOpenModal(deal._id)}
                           >
                             Xác nhận
-                          </button>
-                          <button
-                            className="btn-primary btn-sm"
-                            style={{
-                              border: "none",
-                              width: "90px",
-                              padding: "0.2rem 0.5rem",
-                            }}
-                            onClick={handleClickChat}
-                          >
-                            Trò chuyện
                           </button>
                         </div>
                       </li>
