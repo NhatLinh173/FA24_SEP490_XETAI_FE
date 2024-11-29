@@ -26,7 +26,7 @@ const TripDetail = () => {
     : "";
 
   const isDriverRole = useMemo(
-    () => role === "personal" || role === "business",
+    () => role === "personal",
     [role]
   );
 
@@ -116,7 +116,7 @@ const TripDetail = () => {
       const res = await axiosInstance.get(`/rating/ratings/post/${id}`);
       console.log("Rating details response:", res.data);
       if (res.data.ratings && res.data.ratings.length > 0) {
-        setRatingDetails(res.data.ratings[0]); // Lấy đánh giá đầu tiên trong mảng
+        setRatingDetails(res.data.ratings[0]);
       } else {
         setRatingDetails(null);
       }

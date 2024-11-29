@@ -298,6 +298,8 @@ const Wallet = ({ data }) => {
                       ? "Nhận tiền hàng từ khách hàng"
                       : transaction.type === "WITHDRAW"
                       ? "Rút tiền"
+                      : transaction.type === "RECEIVE_CANCELLATION_FEE"
+                      ? "Trả phí hủy đơn hàng"
                       : "Nạp Tiền"}
                   </td>
                   <td>
@@ -318,7 +320,9 @@ const Wallet = ({ data }) => {
                           ? "red"
                           : transaction.type === "DEPOSIT"
                           ? "#00FF00"
-                          : transaction.type === "RECEIVING_PAYMENT_FROM_ORDER"
+                          : transaction.type ===
+                              "RECEIVING_PAYMENT_FROM_ORDER" ||
+                            transaction.type === "RECEIVE_CANCELLATION_FEE"
                           ? "#00FF00"
                           : "inherit",
                     }}
@@ -328,7 +332,8 @@ const Wallet = ({ data }) => {
                     transaction.type === "PAYING_FOR_ORDER" ||
                     transaction.type === "WITHDRAW"
                       ? `-${(transaction.amount || 0).toLocaleString()} đ`
-                      : transaction.status === "PAID"
+                      : transaction.status === "PAID" ||
+                        transaction.status === "RECEIVE_CANCELLATION_FEE"
                       ? `+${(transaction.amount || 0).toLocaleString()} đ`
                       : `${(transaction.amount || 0).toLocaleString()} đ`}
                   </td>

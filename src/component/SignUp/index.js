@@ -5,25 +5,34 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import regexPattern from "../../config/regexConfig";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF } from "react-icons/fa";
+import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
+import {
+  auth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "../../config/firebaseConfig";
 
 const SignUpForm = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const history = useHistory();
+  const [otpSent, setOtpSent] = useState(false);
+  const [verificationId, setVerificationId] = useState("");
   const [errors, setErrors] = useState({
     fullName: "",
-    email: "",
     phone: "",
     password: "",
     confirmPassword: "",
   });
   const [formData, setFormData] = useState({
-    email: "",
     password: "",
     phone: "",
     fullName: "",
     confirmPassword: "",
+    otp: "",
   });
 
   const axiosInstance = axios.create({
@@ -40,7 +49,6 @@ const SignUpForm = () => {
 
   const fieldLabels = {
     fullName: "Họ và Tên",
-    email: "Email",
     password: "Mật khẩu",
     phone: "Số điện thoại",
     confirmPassword: "Xác nhận mật khẩu",
@@ -48,38 +56,80 @@ const SignUpForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    const error = validateField(name, value);
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    validateFieldWithError(name, value);
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
   };
 
-  const validateFieldWithError = (field, value) => {
+  const validateField = (field, value) => {
     if (!value.trim()) {
-      setErrors((prev) => ({
-        ...prev,
-        [field]: `${fieldLabels[field]} không được để trống`,
-      }));
-      return false;
+      return `${fieldLabels[field]} không được để trống`;
     }
-
-    if (!regexPattern[field].test(value)) {
-      setErrors((prev) => ({
-        ...prev,
-        [field]: `${fieldLabels[field]} sai định dạng`,
-      }));
-      return false;
+    if (!regexPattern[field]?.test(value)) {
+      return `${fieldLabels[field]} sai định dạng`;
     }
+    return "";
+  };
 
-    setErrors((prev) => ({ ...prev, [field]: "" }));
-    return true;
+  const handleSendOTP = async () => {
+    const phone = `+84${formData.phone.slice(1)}`;
+
+    try {
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          auth,
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: () => console.log("Recaptcha solved"),
+          }
+        );
+      }
+
+      const appVerifier = window.recaptchaVerifier;
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phone,
+        appVerifier
+      );
+      setVerificationId(confirmationResult.verificationId);
+      setOtpSent(true);
+      toast.success("Mã OTP đã được gửi!");
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      toast.error("Gửi OTP thất bại, vui lòng thử lại.");
+    }
+  };
+
+  const handleVerifyOTP = async () => {
+    const { otp } = formData;
+
+    try {
+      const credential = PhoneAuthProvider.credential(verificationId, otp);
+      await signInWithCredential(auth, credential);
+      const registerStatus = await handleRegisterDriver();
+      if (registerStatus === 201) {
+        toast.success("Đăng ký thành công");
+        history.push("/signIn");
+      } else {
+        toast.error("Đăng ký thất bại");
+      }
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      toast.error("Xác minh OTP thất bại!");
+    }
   };
 
   const handleRegisterDriver = async () => {
-    const { email, password, fullName, phone, confirmPassword } = formData;
+    const { password, fullName, phone, confirmPassword } = formData;
     const payload = {
-      email,
       password,
       phone,
       fullName,
@@ -98,22 +148,39 @@ const SignUpForm = () => {
 
     try {
       const response = await axiosInstance.post("/auth/register", payload);
-      if (response.status === 201) {
-        toast.success("Đăng ký thành công");
-        history.push("/signIn");
-      } else {
-        toast.error("Đăng ký thất bại");
-      }
+      return response.status;
     } catch (error) {
       console.error("Register error:", error);
       toast.error("Có lỗi xảy ra, vui lòng thử lại sau.");
     }
   };
 
+  const handleGoogleLogin = () => {
+    if (!isChecked) {
+      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
+      return;
+    }
+    const role = "customer";
+    const url = `http://localhost:3005/auth/google?state=${role}`;
+    console.log("Redirecting to:", url);
+    window.open(url, "_self");
+  };
+
+  const handleFacebookLogin = () => {
+    if (!isChecked) {
+      toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
+      return;
+    }
+    const role = "customer";
+    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+    window.open(url, "_self");
+  };
+
   return (
     <section id="signIn_area">
       <div className="container">
         <div className="row">
+          <div id="recaptcha-container"></div>
           <div className="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
             <div className="user_area_wrapper">
               <h2>Đăng Ký Tài Xế</h2>
@@ -122,7 +189,7 @@ const SignUpForm = () => {
                   id="form_signIn"
                   onSubmit={(e) => {
                     e.preventDefault();
-                    handleRegisterDriver();
+                    otpSent ? handleVerifyOTP() : handleSendOTP();
                   }}
                 >
                   <div className="row">
@@ -149,33 +216,6 @@ const SignUpForm = () => {
                             }}
                           >
                             {errors.fullName}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-lg-12">
-                      <div style={{ marginBottom: "20px" }}>
-                        <FormInput
-                          tag={"input"}
-                          type={"email"}
-                          name={"email"}
-                          classes={"form-control"}
-                          placeholder={"Địa Chỉ Email"}
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                        />
-                        {errors.email && (
-                          <p
-                            style={{
-                              color: "red",
-                              fontSize: "14px",
-                              marginRight: "15px",
-                              width: "250px",
-                              textAlign: "left",
-                            }}
-                          >
-                            {errors.email}
                           </p>
                         )}
                       </div>
@@ -298,6 +338,22 @@ const SignUpForm = () => {
                           </p>
                         )}
                       </div>
+                      {otpSent && (
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <FormInput
+                              tag={"input"}
+                              type={"text"}
+                              name={"otp"}
+                              classes={"form-control"}
+                              placeholder={"Nhập Mã OTP"}
+                              value={formData.otp}
+                              onChange={handleInputChange}
+                              required
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="col-lg-12">
                       <div className="form-group form-check">
@@ -318,9 +374,8 @@ const SignUpForm = () => {
                     </div>
                     <div className="col-lg-12">
                       <div className="submit_button">
-                        <FormInput
-                          tag={"button"}
-                          val={"Đăng Ký"}
+                        <button
+                          type="submit"
                           className="btn btn-primary btn-block"
                           style={{
                             height: "50px",
@@ -330,9 +385,11 @@ const SignUpForm = () => {
                             borderRadius: "5px",
                             cursor: "pointer",
                             width: "100%",
+                            marginTop: "10px",
                           }}
-                          disabled={!isChecked}
-                        />
+                        >
+                          {otpSent ? "Xác Minh OTP" : "Đăng Ký"}
+                        </button>
                       </div>
                     </div>
                     <div className="col-lg-12">
@@ -341,6 +398,63 @@ const SignUpForm = () => {
                           Đã có tài khoản? <Link to="/signIn"> Đăng Nhập</Link>
                         </p>
                       </div>
+                    </div>
+                    <div className="col-lg-12" style={{ marginBottom: "15px" }}>
+                      <div>HOẶC</div>
+                    </div>
+                    <div className="col-lg-12">
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-block"
+                        style={{
+                          height: "50px",
+                          backgroundColor: "#3b5898",
+                          fontWeight: "600",
+                          color: "#fff",
+                          marginBottom: "10px",
+                          border: "none",
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        onClick={handleGoogleLogin}
+                        disabled={!isChecked}
+                      >
+                        <FcGoogle
+                          style={{
+                            marginRight: "10px",
+                            fontSize: "20px",
+                          }}
+                        />{" "}
+                        Đăng nhập với Google
+                      </button>
+                    </div>
+                    <div className="col-lg-12">
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-block"
+                        style={{
+                          height: "50px",
+                          backgroundColor: "#4285f4",
+                          fontWeight: "600",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        onClick={handleFacebookLogin}
+                        disabled={!isChecked}
+                      >
+                        <FaFacebookF
+                          style={{ marginRight: "10px", fontSize: "18px" }}
+                        />{" "}
+                        Đăng nhập với Facebook
+                      </button>
                     </div>
                   </div>
                 </form>

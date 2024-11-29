@@ -60,7 +60,6 @@ const HistoryPostDetail = () => {
   const [isDisable, setIsDisable] = useState(false);
   const [newImages, setNewImages] = useState([]);
   const [totalImage, setTotalImage] = useState([]);
-  const [orderCodeError, setOrderCodeError] = useState([]);
 
   const [isDriverExist, setIsDriverExist] = useState(false);
   const nextSlide = () => {
@@ -219,9 +218,7 @@ const HistoryPostDetail = () => {
         }
       } else if (status === "cancel" && !isDriverExist) {
         try {
-          // Kiểm tra xem bài đăng có deal không
           if (!post.dealId) {
-            // Nếu không có deal, cho phép hủy hoặc thực hiện hành động khác
             const res = await axiosInstance.patch(`/posts/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
@@ -232,7 +229,6 @@ const HistoryPostDetail = () => {
               toast.success("Cập nhật thành công!");
             }
           } else {
-            // Nếu có deal, thực hiện hủy deal
             const response = await axiosInstance.patch(
               `/dealPrice/status/${id}`,
               {
