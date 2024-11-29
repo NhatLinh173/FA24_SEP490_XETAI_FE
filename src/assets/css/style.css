@@ -7797,3 +7797,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .custom-select_input {
   height: 5px;
 }
+.custom-input_trip {
+  width: 90%; /* Điều chỉnh kích thước theo ý muốn */
+  max-width: 250px; /* Giới hạn chiều rộng tối đa */
+}

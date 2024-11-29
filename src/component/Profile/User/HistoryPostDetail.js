@@ -14,6 +14,8 @@ import imgUpload from "../../../assets/img/homepage/output-onlinepngtools.png";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { formatDate } from "../../../utils/formatDate";
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
+
 const HistoryPostDetail = () => {
   const history = useHistory();
   const { id } = useParams();
@@ -23,7 +25,6 @@ const HistoryPostDetail = () => {
   const [cityFrom, setCityFrom] = useState("");
   const [cityTo, setCityTo] = useState("");
   const [newFullName, setNewFullName] = useState("");
-  const [newEmail, setNewEmail] = useState("");
   const [newPrice, setNewPrice] = useState("");
   const [newPhone, setNewPhone] = useState(0);
   const [newtitle, setNewTitle] = useState("");
@@ -31,7 +32,6 @@ const HistoryPostDetail = () => {
   const [newDestination, setNewDestination] = useState("");
   const [newDetail, setNewDetail] = useState("");
   const [newWeight, setNewWeight] = useState("");
-  const [recipientEmail, setRecipentEmail] = useState("");
   const [recipientName, setRecipentName] = useState("");
   const [recipientPhone, setRecipentPhone] = useState("");
   const [status, setStatus] = useState("");
@@ -46,14 +46,12 @@ const HistoryPostDetail = () => {
 
   // các biến lỗi
   const [titleError, setTitleError] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [fullNameError, setFullNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [startPointError, setStartPointError] = useState("");
   const [destinationError, setDestinationError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [weightError, setWeightError] = useState("");
-  const [recipentEmailError, setRecipentEmailError] = useState("");
   const [recipentNameError, setRecipentNameError] = useState("");
   const [recipentPhoneError, setRecipentPhoneError] = useState("");
   const [detailError, setDetailError] = useState("");
@@ -132,7 +130,6 @@ const HistoryPostDetail = () => {
       setNewPrice(post.price);
       setNewFullName(post.fullname);
       setNewPhone(post.phone);
-      setNewEmail(post.email);
       setNewStartPoint(post.startPoint);
       setNewDestination(post.destination);
       setNewDetail(post.detail);
@@ -140,7 +137,6 @@ const HistoryPostDetail = () => {
       getCity();
       setCityFrom(post.startPointCity);
       setCityTo(post.destinationCity);
-      setRecipentEmail(post.recipientEmail);
       setRecipentName(post.recipientName);
       setRecipentPhone(post.recipientPhone);
       setStatus(post.status);
@@ -164,7 +160,6 @@ const HistoryPostDetail = () => {
       formData.append("newImages", img.file);
     });
     formData.append("creator", userId);
-    formData.append("email", newEmail);
     formData.append("phone", newPhone);
     formData.append("fullname", newFullName);
     formData.append("title", newtitle);
@@ -175,7 +170,6 @@ const HistoryPostDetail = () => {
     formData.append("detail", newDetail);
     formData.append("startPointCity", cityFrom);
     formData.append("destinationCity", cityTo);
-    formData.append("recipientEmail", recipientEmail);
     formData.append("recipientName", recipientName);
     formData.append("recipientPhone", recipientPhone);
     formData.append("paymentMethod", paymentMethod);
@@ -333,18 +327,6 @@ const HistoryPostDetail = () => {
     setIsDisable(false);
   };
 
-  const handleEmailChange = (e) => {
-    const emailValue = e.target.value;
-    setNewEmail(emailValue);
-    if (!isValidEmail(emailValue)) {
-      setEmailError("*Email không hợp lệ");
-      setIsDisable(true);
-    } else {
-      setEmailError("");
-      setIsDisable(false);
-    }
-  };
-
   const handleNameChange = (e) => {
     const value = e.target.value;
     const nameRegex = /^[A-Za-z\s]+$/;
@@ -438,17 +420,6 @@ const HistoryPostDetail = () => {
 
     setNewDetail(value); // Cập nhật giá trị mới cho detail
   };
-  const handleReceptionEmail = (e) => {
-    const emailValue = e.target.value;
-    setRecipentEmail(emailValue);
-    if (!isValidEmail(emailValue)) {
-      setRecipentEmailError("*Email không hợp lệ");
-      setIsDisable(true);
-    } else {
-      setRecipentEmailError("");
-      setIsDisable(false);
-    }
-  };
 
   const handleReceptionName = (e) => {
     const value = e.target.value;
@@ -479,12 +450,6 @@ const HistoryPostDetail = () => {
       setIsDisable(false);
     }
     setRecipentPhone(value);
-  };
-
-  // Hàm kiểm tra email
-  const isValidEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
   };
 
   const handleCityFrom = (e) => {
@@ -1209,40 +1174,7 @@ const HistoryPostDetail = () => {
                         </div>
                       )}
                     </div>
-                    <div className="form-group col-md-6 mt-3">
-                      <label htmlFor="email" className="font-weight-bold">
-                        Email
-                      </label>
-                      <input
-                        id="email"
-                        type="email"
-                        className="form-control position-relative"
-                        value={recipientEmail}
-                        onChange={handleReceptionEmail}
-                        disabled={
-                          post.status === "approve" ||
-                          post.status === "inprogress" ||
-                          post.status === "cancel" ||
-                          (post.status === "wait" && isDriverExist) ||
-                          isDealPriceAvailable
-                        } // Kiểm tra trạng thái đơn
-                        style={{
-                          cursor:
-                            post.status === "approve" ||
-                            post.status === "inprogress" ||
-                            post.status === "cancel" ||
-                            (post.status === "wait" && isDriverExist) ||
-                            isDealPriceAvailable
-                              ? "not-allowed"
-                              : "auto",
-                        }}
-                      />
-                      {recipentEmailError && (
-                        <div className="text-danger position-absolute bt-error">
-                          {recipentEmailError}
-                        </div>
-                      )}
-                    </div>
+
                     <div className="form-group col-md-6 mt-3">
                       <label htmlFor="phone" className="font-weight-bold">
                         Số điện thoại
@@ -1323,40 +1255,7 @@ const HistoryPostDetail = () => {
                             </div>
                           )}
                         </div>
-                        <div className="form-group col-md-6 mt-3">
-                          <label htmlFor="email" className="font-weight-bold">
-                            Email
-                          </label>
-                          <input
-                            id="email"
-                            type="email"
-                            className="form-control position-relative"
-                            value={newEmail}
-                            onChange={handleEmailChange}
-                            disabled={
-                              post.status === "approve" ||
-                              post.status === "inprogress" ||
-                              post.status === "cancel" ||
-                              (post.status === "wait" && isDriverExist) ||
-                              isDealPriceAvailable
-                            }
-                            style={{
-                              cursor:
-                                post.status === "approve" ||
-                                post.status === "inprogress" ||
-                                post.status === "cancel" ||
-                                (post.status === "wait" && isDriverExist) ||
-                                isDealPriceAvailable
-                                  ? "not-allowed"
-                                  : "auto",
-                            }}
-                          />
-                          {emailError && (
-                            <div className="text-danger position-absolute bt-error">
-                              {emailError}
-                            </div>
-                          )}
-                        </div>
+
                         <div className="form-group col-md-6 mt-3">
                           <label htmlFor="phone" className="font-weight-bold">
                             Số điện thoại
@@ -1589,12 +1488,6 @@ const HistoryPostDetail = () => {
                           {post?.dealId.driverId.userId.phone}
                         </span>
                       </li>
-                      <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                        <strong>Email:</strong>
-                        <span className="text-muted">
-                          {post?.dealId.driverId.userId.email}
-                        </span>
-                      </li>
                     </ul>
                     <div className="mt-2 d-flex flex-column align-items-center w-100">
                       <Link
@@ -1618,13 +1511,14 @@ const HistoryPostDetail = () => {
               </h3>
               <div className="contact-info">
                 <div className="contact-avatar-wrapper rounded-circle">
-                  {post?.creator.avatar && (
-                    <img
-                      src={post.creator.avatar}
-                      className="contact-avatar rounded-circle"
-                      alt="contact avatar"
-                    />
-                  )}
+                  {post?.creator.avatar ||
+                    (avatarDefault && (
+                      <img
+                        src={post?.creator.avatar || avatarDefault}
+                        className="contact-avatar rounded-circle"
+                        alt="contact avatar"
+                      />
+                    ))}
                 </div>
                 <div className="contact-details">
                   <ul className="list-group">
@@ -1640,12 +1534,6 @@ const HistoryPostDetail = () => {
                           <strong>Số điện thoại:</strong>
                           <span className="text-muted">
                             {post?.creator.phone}
-                          </span>
-                        </li>
-                        <li className="list-group-item d-flex justify-content-between align-items-center bg-light mt-2">
-                          <strong>Email:</strong>
-                          <span className="text-muted">
-                            {post?.creator.email}
                           </span>
                         </li>
                       </>

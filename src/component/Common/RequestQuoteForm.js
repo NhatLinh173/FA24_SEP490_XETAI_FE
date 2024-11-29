@@ -17,8 +17,7 @@ const RequestQuoteForm = () => {
     error,
     refetch,
   } = useInstanceData(`/auth/user/${userId}`);
-  const { email, phone, fullName, balance } = data || {};
-  const [newEmail, setNewEmail] = useState("");
+  const { phone, fullName, balance } = data || {};
   const [newPhone, setNewPhone] = useState(0);
   const [newFullName, setNewFullName] = useState("");
   const [orderType, setNewOrderType] = useState("");
@@ -27,7 +26,6 @@ const RequestQuoteForm = () => {
   const [totalWeight, setNewTotalWeight] = useState("");
   const [cost, setNewCost] = useState("");
   const [orderDescription, setNewoderDescription] = useState("");
-  const [recipientEmail, setRecipientEmail] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [recipientPhone, setRecipientPhone] = useState("");
   const [cities, setCities] = useState([]);
@@ -41,8 +39,6 @@ const RequestQuoteForm = () => {
   // các biến lỗi
   const [weightError, setWeightError] = useState("");
   const [currentBalance, setCurrentBalance] = useState(balance || 0);
-  const [newEmailError, setEmailError] = useState("");
-  const [recipientEmailError, setRecipientEmailError] = useState("");
   const [AddressToChangeError, setAddressToChangeError] = useState("");
   const [AddressFromChangeError, setAddressFromChangeError] = useState("");
   const [OrderTypeChangeError, setOrderTypeChangeError] = useState("");
@@ -74,12 +70,11 @@ const RequestQuoteForm = () => {
     }
   }, [driverId]);
   useEffect(() => {
-    setNewEmail(email);
     setNewPhone(phone);
     setNewFullName(fullName);
     setCurrentBalance(balance);
     getCity();
-  }, [email, phone, fullName, balance]);
+  }, [phone, fullName, balance]);
 
   const handleDescriptionDriverChange = (e) => {
     if (e.target.value.length > 150) {
@@ -155,17 +150,7 @@ const RequestQuoteForm = () => {
     }
     setNewoderDescription(e.target.value);
   };
-  const handleRecipientEmailChange = (e) => {
-    const emailValueReception = e.target.value;
-    setRecipientEmail(emailValueReception);
-    if (!isValidEmail(emailValueReception)) {
-      setRecipientEmailError("*Email không hợp lệ"); // Thiết lập thông báo lỗi nếu email không hợp lệ
-      setIsDisable(true);
-    } else {
-      setRecipientEmailError(""); // Xóa thông báo lỗi nếu email hợp lệ
-      setIsDisable(false);
-    }
-  };
+
   const handleRecipientNameChange = (e) => {
     const value = e.target.value;
     const nameRegex = /^[\p{L}\s]+$/u;
@@ -204,24 +189,6 @@ const RequestQuoteForm = () => {
   };
   const handleCityTo = (e) => {
     setCityTo(e.target.value);
-  };
-  const isValidEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
-
-  const handleEmailChange = (e) => {
-    const emailValue = e.target.value;
-    setNewEmail(emailValue);
-
-    // Kiểm tra định dạng email
-    if (!isValidEmail(emailValue)) {
-      setEmailError("*Email không hợp lệ"); // Thiết lập thông báo lỗi nếu email không hợp lệ
-      setIsDisable(true);
-    } else {
-      setEmailError(""); // Xóa thông báo lỗi nếu email hợp lệ
-      setIsDisable(false);
-    }
   };
 
   const handlePhoneChange = (e) => {
@@ -338,7 +305,6 @@ const RequestQuoteForm = () => {
       formData.append("images", img.file);
     });
     formData.append("creator", userId);
-    formData.append("email", newEmail);
     formData.append("phone", newPhone);
     formData.append("fullname", newFullName);
     formData.append("title", orderType);
@@ -349,7 +315,6 @@ const RequestQuoteForm = () => {
     formData.append("detail", orderDescription);
     formData.append("startPointCity", cityFrom);
     formData.append("destinationCity", cityTo);
-    formData.append("recipientEmail", recipientEmail);
     formData.append("recipientName", recipientName);
     formData.append("recipientPhone", recipientPhone);
     formData.append("paymentMethod", paymentMethod);
@@ -365,14 +330,11 @@ const RequestQuoteForm = () => {
         setNewAddressTo("");
         setNewTotalWeight("");
         setNewoderDescription("");
-        setRecipientEmail("");
         setRecipientName("");
         setRecipientPhone("");
         setCityFrom("");
         setCityTo("");
         setWeightError("");
-        setEmailError("");
-        setRecipientEmailError("");
         setNewCost("");
         setImgs("");
         setPaymentMethod("");
@@ -762,26 +724,6 @@ const RequestQuoteForm = () => {
                       <FormInput
                         tag={"input"}
                         type={"text"}
-                        name={"email"}
-                        classes={"form-control"}
-                        placeholder={"Email"}
-                        label="Email"
-                        value={recipientEmail}
-                        onChange={handleRecipientEmailChange}
-                      />
-                      {recipientEmailError && (
-                        <div className="text-danger position-absolute marginBottom-error">
-                          {recipientEmailError}
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {!isDriverExist && (
-                    <div className="col-lg-6">
-                      <FormInput
-                        tag={"input"}
-                        type={"text"}
                         name={"number"}
                         classes={"form-control"}
                         placeholder={"Số Điện Thoại"}
@@ -819,24 +761,6 @@ const RequestQuoteForm = () => {
                         {newFullNameError && (
                           <div className="text-danger position-absolute marginBottom-error">
                             {newFullNameError}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="col-lg-6">
-                        <FormInput
-                          tag={"input"}
-                          type={"text"}
-                          name={"email"}
-                          classes={"form-control"}
-                          placeholder={"Email"}
-                          label="Email"
-                          value={newEmail}
-                          onChange={handleEmailChange}
-                        />
-                        {newEmailError && (
-                          <div className="text-danger position-absolute marginBottom-error">
-                            {newEmailError}
                           </div>
                         )}
                       </div>
