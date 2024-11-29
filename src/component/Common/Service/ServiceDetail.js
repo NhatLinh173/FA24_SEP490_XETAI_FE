@@ -24,6 +24,7 @@ const ServiceDetail = () => {
   const [dealId, setDealId] = useState(null);
   const [isOrderAccepted, setIsOrderAccepted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [deliveryHour, setDeliveryHour] = useState("");
 
   useEffect(() => {
     const decodeToken = () => {
@@ -148,6 +149,7 @@ const ServiceDetail = () => {
         status: "approve",
         deliveryTime,
         dealPrice: postData.price,
+        deliveryHour,
       });
 
       if (response.status === 200) {
@@ -196,6 +198,7 @@ const ServiceDetail = () => {
         status: "wait",
         deliveryTime,
         dealPrice: negotiatedPrice,
+        deliveryHour,
       });
       if (response.status === 200) {
         setShowModal(false);
@@ -227,6 +230,7 @@ const ServiceDetail = () => {
     setDeliveryTime("");
     setIsNegotiating(false);
     setIsConfirming(false);
+    setDeliveryHour("");
   };
 
   const handlePriceChange = (e) => {
@@ -502,7 +506,7 @@ const ServiceDetail = () => {
             </div>
             <div className="mt-3 d-flex justify-content-end">
               {(userRole === "personal" || userRole === "business") &&
-                // dealId !== driverId &&
+                dealId !== driverId &&
                 !isOrderAccepted && (
                   <button
                     className="btn btn-accept-order"
@@ -558,13 +562,20 @@ const ServiceDetail = () => {
                     />
                     <span className="currency-unit ml-2">VND</span>
                   </div>
-                  <p>Thời gian dự kiến giao hàng:</p>
+                  <p>Ngày dự kiến giao hàng:</p>
                   <input
                     type="date"
                     className="form-control mb-3"
                     value={deliveryTime}
                     onChange={(e) => setDeliveryTime(e.target.value)}
                     min={new Date().toISOString().split("T")[0]}
+                  />
+                  <p>Thời gian dự kiến (giờ):</p>
+                  <input
+                    type="time"
+                    className="form-control mb-3"
+                    value={deliveryHour}
+                    onChange={(e) => setDeliveryHour(e.target.value)}
                   />
                   <Button
                     className="info text-white"
@@ -575,13 +586,20 @@ const ServiceDetail = () => {
                 </>
               ) : (
                 <>
-                  <p>Thời gian dự kiến giao hàng:</p>
+                  <p>Ngày dự kiến giao hàng:</p>
                   <input
                     type="date"
                     className="form-control mb-3"
                     value={deliveryTime}
                     onChange={(e) => setDeliveryTime(e.target.value)}
                     min={new Date().toISOString().split("T")[0]}
+                  />
+                  <p>Thời gian dự kiến (giờ):</p>
+                  <input
+                    type="time"
+                    className="form-control mb-3"
+                    value={deliveryHour}
+                    onChange={(e) => setDeliveryHour(e.target.value)}
                   />
                   <Button
                     className="info text-white"

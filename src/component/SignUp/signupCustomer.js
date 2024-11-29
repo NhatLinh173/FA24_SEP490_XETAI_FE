@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import FormInput from "../Common/FormInput";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -7,28 +7,35 @@ import regexPattern from "../../config/regexConfig";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
+import {
+  auth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "../../config/firebaseConfig";
 const SignUpCustomer = () => {
+  const history = useHistory();
   const [isChecked, setIsChecked] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [verificationId, setVerificationId] = useState("");
   const [errors, setErrors] = useState({
     fullName: "",
-    email: "",
     phone: "",
     password: "",
     confirmPassword: "",
   });
   const [formData, setFormData] = useState({
-    email: "",
     password: "",
     phone: "",
     fullName: "",
     confirmPassword: "",
+    otp: "",
   });
 
   const fieldLabels = {
     fullName: "Họ và Tên",
-    email: "Email",
     password: "Mật khẩu",
     phone: "Số điện thoại",
     confirmPassword: "Xác nhận mật khẩu",
@@ -44,36 +51,79 @@ const SignUpCustomer = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    const error = validateField(name, value);
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    validateFieldWithError(name, value);
+    setErrors((prev) => ({
+      ...prev,
+      [name]: error,
+    }));
   };
 
-  const validateFieldWithError = (field, value) => {
+  const validateField = (field, value) => {
     if (!value.trim()) {
-      setErrors((prev) => ({
-        ...prev,
-        [field]: `${fieldLabels[field]} không được để trống`,
-      }));
-      return false;
+      return `${fieldLabels[field]} không được để trống`;
     }
-
-    if (!regexPattern[field].test(value)) {
-      setErrors((prev) => ({
-        ...prev,
-        [field]: `${fieldLabels[field]} sai định dạng`,
-      }));
-      return false;
+    if (!regexPattern[field]?.test(value)) {
+      return `${fieldLabels[field]} sai định dạng`;
     }
+    return "";
+  };
 
-    setErrors((prev) => ({ ...prev, [field]: "" }));
-    return true;
+  const handleSendOTP = async () => {
+    const phone = `+84${formData.phone.slice(1)}`;
+
+    try {
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          auth,
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: () => console.log("Recaptcha solved"),
+          }
+        );
+      }
+
+      const appVerifier = window.recaptchaVerifier;
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phone,
+        appVerifier
+      );
+      setVerificationId(confirmationResult.verificationId);
+      setOtpSent(true);
+      toast.success("Mã OTP đã được gửi!");
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      toast.error("Gửi OTP thất bại, vui lòng thử lại.");
+    }
+  };
+
+  const handleVerifyOTP = async () => {
+    const { otp } = formData;
+
+    try {
+      const credential = PhoneAuthProvider.credential(verificationId, otp);
+      await signInWithCredential(auth, credential);
+      const registerStatus = await handleRegister();
+      if (registerStatus === 201) {
+        toast.success("Đăng ký thành công");
+        history.push("/signIn");
+      } else {
+        toast.error("Đăng ký thất bại");
+      }
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      toast.error("Xác minh OTP thất bại!");
+    }
   };
 
   const handleRegister = async () => {
-    const { email, password, fullName, phone, confirmPassword } = formData;
+    const { password, fullName, phone, confirmPassword } = formData;
 
     if (!isChecked) {
       toast.warn("Vui lòng đồng ý với điều khoản và điều kiện!!!");
@@ -87,20 +137,13 @@ const SignUpCustomer = () => {
 
     try {
       const response = await axios.post("http://localhost:3005/auth/register", {
-        email,
         password,
         fullName,
         phone,
         role: "customer",
       });
 
-      if (response.status === 201) {
-        toast.success("Đăng Ký Thành Công");
-        localStorage.setItem("token", response.data);
-        window.location.href = "/";
-      } else {
-        toast.error("Đăng Ký Thất Bại");
-      }
+      return response.status;
     } catch (error) {
       if (error.response && error.response.data) {
         toast.error(`Đăng Ký Thất Bại: ${error.response.data.message}`);
@@ -136,6 +179,7 @@ const SignUpCustomer = () => {
     <section id="signIn_area">
       <div className="container">
         <div className="row">
+          <div id="recaptcha-container"></div>
           <div className="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
             <div className="user_area_wrapper">
               <div className="user_area_form">
@@ -145,7 +189,7 @@ const SignUpCustomer = () => {
                   id="form_signIn"
                   onSubmit={(e) => {
                     e.preventDefault();
-                    handleRegister();
+                    otpSent ? handleVerifyOTP() : handleSendOTP();
                   }}
                 >
                   <div className="row">
@@ -172,33 +216,6 @@ const SignUpCustomer = () => {
                             }}
                           >
                             {errors.fullName}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-lg-12">
-                      <div style={{ marginBottom: "20px" }}>
-                        <FormInput
-                          tag={"input"}
-                          type={"email"}
-                          name={"email"}
-                          classes={"form-control"}
-                          placeholder={"Địa Chỉ Email"}
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                        />
-                        {errors.email && (
-                          <p
-                            style={{
-                              color: "red",
-                              fontSize: "14px",
-                              marginRight: "15px",
-                              width: "250px",
-                              textAlign: "left",
-                            }}
-                          >
-                            {errors.email}
                           </p>
                         )}
                       </div>
@@ -322,6 +339,22 @@ const SignUpCustomer = () => {
                         )}
                       </div>
                     </div>
+                    {otpSent && (
+                      <div className="row">
+                        <div className="col-lg-12">
+                          <FormInput
+                            tag={"input"}
+                            type={"text"}
+                            name={"otp"}
+                            classes={"form-control"}
+                            placeholder={"Nhập Mã OTP"}
+                            value={formData.otp}
+                            onChange={handleInputChange}
+                            required
+                          />
+                        </div>
+                      </div>
+                    )}
                     <div className="col-lg-12">
                       <div className="form-group form-check">
                         <input

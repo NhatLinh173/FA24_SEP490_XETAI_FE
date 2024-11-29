@@ -24,7 +24,6 @@ const LogisticsService = () => {
   const userId = localStorage.getItem("userId");
 
   const { data: post, loading } = useInstanceData(`/posts`);
-  console.log(post);
   const { data: PostDriver } = useInstanceData(`/driverpost`);
   const driverId = localStorage.getItem("driverId");
   useEffect(() => {
@@ -126,12 +125,12 @@ const LogisticsService = () => {
                 <ul>
                   {isDriverExist && (
                     <li>
-                      <h2 className="mb-5">Đơn Hàng</h2>
+                      <h2 className="mb-5">Đơn hàng</h2>
                     </li>
                   )}
                   {!isDriverExist && (
                     <li>
-                      <h2 className="mb-5">Bài Đăng</h2>
+                      <h2 className="mb-5">Hàng tìm xe</h2>
                     </li>
                   )}
                   {!isDriverExist && (

@@ -73,7 +73,7 @@ const SignInForm = (props) => {
                           type={"text"}
                           name={"email"}
                           classes={"form-control"}
-                          placeholder={"Số điện thoại hoặc Email"}
+                          placeholder={"Số điện thoại"}
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           required
@@ -85,7 +85,7 @@ const SignInForm = (props) => {
                       >
                         <FormInput
                           tag={"input"}
-                          type={showPassword ? "text" : "password"} // Đổi type dựa trên state
+                          type={showPassword ? "text" : "password"}
                           name={"password"}
                           classes={"form-control"}
                           placeholder={"Mật khẩu"}

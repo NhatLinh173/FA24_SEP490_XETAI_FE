@@ -14,6 +14,7 @@ const HistoryPostDriver = () => {
   const [showModal, setShowModal] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
   const driverId = localStorage.getItem("driverId");
+
   const getPosts = async () => {
     const response = await axiosInstance.get(`/driverpost/${driverId}`);
     setPosts(response.data);
@@ -52,7 +53,7 @@ const HistoryPostDriver = () => {
     getPosts();
   }, []);
 
-  if (!posts) {
+  if (!posts || posts.length === 0) {
     return <div>Không có bài đăng nào</div>;
   }
 
@@ -71,7 +72,11 @@ const HistoryPostDriver = () => {
             {/* Ảnh */}
             <div className="image-container">
               <img
-                src={post.images[0]}
+                src={
+                  post.images && post.images.length > 0
+                    ? post.images[0]
+                    : "fallback-image.jpg"
+                }
                 alt="Hàng hóa"
                 className="rounded-12 cursor-pointer"
                 style={{ width: "360px", height: "200px", objectFit: "cover" }}
@@ -81,20 +86,20 @@ const HistoryPostDriver = () => {
             {/* Thông tin bài đăng */}
             <div className="ml-3 flex-1">
               <div className="mb-2 text-secondary d-flex align-items-center">
-                <FaMapLocation className="mr-2" /> {/* Icon điểm đi */}
+                <FaMapLocation className="mr-2" />
                 <div className="font-weight-bold">Điểm đi:</div>
                 <div className="ml-2 flex-grow-1 text-truncate">
                   {post.startCity}
                 </div>
               </div>
               <div className="mb-2 text-secondary d-flex align-items-center">
-                <FaMapLocation className="mr-2" /> {/* Icon điểm đến */}
+                <FaMapLocation className="mr-2" />
                 <div className="font-weight-bold">Điểm đến:</div>
                 <div className=" ml-2 flex-grow-1 text-truncate">
                   {post.destinationCity}
                 </div>
               </div>
-              <div className="mb-2 text-secondary d-flex align-items-center">
+              <div className="mb-2 text-secondary d-flex align-items-baseline">
                 <BsFillFilePostFill className="mr-2" />
                 <div
                   className="font-weight-bold"
@@ -102,9 +107,17 @@ const HistoryPostDriver = () => {
                 >
                   Nội dung:
                 </div>
+                <div
+                  className="flex-grow-1 ml-2"
+                  style={{
+                    wordWrap: "break-word",
+                    whiteSpace: "normal",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  {post.description}
+                </div>
               </div>
-              <div className="flex-grow-1 ">{post.description}</div>
-              {/* Nút xoá */}
               <div
                 className="position-absolute"
                 style={{ right: "10px", top: "10px" }}
@@ -112,8 +125,8 @@ const HistoryPostDriver = () => {
                 <button
                   className="btn-danger btn-sm align-self-start border-0"
                   onClick={(e) => {
-                    e.stopPropagation() // Ngăn sự kiện nổi bọt
-                    handleShowModal(post._id) // Hiển thị modal xóa
+                    e.stopPropagation(); // Ngăn sự kiện nổi bọt
+                    handleShowModal(post._id); // Hiển thị modal xóa
                   }}
                 >
                   <MdDelete />
@@ -142,6 +155,5 @@ const HistoryPostDriver = () => {
     </>
   );
 };
-
 
 export default HistoryPostDriver;

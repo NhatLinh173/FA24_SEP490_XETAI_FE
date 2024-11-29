@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/img/RFTMS_logo_12.png";
 import TopHeader from "../TopHeader";
@@ -12,13 +12,59 @@ import { FaArrowRightFromBracket, FaBell } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
 import useUserData from "../../../hooks/useUserData";
 import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
+import { IoMdNotifications } from "react-icons/io";
+import { io } from "socket.io-client";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 const Navbar = ({ openModal }) => {
   const { handleLogout, isAuthenticated } = useAuth();
   const { userData, loading } = useUserData();
   const [click, setClick] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef(null);
+  const history = useHistory();
+
+  useEffect(() => {
+    const socket = io("http://localhost:3005", { withCredentials: true });
+
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      socket.emit("joinRoom", userId);
+    }
+
+    socket.on("receiveNotification", (notification) => {
+      const { title, message, data } = notification;
+      const { postId, status } = data;
+
+      setNotifications((prev) => [{ title, message, postId, status }, ...prev]);
+      setUnreadCount((prev) => prev + 1);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3005/notifications/${localStorage.getItem(
+            "userId"
+          )}`
+        );
+        setNotifications(response.data.notifications || []);
+      } catch (error) {
+        console.error("Lỗi khi tải thông báo:", error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
 
   useEffect(() => {
     if (userData && userData.avatar) {
@@ -62,6 +108,28 @@ const Navbar = ({ openModal }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(e.target)
+      ) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const handleNotificationClick = (postId) => {
+    console.log(postId);
+    history.push(`/order/${postId}`);
+  };
+
   const isSticky = () => {
     const header = document.querySelector(".navbar-area");
     const scrollTop = window.scrollY;
@@ -87,10 +155,6 @@ const Navbar = ({ openModal }) => {
     await handleLogout();
   };
 
-  const handleNotificationClick = async () => {
-    setShowDropdown(!showDropdown);
-  };
-
   const menuData = getMenuData();
 
   return (
@@ -114,7 +178,72 @@ const Navbar = ({ openModal }) => {
                         openModal={openModal}
                       />
                     ))}
-
+                    <div
+                      className="notification-icon"
+                      style={{ position: "relative" }}
+                    >
+                      <IoMdNotifications
+                        size={24}
+                        onClick={() => {
+                          setShowNotifications(!showNotifications);
+                          setUnreadCount(0);
+                        }}
+                        style={{ cursor: "pointer" }}
+                      />
+                      {unreadCount > 0 && (
+                        <span
+                          style={{
+                            position: "absolute",
+                            top: "-5px",
+                            right: "-10px",
+                            backgroundColor: "red",
+                            color: "white",
+                            borderRadius: "50%",
+                            padding: "2px 6px",
+                            fontSize: "12px",
+                          }}
+                        >
+                          {unreadCount}
+                        </span>
+                      )}
+                      {showNotifications && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "30px",
+                            right: "0",
+                            backgroundColor: "white",
+                            border: "1px solid #ccc",
+                            borderRadius: "5px",
+                            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                            zIndex: 1000,
+                            width: "300px",
+                          }}
+                        >
+                          <h5 className="p-2 border-bottom">Thông báo</h5>
+                          <ul
+                            style={{
+                              listStyle: "none",
+                              padding: "0",
+                              margin: "0",
+                            }}
+                          >
+                            {notifications.map((notif, index) => (
+                              <li
+                                key={index}
+                                className="p-2 border-bottom"
+                                style={{ cursor: "pointer" }}
+                                onClick={() =>
+                                  handleNotificationClick(notif.data.postId)
+                                }
+                              >
+                                <strong>{notif.title}</strong>: {notif.message}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
                     {isAuthenticated && userData && (
                       <div className="nav-avatar rounded-circle ml-4">
                         <a href="/profile">
