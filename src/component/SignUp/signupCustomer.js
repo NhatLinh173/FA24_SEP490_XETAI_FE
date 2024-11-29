@@ -113,8 +113,6 @@ const SignUpCustomer = () => {
       if (registerStatus === 201) {
         toast.success("Đăng ký thành công");
         history.push("/signIn");
-      } else {
-        toast.error("Đăng ký thất bại");
       }
     } catch (error) {
       console.error("OTP verification error:", error);

@@ -15,12 +15,12 @@ const useAuth = () => {
   const [avatar, setAvatar] = useState(localStorage.getItem("avatar") || null);
   const history = useHistory();
 
-  const handleLogin = async (email, password) => {
+  const handleLogin = async (phone, password) => {
     try {
       const { data } = await axios.post(
         "http://localhost:3005/auth/login",
         {
-          email,
+          phone,
           password,
         },
         { withCredentials: true }

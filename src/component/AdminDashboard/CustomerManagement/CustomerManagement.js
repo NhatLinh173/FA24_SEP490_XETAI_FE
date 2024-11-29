@@ -9,6 +9,8 @@ import axiosInstance from "../../../config/axiosConfig";
 
 const CustomerManagement = () => {
   const { data: customer } = useInstanceData("auth/users/customer");
+  console.log(customer);
+
   const [customers, setCustomers] = useState([]);
   const [transaction, setTransaction] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -33,9 +35,11 @@ const CustomerManagement = () => {
 
   const filteredCustomers = customers.filter(
     (customer) =>
-      customer.email &&
-      customer.email.toLowerCase().includes(searchTerm.toLowerCase())
+      customer.phone &&
+      customer.phone.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  console.log("alo: ", filteredCustomers);
 
   const sortedCustomers = [...filteredCustomers].sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) {
@@ -200,7 +204,6 @@ const CustomerManagement = () => {
         <thead>
           <tr>
             <th>Tên</th>
-            <th>Email</th>
             <th>Điện thoại</th>
             <th>Địa chỉ</th>
             <th>Đơn đã hoàn thành</th>
@@ -218,15 +221,6 @@ const CustomerManagement = () => {
                   className="customer-management-avatar"
                 />
                 {customer.fullName || ""}
-              </td>
-              <td
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingTop: "38px",
-                }}
-              >
-                {customer.email}
               </td>
               <td
                 style={{

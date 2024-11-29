@@ -200,9 +200,15 @@ const Wallet = ({ data }) => {
   }, [accountNumber, selectedBank]);
 
   const handleWithdraw = async () => {
+    const amount = parseInt(withdrawAmount.replace(/,/g, ""), 10);
+    if (amount < 50000 || amount > 5000000) {
+      setError("Số tiền phải nằm trong khoảng 5,000 VND và 5,000,000 VND");
+      return;
+    }
+
     try {
       const response = await axiosInstance.post("/payment/withdraw", {
-        amount: withdrawAmount,
+        amount: amount,
         bankName: bankNameInput,
         accountNumber: accountNumber,
         userId: userId,
