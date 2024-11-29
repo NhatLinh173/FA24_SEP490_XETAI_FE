@@ -32,7 +32,10 @@ const HistoryPost = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: posts, refetch } = useInstanceData(`/posts/${userId}/users`);
+
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
+  console.log(postdriver);
+
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
   );

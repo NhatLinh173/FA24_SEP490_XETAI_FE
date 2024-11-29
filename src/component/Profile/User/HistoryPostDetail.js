@@ -1337,7 +1337,7 @@ const HistoryPostDetail = () => {
                           <strong>Ngày giao dự kiến:</strong>
                           <br />
                           <span className="ml-1">
-                            {deal.estimatedHour} -{" "}
+                            {deal.estimatedHour}&nbsp;-&nbsp;
                             {formatDate(deal.estimatedTime)}
                           </span>
                           <br />
