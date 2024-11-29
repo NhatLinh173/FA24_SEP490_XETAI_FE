@@ -42,7 +42,7 @@ const TransactionSystem = () => {
           <thead className="transaction-header">
             <tr>
               <th>STT</th>
-              <th>Email</th>
+              <th>Số điện thoại</th>
               <th>Ngày</th>
               <th>Mô tả</th>
               <th>Số tiền</th>
@@ -54,7 +54,7 @@ const TransactionSystem = () => {
               currentTransactions.map((item, index) => (
                 <tr key={index}>
                   <td>{offset + index + 1}</td>
-                  <td>{item.userId.email}</td>
+                  <td>{item.userId?.phone || "Không xác định"}</td>
                   <td>
                     {new Date(item.createdAt).toLocaleDateString("vi-VN")}
                   </td>
