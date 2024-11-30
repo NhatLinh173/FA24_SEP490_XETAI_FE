@@ -120,7 +120,7 @@ const AppContent = () => {
           exact
           component={HistoryPostDriverDetail}
         />
-         <Route
+        <Route
           path="/history-post-driver-add"
           exact
           component={HistoryPostDriverDetail}
@@ -153,7 +153,7 @@ const AppContent = () => {
           path="/dashboard-admin"
           exact
           component={Admin}
-          allowedRoles={["admin", "staff"]}
+          allowedRoles={["admin", "staff", "customer"]}
         />
         <ProtectedRoute
           path="/confirm-withdraw"

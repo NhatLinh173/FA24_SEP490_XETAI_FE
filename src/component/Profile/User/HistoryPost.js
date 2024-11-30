@@ -153,7 +153,7 @@ const HistoryPost = () => {
             posts?.salePosts?.filter((post) =>
               allowedStatuses.includes(post.status)
             ) || [];
-        }
+        } 
     }
 
     setPageCount(Math.ceil(filteredPosts?.length / postsPerPage));

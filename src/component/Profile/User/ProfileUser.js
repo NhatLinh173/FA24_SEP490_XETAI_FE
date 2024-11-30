@@ -123,7 +123,7 @@ const ProfileUser = ({ data, refetch }) => {
       phone == newPhone &&
       !newAvatar
     ) {
-      toast.error("Không có thay đổi nào để cập nhật");
+      // toast.error("Không có thay đổi nào để cập nhật");
       return;
     } else {
       try {
@@ -178,6 +178,8 @@ const ProfileUser = ({ data, refetch }) => {
       }
     }
   };
+
+
 
   return (
     <div>
