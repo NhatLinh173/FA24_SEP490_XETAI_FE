@@ -132,10 +132,14 @@ const Navbar = ({ openModal }) => {
 
   const isSticky = () => {
     const header = document.querySelector(".navbar-area");
-    const scrollTop = window.scrollY;
-    scrollTop >= 250
-      ? header.classList.add("is-sticky")
-      : header.classList.remove("is-sticky");
+    if (header) {
+      const scrollTop = window.scrollY;
+      scrollTop >= 250
+        ? header.classList.add("is-sticky")
+        : header.classList.remove("is-sticky");
+    } else {
+      return;
+    }
   };
 
   const handleClick = () => {

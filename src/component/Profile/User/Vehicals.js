@@ -106,7 +106,7 @@ const Vehicals = () => {
                   <p className="mb-0 col-form-label font-weight-bold mr-2">
                     Trọng tải:
                   </p>
-                  <span className="align-middle">{item.load} Tấn</span>
+                  <span className="align-middle">{item.load} KG</span>
                 </div>
 
                 <div className="d-flex align-items-center custom-spacing">

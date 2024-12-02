@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { FaFacebookMessenger } from "react-icons/fa";
+import { Link as ScrollLink } from "react-scroll";
 import HomeBanner from "../component/Home_One/Banner";
-import GetSchedule from "../component/Home_One/Get _Schedule";
 import LogisticsService from "../component/Home_One/Logistics_Services";
 import HomeAbout from "../component/Home_One/About";
 import OurAdvantage from "../component/Home_One/Our_Advantages";
 import Testimonials from "../component/Home_One/Testimonial";
 import BlogHome from "../component/Common/Blog";
-import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 const IndexPage = () => {
@@ -31,6 +31,10 @@ const IndexPage = () => {
     }
   }, [history]);
 
+  const handleNavigateToChat = () => {
+    history.push("/chat");
+  };
+
   return (
     <>
       <HomeBanner />
@@ -39,6 +43,28 @@ const IndexPage = () => {
       <OurAdvantage />
       <BlogHome />
       <Testimonials />
+
+      <ScrollLink
+        onClick={handleNavigateToChat}
+        className="message-icon"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          backgroundColor: "#007bff",
+          color: "#fff",
+          borderRadius: "50%",
+          width: "60px",
+          height: "60px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          cursor: "pointer",
+          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+        }}
+      >
+        <FaFacebookMessenger size={30} />
+      </ScrollLink>
     </>
   );
 };

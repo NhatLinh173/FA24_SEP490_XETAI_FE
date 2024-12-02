@@ -157,13 +157,6 @@ const ServiceDetail = () => {
         setShowModal(false);
         setIsOrderAccepted(true);
         toast.success("Chấp nhận đơn hàng thành công", { autoClose: 2000 });
-
-        const sendEmail = await axiosInstance.post("/send/email", {
-          to: postData.email,
-          subject: "Chấp Nhận Đơn Hàng",
-          templateName: "orderConfirmation",
-          templateArgs: [postData.fullname, postData._id],
-        });
       }
     } catch (error) {
       if (error.response && error.response.status === 402) {
@@ -182,12 +175,11 @@ const ServiceDetail = () => {
       return;
     }
 
-    const currentDate = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD
-    const deliveryDate = new Date(deliveryTime).toLocaleDateString("en-CA"); // YYYY-MM-DD
+    const currentDate = new Date().toLocaleDateString("en-CA");
+    const deliveryDate = new Date(deliveryTime).toLocaleDateString("en-CA");
 
     console.log(currentDate + " " + deliveryDate);
 
-    // Kiểm tra nếu ngày giao hàng trước ngày hiện tại
     if (deliveryDate < currentDate) {
       toast.error("Thời gian giao hàng dự kiến không được ở quá khứ");
       return;
@@ -205,13 +197,6 @@ const ServiceDetail = () => {
         setShowModal(false);
         setIsOrderAccepted(true);
         toast.success("Thương lượng giá thành công", { autoClose: 2000 });
-
-        const sendEmail = await axiosInstance.post("/send/email", {
-          to: postData.email,
-          subject: "Thương lượng giá vận chuyển",
-          templateName: "orderDealPrice",
-          templateArgs: [postData.fullname, postData._id, driverId],
-        });
       } else {
         console.error("Lỗi khi thương lượng giá:", response.data);
         toast.error("Thương lượng giá thất bại");
@@ -250,10 +235,8 @@ const ServiceDetail = () => {
     <div className="wrapper container pb-5">
       <ToastContainer />
       <div className="row">
-        {/* Left Side: Service Details */}
         <div className="col-md-8">
           <div className="border rounded p-3 shadow-sm">
-            {/* Service Information */}
             <div className="d-flex border-bottom pb-3 mb-3 pl-3">
               <div
                 id="carouselExampleControls"

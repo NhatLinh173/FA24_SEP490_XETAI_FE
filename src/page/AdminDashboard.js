@@ -14,10 +14,26 @@ import VehicleManager from "../component/AdminDashboard/VehicleManagement/vehicl
 import StaffChangePassword from "../component/AdminDashboard/AdminProfile/StaffChangePassword.js";
 import ConfirmWithDraw from "../component/AdminDashboard/ConfirmWithDraw/confirmWithDraw";
 import TransactionSystem from "../component/AdminDashboard/TransactionSystem/transactionSystem.js";
+
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState(
     localStorage.getItem("tabAdmin") || "dashboard"
   );
+
+  useEffect(() => {
+    const handleClassAssignment = () => {
+      const element = document.querySelector(".sticky-element");
+      if (element) {
+        element.classList.add(`${activeSection}Admin`);
+      } else {
+        console.warn("sticky-element not found in the DOM");
+      }
+    };
+
+    const timeout = setTimeout(handleClassAssignment, 0);
+
+    return () => clearTimeout(timeout);
+  }, [activeSection]);
 
   useEffect(() => {
     localStorage.setItem("tabAdmin", activeSection);
@@ -66,7 +82,9 @@ function AdminDashboard() {
             />
           </Col>
           <Col md={10} className="admin-dashboard-content">
-            {renderContent()} {/* Render nội dung dựa trên activeSection */}
+            <div className="sticky-element">
+              {renderContent()} {/* Render nội dung dựa trên activeSection */}
+            </div>
           </Col>
         </Row>
       </Container>
