@@ -121,7 +121,11 @@ const WithdrawRequests = () => {
 
       {/* Modal hiển thị chi tiết */}
       {selectedRequest && (
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          animation={false}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Chi tiết yêu cầu</Modal.Title>
           </Modal.Header>

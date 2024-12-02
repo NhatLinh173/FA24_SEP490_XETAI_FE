@@ -9,8 +9,8 @@ import { FaFacebookF } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 const SignInForm = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { handleLogin } = useAuth();
   const history = useHistory();
@@ -30,7 +30,7 @@ const SignInForm = (props) => {
     e.preventDefault();
 
     try {
-      const response = await handleLogin(phone, password);
+      const response = await handleLogin(identifier, password);
       if (response) {
         if (response.status === 200) {
           toast.success("Đăng Nhập Thành Công");
@@ -71,11 +71,11 @@ const SignInForm = (props) => {
                         <FormInput
                           tag={"input"}
                           type={"text"}
-                          name={"phone"}
+                          name={"identifier"}
                           classes={"form-control"}
-                          placeholder={"Số điện thoại"}
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder={"Email hoặc Số điện thoại"}
+                          value={identifier}
+                          onChange={(e) => setIdentifier(e.target.value)}
                           required
                         />
                       </div>

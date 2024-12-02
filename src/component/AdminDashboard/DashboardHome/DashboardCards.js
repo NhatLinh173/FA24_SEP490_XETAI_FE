@@ -29,7 +29,6 @@ const AdminDashboardCards = () => {
     const fetchDataStatic = async () => {
       try {
         const response = await axiosInstance.get("/admin/static/stats");
-        console.log("response", response.data);
         if (response.data && Array.isArray(response.data.visitsByDay)) {
           const chartData = response.data.visitsByDay.map((item) => ({
             date: item._id,
@@ -51,7 +50,6 @@ const AdminDashboardCards = () => {
     const fetchDataStatic = async () => {
       try {
         const response = await axiosInstance.get("/admin/static/summary");
-        console.log("response", response.data);
         if (response.data && Array.isArray(response.data.breakdown)) {
           setAdminStatisticsData(response.data.breakdown);
           setTotalAmount(response.data.totalAmount);

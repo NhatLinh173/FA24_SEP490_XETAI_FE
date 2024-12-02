@@ -4,6 +4,7 @@ import { useWebSocket } from "../../hooks/WebSocketContext";
 import axios from "axios";
 import { IoSend } from "react-icons/io5";
 import avatarDefault from "../../assets/img/icon/avatarDefault.jpg";
+import avatarAdmin from "../../assets/img/admin.png";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
@@ -14,42 +15,47 @@ const Chat = () => {
   const [receiverId, setReceiverId] = useState("");
   const [receiver, setReceiver] = useState(null);
   const [chatUsers, setChatUsers] = useState([]);
-  const [userEmail, setUserEmail] = useState("");
+  const [userPhone, setUserPhone] = useState("");
   const senderId = localStorage.getItem("userId");
   const messageContainerRef = useRef(null);
   const socket = useWebSocket();
-  const { id } = useParams();
+  const { id: urlId } = useParams();
+
+  const systemAccount = {
+    _id: "6738bd39c4d3ee9ccbe89703",
+    name: "Hệ Thống Hỗ Trợ",
+    avatar: avatarAdmin,
+  };
 
   useEffect(() => {
-    if (id) {
-      const fetchUserEmail = async () => {
-        try {
-          const response = await axios.get(
-            `http://localhost:3005/auth/user/${id}`
-          );
-          const user = response.data;
-          setUserEmail(user.email);
-          setReceiverId(user._id);
-          setReceiver(user);
-          const conversationResponse = await axios.post(
-            `http://localhost:3005/conversation`,
-            {
-              senderId,
-              receiverId: user._id,
-            }
-          );
-          const newConversationId = conversationResponse.data.conversationId;
-          setConversationId(newConversationId);
-          socket.emit("joinConversation", newConversationId);
-          loadMessages(newConversationId);
-        } catch (error) {
-          console.error("Error fetching user email:", error);
-        }
-      };
+    const fetchUserPhone = async (userId) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3005/auth/user/${userId}`
+        );
+        const user = response.data;
+        setUserPhone(user.phone);
+        setReceiverId(user._id);
+        setReceiver(user);
+        const conversationResponse = await axios.post(
+          `http://localhost:3005/conversation`,
+          {
+            senderId,
+            receiverId: user._id,
+          }
+        );
+        const newConversationId = conversationResponse.data.conversationId;
+        setConversationId(newConversationId);
+        socket.emit("joinConversation", newConversationId);
+        loadMessages(newConversationId);
+      } catch (error) {
+        console.error("Error fetching user phone:", error);
+      }
+    };
 
-      fetchUserEmail();
-    }
-  }, [id, senderId, socket]);
+    const userId = urlId || systemAccount._id;
+    fetchUserPhone(userId);
+  }, [urlId, senderId, socket]);
 
   useEffect(() => {
     if (socket) {
@@ -95,7 +101,7 @@ const Chat = () => {
           senderId,
           senderName,
           senderAvatar,
-          senderEmail,
+          senderPhone,
           conversationId,
           text,
           createdAt,
@@ -105,7 +111,7 @@ const Chat = () => {
           senderId,
           senderName,
           senderAvatar,
-          senderEmail,
+          senderPhone,
           conversationId,
           text,
           createdAt,
@@ -129,7 +135,14 @@ const Chat = () => {
         const response = await axios.get(
           `http://localhost:3005/conversation?userId=${senderId}`
         );
-        setChatUsers(response.data);
+        const users = response.data.filter(
+          (user) => user.participant && user.participant._id
+        );
+        const usersWithSystemAccount = [
+          { participant: systemAccount },
+          ...users.filter((user) => user.participant._id !== systemAccount._id),
+        ];
+        setChatUsers(usersWithSystemAccount);
       } catch (error) {
         console.error("Error fetching chat users:", error);
       }
@@ -144,17 +157,16 @@ const Chat = () => {
     }
   }, [chatUsers]);
 
-  // New useEffect to select the user based on email
   useEffect(() => {
-    if (userEmail && chatUsers.length > 0) {
+    if (userPhone && chatUsers.length > 0) {
       const user = chatUsers.find(
-        (user) => user.participant.email === userEmail
+        (user) => user.participant.phone === userPhone
       );
       if (user) {
         handleUserClick(user.participant);
       }
     }
-  }, [userEmail, chatUsers]);
+  }, [userPhone, chatUsers]);
 
   const loadMessages = (conversationId) => {
     socket.emit("getMessages", { conversationId });
@@ -193,7 +205,7 @@ const Chat = () => {
   const searchUser = async (term) => {
     try {
       const response = await axios.get(
-        `http://localhost:3005/auth/search?email=${term}`
+        `http://localhost:3005/auth/search?phone=${term}`
       );
       const users = Array.isArray(response.data) ? response.data : [];
       setSearchResults(users);
@@ -207,7 +219,7 @@ const Chat = () => {
       setReceiverId(user._id.toString());
       setReceiver(user);
     } else {
-      setReceiverId(id);
+      setReceiverId(urlId);
     }
 
     try {
@@ -289,49 +301,55 @@ const Chat = () => {
         </div>
         <div style={{ padding: "16px", borderBottom: "1px solid #e0e0e0" }}>
           <h4>Đoạn Chat</h4>
-          {chatUsers.map((conv) => (
-            <div
-              key={conv.conversationId}
-              onClick={() => handleUserClick(conv.participant)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "16px",
-                cursor: "pointer",
-                backgroundColor:
-                  receiverId === conv.participant._id.toString()
-                    ? "#e6f2ff"
-                    : "transparent",
-                transition: "background-color 0.3s",
-                marginBottom: "8px",
-                borderRadius: "4px",
-              }}
-            >
-              <img
-                src={conv.participant.avatar || avatarDefault}
-                alt={`${conv.participant.name}'s avatar`}
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  marginRight: "12px",
-                }}
-              />
-              <div>
-                <p style={{ fontWeight: "bold", margin: 0 }}>
-                  {conv.participant.name}
-                </p>
-                <p style={{ fontSize: "14px", color: "#65676b", margin: 0 }}>
-                  {conv.participant.email}
-                </p>
-                {conv.latestMessage && (
-                  <p style={{ fontSize: "12px", color: "#888", margin: 0 }}>
-                    {conv.latestMessage}
-                  </p>
-                )}
-              </div>
-            </div>
-          ))}
+          {chatUsers.map(
+            (conv) =>
+              conv.participant &&
+              conv.participant._id && (
+                <div
+                  key={conv.participant._id}
+                  onClick={() => handleUserClick(conv.participant)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "16px",
+                    cursor: "pointer",
+                    backgroundColor:
+                      receiverId === conv.participant._id.toString()
+                        ? "#e6f2ff"
+                        : "transparent",
+                    transition: "background-color 0.3s",
+                    marginBottom: "8px",
+                    borderRadius: "4px",
+                  }}
+                >
+                  <img
+                    src={conv.participant.avatar || avatarDefault}
+                    alt={`${conv.participant.name}'s avatar`}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      marginRight: "12px",
+                    }}
+                  />
+                  <div>
+                    <p style={{ fontWeight: "bold", margin: 0 }}>
+                      {conv.participant.name}
+                    </p>
+                    <p
+                      style={{ fontSize: "14px", color: "#65676b", margin: 0 }}
+                    >
+                      {conv.participant.phone}
+                    </p>
+                    {conv.latestMessage && (
+                      <p style={{ fontSize: "12px", color: "#888", margin: 0 }}>
+                        {conv.latestMessage}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )
+          )}
         </div>
         <div style={{ height: "calc(100vh - 120px)", overflowY: "auto" }}>
           {searchResults.map((user) => (
@@ -363,7 +381,7 @@ const Chat = () => {
               <div>
                 <p style={{ fontWeight: "bold", margin: 0 }}>{user.name}</p>
                 <p style={{ fontSize: "14px", color: "#65676b", margin: 0 }}>
-                  {user.email}
+                  {user.phone}
                 </p>
               </div>
             </div>
@@ -393,7 +411,7 @@ const Chat = () => {
               <div>
                 <p style={{ fontWeight: "bold", margin: 0 }}>{receiver.name}</p>
                 <p style={{ fontSize: "14px", color: "#65676b", margin: 0 }}>
-                  {receiver.email}
+                  {receiver.phone}
                 </p>
               </div>
             </div>

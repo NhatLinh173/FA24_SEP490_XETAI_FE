@@ -39,8 +39,6 @@ import useModal from "./hooks/useModal";
 import SignUpCustomerPage from "./page/SignUpCustomerPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useAuth from "./hooks/useAuth";
-import { setLogoutCallback } from "../src/config/axiosConfig";
 import FavoriteDrivers from "./page/FavoriteDrivers";
 import DriverDetail from "./component/Profile/User/DriverDetail";
 import TripDetail from "./component/Profile/User/TripDetail";

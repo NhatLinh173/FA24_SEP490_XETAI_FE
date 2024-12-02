@@ -15,12 +15,12 @@ const useAuth = () => {
   const [avatar, setAvatar] = useState(localStorage.getItem("avatar") || null);
   const history = useHistory();
 
-  const handleLogin = async (phone, password) => {
+  const handleLogin = async (identifier, password) => {
     try {
       const { data } = await axios.post(
         "http://localhost:3005/auth/login",
         {
-          phone,
+          identifier,
           password,
         },
         { withCredentials: true }
@@ -43,9 +43,7 @@ const useAuth = () => {
         } else {
           history.push("/");
         }
-
         window.location.reload();
-
         return data;
       }
     } catch (error) {
