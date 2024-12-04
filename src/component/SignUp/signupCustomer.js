@@ -140,15 +140,12 @@ const SignUpCustomer = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://fa-24-sep-490-xetai-be.vercel.app/auth/register",
-        {
-          password,
-          fullName,
-          phone,
-          role: "customer",
-        }
-      );
+      const response = await axios.post("http://localhost:3000/auth/register", {
+        password,
+        fullName,
+        phone,
+        role: "customer",
+      });
 
       return response.status;
     } catch (error) {
@@ -167,7 +164,7 @@ const SignUpCustomer = () => {
       return;
     }
     const role = "customer";
-    const url = `https://fa-24-sep-490-xetai-be.vercel.app/auth/google?state=${role}`;
+    const url = `http://localhost:3000/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
     window.open(url, "_self");
   };
@@ -178,7 +175,7 @@ const SignUpCustomer = () => {
       return;
     }
     const role = "customer";
-    const url = `https://fa-24-sep-490-xetai-be.vercel.app/auth/facebook?state=${role}`;
+    const url = `http://localhost:3000/auth/facebook?state=${role}`;
     window.open(url, "_self");
   };
 

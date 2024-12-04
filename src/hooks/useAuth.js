@@ -18,11 +18,12 @@ const useAuth = () => {
   const handleLogin = async (identifier, password) => {
     try {
       const { data } = await axios.post(
-        "https://fa-24-sep-490-xetai-be.vercel.app/auth/login",
+        "http://localhost:3005/auth/login",
         {
           identifier,
           password,
         },
+
         { withCredentials: true }
       );
       if (data) {
