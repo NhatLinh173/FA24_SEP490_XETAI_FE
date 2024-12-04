@@ -13,11 +13,13 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "../../config/firebaseConfig";
+import TermsModal from "./TermsModal";
 const SignUpCustomer = () => {
   const history = useHistory();
   const [isChecked, setIsChecked] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [verificationId, setVerificationId] = useState("");
   const [errors, setErrors] = useState({
@@ -74,6 +76,10 @@ const SignUpCustomer = () => {
   };
 
   const handleSendOTP = async () => {
+    if (!formData || Object.values(formData).some((value) => !value)) {
+      toast.error("Vui lòng nhập đầy đủ thông tin!");
+      return;
+    }
     const phone = `+84${formData.phone.slice(1)}`;
 
     try {
@@ -134,12 +140,15 @@ const SignUpCustomer = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3005/auth/register", {
-        password,
-        fullName,
-        phone,
-        role: "customer",
-      });
+      const response = await axios.post(
+        "https://fa-24-sep-490-xetai-be.vercel.app/auth/register",
+        {
+          password,
+          fullName,
+          phone,
+          role: "customer",
+        }
+      );
 
       return response.status;
     } catch (error) {
@@ -158,7 +167,7 @@ const SignUpCustomer = () => {
       return;
     }
     const role = "customer";
-    const url = `http://localhost:3005/auth/google?state=${role}`;
+    const url = `https://fa-24-sep-490-xetai-be.vercel.app/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
     window.open(url, "_self");
   };
@@ -169,8 +178,15 @@ const SignUpCustomer = () => {
       return;
     }
     const role = "customer";
-    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+    const url = `https://fa-24-sep-490-xetai-be.vercel.app/auth/facebook?state=${role}`;
     window.open(url, "_self");
+  };
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+    if (e.target.checked) {
+      setIsModalOpen(true);
+    }
   };
 
   return (
@@ -359,7 +375,8 @@ const SignUpCustomer = () => {
                           type="checkbox"
                           className="form-check-input"
                           id="exampleCheck1"
-                          onChange={(e) => setIsChecked(e.target.checked)}
+                          checked={isChecked}
+                          onChange={handleCheckboxChange}
                         />
                         <label
                           className="form-check-label"
@@ -371,9 +388,8 @@ const SignUpCustomer = () => {
                     </div>
                     <div className="col-lg-12">
                       <div className="submit_button">
-                        <FormInput
-                          tag={"button"}
-                          val={"Đăng Ký"}
+                        <button
+                          type="button"
                           className="btn btn-primary btn-block"
                           style={{
                             height: "50px",
@@ -384,8 +400,11 @@ const SignUpCustomer = () => {
                             cursor: "pointer",
                             width: "100%",
                           }}
+                          onClick={handleSendOTP}
                           disabled={!isChecked}
-                        />
+                        >
+                          {otpSent ? "Xác Minh OTP" : "Đăng Ký"}
+                        </button>
                       </div>
                     </div>
                     <div className="col-lg-12" style={{ marginBottom: "15px" }}>
@@ -460,6 +479,10 @@ const SignUpCustomer = () => {
           </div>
         </div>
       </div>
+      <TermsModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };

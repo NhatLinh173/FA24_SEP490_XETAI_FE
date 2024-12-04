@@ -2,7 +2,7 @@ import axios from "axios";
 import refreshAccessToken from "../component/Service/refreshToken";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3005",
+  baseURL: "https://fa-24-sep-490-xetai-be.vercel.app",
   timeout: 50000,
   withCredentials: true,
 });

@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useWebSocket } from "../../hooks/WebSocketContext";
+import { useWebSocket } from "../../../hooks/WebSocketContext";
 import axios from "axios";
 import { IoSend } from "react-icons/io5";
-import avatarDefault from "../../assets/img/icon/avatarDefault.jpg";
-import avatarAdmin from "../../assets/img/admin.png";
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 
-const Chat = () => {
+const ChatAdmin = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,12 +19,6 @@ const Chat = () => {
   const messageContainerRef = useRef(null);
   const socket = useWebSocket();
   const { id: urlId } = useParams();
-
-  const systemAccount = {
-    _id: "6738bd39c4d3ee9ccbe89703",
-    name: "Hệ Thống Hỗ Trợ",
-    avatar: avatarAdmin,
-  };
 
   useEffect(() => {
     const fetchUserPhone = async (userId) => {
@@ -53,7 +46,7 @@ const Chat = () => {
       }
     };
 
-    const userId = urlId || systemAccount._id;
+    const userId = urlId;
     fetchUserPhone(userId);
   }, [urlId, senderId, socket]);
 
@@ -138,11 +131,7 @@ const Chat = () => {
         const users = response.data.filter(
           (user) => user.participant && user.participant._id
         );
-        const usersWithSystemAccount = [
-          { participant: systemAccount },
-          ...users.filter((user) => user.participant._id !== systemAccount._id),
-        ];
-        setChatUsers(usersWithSystemAccount);
+        setChatUsers(users);
       } catch (error) {
         console.error("Error fetching chat users:", error);
       }
@@ -271,6 +260,8 @@ const Chat = () => {
           width: "30%",
           backgroundColor: "white",
           borderRight: "1px solid #e0e0e0",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <div style={{ padding: "16px" }}>
@@ -354,7 +345,7 @@ const Chat = () => {
               )
           )}
         </div>
-        <div style={{ height: "calc(100vh - 120px)", overflowY: "auto" }}>
+        <div style={{ flex: 1, overflowY: "auto" }}>
           {searchResults.map((user) => (
             <div
               key={user._id}
@@ -508,4 +499,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default ChatAdmin;
