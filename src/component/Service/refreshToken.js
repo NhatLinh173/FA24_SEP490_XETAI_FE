@@ -3,7 +3,7 @@ import axios from "axios";
 const refreshAccessToken = async () => {
   try {
     const response = await axios.post(
-      "https://fa-24-sep-490-xetai-be.vercel.app/auth/refresh-token",
+      "http://localhost:3005/auth/refresh-token",
       {},
       {
         withCredentials: true,

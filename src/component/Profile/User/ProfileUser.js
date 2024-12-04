@@ -151,7 +151,7 @@ const ProfileUser = ({ data, refetch }) => {
           }
         }
         const res = await axiosInstance.put(
-          `https://fa-24-sep-490-xetai-be.vercel.app/auth/update-user/${_id}`,
+          `http://localhost:3005/auth/update-user/${_id}`,
           {
             fullName: newName,
             phone: newPhone,

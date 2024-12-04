@@ -50,9 +50,7 @@ const SectionHeading = ({ onSearch }) => {
 
       if (!pickupLocation && !dropoffLocation && !weight) {
         try {
-          const response = await axios.get(
-            "https://fa-24-sep-490-xetai-be.vercel.app/posts/"
-          );
+          const response = await axios.get("http://localhost:3005/posts/");
           console.log("Response from /posts:", response.data);
           onSearch(response.data.salePosts || []);
         } catch (error) {
@@ -62,16 +60,13 @@ const SectionHeading = ({ onSearch }) => {
       }
 
       try {
-        const response = await axios.get(
-          "https://fa-24-sep-490-xetai-be.vercel.app/search",
-          {
-            params: {
-              startPointCity: pickupLocation,
-              destinationCity: dropoffLocation,
-              load: weight,
-            },
-          }
-        );
+        const response = await axios.get("http://localhost:3005/search", {
+          params: {
+            startPointCity: pickupLocation,
+            destinationCity: dropoffLocation,
+            load: weight,
+          },
+        });
         console.log("Response from /search:", response.data);
         onSearch(response.data.posts);
       } catch (error) {
@@ -81,9 +76,7 @@ const SectionHeading = ({ onSearch }) => {
     } else if (userRole === "customer") {
       if (!pickupLocation && !dropoffLocation) {
         try {
-          const response = await axios.get(
-            "https://fa-24-sep-490-xetai-be.vercel.app/driverpost/"
-          );
+          const response = await axios.get("http://localhost:3005/driverpost/");
           console.log("Response from /driverpost:", response.data);
           onSearch(response.data || []);
         } catch (error) {
@@ -95,7 +88,7 @@ const SectionHeading = ({ onSearch }) => {
 
       try {
         const response = await axios.get(
-          "https://fa-24-sep-490-xetai-be.vercel.app/search/driver-post",
+          "http://localhost:3005/search/driver-post",
           {
             params: {
               startCity: pickupLocation,
