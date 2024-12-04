@@ -24,14 +24,14 @@ const ChatAdmin = () => {
     const fetchUserPhone = async (userId) => {
       try {
         const response = await axios.get(
-          `http://localhost:3005/auth/user/${userId}`
+          `http://13.55.38.250/auth/user/${userId}`
         );
         const user = response.data;
         setUserPhone(user.phone);
         setReceiverId(user._id);
         setReceiver(user);
         const conversationResponse = await axios.post(
-          `http://localhost:3005/conversation`,
+          `http://13.55.38.250/conversation`,
           {
             senderId,
             receiverId: user._id,
@@ -126,7 +126,7 @@ const ChatAdmin = () => {
     const fetchChatUsers = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3005/conversation?userId=${senderId}`
+          `http://13.55.38.250/conversation?userId=${senderId}`
         );
         const users = response.data.filter(
           (user) => user.participant && user.participant._id
@@ -194,7 +194,7 @@ const ChatAdmin = () => {
   const searchUser = async (term) => {
     try {
       const response = await axios.get(
-        `http://localhost:3005/auth/search?phone=${term}`
+        `http://13.55.38.250/auth/search?phone=${term}`
       );
       const users = Array.isArray(response.data) ? response.data : [];
       setSearchResults(users);
@@ -212,7 +212,7 @@ const ChatAdmin = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:3005/conversation`, {
+      const response = await axios.post(`http://13.55.38.250/conversation`, {
         senderId,
         receiverId: user._id.toString(),
       });

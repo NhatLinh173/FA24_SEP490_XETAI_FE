@@ -18,7 +18,7 @@ const useAuth = () => {
   const handleLogin = async (identifier, password) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:3005/auth/login",
+        "http://13.55.38.250/auth/login",
         {
           identifier,
           password,
