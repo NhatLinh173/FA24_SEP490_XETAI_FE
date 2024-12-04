@@ -3,7 +3,7 @@ import axios from "axios";
 const refreshAccessToken = async () => {
   try {
     const response = await axios.post(
-      "http://13.55.38.250/auth/refresh-token",
+      "http://13.55.38.250:3005/auth/refresh-token",
       {},
       {
         withCredentials: true,

@@ -81,7 +81,7 @@ const DriverManagement = () => {
   const unlockDriverAccount = async (id) => {
     try {
       const response = await axios.put(
-        `http://13.55.38.250/auth/user/${id}/unlock`
+        `http://13.55.38.250:3005/auth/user/${id}/unlock`
       );
       if (response.status === 200) {
         console.log(response);
@@ -102,7 +102,7 @@ const DriverManagement = () => {
   const lockDriverAccount = async (id, duration) => {
     try {
       const response = await axios.put(
-        `http://13.55.38.250/auth/user/${id}/block`,
+        `http://13.55.38.250:3005/auth/user/${id}/block`,
         {
           duration: duration,
         }

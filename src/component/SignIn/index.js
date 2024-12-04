@@ -43,14 +43,14 @@ const SignInForm = (props) => {
 
   const handleGoogleLogin = () => {
     const role = "customer";
-    const url = `http://13.55.38.250/auth/google?state=${role}`;
+    const url = `http://13.55.38.250:3005/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
     window.open(url, "_self");
   };
 
   const handleFacebookLogin = () => {
     const role = "customer";
-    const url = `http://13.55.38.250/auth/facebook?state=${role}`;
+    const url = `http://13.55.38.250:3005/auth/facebook?state=${role}`;
     window.open(url, "_self");
   };
 

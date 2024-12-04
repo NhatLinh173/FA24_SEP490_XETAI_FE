@@ -87,7 +87,7 @@ const AdminProfile = () => {
           }
         }
         const res = await axiosInstance.put(
-          `http://13.55.38.250/auth/update-user/${userId}`,
+          `http://13.55.38.250:3005/auth/update-user/${userId}`,
           {
             fullName: fullNameStaff,
             email: emailStaff,
