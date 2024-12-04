@@ -2,7 +2,7 @@ import axios from "axios";
 import refreshAccessToken from "../component/Service/refreshToken";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3005",
+  baseURL: "http://13.55.38.250",
   timeout: 50000,
   withCredentials: true,
   headers: {

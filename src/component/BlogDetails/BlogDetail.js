@@ -9,7 +9,7 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlogDetail = async () => {
       try {
-        const response = await axios.get(`http://localhost:3005/blog/${id}`);
+        const response = await axios.get(`http://13.55.38.250/blog/${id}`);
         setBlogDetail(response.data);
         console.log(response.data);
       } catch (error) {
@@ -25,7 +25,7 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchDataBlog = async () => {
       try {
-        const response = await axios.get("http://localhost:3005/blog");
+        const response = await axios.get("http://13.55.38.250/blog");
         setBlogData(response.data);
       } catch (error) {
         console.error("Error fetching blog data:", error);

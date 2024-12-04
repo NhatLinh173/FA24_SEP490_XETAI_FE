@@ -38,7 +38,7 @@ const SignUpForm = () => {
   });
 
   const axiosInstance = axios.create({
-    baseURL: "http://localhost:3005/",
+    baseURL: "http://13.55.38.250/",
   });
 
   const togglePasswordVisibility = () => {
@@ -167,7 +167,7 @@ const SignUpForm = () => {
       return;
     }
     const role = "customer";
-    const url = `http://localhost:3005/auth/google?state=${role}`;
+    const url = `http://13.55.38.250/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
     window.open(url, "_self");
   };
@@ -178,7 +178,7 @@ const SignUpForm = () => {
       return;
     }
     const role = "customer";
-    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+    const url = `http://13.55.38.250/auth/facebook?state=${role}`;
     window.open(url, "_self");
   };
 
