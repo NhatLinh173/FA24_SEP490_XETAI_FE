@@ -24,7 +24,7 @@ const TrackShipment = () => {
     try {
       setError("");
       const response = await axios.get(
-        `http://13.55.38.250/tracking/driver-location/${orderCode}`
+        `http://13.55.38.250:3005/tracking/driver-location/${orderCode}`
       );
 
       const { startPoint, destination, startPointCity, destinationCity } =

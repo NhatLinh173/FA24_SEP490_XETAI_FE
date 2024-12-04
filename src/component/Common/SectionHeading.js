@@ -50,7 +50,7 @@ const SectionHeading = ({ onSearch }) => {
 
       if (!pickupLocation && !dropoffLocation && !weight) {
         try {
-          const response = await axios.get("http://13.55.38.250/posts/");
+          const response = await axios.get("http://13.55.38.250:3005/posts/");
           console.log("Response from /posts:", response.data);
           onSearch(response.data.salePosts || []);
         } catch (error) {
@@ -60,7 +60,7 @@ const SectionHeading = ({ onSearch }) => {
       }
 
       try {
-        const response = await axios.get("http://13.55.38.250/search", {
+        const response = await axios.get("http://13.55.38.250:3005/search", {
           params: {
             startPointCity: pickupLocation,
             destinationCity: dropoffLocation,
@@ -76,7 +76,9 @@ const SectionHeading = ({ onSearch }) => {
     } else if (userRole === "customer") {
       if (!pickupLocation && !dropoffLocation) {
         try {
-          const response = await axios.get("http://13.55.38.250/driverpost/");
+          const response = await axios.get(
+            "http://13.55.38.250:3005/driverpost/"
+          );
           console.log("Response from /driverpost:", response.data);
           onSearch(response.data || []);
         } catch (error) {
@@ -88,7 +90,7 @@ const SectionHeading = ({ onSearch }) => {
 
       try {
         const response = await axios.get(
-          "http://13.55.38.250/search/driver-post",
+          "http://13.55.38.250:3005/search/driver-post",
           {
             params: {
               startCity: pickupLocation,

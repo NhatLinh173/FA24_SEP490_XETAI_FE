@@ -29,7 +29,7 @@ const Navbar = ({ openModal }) => {
   const history = useHistory();
 
   useEffect(() => {
-    const socket = io("http://13.55.38.250", { withCredentials: true });
+    const socket = io("http://13.55.38.250:3005", { withCredentials: true });
 
     const userId = localStorage.getItem("userId");
     if (userId) {
@@ -53,7 +53,9 @@ const Navbar = ({ openModal }) => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          `http://13.55.38.250/notifications/${localStorage.getItem("userId")}`
+          `http://13.55.38.250:3005/notifications/${localStorage.getItem(
+            "userId"
+          )}`
         );
         setNotifications(response.data.notifications || []);
       } catch (error) {
