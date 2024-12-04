@@ -34,8 +34,6 @@ const SignInForm = (props) => {
       if (response) {
         if (response.status === 200) {
           toast.success("Đăng Nhập Thành Công");
-          history.push("/");
-          window.location.reload();
         }
       }
     } catch (error) {
@@ -45,14 +43,14 @@ const SignInForm = (props) => {
 
   const handleGoogleLogin = () => {
     const role = "customer";
-    const url = `http://localhost:3005/auth/google?state=${role}`;
+    const url = `https://fa-24-sep-490-xetai-be.vercel.app/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
     window.open(url, "_self");
   };
 
   const handleFacebookLogin = () => {
     const role = "customer";
-    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+    const url = `https://fa-24-sep-490-xetai-be.vercel.app/auth/facebook?state=${role}`;
     window.open(url, "_self");
   };
 

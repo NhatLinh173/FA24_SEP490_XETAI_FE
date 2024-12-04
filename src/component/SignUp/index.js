@@ -13,11 +13,13 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "../../config/firebaseConfig";
+import TermsModal from "./TermsModal";
 
 const SignUpForm = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const history = useHistory();
   const [otpSent, setOtpSent] = useState(false);
   const [verificationId, setVerificationId] = useState("");
@@ -36,7 +38,7 @@ const SignUpForm = () => {
   });
 
   const axiosInstance = axios.create({
-    baseURL: "http://localhost:3005/",
+    baseURL: "https://fa-24-sep-490-xetai-be.vercel.app/",
   });
 
   const togglePasswordVisibility = () => {
@@ -79,6 +81,10 @@ const SignUpForm = () => {
   };
 
   const handleSendOTP = async () => {
+    if (!formData || Object.values(formData).some((value) => !value)) {
+      toast.error("Vui lòng nhập đầy đủ thông tin!");
+      return;
+    }
     const phone = `+84${formData.phone.slice(1)}`;
 
     try {
@@ -161,7 +167,7 @@ const SignUpForm = () => {
       return;
     }
     const role = "customer";
-    const url = `http://localhost:3005/auth/google?state=${role}`;
+    const url = `https://fa-24-sep-490-xetai-be.vercel.app/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
     window.open(url, "_self");
   };
@@ -172,8 +178,15 @@ const SignUpForm = () => {
       return;
     }
     const role = "customer";
-    const url = `http://localhost:3005/auth/facebook?state=${role}`;
+    const url = `https://fa-24-sep-490-xetai-be.vercel.app/auth/facebook?state=${role}`;
     window.open(url, "_self");
+  };
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+    if (e.target.checked) {
+      setIsModalOpen(true);
+    }
   };
 
   return (
@@ -362,7 +375,7 @@ const SignUpForm = () => {
                           className="form-check-input"
                           id="exampleCheck1"
                           checked={isChecked}
-                          onChange={(e) => setIsChecked(e.target.checked)}
+                          onChange={handleCheckboxChange}
                         />
                         <label
                           className="form-check-label"
@@ -375,7 +388,7 @@ const SignUpForm = () => {
                     <div className="col-lg-12">
                       <div className="submit_button">
                         <button
-                          type="submit"
+                          type="button"
                           className="btn btn-primary btn-block"
                           style={{
                             height: "50px",
@@ -385,8 +398,9 @@ const SignUpForm = () => {
                             borderRadius: "5px",
                             cursor: "pointer",
                             width: "100%",
-                            marginTop: "10px",
                           }}
+                          onClick={handleSendOTP}
+                          disabled={!isChecked}
                         >
                           {otpSent ? "Xác Minh OTP" : "Đăng Ký"}
                         </button>
@@ -463,6 +477,10 @@ const SignUpForm = () => {
           </div>
         </div>
       </div>
+      <TermsModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };

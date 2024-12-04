@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import logo from "../../../assets/img/RFTMS_logo_12.png";
 import TopHeader from "../TopHeader";
 import { getMenuData } from "./MenuData";
@@ -15,7 +15,7 @@ import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 import { IoMdNotifications } from "react-icons/io";
 import { io } from "socket.io-client";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+
 const Navbar = ({ openModal }) => {
   const { handleLogout, isAuthenticated } = useAuth();
   const { userData, loading } = useUserData();
@@ -29,7 +29,9 @@ const Navbar = ({ openModal }) => {
   const history = useHistory();
 
   useEffect(() => {
-    const socket = io("http://localhost:3005", { withCredentials: true });
+    const socket = io("https://fa-24-sep-490-xetai-be.vercel.app", {
+      withCredentials: true,
+    });
 
     const userId = localStorage.getItem("userId");
     if (userId) {
@@ -53,7 +55,7 @@ const Navbar = ({ openModal }) => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3005/notifications/${localStorage.getItem(
+          `https://fa-24-sep-490-xetai-be.vercel.app/notifications/${localStorage.getItem(
             "userId"
           )}`
         );
@@ -112,7 +114,8 @@ const Navbar = ({ openModal }) => {
     const handleClickOutside = (e) => {
       if (
         notificationRef.current &&
-        !notificationRef.current.contains(e.target)
+        !notificationRef.current.contains(e.target) &&
+        e.target.id !== "notification-icon" // Đảm bảo không đóng khi click vào icon
       ) {
         setShowNotifications(false);
       }
@@ -125,9 +128,12 @@ const Navbar = ({ openModal }) => {
     };
   }, []);
 
-  const handleNotificationClick = (postId) => {
-    console.log(postId);
-    history.push(`/order/${postId}`);
+  const handleNotificationClick = (notification) => {
+    if (notification.title === "Tin nhắn mới") {
+      history.push(`/chat`);
+    } else if (notification.title === "Đơn hàng") {
+      history.push(`/order/${notification.postId}`);
+    }
   };
 
   const isSticky = () => {
@@ -187,10 +193,12 @@ const Navbar = ({ openModal }) => {
                       style={{ position: "relative" }}
                     >
                       <IoMdNotifications
+                        id="notification-icon"
                         size={24}
-                        onClick={() => {
-                          setShowNotifications(!showNotifications);
-                          setUnreadCount(0);
+                        onClick={(e) => {
+                          e.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
+                          setShowNotifications((prev) => !prev); // Đảo trạng thái hiển thị thông báo
+                          setUnreadCount(0); // Reset đếm số thông báo chưa đọc
                         }}
                         style={{ cursor: "pointer" }}
                       />
@@ -212,6 +220,7 @@ const Navbar = ({ openModal }) => {
                       )}
                       {showNotifications && (
                         <div
+                          ref={notificationRef}
                           style={{
                             position: "absolute",
                             top: "30px",
@@ -222,6 +231,8 @@ const Navbar = ({ openModal }) => {
                             boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
                             zIndex: 1000,
                             width: "300px",
+                            maxHeight: "400px",
+                            overflowY: "auto",
                           }}
                         >
                           <h5 className="p-2 border-bottom">Thông báo</h5>
@@ -237,9 +248,7 @@ const Navbar = ({ openModal }) => {
                                 key={index}
                                 className="p-2 border-bottom"
                                 style={{ cursor: "pointer" }}
-                                onClick={() =>
-                                  handleNotificationClick(notif.data.postId)
-                                }
+                                onClick={() => handleNotificationClick(notif)}
                               >
                                 <strong>{notif.title}</strong>: {notif.message}
                               </li>

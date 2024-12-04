@@ -14,6 +14,7 @@ import VehicleManager from "../component/AdminDashboard/VehicleManagement/vehicl
 import StaffChangePassword from "../component/AdminDashboard/AdminProfile/StaffChangePassword.js";
 import ConfirmWithDraw from "../component/AdminDashboard/ConfirmWithDraw/confirmWithDraw";
 import TransactionSystem from "../component/AdminDashboard/TransactionSystem/transactionSystem.js";
+import ChatAdmin from "../component/AdminDashboard/Chat/chatAdmin.js";
 
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState(
@@ -65,6 +66,8 @@ function AdminDashboard() {
         return <ConfirmWithDraw />;
       case "transaction-system":
         return <TransactionSystem />;
+      case "chat":
+        return <ChatAdmin />;
       default:
         return <DashboardHome />;
     }

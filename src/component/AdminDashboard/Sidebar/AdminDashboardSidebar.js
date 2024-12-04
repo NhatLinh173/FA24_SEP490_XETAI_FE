@@ -13,6 +13,7 @@ import {
   FaKey,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { FaMessage } from "react-icons/fa6";
 import { GrTransaction } from "react-icons/gr";
 import { PiHandWithdrawBold } from "react-icons/pi";
 import useAuth from "../../../hooks/useAuth";
@@ -29,7 +30,6 @@ function AdminDashboardSidebar({ setActiveSection, activeSection }) {
 
   return (
     <>
-      {/* Sidebar Toggle Button for Mobile */}
       <Button
         variant="primary"
         className="d-lg-none mb-3"
@@ -140,7 +140,6 @@ function SidebarContent({
       <h2 className="sidebar-title text-uppercase fw-bold">Quản lý hệ thống</h2>
       <Nav.Link
         onClick={() => {
-          // Chỉ mở hoặc đóng danh mục con, không cập nhật activeSection
           setIsReportsExpanded(!isReportsExpanded);
         }}
         className={`sidebar-link ${
@@ -227,6 +226,16 @@ function SidebarContent({
       >
         <FaFileSignature className="admin-dashboard-sidebar-icon" />
         <div className="sidebar-title">Quản lý đăng ký xe</div>
+      </Nav.Link>
+      <Nav.Link
+        onClick={() => {
+          setActiveSection("chat");
+          localStorage.setItem("tabAdmin", "chat");
+        }}
+        className={`sidebar-link ${activeSection === "chat" ? "active" : ""}`}
+      >
+        <FaMessage className="admin-dashboard-sidebar-icon" />
+        <div className="sidebar-title">Hỗ trợ khách hàng</div>
       </Nav.Link>
       <hr className="admin-sidebar-divider" />
       <h2 className="sidebar-title text-uppercase fw-bold">
