@@ -109,7 +109,7 @@ const MapView = ({ startLocation, endLocation, orderCode }) => {
   }, [socket]);
 
   useEffect(() => {
-    const socketInstance = io("wss://13.55.38.250:3005");
+    const socketInstance = io("ws://13.55.38.250:3005");
     setSocket(socketInstance);
 
     socketInstance.on("connect", () => {
