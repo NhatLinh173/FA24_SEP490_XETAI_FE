@@ -11,7 +11,7 @@ const WithdrawRequests = () => {
   const fetchWithdrawRequests = async () => {
     try {
       const response = await axios.get(
-        "http://13.55.38.250:3005/payment/all/withdraw"
+        "https://xehang.site/payment/all/withdraw"
       );
       setWithdrawRequests(response.data.data);
       console.log(response.data.data);
@@ -33,7 +33,7 @@ const WithdrawRequests = () => {
   const handleRequest = async (id) => {
     try {
       const response = await axios.put(
-        `http://13.55.38.250:3005/payment/withdraw/${id}/process`
+        `https://xehang.site/payment/withdraw/${id}/process`
       );
       if (response.status === 200) {
         setWithdrawRequests(response.data);
@@ -55,7 +55,7 @@ const WithdrawRequests = () => {
   const handleReject = async (id) => {
     try {
       const response = await axios.delete(
-        `http://13.55.38.250:3005/payment/withdraw/${id}/reject`
+        `https://xehang.site/payment/withdraw/${id}/reject`
       );
       if (response.status === 200) {
         setShowModal(false);

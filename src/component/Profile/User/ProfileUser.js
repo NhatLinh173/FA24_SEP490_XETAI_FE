@@ -151,7 +151,7 @@ const ProfileUser = ({ data, refetch }) => {
           }
         }
         const res = await axiosInstance.put(
-          `http://13.55.38.250:3005/auth/update-user/${_id}`,
+          `https://xehang.site/auth/update-user/${_id}`,
           {
             fullName: newName,
             phone: newPhone,

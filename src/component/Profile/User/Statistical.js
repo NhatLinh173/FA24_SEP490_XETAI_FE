@@ -49,7 +49,7 @@ const Statistical = ({ driverId }) => {
     try {
       const mappedRange = timeRangeMapping[range] || range;
       const response = await axios.get(
-        `http://13.55.38.250:3005/driver/${driverId}/statistics?range=${range}`
+        `https://xehang.site/driver/${driverId}/statistics?range=${range}`
       );
       const data = response.data;
       setStatistics({

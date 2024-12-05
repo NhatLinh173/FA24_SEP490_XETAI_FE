@@ -11,7 +11,7 @@ const BlogHome = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get("http://13.55.38.250:3005/blog");
+        const response = await axios.get("https://xehang.site/blog");
 
         const processedData = response.data.map((data) => {
           const dateObj = new Date(data.createdAt);
