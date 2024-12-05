@@ -69,7 +69,7 @@ const CustomerManagement = () => {
   const lockUserAccount = async (id, duration) => {
     try {
       const response = await axios.put(
-        `http://13.55.38.250:3005/auth/user/${id}/block`,
+        `https://xehang.site/auth/user/${id}/block`,
         {
           duration: duration,
         }
@@ -98,7 +98,7 @@ const CustomerManagement = () => {
   const unlockDriverAccount = async (id) => {
     try {
       const response = await axios.put(
-        `http://13.55.38.250:3005/auth/user/${id}/unlock`
+        `https://xehang.site/auth/user/${id}/unlock`
       );
       if (response.status === 200) {
         setCustomers(

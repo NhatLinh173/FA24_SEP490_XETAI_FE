@@ -22,7 +22,7 @@ const BlogDetailsArea = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://13.55.38.250:3005/blog");
+        const response = await axios.get("https://xehang.site/blog");
         setBlogData(response.data);
       } catch (error) {
         console.error("Error fetching data", error);

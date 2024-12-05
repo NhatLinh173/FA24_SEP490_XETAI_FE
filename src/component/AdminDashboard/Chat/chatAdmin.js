@@ -24,14 +24,14 @@ const ChatAdmin = () => {
     const fetchUserPhone = async (userId) => {
       try {
         const response = await axios.get(
-          `http://13.55.38.250:3005/auth/user/${userId}`
+          `https://xehang.site/auth/user/${userId}`
         );
         const user = response.data;
         setUserPhone(user.phone);
         setReceiverId(user._id);
         setReceiver(user);
         const conversationResponse = await axios.post(
-          `http://13.55.38.250:3005/conversation`,
+          `https://xehang.site/conversation`,
           {
             senderId,
             receiverId: user._id,
@@ -126,7 +126,7 @@ const ChatAdmin = () => {
     const fetchChatUsers = async () => {
       try {
         const response = await axios.get(
-          `http://13.55.38.250:3005/conversation?userId=${senderId}`
+          `https://xehang.site/conversation?userId=${senderId}`
         );
         const users = response.data.filter(
           (user) => user.participant && user.participant._id
@@ -194,7 +194,7 @@ const ChatAdmin = () => {
   const searchUser = async (term) => {
     try {
       const response = await axios.get(
-        `http://13.55.38.250:3005/auth/search?phone=${term}`
+        `https://xehang.site/auth/search?phone=${term}`
       );
       const users = Array.isArray(response.data) ? response.data : [];
       setSearchResults(users);
@@ -212,13 +212,10 @@ const ChatAdmin = () => {
     }
 
     try {
-      const response = await axios.post(
-        `http://13.55.38.250:3005/conversation`,
-        {
-          senderId,
-          receiverId: user._id.toString(),
-        }
-      );
+      const response = await axios.post(`https://xehang.site/conversation`, {
+        senderId,
+        receiverId: user._id.toString(),
+      });
       const newConversationId = response.data.conversationId;
       setConversationId(newConversationId);
 

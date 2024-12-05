@@ -27,7 +27,7 @@ const ResetPassword = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://13.55.38.250:3005/auth/resetPassword",
+        "https://xehang.site/auth/resetPassword",
         { email, newPassword }
       );
       toast.success("Mật khẩu đã được thay đổi thành công!");
