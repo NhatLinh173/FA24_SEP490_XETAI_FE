@@ -7,7 +7,7 @@ export const WebSocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io("ws://xehang.site");
+    const newSocket = io("wss://xehang.site");
     newSocket.on("connect", () => {
       console.log("Connected to socket server");
       setSocket(newSocket);
