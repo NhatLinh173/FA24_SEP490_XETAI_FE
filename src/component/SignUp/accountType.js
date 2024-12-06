@@ -1,5 +1,4 @@
 import React from "react";
-import "../../assets/css/accountType.css";
 import { IoMdPerson, IoMdBusiness } from "react-icons/io";
 
 const AccountType = () => {

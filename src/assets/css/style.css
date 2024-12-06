@@ -7493,9 +7493,8 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 10px;
   padding: 20px;
   max-width: 900px;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
-
 
 .vehicle-detail-header {
   display: flex;
@@ -7527,8 +7526,8 @@ input[type="number"]::-webkit-inner-spin-button {
   gap:10px
 } */
 
-.vehicle-detail-day ,
-.vehicle-detail-licensePlate{
+.vehicle-detail-day,
+.vehicle-detail-licensePlate {
   font-size: 1.2rem;
   font-weight: bold;
 }
@@ -7556,12 +7555,11 @@ input[type="number"]::-webkit-inner-spin-button {
   color: #333; /* Màu chữ */
 }
 
-
 .vehicle-detail-image {
-  max-width: 400px; 
+  max-width: 400px;
   max-height: 400px;
-  border-radius: 8px; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .vehicle-detail-footer {
@@ -7589,7 +7587,7 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 
   .vehicle-detail-btn-accept,
-  .vehicle-detail-btn-delete  {
+  .vehicle-detail-btn-delete {
     width: 100%;
     /* Các nút chiếm toàn bộ chiều rộng */
     font-size: 14px;
@@ -7600,7 +7598,7 @@ input[type="number"]::-webkit-inner-spin-button {
     /* Thêm khoảng cách giữa các nút */
   }
 
-  .vehicle-detail-btn-delete  {
+  .vehicle-detail-btn-delete {
     margin-top: 10px;
     /* Thêm khoảng cách ở trên nút xóa */
   }
@@ -7801,8 +7799,6 @@ input[type="number"]::-webkit-inner-spin-button {
   width: 90%; /* Điều chỉnh kích thước theo ý muốn */
   max-width: 250px; /* Giới hạn chiều rộng tối đa */
 }
-
-
 
 .terms-overlay {
   background-color: rgba(0, 0, 0, 0.7); /* Tạo màu nền mờ */
