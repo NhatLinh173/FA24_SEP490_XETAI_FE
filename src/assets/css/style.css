@@ -7801,30 +7801,27 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .terms-overlay {
-  background-color: rgba(0, 0, 0, 0.7); /* Tạo màu nền mờ */
-  position: fixed; /* Đảm bảo overlay phủ toàn bộ màn hình */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
-  justify-content: center; /* Căn giữa modal theo chiều ngang */
-  align-items: center; /* Căn giữa modal theo chiều dọc */
-  z-index: 9998; /* Đảm bảo overlay nằm dưới modal */
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9998;
 }
 
 .terms-modal {
-  position: relative; /* Đảm bảo modal nằm trên overlay */
-  top: 0; /* Đảm bảo modal không bị lệch */
-  left: 50%;
-  transform: translateX(-158%); /* Căn giữa modal */
+  position: relative;
   max-width: 600px;
   width: 90%;
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 9999; /* Đảm bảo modal nằm trên overlay */
+  z-index: 9999;
 }
 
 .terms-title {
