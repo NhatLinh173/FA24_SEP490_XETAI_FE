@@ -109,7 +109,7 @@ const ReportManagement = () => {
                   paddingTop: "25px",
                 }}
               >
-                {report?.postId?.creator.email}
+                {report?.postId?.fullname}
               </td>
               <td
                 style={{
@@ -118,7 +118,7 @@ const ReportManagement = () => {
                   paddingTop: "25px",
                 }}
               >
-                {report?.reporterId?.email}
+                {report?.reporterId?.fullName}
               </td>
               <td
                 style={{
