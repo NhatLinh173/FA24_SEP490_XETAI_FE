@@ -4984,12 +4984,24 @@ input[type="number"]::-webkit-inner-spin-button {
   min-width: 189px;
   width: auto; /* Cho phép điều chỉnh theo nội dung */
 }
-.customer-status-inprogress{
+.customer-status-inprogress {
   min-width: 140px;
 }
 .custom-time {
   margin-left: 19px;
 }
+.notification-item {
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.notification-item:hover {
+  background-color: #f0f0f0;
+}
+
 .btn-status {
   min-width: 101px;
   width: auto;
