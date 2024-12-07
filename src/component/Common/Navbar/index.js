@@ -27,6 +27,7 @@ const Navbar = ({ openModal }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const notificationRef = useRef(null);
   const history = useHistory();
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     const socket = io("https://xehang.site", { withCredentials: true });
@@ -231,7 +232,9 @@ const Navbar = ({ openModal }) => {
                             overflowY: "auto",
                           }}
                         >
-                          <h5 className="p-2 border-bottom">Thông báo</h5>
+                          <h5 className="p-2 border-bottom font-weight-bold">
+                            Thông báo
+                          </h5>
                           <ul
                             style={{
                               listStyle: "none",
@@ -242,8 +245,7 @@ const Navbar = ({ openModal }) => {
                             {notifications.map((notif, index) => (
                               <li
                                 key={index}
-                                className="p-2 border-bottom"
-                                style={{ cursor: "pointer" }}
+                                className="notification-item"
                                 onClick={() => handleNotificationClick(notif)}
                               >
                                 <strong>{notif.title}</strong>: {notif.message}
