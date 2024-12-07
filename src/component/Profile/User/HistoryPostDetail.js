@@ -643,166 +643,194 @@ const HistoryPostDetail = () => {
                 </div>
               </div>
             )}
-            <h5 className="font-weight-bold" style={{ marginBottom: "15px" }}>
-              Trạng thái đơn hàng
-            </h5>
-            <div className="form-group col-md-6 ">
-              {post.status === "cancel" && (
-                <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
-                  <GiCancel className="mr-2" />
-                  Đã hủy
-                </button>
-              )}
-              {post.status === "wait" &&
-                post?.dealId?.status === "cancel" &&
-                isDriverExist && (
-                  <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center">
-                    <GiCancel className="mr-2" />
-                    Đã hủy
-                  </button>
-                )}
-              {post.status === "hide" &&
-                post?.dealId?.status === "wait" &&
-                isDriverExist && (
-                  <button className="btn-sm btn-dark  mt-3 border-0 d-flex align-items-center">
-                    <GrHide className="mr-2" />
-                    Tạm ẩn
-                  </button>
-                )}
+            <div className="d-flex  justify-content-between">
+              <div>
+                <h5
+                  className="font-weight-bold"
+                  style={{ marginBottom: "15px" }}
+                >
+                  Trạng thái đơn hàng
+                </h5>
+                <div className="form-group col-md-6 ">
+                  {post.status === "cancel" && (
+                    <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center btn-status ">
+                      <GiCancel className="mr-2" />
+                      Đã hủy
+                    </button>
+                  )}
+                  {post.status === "wait" &&
+                    post?.dealId?.status === "cancel" &&
+                    isDriverExist && (
+                      <button className="btn-sm btn-danger mt-3 border-0 d-flex align-items-center btn-status ">
+                        <GiCancel className="mr-2" />
+                        Đã hủy
+                      </button>
+                    )}
+                  {post.status === "hide" &&
+                    post?.dealId?.status === "wait" &&
+                    isDriverExist && (
+                      <button className="btn-sm btn-dark  mt-3 border-0 d-flex align-items-center btn-status">
+                        <GrHide className="mr-2" />
+                        Tạm ẩn
+                      </button>
+                    )}
 
-              {(post.status === "wait" || post.status === "hide") &&
-                !isDriverExist && (
-                  <select
-                    id="orderAction"
-                    className={`form-control custom-select-arrow w-75 ${
-                      status === "cancel"
-                        ? "bg-danger text-white "
-                        : status === "hide"
-                        ? "bg-secondary text-white "
-                        : status === "wait"
-                        ? "bg-warning text-Black"
-                        : ""
-                    } `}
-                    value={status}
-                    onChange={handleStatus}
-                  >
-                    <option value="hide" class="bg-white options-text">
-                      Tạm ẩn đơn hàng
-                    </option>
-                    <option value="cancel" class="bg-white options-text">
-                      Hủy đơn hàng
-                    </option>
-                    <option value="wait" class="bg-white options-text">
-                      Đang chờ duyệt
-                    </option>
-                  </select>
-                )}
-              {post.status === "wait" &&
-                post?.dealId?.status === "wait" &&
-                isDriverExist && (
-                  <select
-                    id="orderAction"
-                    className={`form-control custom-select-arrow w-75 ${
-                      status === "cancel"
-                        ? "bg-danger text-white "
-                        : status === "wait"
-                        ? "bg-warning text-Black"
-                        : ""
-                    } `}
-                    value={status}
-                    onChange={handleStatus}
-                  >
-                    <option
-                      value="wait"
-                      disabled
-                      className="bg-white options-text"
+                  {(post.status === "wait" || post.status === "hide") &&
+                    !isDriverExist && (
+                      <select
+                        id="orderAction"
+                        className={`form-control custom-select-arrow w-75 select-width-status  ${
+                          status === "cancel"
+                            ? "bg-danger text-white "
+                            : status === "hide"
+                            ? "bg-secondary text-white "
+                            : status === "wait"
+                            ? "bg-warning text-Black"
+                            : ""
+                        } `}
+                        value={status}
+                        onChange={handleStatus}
+                      >
+                        <option value="hide" class="bg-white options-text">
+                          Tạm ẩn đơn hàng
+                        </option>
+                        <option value="cancel" class="bg-white options-text">
+                          Hủy đơn hàng
+                        </option>
+                        <option value="wait" class="bg-white options-text">
+                          Đang chờ duyệt
+                        </option>
+                      </select>
+                    )}
+                  {post.status === "wait" &&
+                    post?.dealId?.status === "wait" &&
+                    isDriverExist && (
+                      <select
+                        id="orderAction"
+                        className={`form-control custom-select-arrow w-75 select-width-status  ${
+                          status === "cancel"
+                            ? "bg-danger text-white "
+                            : status === "wait"
+                            ? "bg-warning text-Black"
+                            : ""
+                        } `}
+                        value={status}
+                        onChange={handleStatus}
+                      >
+                        <option
+                          value="wait"
+                          disabled
+                          className="bg-white options-text"
+                        >
+                          Đang chờ duyệt
+                        </option>
+                        <option value="cancel" class="bg-white options-text">
+                          Hủy đơn hàng
+                        </option>
+                      </select>
+                    )}
+                  {post.status === "inprogress" && !isDriverExist && (
+                    <button className="btn-sm btn-primary mt-3 border-0 d-flex align-items-center customer-status-inprogress ">
+                      <FaCarSide className="mr-2" />
+                      Đang giao hàng
+                    </button>
+                  )}
+                  {post.status === "inprogress" && isDriverExist && (
+                    <select
+                      id="orderAction"
+                      className={`form-control custom-select-arrow w-75  select-width-status ${
+                        status === "inprogress"
+                          ? "bg-primary text-white "
+                          : status === "finish"
+                          ? "bg-success text-white"
+                          : ""
+                      } `}
+                      value={status}
+                      onChange={handleStatus}
                     >
-                      Đang chờ duyệt
-                    </option>
-                    <option value="cancel" class="bg-white options-text">
-                      Hủy đơn hàng
-                    </option>
-                  </select>
-                )}
-              {post.status === "inprogress" && !isDriverExist && (
-                <button className="btn-sm btn-primary  mt-3 border-0 d-flex align-items-center">
-                  <FaCarSide className="mr-2" />
-                  Đang giao hàng
-                </button>
-              )}
-              {post.status === "inprogress" && isDriverExist && (
-                <select
-                  id="orderAction"
-                  className={`form-control custom-select-arrow w-75 ${
-                    status === "inprogress"
-                      ? "bg-primary text-white "
-                      : status === "finish"
-                      ? "bg-success text-white"
-                      : ""
-                  } `}
-                  value={status}
-                  onChange={handleStatus}
-                >
-                  <option value="inprogress" className="bg-white options-text">
-                    Đang giao hàng
-                  </option>
-                  <option value="finish" class="bg-white options-text">
-                    Đã giao hàng
-                  </option>
-                </select>
-              )}
-              {post.status === "approve" && !isDriverExist && (
-                <select
-                  id="orderAction"
-                  className={`form-control custom-select-arrow w-75 ${
-                    status === "cancel"
-                      ? "bg-danger text-white "
-                      : status === "approve"
-                      ? "bg-info text-white"
-                      : ""
-                  } `}
-                  value={status}
-                  onChange={handleStatus}
-                >
-                  <option value="cancel" class="bg-white options-text">
-                    Hủy đơn hàng
-                  </option>
-                  <option value="approve" class="bg-white options-text">
-                    Tài xế đã nhận đơn
-                  </option>
-                </select>
-              )}
-              {post.status === "approve" && isDriverExist && (
-                <select
-                  id="orderAction"
-                  className={`form-control custom-select-arrow w-75  ${
-                    status === "cancel"
-                      ? "bg-danger text-white "
-                      : status === "approve"
-                      ? "bg-secondary text-white"
-                      : status === "inprogress"
-                      ? "bg-primary text-white "
-                      : ""
-                  } `}
-                  value={status}
-                  onChange={handleStatus}
-                >
-                  <option
-                    value="approve"
-                    disabled
-                    class="bg-white options-text"
-                  >
-                    Đã nhận đơn
-                  </option>
-                  <option value="inprogress" className="bg-white options-text">
-                    Đang giao hàng
-                  </option>
+                      <option
+                        value="inprogress"
+                        className="bg-white options-text"
+                      >
+                        Đang giao hàng
+                      </option>
+                      <option value="finish" class="bg-white options-text">
+                        Đã giao hàng
+                      </option>
+                    </select>
+                  )}
+                  {post.status === "approve" && !isDriverExist && (
+                    <select
+                      id="orderAction"
+                      className={`form-control custom-select-arrow w-75 select-width-status  ${
+                        status === "cancel"
+                          ? "bg-danger text-white "
+                          : status === "approve"
+                          ? "bg-info text-white"
+                          : ""
+                      } `}
+                      value={status}
+                      onChange={handleStatus}
+                    >
+                      <option value="cancel" class="bg-white options-text">
+                        Hủy đơn hàng
+                      </option>
+                      <option value="approve" class="bg-white options-text">
+                        Tài xế đã nhận đơn
+                      </option>
+                    </select>
+                  )}
+                  {post.status === "approve" && isDriverExist && (
+                    <select
+                      id="orderAction"
+                      className={`form-control custom-select-arrow w-75 select-width-status   ${
+                        status === "cancel"
+                          ? "bg-danger text-white "
+                          : status === "approve"
+                          ? "bg-secondary text-white"
+                          : status === "inprogress"
+                          ? "bg-primary text-white "
+                          : ""
+                      } `}
+                      value={status}
+                      onChange={handleStatus}
+                    >
+                      <option
+                        value="approve"
+                        disabled
+                        class="bg-white options-text"
+                      >
+                        Đã nhận đơn
+                      </option>
+                      <option
+                        value="inprogress"
+                        className="bg-white options-text"
+                      >
+                        Đang giao hàng
+                      </option>
 
-                  <option value="cancel" class="bg-white options-text">
-                    Hủy đơn hàng
-                  </option>
-                </select>
-              )}
+                      <option value="cancel" class="bg-white options-text">
+                        Hủy đơn hàng
+                      </option>
+                    </select>
+                  )}
+                </div>
+              </div>
+              <div>
+                {(post.status === "approve" ||
+                  post.status === "inprogress") && (
+                  <div>
+                    <h5 className="font-weight-bold custom-time ">
+                      Ngày giờ dự kiến
+                    </h5>
+                    <br />
+                    <div className="">
+                      {post.dealId.estimatedHour}&nbsp;-&nbsp;
+                      {formatDate(post.dealId.estimatedTime)}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div>

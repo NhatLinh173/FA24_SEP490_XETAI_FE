@@ -4971,7 +4971,6 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .custom-input {
   margin-top: 45px;
-  margin-bottom: 5px;
 }
 
 .addressFrom-input {
@@ -4980,6 +4979,21 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .addressTo-input {
   margin-top: -6px;
+}
+.select-width-status {
+  min-width: 189px;
+  width: auto; /* Cho phép điều chỉnh theo nội dung */
+}
+.customer-status-inprogress{
+  min-width: 140px;
+}
+.custom-time {
+  margin-left: 19px;
+}
+.btn-status {
+  min-width: 101px;
+  width: auto;
+  height: 36px;
 }
 
 .custom-select {
