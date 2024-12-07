@@ -78,8 +78,8 @@ const Wallet = ({ data }) => {
     try {
       const response = await axiosInstance.post("/payment/create", {
         description: "Payment for order",
-        returnUrl: "http://localhost:3006/payment/success",
-        cancelUrl: "http://localhost:3006/payment/failed",
+        returnUrl: "https://xehang.online/payment/success",
+        cancelUrl: "https://xehang.online/payment/failed",
         totalPrice: amount,
         orderCodeStatus: "Pending",
         userId: userId,

@@ -81,10 +81,6 @@ const SignUpForm = () => {
   };
 
   const handleSendOTP = async () => {
-    if (!formData || Object.values(formData).some((value) => !value)) {
-      toast.error("Vui lòng nhập đầy đủ thông tin!");
-      return;
-    }
     const phone = `+84${formData.phone.slice(1)}`;
 
     try {
