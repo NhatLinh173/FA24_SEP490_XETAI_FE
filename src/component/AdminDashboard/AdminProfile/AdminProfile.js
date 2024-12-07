@@ -86,13 +86,17 @@ const AdminProfile = () => {
             return;
           }
         }
+        const updateData = {
+          fullName: fullNameStaff,
+          email: emailStaff,
+        };
+        if (avatarUrl) {
+          updateData.avatar = avatarUrl;
+        }
+
         const res = await axiosInstance.put(
           `https://xehang.site/auth/update-user/${userId}`,
-          {
-            fullName: fullNameStaff,
-            email: emailStaff,
-            avatar: avatarUrl,
-          }
+          updateData
         );
         if (res.status === 200) {
           toast.success("Cập nhật thông tin thành công!");
