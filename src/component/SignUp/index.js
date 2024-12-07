@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FormInput from "../Common/FormInput";
 import axios from "axios";
@@ -23,6 +23,7 @@ const SignUpForm = () => {
   const history = useHistory();
   const [otpSent, setOtpSent] = useState(false);
   const [verificationId, setVerificationId] = useState("");
+  const [isOtpSending, setIsOtpSending] = useState(false);
   const [errors, setErrors] = useState({
     fullName: "",
     phone: "",
@@ -40,6 +41,23 @@ const SignUpForm = () => {
   const axiosInstance = axios.create({
     baseURL: "https://xehang.site/",
   });
+
+  useEffect(() => {
+    if (!window.recaptchaVerifier && auth) {
+      try {
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: () => console.log("Recaptcha solved"),
+          },
+          auth
+        );
+      } catch (error) {
+        console.error("Error initializing RecaptchaVerifier:", error);
+      }
+    }
+  }, [auth]);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
@@ -81,20 +99,12 @@ const SignUpForm = () => {
   };
 
   const handleSendOTP = async () => {
+    if (isOtpSending) return;
+
+    setIsOtpSending(true);
     const phone = `+84${formData.phone.slice(1)}`;
 
     try {
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          auth,
-          "recaptcha-container",
-          {
-            size: "invisible",
-            callback: () => console.log("Recaptcha solved"),
-          }
-        );
-      }
-
       const appVerifier = window.recaptchaVerifier;
       const confirmationResult = await signInWithPhoneNumber(
         auth,
@@ -105,8 +115,10 @@ const SignUpForm = () => {
       setOtpSent(true);
       toast.success("Mã OTP đã được gửi!");
     } catch (error) {
-      console.error("Error sending OTP:", error);
+      console.error("Error sending OTP:", error.code, error.message);
       toast.error("Gửi OTP thất bại, vui lòng thử lại.");
+    } finally {
+      setIsOtpSending(false);
     }
   };
 
