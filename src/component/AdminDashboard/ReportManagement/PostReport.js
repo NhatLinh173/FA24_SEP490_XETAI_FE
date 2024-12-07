@@ -76,8 +76,8 @@ const PostReport = () => {
             <tr key={postReport?._id}>
               <td>{postReport?.driverPostId._id}</td>
               <td>{postReport?.description}</td>
-              <td>{postReport?.driverPostId.creatorId.userId.email}</td>
-              <td>{postReport?.reporterId?.email}</td>
+              <td>{postReport?.driverPostId.creatorId.userId.fullName}</td>
+              <td>{postReport?.reporterId?.fullName}</td>
               <td>{formatDate(postReport?.createdAt)}</td>
               <td className="d-flex justify-content-center">
                 <Button

@@ -195,10 +195,7 @@ function VehicleManager() {
           role="dialog"
         >
           <div className="modal-dialog vehicle-detail-dialog" role="document">
-            <div
-              className="modal-content vehicle-detail-content"
-            
-            >
+            <div className="modal-content vehicle-detail-content">
               <div className="modal-header vehicle-detail-header">
                 <h5 className="modal-title vehicle-detail-title">
                   Chi tiết Đăng ký Xe
@@ -256,7 +253,7 @@ function VehicleManager() {
                   className="btn btn-danger vehicle-detail-btn-delete"
                   onClick={handleDeleteRequest}
                 >
-                  Xóa
+                  Từ chối
                 </button>
               </div>
             </div>
