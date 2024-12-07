@@ -288,7 +288,7 @@ const ServiceDetail = () => {
                 Thông tin chi tiết
               </h5>
               <form>
-                <div className="border rounded p-3 shadow-sm">
+                <div className="border rounded p-3 shadow-sm ">
                   <div className="form-row">
                     <div className="form-group col-md-6">
                       <label htmlFor="type" className="font-weight-bold">
@@ -378,7 +378,7 @@ const ServiceDetail = () => {
                         readOnly
                       />
                     </div>
-                    <div className="form-group col-md-12">
+                    <div className="form-group col-md-12 mb-5">
                       <label htmlFor="description" className="font-weight-bold">
                         Mô tả đơn hàng
                       </label>
