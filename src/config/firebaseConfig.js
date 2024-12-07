@@ -5,19 +5,17 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 
-// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyD_UUd_VYTZux_0uryl7UOYtgSxYI6TUb8",
-  authDomain: "xatai-a1865.firebaseapp.com",
-  projectId: "xatai-a1865",
-  storageBucket: "xatai-a1865.firebasestorage.app",
-  messagingSenderId: "655540300464",
-  appId: "1:655540300464:web:e957bb293fdddced65a975",
-  measurementId: "G-50LX51FP98",
+  apiKey: "AIzaSyACnZvXtyBBH53JjHSENpwKrcqn_LFk2P8",
+  authDomain: "fir-58e22.firebaseapp.com",
+  projectId: "fir-58e22",
+  storageBucket: "fir-58e22.firebasestorage.app",
+  messagingSenderId: "500150521284",
+  appId: "1:500150521284:web:eab126813cb49fb8bf6891",
+  measurementId: "G-MBB8SDKND4",
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Export các hàm cần thiết
 export { auth, RecaptchaVerifier, signInWithPhoneNumber };
