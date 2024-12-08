@@ -45,7 +45,9 @@ const SignUpCustomer = () => {
     confirmPassword: "Xác nhận mật khẩu",
   };
 
-  useEffect(() => {
+
+ useEffect(() => {
+
     const initializeRecaptcha = () => {
       if (window.recaptchaVerifier) {
         window.recaptchaVerifier.clear();
@@ -54,7 +56,9 @@ const SignUpCustomer = () => {
         window.recaptchaVerifier = new RecaptchaVerifier(
           "recaptcha-container",
           {
+
             size: "invisible",
+
             callback: () => console.log("Recaptcha đã được giải!"),
           },
           auth
@@ -67,7 +71,8 @@ const SignUpCustomer = () => {
       }
     };
 
-    if (!window.recaptchaVerifier) {
+    if (document.getElementById("recaptcha-container")) {
+
       initializeRecaptcha();
     }
   }, []);

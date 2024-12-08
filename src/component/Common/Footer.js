@@ -1,32 +1,37 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
 // Import Logo Import
-import logo from "../../assets/img/RFTMS_logo_13.png"
+import logo from "../../assets/img/RFTMS_logo_13.png";
+const driverId = localStorage.getItem("driverId"); // "driver" hoặc "customer"
 
 const FooterItems = [
   {
     title: "Liên kết",
-
     links: [
       { linkTitle: "Trang chủ", link: "/" },
       { linkTitle: "Chúng tôi", link: "/about" },
-      { linkTitle: "Đơn Hàng", link: "/service" },
+      {
+        linkTitle: driverId === "driver" ? "Bài đăng" : "Đơn hàng",
+        link: driverId === "driver" ? "/post-driver" : "/order",
+      },
       { linkTitle: "Tin tức", link: "/blog_grid" },
       { linkTitle: "Liên hệ", link: "/contact" },
     ],
   },
   {
     title: "Công Ty",
-
     links: [
-      { linkTitle: "Đơn hàng", link: "/service" },
+      {
+        linkTitle: driverId === "driver" ? "Bài đăng" : "Đơn hàng",
+        link: driverId === "driver" ? "/post-driver" : "/order",
+      },
       { linkTitle: "Chứng thực", link: "/testimonials" },
-      { linkTitle: "Theo dõi lô hàng", link: "/track_ship" },
+      { linkTitle: "Theo dõi đơn hàng", link: "/track_ship" },
       { linkTitle: "Chính sách bảo mật", link: "/privacyPolicy" },
       { linkTitle: "Điều khoản & Điều kiện", link: "/terms" },
     ],
   },
-]
+];
 
 const Footer = () => {
   return (
@@ -101,10 +106,10 @@ const Footer = () => {
         </div>
       </footer>
     </>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;
 
 export const FooterWidget = ({ data }) => (
   <>
@@ -117,4 +122,4 @@ export const FooterWidget = ({ data }) => (
       ))}
     </ul>
   </>
-)
+);
