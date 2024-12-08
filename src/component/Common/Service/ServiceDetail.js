@@ -290,6 +290,57 @@ const ServiceDetail = () => {
               <form>
                 <div className="border rounded p-3 shadow-sm ">
                   <div className="form-row">
+                    <div className="form-group col-md-12 d-flex align-items-center">
+                      <div className="w-25 ml-2">
+                        <label htmlFor="city" className="font-weight-bold">
+                          Địa điểm nhận hàng
+                        </label>
+                        <input
+                          id="city"
+                          defaultValue={postData.startPointCity || ""}
+                          type="text"
+                          className="form-control"
+                          readOnly
+                        />
+                      </div>
+                      <div className="w-75">
+                        <input
+                          id="pickupLocation"
+                          defaultValue={postData.startPoint}
+                          type="text"
+                          className="form-control customer-input-service"
+                          readOnly
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group col-md-12 d-flex align-items-center">
+                      <div className="w-25 ml-2">
+                        <label
+                          htmlFor="cityDropoff"
+                          className="font-weight-bold"
+                        >
+                          Địa điểm giao hàng
+                        </label>
+                        <input
+                          id="cityDropoff"
+                          defaultValue={postData.destinationCity}
+                          type="text"
+                          className="form-control"
+                          readOnly
+                        />
+                      </div>
+                      <div className="w-75">
+                        <input
+                          id="dropoffLocation"
+                          defaultValue={postData.destination}
+                          type="text"
+                          className="form-control customer-input-service"
+                          readOnly
+                        />
+                      </div>
+                    </div>
+
                     <div className="form-group col-md-6">
                       <label htmlFor="type" className="font-weight-bold">
                         Loại hàng
@@ -315,36 +366,6 @@ const ServiceDetail = () => {
                       />
                     </div>
 
-                    <div className="form-group col-md-6">
-                      <label
-                        htmlFor="pickupLocation"
-                        className="font-weight-bold"
-                      >
-                        Địa điểm lấy hàng
-                      </label>
-                      <input
-                        id="pickupLocation"
-                        defaultValue={postData.startPoint}
-                        type="text"
-                        className="form-control"
-                        readOnly
-                      />
-                    </div>
-                    <div className="form-group col-md-6">
-                      <label
-                        htmlFor="dropoffLocation"
-                        className="font-weight-bold"
-                      >
-                        Địa điểm trả hàng
-                      </label>
-                      <input
-                        id="dropoffLocation"
-                        defaultValue={postData.destination}
-                        type="text"
-                        className="form-control"
-                        readOnly
-                      />
-                    </div>
                     <div className="form-group col-md-6">
                       <label htmlFor="price" className="font-weight-bold">
                         Giá

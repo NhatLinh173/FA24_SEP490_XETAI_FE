@@ -7893,3 +7893,6 @@ input[type="number"]::-webkit-inner-spin-button {
 .terms-close-btn:hover {
   background-color: #2980b9;
 }
+.customer-input-service {
+  margin-top: 32px;
+}

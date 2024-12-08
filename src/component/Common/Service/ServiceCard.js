@@ -121,12 +121,12 @@ const ServiceCard = ({
       {/* ServiceCard content */}
       <div className="mb-2 text-secondary d-flex align-items-center m-2">
         <FaMapMarkerAlt className="mr-2" />
-        <div className="font-weight-bold text-nowrap">Địa điểm đi:</div>
+        <div className="font-weight-bold text-nowrap">Địa chỉ nhận hàng:</div>
         <div className="w-75 ml-2 text-truncate">{pickupLocation}</div>
       </div>
       <div className="mb-2 text-secondary d-flex align-items-center m-2">
         <FaMapMarkerAlt className="mr-2" />
-        <div className="font-weight-bold text-nowrap">Địa điểm đến:</div>
+        <div className="font-weight-bold text-nowrap">Địa chỉ giao hàng:</div>
         <div className="w-75 ml-2 text-truncate">{dropoffLocation}</div>
       </div>
       <div className="mb-2 text-secondary d-flex align-items-center m-2">
