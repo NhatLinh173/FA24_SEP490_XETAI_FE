@@ -45,26 +45,30 @@ const SignUpCustomer = () => {
     confirmPassword: "Xác nhận mật khẩu",
   };
 
-  useEffect(() => {
-    if (window.recaptchaVerifier) {
-      window.recaptchaVerifier.clear();
-    }
-    if (auth) {
+ useEffect(() => {
+    const initializeRecaptcha = () => {
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+      }
       try {
         window.recaptchaVerifier = new RecaptchaVerifier(
           "recaptcha-container",
           {
             size: "normal",
-            callback: () => console.log("Recaptcha solved!"),
+            callback: () => console.log("Recaptcha đã được giải!"),
           },
           auth
         );
         window.recaptchaVerifier.render();
       } catch (error) {
-        console.error("Failed to initialize reCAPTCHA", error);
+        console.error("Không khởi tạo được reCAPTCHA", error);
       }
+    };
+
+    if (document.getElementById("recaptcha-container")) {
+      initializeRecaptcha();
     }
-  }, [auth]);
+  }, []);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
