@@ -1,3 +1,4 @@
+// firebaseConfig.js
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -9,7 +10,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyACnZvXtyBBH53JjHSENpwKrcqn_LFk2P8",
   authDomain: "fir-58e22.firebaseapp.com",
   projectId: "fir-58e22",
-  storageBucket: "fir-58e22.firebasestorage.app",
+  storageBucket: "fir-58e22.appspot.com",
   messagingSenderId: "500150521284",
   appId: "1:500150521284:web:eab126813cb49fb8bf6891",
   measurementId: "G-MBB8SDKND4",
