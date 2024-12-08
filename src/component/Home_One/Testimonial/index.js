@@ -65,11 +65,6 @@ const Testimonials = () => {
                   ))}
                 </OwlCarousel>
               </div>
-              <div className="review_button">
-                <a href="#!" className="btn btn-theme mb-2">
-                  Xem thêm
-                </a>
-              </div>
             </div>
           </div>
         </div>
