@@ -7,13 +7,14 @@ import regexPattern from "../../config/regexConfig";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 import {
-  auth,
+  PhoneAuthProvider,
+  signInWithCredential,
   RecaptchaVerifier,
-  signInWithPhoneNumber,
-} from "../../config/firebaseConfig";
+} from "firebase/auth";
+import { auth, signInWithPhoneNumber } from "../../config/firebaseConfig";
 import TermsModal from "./TermsModal";
+
 const SignUpCustomer = () => {
   const history = useHistory();
   const [isChecked, setIsChecked] = useState(false);
@@ -45,18 +46,22 @@ const SignUpCustomer = () => {
   };
 
   useEffect(() => {
-    if (!window.recaptchaVerifier && auth) {
+    if (window.recaptchaVerifier) {
+      window.recaptchaVerifier.clear();
+    }
+    if (auth) {
       try {
         window.recaptchaVerifier = new RecaptchaVerifier(
           "recaptcha-container",
           {
-            size: "invisible",
-            callback: () => console.log("Recaptcha solved"),
+            size: "normal",
+            callback: () => console.log("Recaptcha solved!"),
           },
           auth
         );
+        window.recaptchaVerifier.render();
       } catch (error) {
-        console.error("Error initializing RecaptchaVerifier:", error);
+        console.error("Failed to initialize reCAPTCHA", error);
       }
     }
   }, [auth]);
@@ -101,6 +106,11 @@ const SignUpCustomer = () => {
 
     try {
       const appVerifier = window.recaptchaVerifier;
+      console.log(appVerifier);
+      if (!appVerifier) {
+        toast.error("Recaptcha chưa được khởi tạo. Vui lòng thử lại.");
+        return;
+      }
       const confirmationResult = await signInWithPhoneNumber(
         auth,
         phone,
@@ -198,13 +208,12 @@ const SignUpCustomer = () => {
     <section id="signIn_area">
       <div className="container">
         <div className="row">
-          <div id="recaptcha-container"></div>
           <div className="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
             <div className="user_area_wrapper">
               <div className="user_area_form">
+                <div id="recaptcha-container"></div>
                 <h2>Đăng Ký</h2>
                 <form
-                  // action="#!"
                   id="form_signIn"
                   onSubmit={(e) => {
                     e.preventDefault();
