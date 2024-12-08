@@ -48,7 +48,7 @@ const SignUpForm = () => {
         window.recaptchaVerifier = new RecaptchaVerifier(
           "recaptcha-container",
           {
-            size: "invisible",
+            size: "normal",
             callback: () => console.log("Recaptcha solved"),
           },
           auth
