@@ -1,4 +1,3 @@
-// firebaseConfig.js
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -6,6 +5,7 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyACnZvXtyBBH53JjHSENpwKrcqn_LFk2P8",
   authDomain: "fir-58e22.firebaseapp.com",
@@ -17,6 +17,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 
 export { auth, RecaptchaVerifier, signInWithPhoneNumber };

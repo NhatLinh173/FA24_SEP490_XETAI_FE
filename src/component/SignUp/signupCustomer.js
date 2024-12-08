@@ -45,7 +45,9 @@ const SignUpCustomer = () => {
     confirmPassword: "Xác nhận mật khẩu",
   };
 
+
  useEffect(() => {
+
     const initializeRecaptcha = () => {
       if (window.recaptchaVerifier) {
         window.recaptchaVerifier.clear();
@@ -54,18 +56,23 @@ const SignUpCustomer = () => {
         window.recaptchaVerifier = new RecaptchaVerifier(
           "recaptcha-container",
           {
-            size: "normal",
+
+            size: "invisible",
+
             callback: () => console.log("Recaptcha đã được giải!"),
           },
           auth
         );
-        window.recaptchaVerifier.render();
+        window.recaptchaVerifier.render().then((widgetId) => {
+          window.recaptchaWidgetId = widgetId;
+        });
       } catch (error) {
         console.error("Không khởi tạo được reCAPTCHA", error);
       }
     };
 
     if (document.getElementById("recaptcha-container")) {
+
       initializeRecaptcha();
     }
   }, []);
@@ -110,9 +117,9 @@ const SignUpCustomer = () => {
 
     try {
       const appVerifier = window.recaptchaVerifier;
-      console.log(appVerifier);
       if (!appVerifier) {
         toast.error("Recaptcha chưa được khởi tạo. Vui lòng thử lại.");
+        setIsOtpSending(false);
         return;
       }
       const confirmationResult = await signInWithPhoneNumber(
@@ -210,12 +217,12 @@ const SignUpCustomer = () => {
 
   return (
     <section id="signIn_area">
+      <div id="recaptcha-container"></div>
       <div className="container">
         <div className="row">
           <div className="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
             <div className="user_area_wrapper">
               <div className="user_area_form">
-                <div id="recaptcha-container"></div>
                 <h2>Đăng Ký</h2>
                 <form
                   id="form_signIn"
