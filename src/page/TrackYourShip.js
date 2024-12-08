@@ -5,7 +5,7 @@ import TrackShipment from "../component/TrackYourShipment";
 const TrackYourShip = () => {
   return (
     <>
-      <CommonBanner heading="Theo dõi đơn hàng" page="Theo dõi đơn hàng" />
+      <CommonBanner />
       <TrackShipment />
     </>
   );
