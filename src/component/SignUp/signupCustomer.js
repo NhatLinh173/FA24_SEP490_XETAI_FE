@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FormInput from "../Common/FormInput";
 import { toast } from "react-toastify";
@@ -7,12 +7,6 @@ import regexPattern from "../../config/regexConfig";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import {
-  PhoneAuthProvider,
-  signInWithCredential,
-  RecaptchaVerifier,
-} from "firebase/auth";
-import { auth, signInWithPhoneNumber } from "../../config/firebaseConfig";
 import TermsModal from "./TermsModal";
 
 const SignUpCustomer = () => {
@@ -21,9 +15,6 @@ const SignUpCustomer = () => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-  const [verificationId, setVerificationId] = useState("");
-  const [isOtpSending, setIsOtpSending] = useState(false);
   const [errors, setErrors] = useState({
     fullName: "",
     phone: "",
@@ -35,7 +26,6 @@ const SignUpCustomer = () => {
     phone: "",
     fullName: "",
     confirmPassword: "",
-    otp: "",
   });
 
   const fieldLabels = {
@@ -44,38 +34,6 @@ const SignUpCustomer = () => {
     phone: "Số điện thoại",
     confirmPassword: "Xác nhận mật khẩu",
   };
-
-
- useEffect(() => {
-
-    const initializeRecaptcha = () => {
-      if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.clear();
-      }
-      try {
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          "recaptcha-container",
-          {
-
-            size: "invisible",
-
-            callback: () => console.log("Recaptcha đã được giải!"),
-          },
-          auth
-        );
-        window.recaptchaVerifier.render().then((widgetId) => {
-          window.recaptchaWidgetId = widgetId;
-        });
-      } catch (error) {
-        console.error("Không khởi tạo được reCAPTCHA", error);
-      }
-    };
-
-    if (document.getElementById("recaptcha-container")) {
-
-      initializeRecaptcha();
-    }
-  }, []);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
@@ -109,52 +67,6 @@ const SignUpCustomer = () => {
     return "";
   };
 
-  const handleSendOTP = async () => {
-    if (isOtpSending) return;
-
-    setIsOtpSending(true);
-    const phone = `+84${formData.phone.slice(1)}`;
-
-    try {
-      const appVerifier = window.recaptchaVerifier;
-      if (!appVerifier) {
-        toast.error("Recaptcha chưa được khởi tạo. Vui lòng thử lại.");
-        setIsOtpSending(false);
-        return;
-      }
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        phone,
-        appVerifier
-      );
-      setVerificationId(confirmationResult.verificationId);
-      setOtpSent(true);
-      toast.success("Mã OTP đã được gửi!");
-    } catch (error) {
-      console.error("Error sending OTP:", error.code, error.message);
-      toast.error("Gửi OTP thất bại, vui lòng thử lại.");
-    } finally {
-      setIsOtpSending(false);
-    }
-  };
-
-  const handleVerifyOTP = async () => {
-    const { otp } = formData;
-
-    try {
-      const credential = PhoneAuthProvider.credential(verificationId, otp);
-      await signInWithCredential(auth, credential);
-      const registerStatus = await handleRegister();
-      if (registerStatus === 201) {
-        toast.success("Đăng ký thành công");
-        history.push("/signIn");
-      }
-    } catch (error) {
-      console.error("OTP verification error:", error);
-      toast.error("Xác minh OTP thất bại!");
-    }
-  };
-
   const handleRegister = async () => {
     const { password, fullName, phone, confirmPassword } = formData;
 
@@ -169,14 +81,17 @@ const SignUpCustomer = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/auth/register", {
+      const response = await axios.post("https://xehang.site/auth/register", {
         password,
         fullName,
         phone,
         role: "customer",
       });
 
-      return response.status;
+      if (response.status === 201) {
+        toast.success("Đăng ký thành công!");
+        history.push("/signIn");
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         toast.error(`Đăng Ký Thất Bại: ${error.response.data.message}`);
@@ -217,7 +132,6 @@ const SignUpCustomer = () => {
 
   return (
     <section id="signIn_area">
-      <div id="recaptcha-container"></div>
       <div className="container">
         <div className="row">
           <div className="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
@@ -228,7 +142,7 @@ const SignUpCustomer = () => {
                   id="form_signIn"
                   onSubmit={(e) => {
                     e.preventDefault();
-                    otpSent ? handleVerifyOTP() : handleSendOTP();
+                    handleRegister();
                   }}
                 >
                   <div className="row">
@@ -378,22 +292,6 @@ const SignUpCustomer = () => {
                         )}
                       </div>
                     </div>
-                    {otpSent && (
-                      <div className="row">
-                        <div className="col-lg-12">
-                          <FormInput
-                            tag={"input"}
-                            type={"text"}
-                            name={"otp"}
-                            classes={"form-control"}
-                            placeholder={"Nhập Mã OTP"}
-                            value={formData.otp}
-                            onChange={handleInputChange}
-                            required
-                          />
-                        </div>
-                      </div>
-                    )}
                     <div className="col-lg-12">
                       <div className="form-group form-check">
                         <input
@@ -414,7 +312,7 @@ const SignUpCustomer = () => {
                     <div className="col-lg-12">
                       <div className="submit_button">
                         <button
-                          type="button"
+                          type="submit"
                           className="btn btn-primary btn-block"
                           style={{
                             height: "50px",
@@ -425,10 +323,9 @@ const SignUpCustomer = () => {
                             cursor: "pointer",
                             width: "100%",
                           }}
-                          onClick={handleSendOTP}
                           disabled={!isChecked}
                         >
-                          {otpSent ? "Xác Minh OTP" : "Đăng Ký"}
+                          Đăng Ký
                         </button>
                       </div>
                     </div>

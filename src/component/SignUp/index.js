@@ -43,21 +43,26 @@ const SignUpForm = () => {
   });
 
   useEffect(() => {
-    if (!window.recaptchaVerifier && auth) {
-      try {
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          "recaptcha-container",
-          {
-            size: "normal",
-            callback: () => console.log("Recaptcha solved"),
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            console.log("Recaptcha solved", response);
           },
-          auth
-        );
-      } catch (error) {
-        console.error("Error initializing RecaptchaVerifier:", error);
-      }
+          "expired-callback": () => {
+            console.log("Recaptcha expired");
+          },
+        }
+      );
+      window.recaptchaVerifier.render().then((widgetId) => {
+        window.recaptchaWidgetId = widgetId;
+      });
+      console.log(window.recaptchaVerifier);
     }
-  }, [auth]);
+  }, []);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
@@ -115,8 +120,14 @@ const SignUpForm = () => {
       setOtpSent(true);
       toast.success("Mã OTP đã được gửi!");
     } catch (error) {
-      console.error("Error sending OTP:", error.code, error.message);
-      toast.error("Gửi OTP thất bại, vui lòng thử lại.");
+      if (error.code === "auth/too-many-requests") {
+        toast.error("Quá nhiều yêu cầu, vui lòng thử lại sau.");
+      } else if (error.code === "auth/invalid-app-credential") {
+        toast.error("Lỗi xác thực ứng dụng, vui lòng thử lại.");
+      } else {
+        console.error("Error sending OTP:", error.code, error.message);
+        toast.error("Gửi OTP thất bại, vui lòng thử lại.");
+      }
     } finally {
       setIsOtpSending(false);
     }
