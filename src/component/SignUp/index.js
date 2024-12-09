@@ -421,23 +421,45 @@ const SignUpForm = () => {
                     </div>
                     <div className="col-lg-12">
                       <div className="submit_button">
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-block"
-                          style={{
-                            height: "50px",
-                            fontWeight: "600",
-                            marginBottom: "10px",
-                            border: "none",
-                            borderRadius: "5px",
-                            cursor: "pointer",
-                            width: "100%",
-                          }}
-                          onClick={handleSendOTP}
-                          disabled={!isChecked}
-                        >
-                          {otpSent ? "Xác Minh OTP" : "Đăng Ký"}
-                        </button>
+                        {!otpSent ? (
+                          // Button để gửi OTP
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-block"
+                            style={{
+                              height: "50px",
+                              fontWeight: "600",
+                              marginBottom: "10px",
+                              border: "none",
+                              borderRadius: "5px",
+                              cursor: "pointer",
+                              width: "100%",
+                            }}
+                            onClick={handleSendOTP}
+                            disabled={!isChecked || isOtpSending}
+                          >
+                            {isOtpSending ? "Đang gửi..." : "Gửi mã OTP"}
+                          </button>
+                        ) : (
+                          // Button để xác minh OTP
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-block"
+                            style={{
+                              height: "50px",
+                              fontWeight: "600",
+                              marginBottom: "10px",
+                              border: "none",
+                              borderRadius: "5px",
+                              cursor: "pointer",
+                              width: "100%",
+                            }}
+                            onClick={handleVerifyOTP}
+                            disabled={!isChecked || !formData.otp}
+                          >
+                            Xác Minh OTP
+                          </button>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-12">
