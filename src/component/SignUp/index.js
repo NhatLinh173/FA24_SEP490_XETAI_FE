@@ -24,7 +24,7 @@ const SignUpForm = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [verificationId, setVerificationId] = useState("");
   const [isOtpSending, setIsOtpSending] = useState(false);
-const [confirmationResult, setConfirmationResult] = useState(null);
+  const [confirmationResult, setConfirmationResult] = useState(null);
   const [errors, setErrors] = useState({
     fullName: "",
     phone: "",
@@ -109,11 +109,7 @@ const [confirmationResult, setConfirmationResult] = useState(null);
 
     try {
       const appVerifier = window.recaptchaVerifier;
-      const result = await signInWithPhoneNumber(
-        auth,
-        phone,
-        appVerifier
-      );
+      const result = await signInWithPhoneNumber(auth, phone, appVerifier);
       setVerificationId(window.confirmationResult.verificationId);
       setOtpSent(true);
       toast.success("Mã OTP đã được gửi!");
@@ -133,12 +129,11 @@ const [confirmationResult, setConfirmationResult] = useState(null);
 
   const handleVerifyOTP = async () => {
     try {
-        console.log(window.confirmationResult)
-     if (!confirmationResult) {
-      toast.error("Vui lòng gửi lại mã OTP");
-      return;
-    }
-
+      console.log(window.confirmationResult);
+      if (!confirmationResult) {
+        toast.error("Vui lòng gửi lại mã OTP");
+        return;
+      }
 
       const result = await window.confirmationResult.confirm(formData.otp);
       if (result.user) {
@@ -147,13 +142,11 @@ const [confirmationResult, setConfirmationResult] = useState(null);
           toast.success("Đăng ký thành công");
           history.push("/signIn");
         }
-
       }
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      toast.error("Mã OTP không đúng!");
     }
-  } catch (error) {
-    console.error("OTP verification error:", error);
-    toast.error("Mã OTP không đúng!");
-  }
   };
 
   const handleRegisterDriver = async () => {
