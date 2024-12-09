@@ -55,7 +55,7 @@ const TermsModal = ({ isOpen, onRequestClose }) => {
         )}
       </div>
       <button onClick={onRequestClose} className="terms-close-btn">
-        Đóng
+        Đồng Ý Điều Khoản & Điều Kiện
       </button>
     </Modal>
   );

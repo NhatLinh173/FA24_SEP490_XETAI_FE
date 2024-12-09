@@ -17,7 +17,7 @@ const defaultPost = {
 };
 
 const HistoryPostDriverDetail = () => {
-  const { postId } = useParams(); // Lấy postId từ URL
+  const { postId } = useParams();
   const [post, setPost] = useState(defaultPost);
   const [provinces, setProvinces] = useState([]);
   const [tempImages, setTempImages] = useState([]);
@@ -34,6 +34,7 @@ const HistoryPostDriverDetail = () => {
   const getPost = React.useCallback(async () => {
     const response = await axiosInstance.get(`/driverpost/${postId}`);
     setPost(response.data);
+    console.log(response.data);
   }, [postId]);
 
   const createImageUrl = (imageFile) => {
@@ -157,7 +158,7 @@ const HistoryPostDriverDetail = () => {
           <div>
             {/* Hiển thị ảnh đã tải lên */}
 
-            {post.images.length || tempImages.length > 0 ? (
+            {post.images.length > 0 || tempImages.length > 0 ? (
               <div
                 className={`d-flex image-form align-items-center mb-3 ${
                   post.images
@@ -303,6 +304,6 @@ const HistoryPostDriverDetail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 export default HistoryPostDriverDetail;

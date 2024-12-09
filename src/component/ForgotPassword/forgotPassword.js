@@ -1,151 +1,214 @@
-// import React, { useState } from "react";
-// import { useHistory } from "react-router-dom";
-// import {
-//   auth,
-//   RecaptchaVerifier,
-//   signInWithPhoneNumber,
-// } from "../../config/firebaseConfig";
-// import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import {
+  auth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "../../config/firebaseConfig";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
-// const ForgotPassword = () => {
-//   const history = useHistory();
-//   const [phoneNumber, setPhoneNumber] = useState("");
-//   const [otpCode, setOtpCode] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const [verificationId, setVerificationId] = useState(null);
-//   const [showOtpInput, setShowOtpInput] = useState(false);
+const ForgotPassword = () => {
+  const history = useHistory();
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [otpCode, setOtpCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [verificationId, setVerificationId] = useState(null);
+  const [showOtpInput, setShowOtpInput] = useState(false);
+  const [isOtpSending, setIsOtpSending] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
 
-//   const showToast = (type, message) => {
-//     if (type === "success") {
-//       toast.success(message);
-//     } else if (type === "error") {
-//       toast.error(message);
-//     }
-//   };
+  const showToast = (type, message) => {
+    if (type === "success") {
+      toast.success(message);
+    } else if (type === "error") {
+      toast.error(message);
+    }
+  };
 
-//   const formatPhoneNumber = (phone) => {
-//     if (!phone.startsWith("+")) {
-//       return "+84" + phone.slice(1);
-//     }
-//     return phone;
-//   };
+  const formatPhoneNumber = (phone) => {
+    if (!phone.startsWith("+")) {
+      return "+84" + phone.slice(1);
+    }
+    return phone;
+  };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
+  useEffect(() => {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            console.log("Recaptcha solved", response);
+          },
+          "expired-callback": () => {
+            console.log("Recaptcha expired");
+          },
+        }
+      );
+      window.recaptchaVerifier.render().then((widgetId) => {
+        window.recaptchaWidgetId = widgetId;
+      });
+    }
+  }, []);
 
-//     if (!phoneNumber) {
-//       showToast("error", "Vui lòng nhập số điện thoại của bạn!");
-//       return;
-//     }
+  const checkPhoneExists = async (phone) => {
+    try {
+      const response = await axios.get(
+        `https://xehang.site/auth/search?phone=${phone}`
+      );
+      return response.data && response.data.length > 0;
+    } catch (error) {
+      console.error("Error checking phone:", error);
+      return false;
+    }
+  };
 
-//     setLoading(true);
-//     try {
-//       const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
-//       console.log(formattedPhoneNumber);
-//       const recaptchaVerifier = new RecaptchaVerifier(
-//         "recaptcha-container",
-//         {
-//           size: "invisible",
-//           callback: (response) => {
-//             console.log("Recaptcha verified:", response);
-//           },
-//           "expired-callback": () => {
-//             console.error("Recaptcha expired");
-//           },
-//         },
-//         auth
-//       );
+  const handleSendOTP = async () => {
+    setLoading(true);
+    try {
+      // Check if phone exists in DB first
+      const phoneExists = await checkPhoneExists(phoneNumber);
+      if (!phoneExists) {
+        toast.error("Số điện thoại không tồn tại trong hệ thống!");
+        return;
+      }
 
-//       await recaptchaVerifier.render();
+      const phone = formatPhoneNumber(phoneNumber);
+      const appVerifier = window.recaptchaVerifier;
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phone,
+        appVerifier
+      );
+      setVerificationId(window.confirmationResult.verificationId);
+      setOtpSent(true);
+      setShowOtpInput(true);
+      toast.success("Mã OTP đã được gửi!");
+    } catch (error) {
+      if (error.code === "auth/too-many-requests") {
+        toast.error("Quá nhiều yêu cầu, vui lòng thử lại sau.");
+      } else if (error.code === "auth/invalid-app-credential") {
+        toast.error("Lỗi xác thực ứng dụng, vui lòng thử lại.");
+      } else {
+        console.error("Error sending OTP:", error.code, error.message);
+        toast.error("Gửi OTP thất bại, vui lòng thử lại.");
+      }
+    } finally {
+      setLoading(false);
+      setIsOtpSending(false);
+    }
+  };
 
-//       const confirmationResult = await signInWithPhoneNumber(
-//         auth,
-//         formattedPhoneNumber,
-//         recaptchaVerifier
-//       );
+  const handleResetPassword = async () => {
+    try {
+      const response = await axios.post(
+        "https://xehang.site/auth/resetPassword",
+        {
+          phone: phoneNumber,
+          newPassword: newPassword,
+        }
+      );
 
-//       setVerificationId(confirmationResult.verificationId);
-//       showToast("success", "Mã OTP đã được gửi!");
-//       setShowOtpInput(true);
-//     } catch (error) {
-//       showToast("error", error.message || "Đã có lỗi xảy ra!");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+      if (response.status === 200) {
+        toast.success("Đặt lại mật khẩu thành công!");
+        history.push("/signIn");
+      }
+    } catch (error) {
+      console.error("Reset password error:", error);
+      toast.error("Lỗi khi đặt lại mật khẩu!");
+    }
+  };
 
-//   const handleVerifyOtp = async (e) => {
-//     e.preventDefault();
+  const handleVerifyOTP = async () => {
+    try {
+      if (!window.confirmationResult) {
+        toast.error("Vui lòng gửi lại mã OTP");
+        return;
+      }
 
-//     if (!otpCode) {
-//       showToast("error", "Vui lòng nhập mã OTP!");
-//       return;
-//     }
+      const result = await window.confirmationResult.confirm(otpCode);
+      if (result.user) {
+        toast.success("Xác thực thành công");
+        await handleResetPassword();
+      }
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      toast.error("Mã OTP không đúng!");
+    }
+  };
 
-//     setLoading(true);
-//     try {
-//       const credential = PhoneAuthProvider.credential(verificationId, otpCode);
-//       await signInWithCredential(auth, credential);
-//       showToast("success", "Xác thực thành công!");
-//       history.push("/reset-password");
-//     } catch (error) {
-//       showToast(
-//         "error",
-//         error.message || "Mã OTP không chính xác hoặc đã hết hạn!"
-//       );
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSendOTP();
+  };
 
-//   return (
-//     <div className="forgot-password-container">
-//       <h2>Quên mật khẩu</h2>
-//       <form onSubmit={handleSubmit} className="forgot-password-form">
-//         <div className="form-group">
-//           <label htmlFor="phoneNumber">Số điện thoại:</label>
-//           <input
-//             type="text"
-//             id="phoneNumber"
-//             value={phoneNumber}
-//             onChange={(e) => setPhoneNumber(e.target.value)}
-//             placeholder="Nhập số điện thoại của bạn"
-//             required
-//           />
-//         </div>
-//         {!showOtpInput && (
-//           <button type="submit" disabled={loading} className="submit-button">
-//             {loading ? "Đang gửi..." : "Gửi yêu cầu OTP"}
-//           </button>
-//         )}
-//       </form>
+  const handleVerifyOtp = (e) => {
+    e.preventDefault();
+    handleVerifyOTP();
+  };
 
-//       {showOtpInput && (
-//         <form onSubmit={handleVerifyOtp} className="forgot-password-form">
-//           <div className="form-group">
-//             <label htmlFor="otpCode">Mã OTP:</label>
-//             <input
-//               type="text"
-//               id="otpCode"
-//               value={otpCode}
-//               onChange={(e) => setOtpCode(e.target.value)}
-//               placeholder="Nhập mã OTP của bạn"
-//               required
-//             />
-//           </div>
-//           <button type="submit" disabled={loading} className="submit-button">
-//             {loading ? "Đang xác thực..." : "Xác thực mã OTP"}
-//           </button>
-//         </form>
-//       )}
+  return (
+    <div className="forgot-password-container">
+      <h2>Quên mật khẩu</h2>
+      <form onSubmit={handleSubmit} className="forgot-password-form">
+        <div className="form-group">
+          <label htmlFor="phoneNumber">Số điện thoại:</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="Nhập số điện thoại của bạn"
+            required
+          />
+        </div>
+        {!showOtpInput && (
+          <button type="submit" disabled={loading} className="submit-button">
+            {loading ? "Đang kiểm tra..." : "Gửi yêu cầu OTP"}
+          </button>
+        )}
+      </form>
 
-//       <div id="recaptcha-container"></div>
+      {showOtpInput && (
+        <form onSubmit={handleVerifyOtp} className="forgot-password-form">
+          <div className="form-group">
+            <label htmlFor="otpCode">Mã OTP:</label>
+            <input
+              type="text"
+              id="otpCode"
+              value={otpCode}
+              onChange={(e) => setOtpCode(e.target.value)}
+              placeholder="Nhập mã OTP của bạn"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="newPassword">Mật khẩu mới:</label>
+            <input
+              type="password"
+              id="newPassword"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Nhập mật khẩu mới"
+              required
+            />
+          </div>
+          <button type="submit" disabled={loading} className="submit-button">
+            {loading ? "Đang xác thực..." : "Xác thực mã OTP"}
+          </button>
+        </form>
+      )}
 
-//       <ToastContainer />
-//     </div>
-//   );
-// };
+      <div id="recaptcha-container"></div>
 
-// export default ForgotPassword;
+      <ToastContainer />
+    </div>
+  );
+};
+
+export default ForgotPassword;

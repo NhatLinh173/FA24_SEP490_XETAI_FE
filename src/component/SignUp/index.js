@@ -7,7 +7,7 @@ import regexPattern from "../../config/regexConfig";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
-import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
+
 import {
   auth,
   RecaptchaVerifier,
@@ -113,7 +113,7 @@ const SignUpForm = () => {
         phone,
         appVerifier
       );
-      setVerificationId(confirmationResult.verificationId);
+      setVerificationId(window.confirmationResult.verificationId);
       setOtpSent(true);
       toast.success("Mã OTP đã được gửi!");
     } catch (error) {
@@ -143,8 +143,6 @@ const SignUpForm = () => {
         if (registerStatus === 201) {
           toast.success("Đăng ký thành công");
           history.push("/signIn");
-        } else {
-          toast.error("Đăng ký thất bại");
         }
       }
     } catch (error) {
@@ -171,13 +169,33 @@ const SignUpForm = () => {
       toast.warn("Mật Khẩu Không Khớp!!!");
       return;
     }
-
     try {
-      const response = await axiosInstance.post("/auth/register", payload);
+      const response = await axios.post(
+        "https://xehang.site/auth/register",
+        payload
+      );
       return response.status;
     } catch (error) {
+      if (error.response) {
+        const { status, data } = error.response;
+
+        switch (status) {
+          case 409:
+            toast.error(data.message);
+            break;
+          case 400:
+            toast.error(data.message);
+            break;
+          default:
+            toast.error("Có lỗi xảy ra, vui lòng thử lại sau");
+        }
+      } else if (error.request) {
+        toast.error("Không thể kết nối đến server");
+      } else {
+        toast.error("Có lỗi xảy ra, vui lòng thử lại sau");
+      }
       console.error("Register error:", error);
-      toast.error("Có lỗi xảy ra, vui lòng thử lại sau.");
+      return null;
     }
   };
 
