@@ -73,8 +73,9 @@ const Tab = ({ tab1, setTab1 }) => {
         <ul>
           <li className="tab-item">
             <button
-              className={`btn-tab d-flex align-items-center ${tab1 === "profile" ? "active" : ""
-                }`}
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "profile" ? "active" : ""
+              }`}
               onClick={handleClickProfile}
             >
               <CgProfile />
@@ -83,8 +84,9 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li className="my-3 ">
             <button
-              className={`btn-tab d-flex align-items-center ${tab1 === "historyPost" ? "active" : ""
-                }`}
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "historyPost" ? "active" : ""
+              }`}
               onClick={handleClickPost}
             >
               <PiPackage />
@@ -94,7 +96,9 @@ const Tab = ({ tab1, setTab1 }) => {
           {(role === "personal" || role === "business") && (
             <li className="my-3">
               <button
-                className={`btn-tab d-flex align-items-center ${tab1 === "historyPostDriver" ? "active" : ""}`}
+                className={`btn-tab d-flex align-items-center ${
+                  tab1 === "historyPostDriver" ? "active" : ""
+                }`}
                 onClick={handleClickHistoryPostDriver}
               >
                 <BsFileEarmarkPost />
@@ -105,8 +109,9 @@ const Tab = ({ tab1, setTab1 }) => {
           {role === "customer" && (
             <li className="tab-item">
               <button
-                className={`btn-tab d-flex align-items-center ${tab1 === "favoriteDriver" ? "active" : ""
-                  }`}
+                className={`btn-tab d-flex align-items-center ${
+                  tab1 === "favoriteDriver" ? "active" : ""
+                }`}
                 onClick={handleClickFarvoriteDriver}
               >
                 <FaRegHeart />
@@ -116,7 +121,9 @@ const Tab = ({ tab1, setTab1 }) => {
           )}
           <li className="my-3">
             <button
-              className={`btn-tab d-flex align-items-center ${tab1 === "changePassword" ? "active" : ""}`}
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "changePassword" ? "active" : ""
+              }`}
               onClick={handleClickChangePassword}
             >
               <RiLockPasswordLine />
@@ -125,8 +132,9 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li className="my-3">
             <button
-              className={`btn-tab d-flex align-items-center ${tab1 === "tripHistory" ? "active" : ""
-                }`}
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "tripHistory" ? "active" : ""
+              }`}
               onClick={handleClickTripHistory}
             >
               <MdAccessTime />
@@ -139,7 +147,9 @@ const Tab = ({ tab1, setTab1 }) => {
           </li>
           <li className="my-3">
             <button
-              className={`btn-tab d-flex align-items-center ${tab1 === "wallet" ? "active" : ""}`}
+              className={`btn-tab d-flex align-items-center ${
+                tab1 === "wallet" ? "active" : ""
+              }`}
               onClick={handleClickWallet}
             >
               <LuWallet />
@@ -150,7 +160,9 @@ const Tab = ({ tab1, setTab1 }) => {
           {(role === "personal" || role === "business") && (
             <li className="my-3">
               <button
-                className={`btn-tab d-flex align-items-center ${tab1 === "vehicals" ? "active" : ""}`}
+                className={`btn-tab d-flex align-items-center ${
+                  tab1 === "vehicals" ? "active" : ""
+                }`}
                 onClick={handleClickVehicals}
               >
                 <MdDirectionsCar />
@@ -161,7 +173,9 @@ const Tab = ({ tab1, setTab1 }) => {
           {(role === "personal" || role === "business") && (
             <li className="my-3">
               <button
-                className={`btn-tab d-flex align-items-center ${tab1 === "statistical" ? "active" : ""}`}
+                className={`btn-tab d-flex align-items-center ${
+                  tab1 === "statistical" ? "active" : ""
+                }`}
                 onClick={handleClickStatistical}
               >
                 <FaChartLine />

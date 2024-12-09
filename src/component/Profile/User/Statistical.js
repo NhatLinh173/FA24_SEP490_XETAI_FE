@@ -323,13 +323,13 @@ const Statistical = ({ driverId }) => {
           Tháng trước
         </button>
         <button
-          onClick={() => handleTimeRangeChange("Năm này")}
+          onClick={() => handleTimeRangeChange("Năm nay")}
           style={{
-            backgroundColor: setTimeRange === "Năm này" ? "#007bff" : "#f0f0f0",
-            color: setTimeRange === "Năm này" ? "#fff" : "#000",
+            backgroundColor: setTimeRange === "Năm nay" ? "#007bff" : "#f0f0f0",
+            color: setTimeRange === "Năm nay" ? "#fff" : "#000",
           }}
         >
-          Năm này
+          Năm nay
         </button>
         <button
           onClick={() => handleTimeRangeChange("Năm trước")}
