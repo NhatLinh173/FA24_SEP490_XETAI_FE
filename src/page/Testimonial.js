@@ -1,16 +1,14 @@
-import React from 'react'
-import CommonBanner from '../component/Common/Banner'
-import TestimonialSlider from '../component/Testimonial'
-import OurPartner from '../component/Common/OurPartner'
+import React from "react";
+import CommonBanner from "../component/Common/Banner";
+import TestimonialSlider from "../component/Testimonial";
 
 const Testimonials = () => {
-    return (
-        <>
-            <CommonBanner heading="Testimonials" page="Testimonials"/>
-            <TestimonialSlider/>
-            <OurPartner/>
-        </>
-    )
-}
+  return (
+    <>
+      <CommonBanner />
+      <TestimonialSlider />
+    </>
+  );
+};
 
-export default Testimonials
+export default Testimonials;

@@ -189,72 +189,80 @@ const Navbar = ({ openModal }) => {
                       className="notification-icon"
                       style={{ position: "relative" }}
                     >
-                      <IoMdNotifications
-                        id="notification-icon"
-                        size={24}
-                        onClick={(e) => {
-                          e.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
-                          setShowNotifications((prev) => !prev); // Đảo trạng thái hiển thị thông báo
-                          setUnreadCount(0); // Reset đếm số thông báo chưa đọc
-                        }}
-                        style={{ cursor: "pointer" }}
-                      />
-                      {unreadCount > 0 && (
-                        <span
-                          style={{
-                            position: "absolute",
-                            top: "-5px",
-                            right: "-10px",
-                            backgroundColor: "red",
-                            color: "white",
-                            borderRadius: "50%",
-                            padding: "2px 6px",
-                            fontSize: "12px",
-                          }}
-                        >
-                          {unreadCount}
-                        </span>
-                      )}
-                      {showNotifications && (
-                        <div
-                          ref={notificationRef}
-                          style={{
-                            position: "absolute",
-                            top: "30px",
-                            right: "0",
-                            backgroundColor: "white",
-                            border: "1px solid #ccc",
-                            borderRadius: "5px",
-                            boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-                            zIndex: 1000,
-                            width: "300px",
-                            maxHeight: "400px",
-                            overflowY: "auto",
-                          }}
-                        >
-                          <h5 className="p-2 border-bottom font-weight-bold">
-                            Thông báo
-                          </h5>
-                          <ul
-                            style={{
-                              listStyle: "none",
-                              padding: "0",
-                              margin: "0",
+                      {isLoggedIn && (
+                        <>
+                          <IoMdNotifications
+                            id="notification-icon"
+                            size={24}
+                            onClick={(e) => {
+                              e.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
+                              setShowNotifications((prev) => !prev); // Đảo trạng thái hiển thị thông báo
+                              setUnreadCount(0); // Reset đếm số thông báo chưa đọc
                             }}
-                          >
-                            {notifications.map((notif, index) => (
-                              <li
-                                key={index}
-                                className="notification-item"
-                                onClick={() => handleNotificationClick(notif)}
+                            style={{ cursor: "pointer" }}
+                          />
+                          {unreadCount > 0 && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                top: "-5px",
+                                right: "-10px",
+                                backgroundColor: "red",
+                                color: "white",
+                                borderRadius: "50%",
+                                padding: "2px 6px",
+                                fontSize: "12px",
+                              }}
+                            >
+                              {unreadCount}
+                            </span>
+                          )}
+                          {showNotifications && (
+                            <div
+                              ref={notificationRef}
+                              style={{
+                                position: "absolute",
+                                top: "30px",
+                                right: "0",
+                                backgroundColor: "white",
+                                border: "1px solid #ccc",
+                                borderRadius: "5px",
+                                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                                zIndex: 1000,
+                                width: "300px",
+                                maxHeight: "400px",
+                                overflowY: "auto",
+                              }}
+                            >
+                              <h5 className="p-2 border-bottom font-weight-bold">
+                                Thông báo
+                              </h5>
+                              <ul
+                                style={{
+                                  listStyle: "none",
+                                  padding: "0",
+                                  margin: "0",
+                                }}
                               >
-                                <strong>{notif.title}</strong>: {notif.message}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                                {notifications.map((notif, index) => (
+                                  <li
+                                    key={index}
+                                    className="notification-item"
+                                    onClick={() =>
+                                      handleNotificationClick(notif)
+                                    }
+                                  >
+                                    <strong>{notif.title}</strong>:{" "}
+                                    {notif.message}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </>
                       )}
                     </div>
+
                     {isAuthenticated && userData && (
                       <div className="nav-avatar rounded-circle ml-4">
                         <a href="/profile">
