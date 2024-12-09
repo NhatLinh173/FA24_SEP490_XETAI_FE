@@ -132,6 +132,7 @@ const SignUpForm = () => {
 
   const handleVerifyOTP = async () => {
     try {
+        console.log(window.confirmationResult)
       if (!window.confirmationResult) {
         toast.error("Vui lòng gửi lại mã OTP");
         return;
