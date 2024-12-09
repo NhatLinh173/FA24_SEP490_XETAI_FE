@@ -5,19 +5,18 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 
-// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyACnZvXtyBBH53JjHSENpwKrcqn_LFk2P8",
-  authDomain: "fir-58e22.firebaseapp.com",
-  projectId: "fir-58e22",
-  storageBucket: "fir-58e22.appspot.com",
-  messagingSenderId: "500150521284",
-  appId: "1:500150521284:web:eab126813cb49fb8bf6891",
-  measurementId: "G-MBB8SDKND4",
+  apiKey: "AIzaSyD-0Ll1cHeX7yOL4vvUL1lcRARjJg_pnUg",
+  authDomain: "send-otp-f10ec.firebaseapp.com",
+  projectId: "send-otp-f10ec",
+  storageBucket: "send-otp-f10ec.firebasestorage.app",
+  messagingSenderId: "1047384258671",
+  appId: "1:1047384258671:web:8940b21de3efb189b1759a",
+  measurementId: "G-WR1BC3NXEE",
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
 
 export { auth, RecaptchaVerifier, signInWithPhoneNumber };
