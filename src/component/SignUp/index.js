@@ -43,25 +43,12 @@ const SignUpForm = () => {
   });
 
   useEffect(() => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: (response) => {
-            console.log("Recaptcha solved", response);
-          },
-          "expired-callback": () => {
-            console.log("Recaptcha expired");
-          },
-        }
-      );
-      window.recaptchaVerifier.render().then((widgetId) => {
-        window.recaptchaWidgetId = widgetId;
-      });
-      console.log(window.recaptchaVerifier);
-    }
+    return () => {
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = null;
+      }
+    };
   }, []);
 
   const togglePasswordVisibility = () => {
@@ -106,27 +93,51 @@ const SignUpForm = () => {
   const handleSendOTP = async () => {
     if (isOtpSending) return;
 
+    if (!formData.phone || errors.phone) {
+      toast.error("Vui lòng nhập số điện thoại hợp lệ");
+      return;
+    }
+
     setIsOtpSending(true);
-    const phone = `+84${formData.phone.slice(1)}`;
 
     try {
-      const appVerifier = window.recaptchaVerifier;
+      // Only create new reCAPTCHA if it doesn't exist
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          auth,
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: () => {
+              console.log("reCAPTCHA solved");
+            },
+          }
+        );
+      }
+
+      // Format phone number
+      const phone = formData.phone.startsWith("0")
+        ? `+84${formData.phone.slice(1)}`
+        : `+84${formData.phone}`;
+
+      // Send OTP
       const confirmationResult = await signInWithPhoneNumber(
         auth,
         phone,
-        appVerifier
+        window.recaptchaVerifier
       );
-      setVerificationId(confirmationResult.verificationId);
+
+      window.confirmationResult = confirmationResult;
       setOtpSent(true);
       toast.success("Mã OTP đã được gửi!");
     } catch (error) {
-      if (error.code === "auth/too-many-requests") {
-        toast.error("Quá nhiều yêu cầu, vui lòng thử lại sau.");
-      } else if (error.code === "auth/invalid-app-credential") {
-        toast.error("Lỗi xác thực ứng dụng, vui lòng thử lại.");
-      } else {
-        console.error("Error sending OTP:", error.code, error.message);
-        toast.error("Gửi OTP thất bại, vui lòng thử lại.");
+      console.error("Error sending OTP:", error);
+      toast.error("Gửi OTP thất bại, vui lòng thử lại.");
+
+      // Clear and reset reCAPTCHA on error
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = null;
       }
     } finally {
       setIsOtpSending(false);
@@ -134,21 +145,25 @@ const SignUpForm = () => {
   };
 
   const handleVerifyOTP = async () => {
-    const { otp } = formData;
-
     try {
-      const credential = PhoneAuthProvider.credential(verificationId, otp);
-      await signInWithCredential(auth, credential);
-      const registerStatus = await handleRegisterDriver();
-      if (registerStatus === 201) {
-        toast.success("Đăng ký thành công");
-        history.push("/signIn");
-      } else {
-        toast.error("Đăng ký thất bại");
+      if (!window.confirmationResult) {
+        toast.error("Vui lòng gửi lại mã OTP");
+        return;
+      }
+
+      const result = await window.confirmationResult.confirm(formData.otp);
+      if (result.user) {
+        const registerStatus = await handleRegisterDriver();
+        if (registerStatus === 201) {
+          toast.success("Đăng ký thành công");
+          history.push("/signIn");
+        } else {
+          toast.error("Đăng ký thất bại");
+        }
       }
     } catch (error) {
       console.error("OTP verification error:", error);
-      toast.error("Xác minh OTP thất bại!");
+      toast.error("Mã OTP không đúng!");
     }
   };
 
