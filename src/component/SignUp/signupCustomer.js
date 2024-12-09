@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FormInput from "../Common/FormInput";
 import { toast } from "react-toastify";
@@ -8,13 +8,20 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import TermsModal from "./TermsModal";
-
+import {
+  auth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "../../config/firebaseConfig";
 const SignUpCustomer = () => {
   const history = useHistory();
   const [isChecked, setIsChecked] = useState(false);
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [verificationId, setVerificationId] = useState("");
+  const [isOtpSending, setIsOtpSending] = useState(false);
   const [errors, setErrors] = useState({
     fullName: "",
     phone: "",
@@ -34,6 +41,28 @@ const SignUpCustomer = () => {
     phone: "Số điện thoại",
     confirmPassword: "Xác nhận mật khẩu",
   };
+
+  useEffect(() => {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            console.log("Recaptcha solved", response);
+          },
+          "expired-callback": () => {
+            console.log("Recaptcha expired");
+          },
+        }
+      );
+      window.recaptchaVerifier.render().then((widgetId) => {
+        window.recaptchaWidgetId = widgetId;
+      });
+      console.log(window.recaptchaVerifier);
+    }
+  }, []);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
@@ -67,6 +96,54 @@ const SignUpCustomer = () => {
     return "";
   };
 
+  const handleSendOTP = async () => {
+    const phone = `+84${formData.phone.slice(1)}`;
+
+    try {
+      const appVerifier = window.recaptchaVerifier;
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phone,
+        appVerifier
+      );
+      setVerificationId(window.confirmationResult.verificationId);
+      setOtpSent(true);
+      toast.success("Mã OTP đã được gửi!");
+    } catch (error) {
+      if (error.code === "auth/too-many-requests") {
+        toast.error("Quá nhiều yêu cầu, vui lòng thử lại sau.");
+      } else if (error.code === "auth/invalid-app-credential") {
+        toast.error("Lỗi xác thực ứng dụng, vui lòng thử lại.");
+      } else {
+        console.error("Error sending OTP:", error.code, error.message);
+        toast.error("Gửi OTP thất bại, vui lòng thử lại.");
+      }
+    } finally {
+      setIsOtpSending(false);
+    }
+  };
+
+  const handleVerifyOTP = async () => {
+    try {
+      if (!window.confirmationResult) {
+        toast.error("Vui lòng gửi lại mã OTP");
+        return;
+      }
+
+      const result = await window.confirmationResult.confirm(formData.otp);
+      if (result.user) {
+        const registerStatus = await handleRegister();
+        if (registerStatus === 201) {
+          toast.success("Đăng ký thành công");
+          history.push("/signIn");
+        }
+      }
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      toast.error("Mã OTP không đúng!");
+    }
+  };
+
   const handleRegister = async () => {
     const { password, fullName, phone, confirmPassword } = formData;
 
@@ -88,17 +165,28 @@ const SignUpCustomer = () => {
         role: "customer",
       });
 
-      if (response.status === 201) {
-        toast.success("Đăng ký thành công!");
-        history.push("/signIn");
-      }
+      return response.status;
     } catch (error) {
-      if (error.response && error.response.data) {
-        toast.error(`Đăng Ký Thất Bại: ${error.response.data.message}`);
+      if (error.response) {
+        const { status, data } = error.response;
+
+        switch (status) {
+          case 409:
+            toast.error(data.message);
+            break;
+          case 400:
+            toast.error(data.message);
+            break;
+          default:
+            toast.error("Có lỗi xảy ra, vui lòng thử lại sau");
+        }
+      } else if (error.request) {
+        toast.error("Không thể kết nối đến server");
       } else {
-        console.error("Register error: ", error);
-        toast.error("Có lỗi xảy ra trong quá trình đăng ký.");
+        toast.error("Có lỗi xảy ra, vui lòng thử lại sau");
       }
+      console.error("Register error:", error);
+      return null;
     }
   };
 
@@ -134,6 +222,7 @@ const SignUpCustomer = () => {
     <section id="signIn_area">
       <div className="container">
         <div className="row">
+          <div id="recaptcha-container"></div>
           <div className="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
             <div className="user_area_wrapper">
               <div className="user_area_form">
@@ -142,7 +231,7 @@ const SignUpCustomer = () => {
                   id="form_signIn"
                   onSubmit={(e) => {
                     e.preventDefault();
-                    handleRegister();
+                    otpSent ? handleVerifyOTP() : handleSendOTP();
                   }}
                 >
                   <div className="row">
@@ -311,22 +400,45 @@ const SignUpCustomer = () => {
                     </div>
                     <div className="col-lg-12">
                       <div className="submit_button">
-                        <button
-                          type="submit"
-                          className="btn btn-primary btn-block"
-                          style={{
-                            height: "50px",
-                            fontWeight: "600",
-                            marginBottom: "10px",
-                            border: "none",
-                            borderRadius: "5px",
-                            cursor: "pointer",
-                            width: "100%",
-                          }}
-                          disabled={!isChecked}
-                        >
-                          Đăng Ký
-                        </button>
+                        {!otpSent ? (
+                          // Button để gửi OTP
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-block"
+                            style={{
+                              height: "50px",
+                              fontWeight: "600",
+                              marginBottom: "10px",
+                              border: "none",
+                              borderRadius: "5px",
+                              cursor: "pointer",
+                              width: "100%",
+                            }}
+                            onClick={handleSendOTP}
+                            disabled={!isChecked || isOtpSending}
+                          >
+                            {isOtpSending ? "Đang gửi..." : "Gửi mã OTP"}
+                          </button>
+                        ) : (
+                          // Button để xác minh OTP
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-block"
+                            style={{
+                              height: "50px",
+                              fontWeight: "600",
+                              marginBottom: "10px",
+                              border: "none",
+                              borderRadius: "5px",
+                              cursor: "pointer",
+                              width: "100%",
+                            }}
+                            onClick={handleVerifyOTP}
+                            disabled={!isChecked || !formData.otp}
+                          >
+                            Xác Minh OTP
+                          </button>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-12" style={{ marginBottom: "15px" }}>

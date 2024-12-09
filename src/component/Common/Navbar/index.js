@@ -40,7 +40,6 @@ const Navbar = ({ openModal }) => {
     socket.on("receiveNotification", (notification) => {
       const { title, message, data } = notification;
       const { postId, status } = data;
-
       setNotifications((prev) => [{ title, message, postId, status }, ...prev]);
       setUnreadCount((prev) => prev + 1);
     });
@@ -112,7 +111,7 @@ const Navbar = ({ openModal }) => {
       if (
         notificationRef.current &&
         !notificationRef.current.contains(e.target) &&
-        e.target.id !== "notification-icon" // Đảm bảo không đóng khi click vào icon
+        e.target.id !== "notification-icon"
       ) {
         setShowNotifications(false);
       }
@@ -124,12 +123,13 @@ const Navbar = ({ openModal }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
   const handleNotificationClick = (notification) => {
     if (notification.title === "Tin nhắn mới") {
       history.push(`/chat`);
     } else if (notification.title === "Đơn hàng") {
-      history.push(`/order/${notification.postId}`);
+      if (notification.data && notification.data.postId) {
+        history.push(`/order/${notification.data.postId}`);
+      }
     }
   };
 
