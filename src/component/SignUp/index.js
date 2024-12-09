@@ -43,12 +43,25 @@ const SignUpForm = () => {
   });
 
   useEffect(() => {
-    return () => {
-      if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.clear();
-        window.recaptchaVerifier = null;
-      }
-    };
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            console.log("Recaptcha solved", response);
+          },
+          "expired-callback": () => {
+            console.log("Recaptcha expired");
+          },
+        }
+      );
+      window.recaptchaVerifier.render().then((widgetId) => {
+        window.recaptchaWidgetId = widgetId;
+      });
+      console.log(window.recaptchaVerifier);
+    }
   }, []);
 
   const togglePasswordVisibility = () => {
@@ -91,53 +104,26 @@ const SignUpForm = () => {
   };
 
   const handleSendOTP = async () => {
-    if (isOtpSending) return;
-
-    if (!formData.phone || errors.phone) {
-      toast.error("Vui lòng nhập số điện thoại hợp lệ");
-      return;
-    }
-
-    setIsOtpSending(true);
+    const phone = `+84${formData.phone.slice(1)}`;
 
     try {
-      // Only create new reCAPTCHA if it doesn't exist
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          auth,
-          "recaptcha-container",
-          {
-            size: "invisible",
-            callback: () => {
-              console.log("reCAPTCHA solved");
-            },
-          }
-        );
-      }
-
-      // Format phone number
-      const phone = formData.phone.startsWith("0")
-        ? `+84${formData.phone.slice(1)}`
-        : `+84${formData.phone}`;
-
-      // Send OTP
+      const appVerifier = window.recaptchaVerifier;
       const confirmationResult = await signInWithPhoneNumber(
         auth,
         phone,
-        window.recaptchaVerifier
+        appVerifier
       );
-
-      window.confirmationResult = confirmationResult;
+      setVerificationId(confirmationResult.verificationId);
       setOtpSent(true);
       toast.success("Mã OTP đã được gửi!");
     } catch (error) {
-      console.error("Error sending OTP:", error);
-      toast.error("Gửi OTP thất bại, vui lòng thử lại.");
-
-      // Clear and reset reCAPTCHA on error
-      if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.clear();
-        window.recaptchaVerifier = null;
+      if (error.code === "auth/too-many-requests") {
+        toast.error("Quá nhiều yêu cầu, vui lòng thử lại sau.");
+      } else if (error.code === "auth/invalid-app-credential") {
+        toast.error("Lỗi xác thực ứng dụng, vui lòng thử lại.");
+      } else {
+        console.error("Error sending OTP:", error.code, error.message);
+        toast.error("Gửi OTP thất bại, vui lòng thử lại.");
       }
     } finally {
       setIsOtpSending(false);
