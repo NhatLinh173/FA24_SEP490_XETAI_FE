@@ -5,32 +5,20 @@ import axiosInstance from "../../../config/axiosConfig";
 import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 const DriverDetail = () => {
   const [driver, setDriver] = useState(null);
+  const [user, setUser] = useState(null);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [vehicles, setVehicles] = useState([]);
   const { driverId } = useParams();
-  // const [driverId, setDriverId] = useState("");
-
-  // useEffect(() => {
-  //   const getInfoDriver = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(`/auth/user/${userId}`);
-  //       setDriver(response.data.driverDetails);
-  //       console.log("Driver info:", response.data.driverDetails);
-  //     } catch (error) {
-  //       console.error("Error fetching driver info:", error);
-  //     }
-  //   };
-  //   if (driverId) {
-  //     getInfoDriver();
-  //   }
-  // }, [driverId]);
 
   useEffect(() => {
     const getInfoDriver = async () => {
       try {
-        const response = await axiosInstance.get(`/driver/details/${driverId}`);
-        setDriver(response.data.driverDetails);
-        console.log("Driver info:", response.data.driverDetails);
+        const response = await axiosInstance.get(
+          `/driver/getDriver/${driverId}`
+        );
+        setDriver(response.data.driver);
+        setUser(response.data.user);
       } catch (error) {
         console.error("Error fetching driver info:", error);
       }
@@ -40,8 +28,29 @@ const DriverDetail = () => {
     }
   }, [driverId]);
 
-  const handleShowDetails = (vehicle) => {
-    setSelectedVehicle(vehicle);
+  useEffect(() => {
+    const fetchVehicleDetails = async () => {
+      if (driver && driver.carRegistrations) {
+        try {
+          // Lấy từng xe một
+          const vehicleData = [];
+          for (const id of driver.carRegistrations) {
+            const response = await axiosInstance.get(`/car/${id}`);
+            vehicleData.push(response.data);
+          }
+          setVehicles(vehicleData);
+          console.log(vehicleData);
+        } catch (error) {
+          console.error("Error fetching vehicle details:", error);
+        }
+      }
+    };
+
+    fetchVehicleDetails();
+  }, [driver]);
+
+  const handleShowDetails = (vehicles) => {
+    setSelectedVehicle(vehicles);
     setShowModal(true);
   };
 
@@ -52,18 +61,29 @@ const DriverDetail = () => {
 
   const getStars = (rating) => {
     const stars = [];
-    const roundedRating = Math.round(rating);
-    for (let i = 1; i <= 5; i++) {
-      if (i <= roundedRating) {
-        stars.push(<i key={i} className="fa fa-star star-filled"></i>);
-      } else {
-        stars.push(<i key={i} className="fa fa-star star-empty"></i>);
-      }
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+
+    // Thêm sao đầy
+    for (let i = 1; i <= fullStars; i++) {
+      stars.push(<i key={i} className="fas fa-star star-filled"></i>);
     }
+
+    // Thêm nửa sao nếu có
+    if (hasHalfStar) {
+      stars.push(<i key="half" className="fas fa-star-half star-filled"></i>);
+    }
+
+    // Thêm sao rỗng cho đủ 5 sao
+    const emptyStars = 5 - Math.ceil(rating);
+    for (let i = 1; i <= emptyStars; i++) {
+      stars.push(<i key={`empty${i}`} className="far fa-star star-empty"></i>);
+    }
+
     return stars;
   };
 
-  if (!driver) {
+  if (!driver || !user) {
     return <div>Driver not found</div>;
   }
 
@@ -74,13 +94,13 @@ const DriverDetail = () => {
           <div className="border rounded p-3 shadow-sm">
             <div className="d-flex border-bottom pb-3 mb-3">
               <img
-                src={driver.avatar || avatarDefault}
+                src={user.avatar || avatarDefault}
                 alt="vehicle"
                 className="img-fluid rounded"
                 style={{ width: "150px", height: "150px", objectFit: "cover" }}
               />
               <div className="ml-3 d-flex flex-column justify-content-center">
-                <h4 className="mb-2">{driver.fullName}</h4>
+                <h4 className="mb-2">{user.fullName}</h4>
                 <div className="mb-2">{getStars(driver.averageRating)}</div>
               </div>
             </div>
@@ -95,7 +115,7 @@ const DriverDetail = () => {
                       <label htmlFor="email">Email</label>
                       <input
                         id="email"
-                        defaultValue={driver.email}
+                        defaultValue={user.email}
                         type="email"
                         className="form-control"
                         placeholder="Email"
@@ -107,7 +127,7 @@ const DriverDetail = () => {
                       <label htmlFor="phone-number">Số điện thoại</label>
                       <input
                         id="phone-number"
-                        defaultValue={driver.phone}
+                        defaultValue={user.phone}
                         type="tel"
                         className="form-control"
                         placeholder="Số điện thoại"
@@ -119,7 +139,7 @@ const DriverDetail = () => {
                       <label htmlFor="address">Địa chỉ</label>
                       <input
                         id="address"
-                        defaultValue={driver.address}
+                        defaultValue={user.address}
                         type="text"
                         className="form-control"
                         placeholder="Địa chỉ"
@@ -138,18 +158,18 @@ const DriverDetail = () => {
               >
                 Thông tin xe
               </h4>
-              {driver.vehicles && driver.vehicles.length > 0 ? (
-                driver.vehicles.map((vehicle, index) => (
+              {vehicles.length > 0 ? (
+                vehicles.map((vehicle, index) => (
                   <div
                     key={index}
                     className="border rounded p-2 mb-3 d-flex justify-content-between align-items-center"
                   >
                     <div>
                       <p>
-                        <strong>Tên xe:</strong> {vehicle.vehicleName}
+                        <strong>Tên xe:</strong> {vehicle.nameCar}
                       </p>
                       <p>
-                        <strong>Biển số:</strong> {vehicle.vehicleRegistration}
+                        <strong>Biển số:</strong> {vehicle.licensePlate}
                       </p>
                     </div>
                     <Button
@@ -172,11 +192,12 @@ const DriverDetail = () => {
           <Modal.Header closeButton>
             <Modal.Title>Chi tiết xe</Modal.Title>
           </Modal.Header>
+
           <Modal.Body className="modal-body-custom">
             {selectedVehicle && (
               <div>
                 <img
-                  src={selectedVehicle.vehicleImage}
+                  src={selectedVehicle.imageCar}
                   alt="vehicle"
                   className="img-fluid rounded mb-3"
                   style={{
@@ -186,25 +207,21 @@ const DriverDetail = () => {
                   }}
                 />
                 <p>
-                  <strong>Loại xe:</strong> {selectedVehicle.vehicleType}
+                  <strong>Tên xe:</strong> {selectedVehicle.nameCar}
                 </p>
                 <p>
-                  <strong>Tên xe:</strong> {selectedVehicle.vehicleName}
+                  <strong>Biển số:</strong> {selectedVehicle.licensePlate}
                 </p>
                 <p>
-                  <strong>Biển số:</strong>{" "}
-                  {selectedVehicle.vehicleRegistration}
-                </p>
-                <p>
-                  <strong>Trọng tải:</strong> {selectedVehicle.payload}
+                  <strong>Trọng tải:</strong> {selectedVehicle.load}
                 </p>
                 <p>
                   <strong>Đăng kiểm xe:</strong>
                 </p>
-                {selectedVehicle.registerVehicleImg && (
+                {selectedVehicle.imageRegistration && (
                   <div className="mt-3">
                     <img
-                      src={selectedVehicle.registerVehicleImg}
+                      src={selectedVehicle.imageRegistration}
                       alt="Vehicle Registration"
                       className="img-fluid rounded"
                       style={{
@@ -225,12 +242,11 @@ const DriverDetail = () => {
           </Modal.Footer>
         </Modal>
 
-        {/* Right Side: Driver Avatar and Additional Info */}
         <div className="col-md-4">
           <div className="border rounded p-3 shadow-sm">
             <div className="d-flex align-items-center border-bottom pb-3">
               <img
-                src={driver.avatar || avatarDefault}
+                src={user.avatar || avatarDefault}
                 className="border rounded mr-3"
                 style={{ width: "120px", height: "120px", objectFit: "cover" }}
                 alt="driver avatar"
@@ -254,7 +270,7 @@ const DriverDetail = () => {
               </div>
               <div className="statistics-item">
                 <p className="stat-label">Đánh giá trung bình:</p>
-                <p className="stat-value">{driver.averageRating}</p>
+                <p className="stat-value">{driver.averageRating} sao</p>
               </div>
             </div>
           </div>

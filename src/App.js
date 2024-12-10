@@ -173,7 +173,7 @@ const AppContent = () => {
       {!isDashboardPage && <Footer />}
       {!isDashboardPage && <CopyRight />}
       <CustomModal isOpen={isOpen} closeModal={closeModal} />
-      <ChatIcon />
+      {!isDashboardPage && <ChatIcon />}
     </>
   );
 };

@@ -235,10 +235,9 @@ const DriverDetails = () => {
         const driverResponse = await axiosInstance.get(
           `/driver/getDriver/${driverId}`
         );
-        setUserId(driverResponse.data.userId);
-        setDriverData(driverResponse.data);
+        setUserId(driverResponse.data.user._id);
+        setDriverData(driverResponse.data.driver);
 
-        // Sau khi userId đã được gán, gọi API getCar
         const carResponse = await axiosInstance.get(
           `/car/driver/${driverId}/status`
         );

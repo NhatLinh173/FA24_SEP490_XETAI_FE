@@ -27,7 +27,10 @@ function AdminDashboardNavbar() {
       expand="lg"
       className="mb-4 admin-dashboard-navbar"
     >
-      <Navbar.Brand href="#home" className="admin-dashboard-navbar-brand">
+      <Navbar.Brand
+        href="/dashboard-admin"
+        className="admin-dashboard-navbar-brand"
+      >
         <span className="brand-icon">&#9733;</span>
         Admin Dashboard
       </Navbar.Brand>

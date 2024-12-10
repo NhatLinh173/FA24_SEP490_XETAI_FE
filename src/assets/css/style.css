@@ -4760,8 +4760,13 @@ textarea {
 
 /* Modal Styles */
 .modal-body-custom {
-  padding-top: 10px;
-  /* Điều chỉnh khoảng cách phía trên body */
+  padding: 20px;
+  max-height: 80vh; /* Chiều cao tối đa là 80% viewport height */
+  overflow-y: auto;
+}
+
+.modal-body-custom img {
+  margin-bottom: 20px;
 }
 
 .vehicle-details {
@@ -4777,7 +4782,6 @@ textarea {
 /* Modal Custom Styles */
 .modal-dialog {
   max-width: 90%;
-  /* Chiều rộng tối đa của modal */
   margin: 30px auto;
   /* Căn giữa modal theo chiều dọc và ngang */
 }
@@ -4793,6 +4797,21 @@ textarea {
   /* Giới hạn chiều cao của Modal */
   display: flex;
   flex-direction: column;
+}
+
+
+.vehicle-modal-dialog {
+  max-width: 800px !important;
+  width: 90% !important;
+
+}
+
+.vehicle-modal-content {
+  width: 100% !important;
+  position: relative !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
 }
 
 .modal-body-custom {

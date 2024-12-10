@@ -39,8 +39,6 @@ const CustomerManagement = () => {
       customer.phone.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  console.log("alo: ", filteredCustomers);
-
   const sortedCustomers = [...filteredCustomers].sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) {
       return sortConfig.direction === "ascending" ? -1 : 1;
