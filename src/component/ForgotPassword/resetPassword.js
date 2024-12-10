@@ -6,7 +6,7 @@ import { useHistory, useLocation } from "react-router-dom";
 const ResetPassword = () => {
   const history = useHistory();
   const location = useLocation();
-  const email = location.state?.email;
+  const phone = location.state?.phone;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,7 +28,7 @@ const ResetPassword = () => {
     try {
       const response = await axios.post(
         "https://xehang.site/auth/resetPassword",
-        { email, newPassword }
+        { phone, newPassword }
       );
       toast.success("Mật khẩu đã được thay đổi thành công!");
       history.push("/signIn");
