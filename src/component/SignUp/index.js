@@ -98,6 +98,9 @@ const SignUpForm = () => {
     if (!value.trim()) {
       return `${fieldLabels[field]} không được để trống`;
     }
+    if (field === "password" && !regexPattern.password.test(value)) {
+      return "Mật khẩu không hợp lệ! Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái và số.";
+    }
     if (!regexPattern[field]?.test(value)) {
       return `${fieldLabels[field]} sai định dạng`;
     }
@@ -215,6 +218,7 @@ const SignUpForm = () => {
     }
     const role = "customer";
     const url = `https://xehang.site/auth/facebook?state=${role}`;
+    console.log("Redirecting to:", url);
     window.open(url, "_self");
   };
 
@@ -331,9 +335,9 @@ const SignUpForm = () => {
                             style={{
                               color: "red",
                               fontSize: "14px",
-                              marginRight: "15px",
-                              width: "250px",
+                              width: "100%",
                               textAlign: "left",
+                              marginTop: "5px",
                             }}
                           >
                             {errors.password}

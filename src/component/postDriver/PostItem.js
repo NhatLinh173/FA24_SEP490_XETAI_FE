@@ -25,6 +25,7 @@ const PostItem = ({
     creatorId,
     createdAt,
   } = PostDriver;
+  console.log(creatorId);
   const userId = creatorId?.userId?._id;
   const avatar = creatorId?.userId?.avatar || avatarDefault;
   const fullName = creatorId?.userId?.fullName;

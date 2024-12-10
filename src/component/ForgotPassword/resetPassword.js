@@ -3,6 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory, useLocation } from "react-router-dom";
+import regexPattern from "../../config/regexConfig";
 const ResetPassword = () => {
   const history = useHistory();
   const location = useLocation();
@@ -16,6 +17,12 @@ const ResetPassword = () => {
 
     if (!newPassword || !confirmPassword) {
       toast.error("Vui lòng nhập mật khẩu mới và xác nhận!");
+      return;
+    }
+    if (!regexPattern.password.test(newPassword)) {
+      toast.error(
+        "Mật khẩu không hợp lệ! Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái và số."
+      );
       return;
     }
 
