@@ -85,7 +85,8 @@ const ForgotPassword = () => {
         phone,
         appVerifier
       );
-      setVerificationId(window.confirmationResult.verificationId);
+      window.confirmationResult = confirmationResult;
+      setVerificationId(confirmationResult.verificationId);
       setOtpSent(true);
       setShowOtpInput(true);
       toast.success("Mã OTP đã được gửi!");
@@ -104,26 +105,6 @@ const ForgotPassword = () => {
     }
   };
 
-  const handleResetPassword = async () => {
-    try {
-      const response = await axios.post(
-        "https://xehang.site/auth/resetPassword",
-        {
-          phone: phoneNumber,
-          newPassword: newPassword,
-        }
-      );
-
-      if (response.status === 200) {
-        toast.success("Đặt lại mật khẩu thành công!");
-        history.push("/signIn");
-      }
-    } catch (error) {
-      console.error("Reset password error:", error);
-      toast.error("Lỗi khi đặt lại mật khẩu!");
-    }
-  };
-
   const handleVerifyOTP = async () => {
     try {
       if (!window.confirmationResult) {
@@ -134,7 +115,9 @@ const ForgotPassword = () => {
       const result = await window.confirmationResult.confirm(otpCode);
       if (result.user) {
         toast.success("Xác thực thành công");
-        await handleResetPassword();
+        history.push("/reset-password", {
+          phone: phoneNumber,
+        });
       }
     } catch (error) {
       console.error("OTP verification error:", error);
@@ -184,17 +167,6 @@ const ForgotPassword = () => {
               value={otpCode}
               onChange={(e) => setOtpCode(e.target.value)}
               placeholder="Nhập mã OTP của bạn"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="newPassword">Mật khẩu mới:</label>
-            <input
-              type="password"
-              id="newPassword"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="Nhập mật khẩu mới"
               required
             />
           </div>

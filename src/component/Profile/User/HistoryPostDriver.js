@@ -7,7 +7,6 @@ import { BsFillFilePostFill } from "react-icons/bs";
 import axiosInstance from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
 
-
 const HistoryPostDriver = () => {
   const history = useHistory();
   const [posts, setPosts] = useState([]);
@@ -16,8 +15,9 @@ const HistoryPostDriver = () => {
   const driverId = localStorage.getItem("driverId");
 
   const getPosts = async () => {
-    const response = await axiosInstance.get(`/driverpost/${driverId}`);
+    const response = await axiosInstance.get(`/driverpost/creator/${driverId}`);
     setPosts(response.data);
+    console.log(response.data);
   };
 
   // Điều hướng đến trang chi tiết bài đăng
