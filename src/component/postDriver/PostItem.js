@@ -26,7 +26,7 @@ const PostItem = ({
     createdAt,
   } = PostDriver;
   console.log(creatorId);
-  const userId = creatorId?.userId?._id;
+  const userId = creatorId?._id;
   const avatar = creatorId?.userId?.avatar || avatarDefault;
   const fullName = creatorId?.userId?.fullName;
   const isLoggedIn = !!localStorage.getItem("accessToken");

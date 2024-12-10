@@ -34,7 +34,6 @@ const HistoryPostDriverDetail = () => {
   const getPost = React.useCallback(async () => {
     const response = await axiosInstance.get(`/driverpost/${postId}`);
     setPost(response.data);
-    console.log(response.data);
   }, [postId]);
 
   const createImageUrl = (imageFile) => {
@@ -105,41 +104,39 @@ const HistoryPostDriverDetail = () => {
       formData.append("destinationCity", post.destinationCity);
       formData.append("description", post.description);
       formData.append("creatorId", userId);
-      post.images.forEach((image) => {
-        formData.append("images", image);
-      });
 
-      tempImages.forEach((image) => {
-        formData.append("images", image);
-      });
+      // Gửi ảnh hiện tại dưới dạng JSON string
+      if (post.images && post.images.length > 0) {
+        formData.append("existingImages", JSON.stringify(post.images));
+      }
+
+      // Gửi ảnh mới nếu có
+      if (tempImages.length > 0) {
+        tempImages.forEach((image) => {
+          formData.append("images", image);
+        });
+      }
 
       setIsLoading(true);
 
-      if (postId) {
-        await axiosInstance.put(`/driverpost/${postId}`, formData, {
+      const response = await axiosInstance.put(
+        `/driverpost/${postId}`,
+        formData,
+        {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        });
-        toast.success("Cập nhật thành công.");
-        setTempImages([]);
-        getPost();
-        return;
-      }
+        }
+      );
 
-      const response = await axiosInstance.post("/driverpost", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      toast.success("Gửi yêu cầu thêm xe thành công.");
+      console.log("Update response:", response.data);
+      toast.success("Cập nhật thành công.");
       setTempImages([]);
-      history.push(`/history-post-driver/detail/${response.data._id}`);
+      await getPost(); // Đợi getPost hoàn thành
     } catch (error) {
-      // Hiển thị thông báo lỗi cụ thể nếu có
+      console.error("Error details:", error.response?.data);
       const errorMessage = error.response?.data?.message || "Đã có lỗi xảy ra";
       toast.error(errorMessage);
-      console.error("Error submitting post:", error);
     } finally {
       setIsLoading(false);
     }

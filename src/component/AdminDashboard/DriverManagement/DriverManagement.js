@@ -258,8 +258,6 @@ const DriverManagement = () => {
         </tbody>
       </Table>
 
-      <p>{`Hiển thị ${filteredDrivers.length} trên tổng ${drivers.length} tài xế.`}</p>
-
       <div className="driver-management-pagination-controls text-center">
         <ReactPaginate
           pageCount={Math.ceil(filteredDrivers.length / driversPerPage)}

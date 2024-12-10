@@ -23,7 +23,7 @@ const DriverCard = () => {
         if (response.status === 200 && response.data.favorite) {
           setDriver(response.data.favorite.driverId);
           setDriverFavorite(response.data.favorite.driverId._id);
-          setDriverId(response.data.favorite.driverId.userId._id);
+          setDriverId(response.data.favorite.driverId._id);
         } else {
           toast.error("Lấy thông tin tài xế thất bại");
         }

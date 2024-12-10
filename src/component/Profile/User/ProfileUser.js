@@ -127,9 +127,9 @@ const ProfileUser = ({ data, refetch }) => {
       return;
     } else {
       try {
-        let avatarUrl = avatar;
+        let avatarUrl = newAvatar ? undefined : avatar;
 
-        if (newAvatar) {
+        if (newAvatar instanceof File) {
           const formData = new FormData();
           formData.append("file", newAvatar);
           formData.append("upload_preset", "Transaction");
@@ -150,15 +150,20 @@ const ProfileUser = ({ data, refetch }) => {
             return;
           }
         }
+        const updateData = {
+          fullName: newName,
+          phone: newPhone,
+          email: newEmail,
+          address: newAddress,
+        };
+
+        if (avatarUrl) {
+          updateData.avatar = avatarUrl;
+        }
+
         const res = await axiosInstance.put(
           `https://xehang.site/auth/update-user/${_id}`,
-          {
-            fullName: newName,
-            phone: newPhone,
-            email: newEmail,
-            address: newAddress,
-            avatar: avatarUrl,
-          }
+          updateData
         );
         if (res.status === 200) {
           toast.success("Cập nhật thông tin thành công!");
