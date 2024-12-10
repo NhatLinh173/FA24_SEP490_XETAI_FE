@@ -13,14 +13,12 @@ import Home_One from "./page/indexPage";
 import About from "./page/About";
 import Service from "./page/Service";
 import ServiceDetail from "./component/Common/Service/ServiceDetail";
-import ServiceDetails from "./page/ServiceDetails";
 import BlogGrid from "./page/BlogGrid";
 import BlogWithSidebar from "./page/BlogWithSidebar";
 import BlogDetails from "./page/BlogDetails";
 import BlogDetail from "./component/BlogDetails/BlogDetail";
 import OurTeamArea from "./page/OurTeam";
 import Testimonials from "./page/Testimonial";
-import Gallery from "./page/Gallery";
 import Faqs from "./page/Faqs";
 import TrackYourShip from "./page/TrackYourShip";
 import SignUp from "./page/SignUp";
@@ -90,14 +88,12 @@ const AppContent = () => {
         <Route path="/post-driver" component={Post} />
         <Route path="/order/:id" extract component={ServiceDetail} />
         <Route path="/history-post/:id" extract component={HistoryPostDetail} />
-        <Route path="/order_details" exact component={ServiceDetails} />
         <Route path="/blog_grid" exact component={BlogGrid} />
         <Route path="/blog_with_sidebar" exact component={BlogWithSidebar} />
         <Route path="/blog_details" exact component={BlogDetails} />
         <Route path="/blog/:id" extract component={BlogDetail} />
         <Route path="/our_team" exact component={OurTeamArea} />
         <Route path="/testimonials" exact component={Testimonials} />
-        <Route path="/gallery" exact component={Gallery} />
         <Route path="/faqs" exact component={Faqs} />
         <Route path="/track_ship" exact component={TrackYourShip} />
         <Route path="/pricing" exact component={PricingContent} />
