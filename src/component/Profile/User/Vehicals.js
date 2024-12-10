@@ -44,7 +44,7 @@ const Vehicals = () => {
       toast.success(`Xóa thành công ${selectedName}`);
       getMyVehicals();
     } catch (error) {
-      toast.success("Có lỗi xảy ra");
+      toast.error("Có lỗi xảy ra");
     }
   };
 

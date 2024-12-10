@@ -8,6 +8,22 @@ const DriverDetail = () => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const { driverId } = useParams();
+  // const [driverId, setDriverId] = useState("");
+
+  // useEffect(() => {
+  //   const getInfoDriver = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(`/auth/user/${userId}`);
+  //       setDriver(response.data.driverDetails);
+  //       console.log("Driver info:", response.data.driverDetails);
+  //     } catch (error) {
+  //       console.error("Error fetching driver info:", error);
+  //     }
+  //   };
+  //   if (driverId) {
+  //     getInfoDriver();
+  //   }
+  // }, [driverId]);
 
   useEffect(() => {
     const getInfoDriver = async () => {
@@ -54,10 +70,8 @@ const DriverDetail = () => {
   return (
     <div className="wrapper container pb-5">
       <div className="row">
-        {/* Left Side: Driver and Vehicle Info */}
         <div className="col-md-8">
           <div className="border rounded p-3 shadow-sm">
-            {/* Driver Information */}
             <div className="d-flex border-bottom pb-3 mb-3">
               <img
                 src={driver.avatar || avatarDefault}
@@ -229,7 +243,7 @@ const DriverDetail = () => {
             </div>
 
             <div className="pt-3 statistics-section">
-              <h6>averageRating</h6>
+              <h6>Đánh giá trung bình</h6>
               <div className="statistics-item">
                 <p className="stat-label">Chuyến đi tuần này:</p>
                 <p className="stat-value">{driver.tripsThisWeek}</p>

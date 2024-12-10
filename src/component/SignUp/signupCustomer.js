@@ -22,6 +22,7 @@ const SignUpCustomer = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [verificationId, setVerificationId] = useState("");
   const [isOtpSending, setIsOtpSending] = useState(false);
+  const [confirmationResult, setConfirmationResult] = useState(null);
   const [errors, setErrors] = useState({
     fullName: "",
     phone: "",
@@ -90,6 +91,9 @@ const SignUpCustomer = () => {
     if (!value.trim()) {
       return `${fieldLabels[field]} không được để trống`;
     }
+    if (field === "password" && !regexPattern.password.test(value)) {
+      return "Mật khẩu không hợp lệ! Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái và số.";
+    }
     if (!regexPattern[field]?.test(value)) {
       return `${fieldLabels[field]} sai định dạng`;
     }
@@ -101,11 +105,7 @@ const SignUpCustomer = () => {
 
     try {
       const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        phone,
-        appVerifier
-      );
+      const result = await signInWithPhoneNumber(auth, phone, appVerifier);
       setVerificationId(window.confirmationResult.verificationId);
       setOtpSent(true);
       toast.success("Mã OTP đã được gửi!");
@@ -125,7 +125,8 @@ const SignUpCustomer = () => {
 
   const handleVerifyOTP = async () => {
     try {
-      if (!window.confirmationResult) {
+      console.log(window.confirmationResult);
+      if (!confirmationResult) {
         toast.error("Vui lòng gửi lại mã OTP");
         return;
       }
@@ -324,9 +325,9 @@ const SignUpCustomer = () => {
                             style={{
                               color: "red",
                               fontSize: "14px",
-                              marginRight: "15px",
-                              width: "250px",
+                              width: "100%",
                               textAlign: "left",
+                              marginTop: "5px",
                             }}
                           >
                             {errors.password}

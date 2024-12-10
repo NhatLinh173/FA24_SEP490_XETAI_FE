@@ -8,7 +8,7 @@ import {
 import Navbar from "./component/Common/Navbar";
 import Footer from "./component/Common/Footer";
 import CopyRight from "./component/Common/CopyRight";
-
+import ChatIcon from "./component/Chat/chatIcon";
 import Home_One from "./page/indexPage";
 import About from "./page/About";
 import Service from "./page/Service";
@@ -187,6 +187,7 @@ const AppContent = () => {
       {!isDashboardPage && <Footer />}
       {!isDashboardPage && <CopyRight />}
       <CustomModal isOpen={isOpen} closeModal={closeModal} />
+      <ChatIcon />
     </>
   );
 };

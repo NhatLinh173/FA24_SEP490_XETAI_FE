@@ -1,29 +1,6 @@
 import React from "react";
-// Import Counter
 import Counter from "./Counter";
-// About Img
 import img1 from "../../../assets/img/About/pexels-quintingellar-2199293 (1).jpg";
-// Counter Data
-// const CounterData = [
-//   {
-//     countStart: 100,
-//     countEnd: 12345,
-//     heading: "COMPANY ESTABLISHED",
-//     icon: " fas fa-building",
-//   },
-//   {
-//     countStart: 100,
-//     countEnd: 12345,
-//     heading: "COUNTRIES SERVED",
-//     icon: "fas fa-globe",
-//   },
-//   {
-//     countStart: 100,
-//     countEnd: 12345,
-//     heading: "PORTS SERVED",
-//     icon: " fas fa-building",
-//   },
-// ];
 
 const HomeAbout = () => {
   return (
@@ -58,19 +35,6 @@ const HomeAbout = () => {
               </div>
             </div>
           </div>
-          {/* <div className="about_counter_area">
-            <div className="row">
-              {CounterData.map((data, index) => (
-                <Counter
-                  countStart={data.countStart}
-                  countEnd={data.countEnd}
-                  heading={data.heading}
-                  icon={data.icon}
-                  key={index}
-                />
-              ))}
-            </div>
-          </div> */}
         </div>
       </section>
     </>

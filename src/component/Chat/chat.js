@@ -16,7 +16,10 @@ const Chat = () => {
   const [receiver, setReceiver] = useState(null);
   const [chatUsers, setChatUsers] = useState([]);
   const [userPhone, setUserPhone] = useState("");
+  const [newMessages, setNewMessages] = useState({});
+  const [newMessageCount, setNewMessageCount] = useState(0);
   const senderId = localStorage.getItem("userId");
+
   const messageContainerRef = useRef(null);
   const socket = useWebSocket();
   const { id: urlId } = useParams();
@@ -25,6 +28,13 @@ const Chat = () => {
     _id: "6738bd39c4d3ee9ccbe89703",
     name: "Hệ Thống Hỗ Trợ",
     avatar: avatarAdmin,
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   useEffect(() => {
@@ -59,6 +69,17 @@ const Chat = () => {
 
   useEffect(() => {
     if (socket) {
+      socket.on("receiveMessage", (newMessage) => {
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+        updateChatUserWithLatestMessage(newMessage);
+
+        setNewMessages((prevNewMessages) => ({
+          ...prevNewMessages,
+          [newMessage.senderId]:
+            (prevNewMessages[newMessage.senderId] || 0) + 1,
+        }));
+      });
+
       socket.on("conversationIdCreated", ({ conversationId }) => {
         setConversationId(conversationId);
         loadMessages(conversationId);
@@ -80,11 +101,6 @@ const Chat = () => {
         socket.emit("joinRoom", senderId);
         socket.on("joinedRoom", (roomId) => {
           console.log(`Joined room: ${roomId}`);
-        });
-
-        socket.on("receiveMessage", (newMessage) => {
-          setMessages((prevMessages) => [...prevMessages, newMessage]);
-          updateChatUserWithLatestMessage(newMessage);
         });
       }
 
@@ -152,12 +168,6 @@ const Chat = () => {
   }, [senderId]);
 
   useEffect(() => {
-    if (chatUsers.length > 0) {
-      handleUserClick(chatUsers[0].participant);
-    }
-  }, [chatUsers]);
-
-  useEffect(() => {
     if (userPhone && chatUsers.length > 0) {
       const user = chatUsers.find(
         (user) => user.participant.phone === userPhone
@@ -215,36 +225,67 @@ const Chat = () => {
   };
 
   const handleUserClick = async (user) => {
-    if (user && user._id) {
+    console.log("Clicked user:", user); // Debug log
+    if (!user || !user._id) {
+      console.error("Invalid user object:", user);
+      return;
+    }
+    if (user._id) {
       setReceiverId(user._id.toString());
       setReceiver(user);
+
+      setNewMessages((prevNewMessages) => ({
+        ...prevNewMessages,
+        [user._id]: 0,
+      }));
+
+      try {
+        const response = await axios.post(`https://xehang.site/conversation`, {
+          senderId,
+          receiverId: user._id.toString(),
+        });
+        const newConversationId = response.data.conversationId;
+        setConversationId(newConversationId);
+
+        socket.emit("joinConversation", newConversationId);
+        loadMessages(newConversationId);
+      } catch (error) {
+        console.error("Error loading conversation:", error);
+      }
     } else {
-      setReceiverId(urlId);
-    }
+      if (urlId) {
+        setReceiverId(urlId);
+        try {
+          const response = await axios.post(
+            `https://xehang.site/conversation`,
+            {
+              senderId,
+              receiverId: urlId,
+            }
+          );
+          const newConversationId = response.data.conversationId;
+          setConversationId(newConversationId);
 
-    try {
-      const response = await axios.post(`https://xehang.site/conversation`, {
-        senderId,
-        receiverId: user._id.toString(),
-      });
-      const newConversationId = response.data.conversationId;
-      setConversationId(newConversationId);
-
-      socket.emit("joinConversation", newConversationId);
-      loadMessages(newConversationId);
-    } catch (error) {
-      console.error("Error loading conversation:", error);
+          socket.emit("joinConversation", newConversationId);
+          loadMessages(newConversationId);
+        } catch (error) {
+          console.error("Error loading conversation:", error);
+        }
+      } else {
+        console.error("Neither user._id nor urlId is available");
+      }
     }
   };
 
   const updateChatUserWithLatestMessage = (newMessage) => {
-    setChatUsers((prevChatUsers) =>
-      prevChatUsers.map((user) =>
+    setChatUsers((prevChatUsers) => {
+      const updatedUsers = prevChatUsers.map((user) =>
         user.participant._id === newMessage.senderId
           ? { ...user, latestMessage: newMessage.text }
           : user
-      )
-    );
+      );
+      return updatedUsers;
+    });
   };
 
   useEffect(() => {
@@ -301,12 +342,15 @@ const Chat = () => {
         </div>
         <div style={{ padding: "16px", borderBottom: "1px solid #e0e0e0" }}>
           <h4>Đoạn Chat</h4>
-          {chatUsers.map(
-            (conv) =>
-              conv.participant &&
-              conv.participant._id && (
+          {chatUsers &&
+            chatUsers.length > 0 &&
+            chatUsers.map((conv) => {
+              // Kiểm tra conv và conv.participant tồn tại
+              if (!conv || !conv.participant) return null;
+
+              return (
                 <div
-                  key={conv.participant._id}
+                  key={conv.participant._id || "default-key"}
                   onClick={() => handleUserClick(conv.participant)}
                   style={{
                     display: "flex",
@@ -314,7 +358,7 @@ const Chat = () => {
                     padding: "16px",
                     cursor: "pointer",
                     backgroundColor:
-                      receiverId === conv.participant._id.toString()
+                      receiverId === conv?.participant?._id?.toString()
                         ? "#e6f2ff"
                         : "transparent",
                     transition: "background-color 0.3s",
@@ -323,8 +367,8 @@ const Chat = () => {
                   }}
                 >
                   <img
-                    src={conv.participant.avatar || avatarDefault}
-                    alt={`${conv.participant.name}'s avatar`}
+                    src={conv.participant?.avatar || avatarDefault}
+                    alt={`${conv.participant?.name || "User"}'s avatar`}
                     style={{
                       width: "40px",
                       height: "40px",
@@ -334,22 +378,29 @@ const Chat = () => {
                   />
                   <div>
                     <p style={{ fontWeight: "bold", margin: 0 }}>
-                      {conv.participant.name}
+                      {conv.participant?.fullName || "Hệ Thống Hỗ Trợ"}
                     </p>
                     <p
                       style={{ fontSize: "14px", color: "#65676b", margin: 0 }}
                     >
-                      {conv.participant.phone}
+                      {conv.participant?.phone || "No phone"}
                     </p>
                     {conv.latestMessage && (
                       <p style={{ fontSize: "12px", color: "#888", margin: 0 }}>
                         {conv.latestMessage}
                       </p>
                     )}
+                    {newMessages[conv.participant?._id] > 0 && (
+                      <p
+                        style={{ fontWeight: "bold", color: "red", margin: 0 }}
+                      >
+                        {newMessages[conv.participant._id]} tin nhắn mới
+                      </p>
+                    )}
                   </div>
                 </div>
-              )
-          )}
+              );
+            })}
         </div>
         <div style={{ height: "calc(100vh - 120px)", overflowY: "auto" }}>
           {searchResults.map((user) => (
@@ -399,7 +450,7 @@ const Chat = () => {
           {receiver && (
             <div style={{ display: "flex", alignItems: "center" }}>
               <img
-                src={receiver.avatar}
+                src={receiver.avatar || avatarDefault}
                 alt={`${receiver.name}'s avatar`}
                 style={{
                   width: "40px",
@@ -427,7 +478,7 @@ const Chat = () => {
               style={{
                 display: "flex",
                 justifyContent:
-                  msg.msgByUserId._id === senderId ? "flex-end" : "flex-start",
+                  msg.msgByUserId?._id === senderId ? "flex-end" : "flex-start",
                 marginBottom: "16px",
               }}
             >
@@ -435,20 +486,24 @@ const Chat = () => {
                 style={{
                   display: "flex",
                   flexDirection:
-                    msg.msgByUserId._id === senderId ? "row-reverse" : "row",
-                  alignItems: "center",
-                  maxWidth: "70%",
+                    msg.msgByUserId?._id === senderId ? "row-reverse" : "row",
+                  alignItems: "flex-end",
+                  gap: "8px",
                 }}
               >
                 <div
                   style={{
-                    padding: "10px",
-                    borderRadius: "8px",
+                    padding: "12px 16px",
+                    borderRadius: "18px",
                     backgroundColor:
-                      msg.msgByUserId._id === senderId ? "#0084ff" : "#e0e0e0",
-                    color: msg.msgByUserId._id === senderId ? "white" : "black",
-                    maxWidth: "70%",
+                      msg.msgByUserId?._id === senderId ? "#0084ff" : "#e4e6eb",
+                    color:
+                      msg.msgByUserId?._id === senderId ? "white" : "black",
+                    maxWidth: "500px",
                     wordBreak: "break-word",
+                    fontSize: "15px",
+                    lineHeight: "1.4",
+                    width: "fit-content",
                   }}
                 >
                   {msg.text}
@@ -456,10 +511,9 @@ const Chat = () => {
                 <span
                   style={{
                     fontSize: "12px",
-                    color: "#888",
-                    marginTop: "4px",
-                    textAlign:
-                      msg.msgByUserId._id === senderId ? "right" : "left",
+                    color: "#65676B",
+                    padding: "0 4px",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {new Date(msg.createdAt).toLocaleTimeString([], {
@@ -476,6 +530,7 @@ const Chat = () => {
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Aa"
             style={{
               width: "calc(100% - 50px)",
