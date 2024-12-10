@@ -14,20 +14,15 @@ import About from "./page/About";
 import Service from "./page/Service";
 import ServiceDetail from "./component/Common/Service/ServiceDetail";
 import BlogGrid from "./page/BlogGrid";
-import BlogWithSidebar from "./page/BlogWithSidebar";
 import BlogDetails from "./page/BlogDetails";
 import BlogDetail from "./component/BlogDetails/BlogDetail";
-import OurTeamArea from "./page/OurTeam";
 import Testimonials from "./page/Testimonial";
-import Faqs from "./page/Faqs";
 import TrackYourShip from "./page/TrackYourShip";
 import SignUp from "./page/SignUp";
 import SignIn from "./page/SignIn";
 import PrivacyPolicy from "./page/PrivacyPolicy";
 import TermsCondition from "./page/TermsCondition";
-import Error from "./page/Error";
 import Contact from "./page/Contact";
-import PricingContent from "./page/Pricing";
 import RequestQuote from "./page/RequestQuote";
 import AccountTypes from "./page/AccountTypes";
 import Profile from "./page/Profile";
@@ -89,20 +84,15 @@ const AppContent = () => {
         <Route path="/order/:id" extract component={ServiceDetail} />
         <Route path="/history-post/:id" extract component={HistoryPostDetail} />
         <Route path="/blog_grid" exact component={BlogGrid} />
-        <Route path="/blog_with_sidebar" exact component={BlogWithSidebar} />
         <Route path="/blog_details" exact component={BlogDetails} />
         <Route path="/blog/:id" extract component={BlogDetail} />
-        <Route path="/our_team" exact component={OurTeamArea} />
         <Route path="/testimonials" exact component={Testimonials} />
-        <Route path="/faqs" exact component={Faqs} />
         <Route path="/track_ship" exact component={TrackYourShip} />
-        <Route path="/pricing" exact component={PricingContent} />
         <Route path="/unauthorized" exact component={Unauthorized} />
         <Route path="/vehical/detail/:id" exact component={VehicalDetail} />
         <Route path="/vehical/add" exact component={VehicalAdd} />
         <Route path="/forgot-password" exact component={ForgotPassword} />
         <Route path="/reset-password" exact component={ResetPassword} />
-        <Route path="/error" exact component={Error} />
         <Route path="/favorite-drivers" exact component={FavoriteDrivers} />
         <Route path="/driver/:driverId" exact component={DriverDetail} />
         <Route path="/trip/detail/:id" exact component={TripDetail} />
