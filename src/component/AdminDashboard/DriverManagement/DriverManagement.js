@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table, Form, Modal, Button } from "react-bootstrap";
-import { FaLock, FaUnlock, FaSortUp, FaSortDown } from "react-icons/fa";
+import { FaLock, FaUnlock } from "react-icons/fa";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import axiosIntance from "../../../config/axiosConfig";
@@ -14,11 +14,7 @@ const DriverManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [lockDuration, setLockDuration] = useState("");
-  const [driversPerPage, setDriversPerPage] = useState(10);
-  const [sortConfig, setSortConfig] = useState({
-    key: "fullName",
-    direction: "ascending",
-  });
+  const driversPerPage = 10;
 
   const filteredDrivers = drivers.filter((driver) =>
     driver.phone?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,17 +45,7 @@ const DriverManagement = () => {
     driver();
   }, []);
 
-  const sortedDrivers = [...filteredDrivers].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? 1 : -1;
-    }
-    return 0;
-  });
-
-  const displayedDrivers = sortedDrivers.slice(
+  const displayedDrivers = filteredDrivers.slice(
     currentPage * driversPerPage,
     (currentPage + 1) * driversPerPage
   );
@@ -132,25 +118,6 @@ const DriverManagement = () => {
     }
   };
 
-  const requestSort = (key) => {
-    let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
-    }
-    setSortConfig({ key, direction });
-  };
-
-  const getSortIcon = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === "ascending" ? (
-        <FaSortUp />
-      ) : (
-        <FaSortDown />
-      );
-    }
-    return null;
-  };
-
   return (
     <div className="driver-management-container mt-5">
       <h2 className="driver-management-title mb-4 text-center">
@@ -172,44 +139,12 @@ const DriverManagement = () => {
         </Form.Group>
       </Form>
 
-      <div className="mb-3 d-flex justify-content-end">
-        <Form.Select
-          aria-label="Chọn số lượng tài xế mỗi trang"
-          value={driversPerPage}
-          onChange={(e) => {
-            setDriversPerPage(parseInt(e.target.value));
-            setCurrentPage(0);
-          }}
-          style={{ width: "200px" }}
-        >
-          <option value="5">5 tài xế</option>
-          <option value="10">10 tài xế</option>
-          <option value="20">20 tài xế</option>
-          <option value="50">50 tài xế</option>
-        </Form.Select>
-      </div>
-
       <Table striped bordered hover className="driver-management-table mt-3">
         <thead>
           <tr>
-            <th
-              onClick={() => requestSort("name")}
-              style={{ cursor: "pointer" }}
-            >
-              Tên {getSortIcon("fullName")}
-            </th>
-            <th
-              onClick={() => requestSort("email")}
-              style={{ cursor: "pointer" }}
-            >
-              Email {getSortIcon("email")}
-            </th>
-            <th
-              onClick={() => requestSort("phone")}
-              style={{ cursor: "pointer" }}
-            >
-              Điện thoại {getSortIcon("phone")}
-            </th>
+            <th>Tên </th>
+            <th>Email</th>
+            <th>Điện thoại </th>
             <th>Địa chỉ</th>
 
             <th>Trạng thái</th>
