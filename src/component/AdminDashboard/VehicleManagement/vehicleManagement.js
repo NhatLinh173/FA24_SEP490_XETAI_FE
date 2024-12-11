@@ -215,7 +215,7 @@ function VehicleManager() {
                     <img
                       src={selectedRegistration.imageCar}
                       alt="Hình ảnh xe"
-                      className="vehicle-detail-image"
+                      className="vehicle-detail-image fix-img"
                     />
                   </div>
                   <div className="vehicle-detail-info">
@@ -223,7 +223,7 @@ function VehicleManager() {
                     <img
                       src={selectedRegistration.imageRegistration}
                       alt="Giấy xe đăng kiểm"
-                      className="vehicle-detail-image"
+                      className="vehicle-detail-image fix-img"
                     />
                   </div>
                 </div>

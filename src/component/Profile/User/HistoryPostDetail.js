@@ -821,7 +821,7 @@ const HistoryPostDetail = () => {
                   post.status === "inprogress") && (
                   <div>
                     <h5 className="font-weight-bold custom-time ">
-                      Ngày giờ dự kiến
+                      Ngày giao dự kiến
                     </h5>
                     <br />
                     <div className="">
