@@ -40,7 +40,15 @@ const PostItem = ({
       history.push(`/driver/${userId}`);
     }
   };
-
+  const handleContactClickWithLoginCheck = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      history.push(`/signin`);
+      toast.error("Bạn cần đăng nhập để liên hệ.");
+    } else {
+      handleContactClick(creatorId.userId); // Gọi lại hàm handleContactClick nếu đã đăng nhập
+    }
+  };
   return (
     <div className="post-item">
       <div
@@ -75,13 +83,13 @@ const PostItem = ({
 
         <div className="post-header">
           <Link to="#" onClick={handleDriverClick}>
-            <img src={avatar} alt="Avatar" className="post-avatar mr-1" />
+            <img src={avatar} alt="Avatar" className="post-avatar mr-2" />
           </Link>
           <div>
             <Link to="#" onClick={handleDriverClick}>
-              <h4 className="post-driver-name">{fullName}</h4>
+              <h4 className="post-driver-name ml-2">{fullName}</h4>
             </Link>
-            <p className="post-created-at">{formatDate(createdAt)}</p>
+            <p className="post-created-at ml-2">{formatDate(createdAt)}</p>
           </div>
         </div>
 
@@ -98,7 +106,7 @@ const PostItem = ({
         <div className="post-footer">
           <Button
             className="btn-theme border-0"
-            onClick={() => handleContactClick(creatorId.userId)}
+            onClick={handleContactClickWithLoginCheck}
           >
             Liên hệ
           </Button>
