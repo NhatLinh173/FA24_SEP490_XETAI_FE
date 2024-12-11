@@ -105,8 +105,13 @@ const SignUpCustomer = () => {
 
     try {
       const appVerifier = window.recaptchaVerifier;
-      const result = await signInWithPhoneNumber(auth, phone, appVerifier);
-      setVerificationId(window.confirmationResult.verificationId);
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phone,
+        appVerifier
+      );
+      window.confirmationResult = confirmationResult;
+      setConfirmationResult(confirmationResult);
       setOtpSent(true);
       toast.success("Mã OTP đã được gửi!");
     } catch (error) {
@@ -126,7 +131,7 @@ const SignUpCustomer = () => {
   const handleVerifyOTP = async () => {
     try {
       console.log(window.confirmationResult);
-      if (!confirmationResult) {
+      if (!window.confirmationResult) {
         toast.error("Vui lòng gửi lại mã OTP");
         return;
       }

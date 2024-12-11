@@ -115,8 +115,9 @@ const ForgotPassword = () => {
       const result = await window.confirmationResult.confirm(otpCode);
       if (result.user) {
         toast.success("Xác thực thành công");
-        history.push("/reset-password", {
-          phone: phoneNumber,
+        history.push({
+          pathname: "/reset-password",
+          state: { phone: phoneNumber },
         });
       }
     } catch (error) {
