@@ -94,9 +94,9 @@ const Statistical = ({ driverId }) => {
               "CN",
             ];
             const currentDate = new Date();
-            const currentDay = currentDate.getDay(); // 0 (Chủ Nhật) đến 6 (Thứ Bảy)
+            const currentDay = currentDate.getDay();
             const weekStartDate = new Date(currentDate);
-            weekStartDate.setDate(currentDate.getDate() - currentDay + 1); // Lấy Thứ Hai đầu tuần
+            weekStartDate.setDate(currentDate.getDate() - currentDay + 1);
 
             newLabels = daysOfWeek;
             newTripDataPoints = daysOfWeek.map((day, index) => {
@@ -139,12 +139,12 @@ const Statistical = ({ driverId }) => {
             break;
 
           case "month":
-            const month = new Date().getMonth() + 1;
-            const monthLabel = `Tháng ${month}`;
-
+            const now = new Date();
+            const currentMonth = now.getMonth() + 1;
+            const currentYear = now.getFullYear();
             const totalDaysInMonth = new Date(
-              new Date().getFullYear(),
-              month,
+              currentYear,
+              currentMonth,
               0
             ).getDate();
 
@@ -155,39 +155,73 @@ const Statistical = ({ driverId }) => {
             newTripDataPoints = Array(totalDaysInMonth).fill(0);
             newLineDataPoints = Array(totalDaysInMonth).fill(0);
 
+            // Xử lý dữ liệu từ API
             selectedData.forEach((item) => {
-              const day = new Date(item.timestamp).getDate();
-              if (item.date === monthLabel) {
-                newTripDataPoints[day - 1] += item.trips;
-                newLineDataPoints[day - 1] += item.earnings;
+              const itemDate = new Date(item.timestamp);
+              const day = itemDate.getDate();
+
+              // Kiểm tra nếu dữ liệu thuộc về tháng hiện tại
+              if (
+                itemDate.getMonth() + 1 === currentMonth &&
+                itemDate.getFullYear() === currentYear
+              ) {
+                newTripDataPoints[day - 1] = item.trips;
+                newLineDataPoints[day - 1] = item.earnings || 0;
               }
             });
-
             break;
 
-          case "lastMonth":
-            newLabels = Array.from(
-              {
-                length: new Date(
-                  new Date().getFullYear(),
-                  new Date().getMonth(),
-                  0
-                ).getDate(),
-              },
-              (_, i) => (i + 1).toString()
+          case "lastMonth": {
+            const dateForLastMonth = new Date();
+            let lastMonth = dateForLastMonth.getMonth() - 1; // tháng trước
+            let year = dateForLastMonth.getFullYear();
+
+            // Nếu tháng hiện tại là tháng 1, thì tháng trước là tháng 12 của năm trước
+            if (lastMonth < 0) {
+              lastMonth = 11;
+              year -= 1;
+            }
+
+            const totalDaysInLastMonth = new Date(
+              year,
+              lastMonth + 1,
+              0
+            ).getDate();
+
+            newLabels = Array.from({ length: totalDaysInLastMonth }, (_, i) =>
+              (i + 1).toString()
             );
-            newTripDataPoints = newLabels.map((day) => {
-              const dayData = selectedData.find((item) => item.day === day);
-              return dayData ? dayData.trips : 0;
-            });
-            newLineDataPoints = newLabels.map((day) => {
-              const dayData = selectedData.find((item) => item.day === day);
-              return dayData ? dayData.earnings : 0;
-            });
-            break;
 
+            newTripDataPoints = Array(totalDaysInLastMonth).fill(0);
+            newLineDataPoints = Array(totalDaysInLastMonth).fill(0);
+
+            console.log("Selected Data:", selectedData);
+            console.log("Target Last Month:", lastMonth, "Target Year:", year);
+
+            selectedData.forEach((item) => {
+              // Lấy thông tin ngày từ timestamp
+              const itemDate = new Date(item.timestamp);
+              const day = itemDate.getDate();
+
+              // Trực tiếp set dữ liệu vào mảng tại vị trí ngày tương ứng
+              if (item.trips) {
+                newTripDataPoints[day - 1] = item.trips;
+              }
+              if (item.earnings) {
+                newLineDataPoints[day - 1] = item.earnings;
+              }
+
+              console.log("Setting data for day:", day);
+              console.log("Trips:", item.trips);
+              console.log("Earnings:", item.earnings);
+            });
+
+            console.log("Final Trip Data Points:", newTripDataPoints);
+            console.log("Final Line Data Points:", newLineDataPoints);
+            break;
+          }
           case "year":
-          case "lastYear":
+          case "lastYear": {
             const monthNames = [
               "Tháng 1",
               "Tháng 2",
@@ -204,19 +238,29 @@ const Statistical = ({ driverId }) => {
             ];
 
             newLabels = monthNames;
-            newTripDataPoints = newLabels.map((month) => {
-              const monthData = selectedData.find(
-                (item) => item.month === month
-              );
-              return monthData ? monthData.trips : 0;
+            newTripDataPoints = Array(12).fill(0);
+            newLineDataPoints = Array(12).fill(0);
+
+            selectedData.forEach((item) => {
+              let monthIndex = -1;
+
+              // Kiểm tra định dạng "Tháng X"
+              if (item.month.startsWith("Tháng")) {
+                monthIndex = parseInt(item.month.split(" ")[1]) - 1;
+              } else {
+                // Kiểm tra định dạng "YYYY-MM"
+                const [year, month] = item.month.split("-");
+                monthIndex = parseInt(month) - 1;
+              }
+
+              if (monthIndex >= 0 && monthIndex < 12) {
+                newTripDataPoints[monthIndex] += item.trips;
+                newLineDataPoints[monthIndex] += item.earnings || 0;
+              }
             });
-            newLineDataPoints = newLabels.map((month) => {
-              const monthData = selectedData.find(
-                (item) => item.month === month
-              );
-              return monthData ? monthData.earnings : 0;
-            });
+
             break;
+          }
 
           default:
             console.warn(`Không có dữ liệu cho phạm vi: ${range}`);
