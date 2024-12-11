@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,14 +7,20 @@ import regexPattern from "../../config/regexConfig";
 const ResetPassword = () => {
   const history = useHistory();
   const location = useLocation();
-  const phone = location.state?.phone;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (!location.state?.phone) {
+      history.push("/forgot-password");
+      toast.error("Vui lòng thực hiện quy trình quên mật khẩu!");
+    }
+  }, [location.state, history]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const phone = location.state?.phone;
     if (!newPassword || !confirmPassword) {
       toast.error("Vui lòng nhập mật khẩu mới và xác nhận!");
       return;
