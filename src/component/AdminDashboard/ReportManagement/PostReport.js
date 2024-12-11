@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import axios from "../../../config/axiosConfig";
 
 const PostReport = () => {
-  // Mock data for reports
   const [reportPostDriver, setReportPostDriver] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);

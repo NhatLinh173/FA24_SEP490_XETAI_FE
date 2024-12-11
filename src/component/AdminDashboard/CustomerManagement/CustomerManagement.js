@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Form, Modal, Button } from "react-bootstrap";
-import { FaLock, FaUnlock, FaSortUp, FaSortDown } from "react-icons/fa";
+import { FaLock, FaUnlock } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import useInstanceData from "../../../config/useInstanceData";
 import { toast } from "react-toastify";
@@ -9,7 +9,6 @@ import axiosInstance from "../../../config/axiosConfig";
 
 const CustomerManagement = () => {
   const { data: customer } = useInstanceData("auth/users/customer");
-  console.log(customer);
 
   const [customers, setCustomers] = useState([]);
   const [transaction, setTransaction] = useState([]);
@@ -19,12 +18,7 @@ const CustomerManagement = () => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [lockDuration, setLockDuration] = useState("");
   const [showTransactionModal, setShowTransactionModal] = useState(false);
-  const [customersPerPage, setCustomersPerPage] = useState(10);
-  const [sortConfig, setSortConfig] = useState({
-    key: "name",
-    direction: "ascending",
-  });
-
+  const customersPerPage = 10;
   useEffect(() => {
     if (customer) {
       setCustomers(customer);
@@ -39,17 +33,7 @@ const CustomerManagement = () => {
       customer.phone.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const sortedCustomers = [...filteredCustomers].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? 1 : -1;
-    }
-    return 0;
-  });
-
-  const displayedCustomers = sortedCustomers.slice(
+  const displayedCustomers = filteredCustomers.slice(
     currentPage * customersPerPage,
     (currentPage + 1) * customersPerPage
   );
@@ -113,14 +97,6 @@ const CustomerManagement = () => {
     }
   };
 
-  const requestSort = (key) => {
-    let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
-    }
-    setSortConfig({ key, direction });
-  };
-
   const openTransactionModal = async (id) => {
     const customer = customers.find((customer) => customer._id === id);
     const response = await axiosInstance.get(
@@ -180,23 +156,6 @@ const CustomerManagement = () => {
           />
         </Form.Group>
       </Form>
-
-      <div className="mb-3 d-flex justify-content-end">
-        <Form.Select
-          aria-label="Chọn số lượng khách hàng mỗi trang"
-          value={customersPerPage}
-          onChange={(e) => {
-            setCustomersPerPage(parseInt(e.target.value));
-            setCurrentPage(0);
-          }}
-          style={{ width: "200px" }}
-        >
-          <option value="5">5 khách hàng</option>
-          <option value="10">10 khách hàng</option>
-          <option value="20">20 khách hàng</option>
-          <option value="50">50 khách hàng</option>
-        </Form.Select>
-      </div>
 
       <Table striped bordered hover className="customer-management-table mt-3">
         <thead>

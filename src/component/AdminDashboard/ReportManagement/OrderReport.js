@@ -10,8 +10,6 @@ import axios from "../../../config/axiosConfig";
 
 const ReportManagement = () => {
   const { data: report, refetch } = useInstanceData("/report/post");
-  console.log(report);
-
   const [reports, setReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
