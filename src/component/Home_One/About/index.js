@@ -1,5 +1,4 @@
 import React from "react";
-import Counter from "./Counter";
 import img1 from "../../../assets/img/About/pexels-quintingellar-2199293 (1).jpg";
 
 const HomeAbout = () => {

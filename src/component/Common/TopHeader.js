@@ -32,9 +32,6 @@ const TopHeader = () => {
                 <li className="mr-20">
                   <Link to="/track_ship">Theo dõi đơn hàng</Link>
                 </li>
-                <li className="mr-20">
-                  <Link to="/blog_grid">Tin tức</Link>
-                </li>
               </ul>
             </div>
           </div>

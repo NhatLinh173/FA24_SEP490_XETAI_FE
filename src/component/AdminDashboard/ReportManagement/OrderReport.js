@@ -89,7 +89,7 @@ const ReportManagement = () => {
                   paddingTop: "25px",
                 }}
               >
-                {report?.postId._id}
+                {report?.postId?._id}
               </td>
               <td
                 style={{
@@ -383,18 +383,6 @@ const ReportManagement = () => {
                           />
                         </div>
                         <div className="form-group col-md-6 mt-3">
-                          <label htmlFor="email" className="font-weight-bold">
-                            Email
-                          </label>
-                          <input
-                            id="email"
-                            type="email"
-                            className="form-control position-relative"
-                            value={post?.recipientEmail}
-                            disabled
-                          />
-                        </div>
-                        <div className="form-group col-md-6 mt-3">
                           <label htmlFor="phone" className="font-weight-bold">
                             Số điện thoại
                           </label>
@@ -425,18 +413,6 @@ const ReportManagement = () => {
                             type="text"
                             className="form-control position-relative"
                             value={post?.fullname}
-                            disabled
-                          />
-                        </div>
-                        <div className="form-group col-md-6 mt-3">
-                          <label htmlFor="email" className="font-weight-bold">
-                            Email
-                          </label>
-                          <input
-                            id="email"
-                            type="email"
-                            className="form-control position-relative"
-                            value={post?.email}
                             disabled
                           />
                         </div>

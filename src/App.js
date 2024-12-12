@@ -10,10 +10,8 @@ import Footer from "./component/Common/Footer";
 import CopyRight from "./component/Common/CopyRight";
 import ChatIcon from "./component/Chat/chatIcon";
 import Home_One from "./page/indexPage";
-import About from "./page/About";
 import Service from "./page/Service";
 import ServiceDetail from "./component/Common/Service/ServiceDetail";
-import BlogGrid from "./page/BlogGrid";
 import BlogDetails from "./page/BlogDetails";
 import BlogDetail from "./component/BlogDetails/BlogDetail";
 import Testimonials from "./page/Testimonial";
@@ -78,12 +76,10 @@ const AppContent = () => {
         <Route path="/terms" exact component={TermsCondition} />
         <Route path="/contact" exact component={Contact} />
         <Route path="/" exact component={Home_One} />
-        <Route path="/about" exact component={About} />
         <Route path="/order" exact component={Service} />
         <Route path="/post-driver" component={Post} />
         <Route path="/order/:id" extract component={ServiceDetail} />
         <Route path="/history-post/:id" extract component={HistoryPostDetail} />
-        <Route path="/blog_grid" exact component={BlogGrid} />
         <Route path="/blog_details" exact component={BlogDetails} />
         <Route path="/blog/:id" extract component={BlogDetail} />
         <Route path="/testimonials" exact component={Testimonials} />

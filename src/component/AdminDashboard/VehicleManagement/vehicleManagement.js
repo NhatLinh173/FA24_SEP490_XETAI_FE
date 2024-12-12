@@ -263,7 +263,7 @@ function VehicleManager() {
 
       {showDeleteModal && (
         <div
-          className="modal show fade"
+          className="modal show fade bg-dark bg-opacity-75"
           style={{ display: "block" }}
           tabIndex="-1"
           role="dialog"
