@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "./axiosConfig";
 
-const useInstanceData = (url) => {
+const useInstanceData = (url, dependency = null) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +22,7 @@ const useInstanceData = (url) => {
       }
     };
     fetchData();
-  }, [url, key]);
+  }, [url, dependency]);
 
   const refetch = () => {
     setKey((prevKey) => prevKey + 1);

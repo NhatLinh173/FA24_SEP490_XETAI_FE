@@ -202,7 +202,7 @@ const SignUpCustomer = () => {
       return;
     }
     const role = "customer";
-    const url = `http://localhost:3000/auth/google?state=${role}`;
+    const url = `https://xehang.online/auth/google?state=${role}`;
     console.log("Redirecting to:", url);
     window.open(url, "_self");
   };
@@ -213,7 +213,7 @@ const SignUpCustomer = () => {
       return;
     }
     const role = "customer";
-    const url = `http://localhost:3000/auth/facebook?state=${role}`;
+    const url = `https://xehang.online/auth/facebook?state=${role}`;
     window.open(url, "_self");
   };
 

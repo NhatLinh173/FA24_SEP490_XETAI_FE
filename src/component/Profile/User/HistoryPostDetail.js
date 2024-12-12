@@ -43,6 +43,7 @@ const HistoryPostDetail = () => {
   const [formData, setFormData] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [orderCode, setOrderCode] = useState("");
+  const [refreshData, setRefreshData] = useState(false);
 
   // các biến lỗi
   const [titleError, setTitleError] = useState("");
@@ -77,8 +78,7 @@ const HistoryPostDetail = () => {
   };
   const driverId = localStorage.getItem("driverId");
 
-  const { data: post } = useInstanceData(`/posts/${id}`);
-  console.log(post);
+  const { data: post } = useInstanceData(`/posts/${id}`, refreshData);
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
 
   const isDealPriceAvailable = deals && deals.length > 0;
@@ -103,6 +103,7 @@ const HistoryPostDetail = () => {
       setIsShowModal(false);
       if (res.status === 200) {
         toast.success("Xác nhận tài xế thành công");
+        setRefreshData((prev) => !prev);
       } else {
         toast.error("Xác nhận tài xế thất bại");
       }
@@ -181,6 +182,7 @@ const HistoryPostDetail = () => {
       setIsShowModalCancel(true);
     } else {
       await submitFormData(formData);
+      setRefreshData((prev) => !prev);
     }
   };
 
@@ -1524,14 +1526,11 @@ const HistoryPostDetail = () => {
               </h3>
               <div className="contact-info">
                 <div className="contact-avatar-wrapper rounded-circle">
-                  {post?.creator.avatar ||
-                    (avatarDefault && (
-                      <img
-                        src={post?.creator.avatar || avatarDefault}
-                        className="contact-avatar rounded-circle"
-                        alt="contact avatar"
-                      />
-                    ))}
+                  <img
+                    src={post?.creator?.avatar || avatarDefault}
+                    className="contact-avatar rounded-circle"
+                    alt="contact avatar"
+                  />
                 </div>
                 <div className="contact-details">
                   <ul className="list-group">

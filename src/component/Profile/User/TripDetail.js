@@ -10,7 +10,7 @@ import TripCarousel from "./TripCarousel";
 import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
 import { FaBoxOpen } from "react-icons/fa";
 import dayjs from "dayjs";
-
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 const TripDetail = () => {
   const [tripDetail, setTripDetail] = useState(null);
   const [rating, setRating] = useState(0);
@@ -131,6 +131,7 @@ const TripDetail = () => {
     try {
       const response = await axiosInstance.get(`/posts/${id}`);
       setTripDetail(response.data);
+      console.log(response.data);
       setDriver(response.data.dealId.driverId.userId._id);
       setDriverId(response.data.dealId.driverId._id);
       await getRatingDetails(response.data.dealId.driverId.userId._id);
@@ -505,8 +506,9 @@ const TripDetail = () => {
                   <img
                     src={
                       isDriverRole
-                        ? tripDetail.creator.avatar
-                        : tripDetail.dealId.driverId.userId.avatar
+                        ? tripDetail.creator.avatar || avatarDefault
+                        : tripDetail.dealId.driverId.userId.avatar ||
+                          avatarDefault
                     }
                     className="mt-3 contact-avatar rounded-circle"
                     alt="contact avatar"
