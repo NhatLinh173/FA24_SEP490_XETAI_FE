@@ -220,8 +220,10 @@ const ServiceDetail = () => {
   };
 
   const handlePriceChange = (e) => {
-    const value = e.target.value.replace(/\D/g, "");
-    const formattedValue = new Intl.NumberFormat().format(value);
+    const value = e.target.value.replace(/[^\d]/g, "");
+
+    const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
     setNegotiatedPrice(formattedValue);
   };
 
@@ -391,8 +393,8 @@ const ServiceDetail = () => {
                           postData.paymentMethod === "bank_transfer"
                             ? "Chuyển khoản ngân hàng"
                             : postData.paymentMethod === "cash"
-                            ? "Tiền mặt"
-                            : "Không xác định"
+                              ? "Tiền mặt"
+                              : "Không xác định"
                         }
                         type="text"
                         className="form-control"
