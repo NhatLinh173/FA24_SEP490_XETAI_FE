@@ -494,8 +494,8 @@ const HistoryPostDetail = () => {
                         totalImage.length === 1
                           ? "justify-content-center"
                           : totalImage.length === 2
-                            ? "justify-content-center w-100"
-                            : "justify-content-between w-100"
+                          ? "justify-content-center w-100"
+                          : "justify-content-between w-100"
                       }`}
                     >
                       {totalImage.map((image, index) => (
@@ -685,10 +685,10 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "hide"
-                              ? "bg-secondary text-white "
-                              : status === "wait"
-                                ? "bg-warning text-Black"
-                                : ""
+                            ? "bg-secondary text-white "
+                            : status === "wait"
+                            ? "bg-warning text-Black"
+                            : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -700,7 +700,7 @@ const HistoryPostDetail = () => {
                           Hủy đơn hàng
                         </option>
                         <option value="wait" class="bg-white options-text">
-                          Đang chờ duyệt
+                          Đang chờ xác nhận
                         </option>
                       </select>
                     )}
@@ -713,8 +713,8 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "wait"
-                              ? "bg-warning text-Black"
-                              : ""
+                            ? "bg-warning text-Black"
+                            : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -724,7 +724,7 @@ const HistoryPostDetail = () => {
                           disabled
                           className="bg-white options-text"
                         >
-                          Đang chờ duyệt
+                          Đang chờ xác nhận
                         </option>
                         <option value="cancel" class="bg-white options-text">
                           Hủy đơn hàng
@@ -744,8 +744,8 @@ const HistoryPostDetail = () => {
                         status === "inprogress"
                           ? "bg-primary text-white "
                           : status === "finish"
-                            ? "bg-success text-white"
-                            : ""
+                          ? "bg-success text-white"
+                          : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -768,8 +768,8 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                            ? "bg-info text-white"
-                            : ""
+                          ? "bg-info text-white"
+                          : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -789,10 +789,10 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                            ? "bg-secondary text-white"
-                            : status === "inprogress"
-                              ? "bg-primary text-white "
-                              : ""
+                          ? "bg-secondary text-white"
+                          : status === "inprogress"
+                          ? "bg-primary text-white "
+                          : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
