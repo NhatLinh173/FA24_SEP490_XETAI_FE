@@ -6,52 +6,67 @@ import { FaMapLocation } from "react-icons/fa6";
 import { BsFillFilePostFill } from "react-icons/bs";
 import axiosInstance from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
+import ReactPaginate from "react-paginate";
 
 const HistoryPostDriver = () => {
   const history = useHistory();
   const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại
   const [showModal, setShowModal] = useState(false);
   const [postToDelete, setPostToDelete] = useState(null);
   const driverId = localStorage.getItem("driverId");
+  const postsPerPage = 5; // Số bài đăng trên mỗi trang
 
   const getPosts = async () => {
-    const response = await axiosInstance.get(`/driverpost/creator/${driverId}`);
-    setPosts(response.data);
-    console.log(response.data);
+    try {
+      const response = await axiosInstance.get(
+        `/driverpost/creator/${driverId}`
+      );
+      setPosts(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy bài đăng:", error);
+    }
   };
 
-  // Điều hướng đến trang chi tiết bài đăng
   const handlePostClick = (postId) => {
     history.push(`/history-post-driver/detail/${postId}`);
   };
 
-  // Hiển thị modal xác nhận xoá
   const handleShowModal = (postId) => {
     setPostToDelete(postId);
     setShowModal(true);
   };
 
-  // Ẩn modal
   const handleCloseModal = () => {
     setShowModal(false);
     setPostToDelete(null);
   };
 
-  // Xoá bài đăng
   const handleDeletePost = async () => {
-    const response = await axiosInstance.delete(`/driverpost/${postToDelete}`);
-
-    if (response.status === 200) {
-      toast.success("Xoá bài đăng thành công");
-      getPosts();
+    try {
+      const response = await axiosInstance.delete(
+        `/driverpost/${postToDelete}`
+      );
+      if (response.status === 200) {
+        toast.success("Xoá bài đăng thành công");
+        getPosts();
+      }
+    } catch (error) {
+      toast.error("Lỗi khi xoá bài đăng");
+      console.error(error);
+    } finally {
+      handleCloseModal();
     }
-
-    handleCloseModal();
   };
 
   useEffect(() => {
     getPosts();
   }, []);
+
+  
+  const offset = currentPage * postsPerPage;
+  const currentPosts = posts.slice(offset, offset + postsPerPage);
 
   if (!posts || posts.length === 0) {
     return <div>Không có bài đăng nào</div>;
@@ -61,15 +76,14 @@ const HistoryPostDriver = () => {
     <>
       <h2 className="mb-4">Bài đăng</h2>
 
-      {posts.map((post) => (
+      {currentPosts.map((post) => (
         <div
           key={post._id}
           className="my-4 border rounded-12 card-hover position-relative"
-          onClick={() => handlePostClick(post._id)} // Điều hướng khi nhấp vào bài đăng
-          style={{ cursor: "pointer" }} // Thêm con trỏ chuột dạng tay để chỉ ra đây là một mục có thể nhấp
+          onClick={() => handlePostClick(post._id)}
+          style={{ cursor: "pointer" }}
         >
           <div className="p-3 d-flex">
-            {/* Ảnh */}
             <div className="image-container">
               <img
                 src={
@@ -82,8 +96,6 @@ const HistoryPostDriver = () => {
                 style={{ width: "360px", height: "200px", objectFit: "cover" }}
               />
             </div>
-
-            {/* Thông tin bài đăng */}
             <div className="ml-3 flex-1">
               <div className="mb-2 text-secondary d-flex align-items-center">
                 <FaMapLocation className="mr-2" />
@@ -125,8 +137,8 @@ const HistoryPostDriver = () => {
                 <button
                   className="btn-danger btn-sm align-self-start border-0"
                   onClick={(e) => {
-                    e.stopPropagation(); // Ngăn sự kiện nổi bọt
-                    handleShowModal(post._id); // Hiển thị modal xóa
+                    e.stopPropagation();
+                    handleShowModal(post._id);
                   }}
                 >
                   <MdDelete />
@@ -137,7 +149,26 @@ const HistoryPostDriver = () => {
         </div>
       ))}
 
-      {/* Modal Xoá */}
+      <ReactPaginate
+        previousLabel={"<<"}
+        nextLabel={">>"}
+        breakLabel={"..."}
+        breakClassName={"page-item"}
+        breakLinkClassName={"page-link"}
+        pageCount={Math.ceil(posts.length / postsPerPage)}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={({ selected }) => setCurrentPage(selected)}
+        containerClassName={"pagination justify-content-center"}
+        pageClassName={"page-item"}
+        pageLinkClassName={"page-link"}
+        previousClassName={"page-item"}
+        previousLinkClassName={"page-link"}
+        nextClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        activeClassName={"active"}
+      />
+
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Xác nhận xoá</Modal.Title>
