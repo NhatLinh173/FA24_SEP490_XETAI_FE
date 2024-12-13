@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Navbar from "./component/Common/Navbar";
 import Footer from "./component/Common/Footer";
-import CopyRight from "./component/Common/CopyRight";
+// import CopyRight from "./component/Common/CopyRight";
 import ChatIcon from "./component/Chat/chatIcon";
 import Home_One from "./page/indexPage";
 import Service from "./page/Service";
@@ -167,7 +167,7 @@ const AppContent = () => {
         />
       </Switch>
       {!isDashboardPage && <Footer />}
-      {!isDashboardPage && <CopyRight />}
+      {/* {!isDashboardPage && <CopyRight />} */}
       <CustomModal isOpen={isOpen} closeModal={closeModal} />
       {!isDashboardPage && <ChatIcon />}
     </>

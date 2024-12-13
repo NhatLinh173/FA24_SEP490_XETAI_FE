@@ -68,14 +68,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": {
-    "/": {
-      "target": "http://13.55.38.250:3005",
-      "changeOrigin": true,
-      "secure": false,
-      "timeout": 30000
-    }
-  },
   "eslintConfig": {
     "extends": [
       "react-app",

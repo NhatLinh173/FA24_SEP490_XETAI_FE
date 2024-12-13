@@ -386,6 +386,22 @@ const SignUpCustomer = () => {
                           </p>
                         )}
                       </div>
+                      {otpSent && (
+                        <div className="row">
+                          <div className="col-lg-12">
+                            <FormInput
+                              tag={"input"}
+                              type={"text"}
+                              name={"otp"}
+                              classes={"form-control"}
+                              placeholder={"Nhập Mã OTP"}
+                              value={formData.otp}
+                              onChange={handleInputChange}
+                              required
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="col-lg-12">
                       <div className="form-group form-check">
