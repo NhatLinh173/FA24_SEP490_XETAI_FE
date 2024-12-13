@@ -34,6 +34,7 @@ const SignUpCustomer = () => {
     phone: "",
     fullName: "",
     confirmPassword: "",
+    otp: "",
   });
 
   const fieldLabels = {
