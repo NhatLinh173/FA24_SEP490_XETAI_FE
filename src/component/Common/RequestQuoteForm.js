@@ -120,10 +120,10 @@ const RequestQuoteForm = () => {
   const handleTotalWeightChange = (e) => {
     const value = e.target.value;
     if (isNaN(value) || value.trim() === "") {
-      setWeightError("*Trường này chỉ nhập số"); // Cập nhật thông báo lỗi cho trọng lượng
+      setWeightError("*Trường này chỉ nhập số");
       setIsDisable(true);
     } else {
-      setWeightError(""); // Xóa thông báo lỗi nếu nhập đúng
+      setWeightError("");
       setIsDisable(false);
     }
     setNewTotalWeight(e.target.value);
@@ -341,17 +341,17 @@ const RequestQuoteForm = () => {
         refetch();
         history.pushState("/");
       }
-      if (response.status === 402) {
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.error("Vui lòng điền đầy đủ thông tin");
+      }
+      if (error.response && error.response.status === 402) {
         toast.error(
           "Số dư tài khoản không đủ để đăng bài! Vui lòng nạp thêm tiền để đăng bài"
         );
       }
-    } catch (error) {
-      if (error.status === 400) {
-        toast.error("Vui lòng điền đầy đủ thông tin");
-      }
     } finally {
-      setLoading(false); // Kết thúc loading
+      setLoading(false);
     }
   };
 
@@ -381,8 +381,8 @@ const RequestQuoteForm = () => {
                         imgs.length === 1
                           ? "justify-content-center"
                           : imgs.length === 2
-                          ? "justify-content-center w-100"
-                          : "justify-content-between w-100"
+                            ? "justify-content-center w-100"
+                            : "justify-content-between w-100"
                       }`}
                     >
                       {imgs.map((img, index) => (
@@ -802,8 +802,8 @@ const RequestQuoteForm = () => {
                             ? "Đang đăng ..."
                             : "Đang tạo ..."
                           : isDriverExist
-                          ? "Đăng bài"
-                          : "Tạo đơn"}
+                            ? "Đăng bài"
+                            : "Tạo đơn"}
                       </button>
                     </div>
                   </div>
