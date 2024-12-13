@@ -49,7 +49,6 @@ const RequestQuoteForm = () => {
   const [orderDescriptionError, setOrderDescriptionError] = useState("");
   const [decriptionDriverError, setDecriptionDriverError] = useState("");
   const [isDisable, setIsDisable] = useState(false);
-  const [paymentMethodError, setPaymentMethodError] = useState("");
   const [imgs, setImgs] = useState([]);
   const [isDriverExist, setIsDriverExist] = useState(false);
   const driverId = localStorage.getItem("driverId");
@@ -291,6 +290,9 @@ const RequestQuoteForm = () => {
     } catch (error) {
       if (error.status === 400) {
         toast.error("Vui lòng điền đầy đủ thông tin");
+      }
+      if (error.status === 402) {
+        toast.error("Số dư tài khoản không đủ để đăng bài!");
       }
     }
   };
@@ -663,11 +665,6 @@ const RequestQuoteForm = () => {
                           </option>
                           <option value="cash">Tiền mặt</option>
                         </select>
-                        {paymentMethodError && (
-                          <div className="text-danger position-absolute marginBottom-error">
-                            {paymentMethodError}
-                          </div>
-                        )}
                       </div>
                     </div>
                   )}
