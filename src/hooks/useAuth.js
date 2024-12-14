@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axiosInstance from "../config/axiosConfig";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -8,12 +8,29 @@ import { jwtDecode } from "jwt-decode";
 
 const useAuth = () => {
   const [userRole, setUserRole] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!localStorage.getItem("accessToken")
-  );
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [avatar, setAvatar] = useState(localStorage.getItem("avatar") || null);
   const history = useHistory();
+
+  // Kiểm tra trạng thái authentication khi component mount
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        // Kiểm tra token expiration
+        if (decodedToken.exp * 1000 > Date.now()) {
+          setIsAuthenticated(true);
+          setUserRole(decodedToken.role);
+        } else {
+          // Token đã hết hạn
+          handleLogout();
+        }
+      } catch (error) {
+        handleLogout();
+      }
+    }
+  }, []);
 
   const handleLogin = async (identifier, password) => {
     try {
@@ -23,7 +40,6 @@ const useAuth = () => {
           identifier,
           password,
         },
-
         { withCredentials: true }
       );
       if (data) {
@@ -36,15 +52,12 @@ const useAuth = () => {
         const decodedToken = jwtDecode(data.accessToken);
         setUserRole(decodedToken.role);
         localStorage.setItem("userRole", decodedToken.role);
-        if (
-          localStorage.getItem("userRole") === "admin" ||
-          localStorage.getItem("userRole") === "staff"
-        ) {
+
+        if (decodedToken.role === "admin" || decodedToken.role === "staff") {
           history.push("/dashboard-admin");
         } else {
           history.push("/");
         }
-        window.location.reload();
         return data;
       }
     } catch (error) {
@@ -72,10 +85,35 @@ const useAuth = () => {
     });
     setAvatar(null);
     setIsAuthenticated(false);
-    window.location.href = "/";
+    setUserRole(null);
+    history.push("/signin");
   };
 
-  return { handleLogin, handleLogout, isAuthenticated };
+  // Thêm hàm validate token
+  const validateToken = async () => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      setIsAuthenticated(false);
+      return false;
+    }
+    try {
+      const response = await axios.get("https://xehang.site/auth/validate", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data.valid;
+    } catch (error) {
+      handleLogout();
+      return false;
+    }
+  };
+
+  return {
+    handleLogin,
+    handleLogout,
+    isAuthenticated,
+    userRole,
+    validateToken,
+  };
 };
 
 export default useAuth;

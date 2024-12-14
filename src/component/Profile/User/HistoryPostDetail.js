@@ -15,6 +15,7 @@ import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { formatDate } from "../../../utils/formatDate";
 import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
+import { io } from "socket.io-client";
 
 const HistoryPostDetail = () => {
   const history = useHistory();
@@ -181,6 +182,21 @@ const HistoryPostDetail = () => {
       setFormData(formData);
       setIsShowModalCancel(true);
     } else {
+      if (isDriverExist && status === "inprogress") {
+        try {
+          const socket = io("ws://13.55.38.250:3005");
+          socket.emit("authenticate", { userId: driverId });
+
+          // Lắng nghe phản hồi từ server
+          socket.on("locationError", (error) => {
+            console.error("Location tracking error:", error.message);
+            toast.error("Không thể bắt đầu theo dõi vị trí");
+          });
+        } catch (error) {
+          console.error("Socket connection error:", error);
+          toast.error("Không thể kết nối đến server theo dõi vị trí");
+        }
+      }
       await submitFormData(formData);
       setRefreshData((prev) => !prev);
     }
@@ -494,8 +510,8 @@ const HistoryPostDetail = () => {
                         totalImage.length === 1
                           ? "justify-content-center"
                           : totalImage.length === 2
-                          ? "justify-content-center w-100"
-                          : "justify-content-between w-100"
+                            ? "justify-content-center w-100"
+                            : "justify-content-between w-100"
                       }`}
                     >
                       {totalImage.map((image, index) => (
@@ -685,10 +701,10 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "hide"
-                            ? "bg-secondary text-white "
-                            : status === "wait"
-                            ? "bg-warning text-Black"
-                            : ""
+                              ? "bg-secondary text-white "
+                              : status === "wait"
+                                ? "bg-warning text-Black"
+                                : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -713,8 +729,8 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "wait"
-                            ? "bg-warning text-Black"
-                            : ""
+                              ? "bg-warning text-Black"
+                              : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -744,8 +760,8 @@ const HistoryPostDetail = () => {
                         status === "inprogress"
                           ? "bg-primary text-white "
                           : status === "finish"
-                          ? "bg-success text-white"
-                          : ""
+                            ? "bg-success text-white"
+                            : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -768,8 +784,8 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                          ? "bg-info text-white"
-                          : ""
+                            ? "bg-info text-white"
+                            : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -789,10 +805,10 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                          ? "bg-secondary text-white"
-                          : status === "inprogress"
-                          ? "bg-primary text-white "
-                          : ""
+                            ? "bg-secondary text-white"
+                            : status === "inprogress"
+                              ? "bg-primary text-white "
+                              : ""
                       } `}
                       value={status}
                       onChange={handleStatus}

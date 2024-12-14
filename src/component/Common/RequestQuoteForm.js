@@ -33,7 +33,6 @@ const RequestQuoteForm = () => {
   const [loading, setLoading] = useState(false);
   const [cityTo, setCityTo] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-
   const [decriptionDriver, setDecriptionDriver] = useState("");
 
   // các biến lỗi
