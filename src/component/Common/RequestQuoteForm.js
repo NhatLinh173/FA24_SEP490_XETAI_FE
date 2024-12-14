@@ -279,6 +279,7 @@ const RequestQuoteForm = () => {
     formData.append("description", decriptionDriver);
 
     try {
+      setLoading(true);
       const response = await axiosInstance.post("/driverpost", formData);
       if (response.status === 200) {
         toast.success("Đăng bài thành công");

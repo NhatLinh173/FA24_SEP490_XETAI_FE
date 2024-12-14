@@ -12,7 +12,7 @@ const PostItem = ({
   handleReportClick,
   handleContactClick,
 }) => {
-  const history = useHistory(); // Khởi tạo useHistory
+  const history = useHistory();
   if (!PostDriver) {
     return null;
   }
@@ -49,6 +49,15 @@ const PostItem = ({
       handleContactClick(creatorId.userId); // Gọi lại hàm handleContactClick nếu đã đăng nhập
     }
   };
+  const handleReportClickWithLoginCheck = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      history.push(`/signin`);
+      toast.error("Bạn cần đăng nhập để báo cáo bài viết.");
+    } else {
+      handleReportClick(); // Gọi lại hàm hiển thị popup
+    }
+  };
   return (
     <div className="post-item">
       <div
@@ -73,7 +82,7 @@ const PostItem = ({
           <div className="report-buttons">
             <button
               className="btn btn-danger btn-sm"
-              onClick={handleReportClick}
+              onClick={handleReportClickWithLoginCheck}
               style={{ width: "100%" }}
             >
               Báo cáo

@@ -41,6 +41,7 @@ const OurAdvantage = () => {
                     dots={true}
                     autoplayHoverPause={true}
                     autoplayTimeout={2500}
+                    loop={true}
                   >
                     {OurAdventagesData.map((advantages, index) => (
                       <div className="our_advantages_item" key={index}>

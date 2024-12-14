@@ -158,7 +158,7 @@ const SectionHeading = ({ onSearch }) => {
                 type="text"
                 value={pickupLocation}
                 onChange={handlePickupChange}
-                placeholder="Địa điểm lấy hàng"
+                placeholder="Địa chỉ nhận hàng"
                 className="search_input"
               />
               {pickupSuggestions.length > 0 && (
@@ -181,7 +181,7 @@ const SectionHeading = ({ onSearch }) => {
                 type="text"
                 value={dropoffLocation}
                 onChange={handleDropoffChange}
-                placeholder="Địa điểm trả hàng"
+                placeholder="Địa chỉ giao hàng"
                 className="search_input"
               />
               {dropoffSuggestions.length > 0 && (
