@@ -10,6 +10,7 @@ import L from "leaflet";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { renderToStaticMarkup } from "react-dom/server";
 import { io } from "socket.io-client";
+import axios from "axios";
 
 // Xóa các icon mặc định
 delete L.Icon.Default.prototype._getIconUrl;
@@ -18,7 +19,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-// Tạo custom icon cho Marker bằng FaMapMarkerAlt
+// Tạo custom icon cho Marker
 const customMarkerIcon = L.divIcon({
   html: renderToStaticMarkup(
     <FaMapMarkerAlt style={{ color: "red", fontSize: "24px" }} />
@@ -36,6 +37,7 @@ const MapView = ({ startLocation, endLocation, orderCode }) => {
 
   const goongApiKey = "BHii3IpyB5bqgvtFNjjfLwIJGkoqpVzoo48UGbsP";
 
+  // Hàm lấy tọa độ từ địa chỉ
   const getCoordinates = async (location) => {
     const url = `https://rsapi.goong.io/geocode?address=${location}&api_key=${goongApiKey}`;
     try {
@@ -52,6 +54,7 @@ const MapView = ({ startLocation, endLocation, orderCode }) => {
     }
   };
 
+  // Hàm lấy tuyến đường
   const getRoute = async (startCoordinates, endCoordinates) => {
     const url = `https://rsapi.goong.io/Direction?origin=${startCoordinates[0]},${startCoordinates[1]}&destination=${endCoordinates[0]},${endCoordinates[1]}&api_key=${goongApiKey}`;
     try {
@@ -71,107 +74,56 @@ const MapView = ({ startLocation, endLocation, orderCode }) => {
     }
   };
 
-  const sendDriverLocation = async (latitude, longitude) => {
-    if (socket) {
-      socket.emit("updateDriverLocation", {
-        orderCode,
-        location: {
-          type: "Point",
-          coordinates: [longitude, latitude],
-        },
-      });
-      console.log(
-        `Vị trí tài xế đã được gửi đến server WebSocket: ${latitude}, ${longitude}`
+  // Lấy vị trí ban đầu của tài xế từ DB
+  const fetchInitialDriverLocation = async () => {
+    try {
+      const response = await axios.get(
+        `https://xehang.site/tracking/driver-location/${orderCode}`
       );
+      if (response.data && response.data.location) {
+        setDriverCoords([
+          response.data.location.coordinates[1],
+          response.data.location.coordinates[0],
+        ]);
+      }
+    } catch (error) {
+      console.error("Error fetching initial driver location:", error);
     }
   };
 
+  // Thiết lập WebSocket và lấy vị trí ban đầu
   useEffect(() => {
-    if (navigator.geolocation) {
-      const watchId = navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setDriverCoords([latitude, longitude]);
-          sendDriverLocation(latitude, longitude);
-        },
-        (error) => {
-          console.error("Lỗi lấy vị trí:", error.message);
-        },
-        { enableHighAccuracy: true, maximumAge: 0 }
-      );
-
-      return () => {
-        navigator.geolocation.clearWatch(watchId);
-      };
-    } else {
-      console.error("Geolocation không được hỗ trợ trên trình duyệt này.");
-    }
-  }, [socket]);
-
-  useEffect(() => {
-    const socketInstance = io("ws://13.55.38.250:3005");
+    const socketInstance = io("wss://xehang.site");
     setSocket(socketInstance);
+    console.log("Socket connection initialized");
+    // Lấy vị trí ban đầu
+    fetchInitialDriverLocation();
 
+    // Lắng nghe sự kiện kết nối
     socketInstance.on("connect", () => {
-      console.log("WebSocket đã kết nối");
-      socketInstance.emit("TRACK_ORDER", { orderCode });
+      console.log("WebSocket connected");
     });
 
-    socketInstance.on("connect_error", (error) => {
-      console.error("Lỗi khi kết nối WebSocket:", error);
+    // Lắng nghe cập nhật vị trí tài xế
+    socketInstance.on("driverLocationUpdated", (data) => {
+      if (data.location) {
+        setDriverCoords([
+          data.location.coordinates[1],
+          data.location.coordinates[0],
+        ]);
+      }
     });
+
+    // Cập nhật vị trí mỗi 15 phút
+    const intervalId = setInterval(fetchInitialDriverLocation, 900000);
 
     return () => {
+      clearInterval(intervalId);
       socketInstance.disconnect();
     };
   }, [orderCode]);
 
-  useEffect(() => {
-    const fetchInitialLocation = async () => {
-      if (navigator.geolocation) {
-        const watchId = navigator.geolocation.watchPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setDriverCoords([latitude, longitude]);
-            sendDriverLocation(latitude, longitude);
-          },
-          (error) => {
-            console.error("Lỗi lấy vị trí:", error.message);
-          },
-          { enableHighAccuracy: true, maximumAge: 0 }
-        );
-
-        return () => {
-          navigator.geolocation.clearWatch(watchId);
-        };
-      } else {
-        console.error("Geolocation không được hỗ trợ trên trình duyệt này.");
-      }
-    };
-
-    fetchInitialLocation();
-
-    const intervalId = setInterval(() => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setDriverCoords([latitude, longitude]);
-            sendDriverLocation(latitude, longitude);
-          },
-          (error) => {
-            console.error("Lỗi lấy vị trí:", error.message);
-          },
-          { enableHighAccuracy: true, maximumAge: 0 }
-        );
-      }
-    }, 3600000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [socket, orderCode]);
-
+  // Lấy tọa độ điểm đầu và điểm cuối
   useEffect(() => {
     const fetchCoordinates = async () => {
       if (startLocation && endLocation) {
@@ -194,26 +146,29 @@ const MapView = ({ startLocation, endLocation, orderCode }) => {
     <div style={{ height: "800px", width: "100%" }}>
       <MapContainer
         center={driverCoords || startCoords || [15.8801, 108.338]}
-        zoom={10}
+        zoom={13}
         style={{ height: "800px", width: "100%" }}
-        zoomControl={false}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
         {startCoords && (
           <Marker position={startCoords} icon={customMarkerIcon}>
             <Popup>Điểm bắt đầu: {startLocation}</Popup>
           </Marker>
         )}
+
         {endCoords && (
           <Marker position={endCoords} icon={customMarkerIcon}>
             <Popup>Điểm kết thúc: {endLocation}</Popup>
           </Marker>
         )}
+
         {driverCoords && (
           <Marker position={driverCoords} icon={customMarkerIcon}>
             <Popup>Vị trí tài xế hiện tại</Popup>
           </Marker>
         )}
+
         {routeCoordinates.length > 0 && (
           <Polyline positions={routeCoordinates} color="blue" />
         )}

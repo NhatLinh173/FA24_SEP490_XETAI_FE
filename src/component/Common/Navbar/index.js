@@ -74,6 +74,7 @@ const Navbar = ({ openModal }) => {
   }, [userData]);
 
   useEffect(() => {
+    console.log("Current token:", localStorage.getItem("accessToken"));
     const checkToken = localStorage.getItem("accessToken");
     if (checkToken) {
       setIsLoggedIn(true);

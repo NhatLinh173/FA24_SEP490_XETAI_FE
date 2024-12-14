@@ -44,7 +44,6 @@ const SignInForm = (props) => {
   const handleGoogleLogin = () => {
     const role = "customer";
     const url = `https://xehang.site/auth/google?state=${role}`;
-    console.log("Redirecting to:", url);
     window.open(url, "_self");
   };
 

@@ -21,12 +21,12 @@ const DriverManagement = () => {
   );
 
   useEffect(() => {
-    const driver = async () => {
+    const fetchDrivers = async () => {
       try {
         const response = await axiosIntance.get(`/auth/role/driver`);
 
         if (response.status === 200) {
-          const driversData = response.data.map((driver) => {
+          const driversData = response.data.drivers.map((driver) => {
             return {
               driverId: driver._id,
               ...driver.userId,
@@ -42,7 +42,7 @@ const DriverManagement = () => {
       }
     };
 
-    driver();
+    fetchDrivers();
   }, []);
 
   const displayedDrivers = filteredDrivers.slice(

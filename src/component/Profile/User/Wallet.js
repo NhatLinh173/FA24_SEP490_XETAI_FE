@@ -18,6 +18,7 @@ const Wallet = ({ data }) => {
   const [selectedBank, setSelectedBank] = useState("");
   const [filteredBanks, setFilteredBanks] = useState([]);
   const [error, setError] = useState("");
+  const [errorWithdraw, setErrorWithdraw] = useState("");
   const [checkoutUrl, setCheckoutUrl] = useState("");
   const [userId, setUserId] = useState("");
   const [balance, setBalance] = useState(data.balance || 0);
@@ -69,7 +70,7 @@ const Wallet = ({ data }) => {
 
   const handleDepositSubmit = async () => {
     const amount = parseInt(depositAmount.replace(/,/g, ""), 10);
-    if (amount < 5000 || amount > 1000000) {
+    if (amount < 50000 || amount > 1000000) {
       setError("Số tiền phải nằm trong khoảng 5,000 VND và 1,000,000 VND");
       return;
     }
@@ -180,6 +181,7 @@ const Wallet = ({ data }) => {
             {
               headers: {
                 "x-api-key": "43bcf4c8-fdc7-4c58-9451-90b30181eebdkey",
+
                 "x-api-secret": "fe0abc8f-eff5-487c-8c58-19810908674dsecret",
               },
             }
@@ -202,7 +204,14 @@ const Wallet = ({ data }) => {
   const handleWithdraw = async () => {
     const amount = parseInt(withdrawAmount.replace(/,/g, ""), 10);
     if (amount < 50000 || amount > 5000000) {
-      setError("Số tiền phải nằm trong khoảng 5,000 VND và 5,000,000 VND");
+      setErrorWithdraw(
+        "Số tiền phải nằm trong khoảng 50,000 VND và 5,000,000 VND"
+      );
+      return;
+    }
+
+    if (amount > balance) {
+      setErrorWithdraw("Số dư không đủ để thực hiện giao dịch");
       return;
     }
 
@@ -295,26 +304,28 @@ const Wallet = ({ data }) => {
                     {transaction.type === "POST_PAYMENT"
                       ? "Trừ phí đăng bài"
                       : transaction.type === "CANCEL_ORDER"
-                      ? "Trừ phí hủy đơn hàng"
-                      : transaction.type === "BANK_TRANSFER_PAYMENT"
-                      ? "Thanh toán qua chuyển khoản"
-                      : transaction.type === "PAYING_FOR_ORDER"
-                      ? "Thanh toán tiền hàng cho tài xế"
-                      : transaction.type === "RECEIVING_PAYMENT_FROM_ORDER"
-                      ? "Nhận tiền hàng từ khách hàng"
-                      : transaction.type === "WITHDRAW"
-                      ? "Rút tiền"
-                      : transaction.type === "RECEIVE_CANCELLATION_FEE"
-                      ? "Trả phí hủy đơn hàng"
-                      : "Nạp Tiền"}
+                        ? "Trừ phí hủy đơn hàng"
+                        : transaction.type === "BANK_TRANSFER_PAYMENT"
+                          ? "Thanh toán qua chuyển khoản"
+                          : transaction.type === "PAYING_FOR_ORDER"
+                            ? "Thanh toán tiền hàng cho tài xế"
+                            : transaction.type ===
+                                "RECEIVING_PAYMENT_FROM_ORDER"
+                              ? "Nhận tiền hàng từ khách hàng"
+                              : transaction.type === "WITHDRAW"
+                                ? "Rút tiền"
+                                : transaction.type ===
+                                    "RECEIVE_CANCELLATION_FEE"
+                                  ? "Trả phí hủy đơn hàng"
+                                  : "Nạp Tiền"}
                   </td>
                   <td>
                     {transaction.status === "PAID" ||
                     transaction.status === "COMPLETED"
                       ? "Thành Công"
                       : transaction.status === "PENDING"
-                      ? "Đang Chờ"
-                      : "Thất Bại"}
+                        ? "Đang Chờ"
+                        : "Thất Bại"}
                   </td>
                   <td
                     style={{
@@ -325,12 +336,12 @@ const Wallet = ({ data }) => {
                         transaction.type === "WITHDRAW"
                           ? "red"
                           : transaction.type === "DEPOSIT"
-                          ? "#00FF00"
-                          : transaction.type ===
-                              "RECEIVING_PAYMENT_FROM_ORDER" ||
-                            transaction.type === "RECEIVE_CANCELLATION_FEE"
-                          ? "#00FF00"
-                          : "inherit",
+                            ? "#00FF00"
+                            : transaction.type ===
+                                  "RECEIVING_PAYMENT_FROM_ORDER" ||
+                                transaction.type === "RECEIVE_CANCELLATION_FEE"
+                              ? "#00FF00"
+                              : "inherit",
                     }}
                   >
                     {transaction.type === "POST_PAYMENT" ||
@@ -339,9 +350,9 @@ const Wallet = ({ data }) => {
                     transaction.type === "WITHDRAW"
                       ? `-${(transaction.amount || 0).toLocaleString()} đ`
                       : transaction.status === "PAID" ||
-                        transaction.status === "RECEIVE_CANCELLATION_FEE"
-                      ? `+${(transaction.amount || 0).toLocaleString()} đ`
-                      : `${(transaction.amount || 0).toLocaleString()} đ`}
+                          transaction.status === "RECEIVE_CANCELLATION_FEE"
+                        ? `+${(transaction.amount || 0).toLocaleString()} đ`
+                        : `${(transaction.amount || 0).toLocaleString()} đ`}
                   </td>
                   <td>
                     {new Date(transaction.createdAt).toLocaleDateString()}
@@ -437,6 +448,9 @@ const Wallet = ({ data }) => {
                     placeholder="Số tiền (VND)"
                     required
                   />
+                  {errorWithdraw && (
+                    <div className="text-danger mt-2">{errorWithdraw}</div>
+                  )}
                 </div>
 
                 <div className="mb-3">

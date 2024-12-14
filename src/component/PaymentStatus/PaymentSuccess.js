@@ -16,7 +16,6 @@ const PaymentSuccess = () => {
     const status = queryParams.get("status");
     const orderCode = queryParams.get("orderCode");
 
-    console.log("Status:", status, "orderCode:", orderCode);
     if (orderCode) {
       sessionStorage.setItem("orderCode", orderCode);
     }
