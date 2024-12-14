@@ -259,9 +259,9 @@ const NewManagement = () => {
         show={showAddEditModal}
         onHide={() => setShowAddEditModal(false)}
         centered
-        dialogClassName="news-modal-container"
+        className="news-modal-container bg-dark bg-opacity-75"
       >
-        <Modal.Header closeButton className="bg-dark bg-opacity-75">
+        <Modal.Header closeButton className="">
           <Modal.Title>
             {modalAction === "add" ? "Thêm Tin Tức" : "Cập Nhật Tin Tức"}
           </Modal.Title>

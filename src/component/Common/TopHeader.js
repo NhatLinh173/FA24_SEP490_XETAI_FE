@@ -11,13 +11,13 @@ const TopHeader = () => {
             <div className="col-lg-6 col-md-12 col-sm-12 col-12">
               <ul className="left-info">
                 <li>
-                  <a href="mailto:hello@transtics.com">
+                  <a href="mailto:RFTMS@gmail.com">
                     <i className="far fa-envelope"></i>
                     RFTMS@gmail.com
                   </a>
                 </li>
                 <li>
-                  <a href="tel:+823-456-879">
+                  <a href="tel:+12345678">
                     <i className="fas fa-phone-volume"></i>
                     +0123 456 789
                   </a>

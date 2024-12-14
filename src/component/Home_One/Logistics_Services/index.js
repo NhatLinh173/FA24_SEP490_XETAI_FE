@@ -139,8 +139,11 @@ const LogisticsService = () => {
                         className="owl-theme text-left"
                         autoplayHoverPause={true}
                         margin={20}
+                        autoplay={true}
                         nav={false}
+                        autoplayTimeout={2500}
                         dots={true}
+                        loop={true}
                       >
                         {PostDriver.map((PostDriver) => (
                           <PostItem

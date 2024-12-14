@@ -15,10 +15,8 @@ const AdminProfile = () => {
   const [avatar, setAvarta] = useState("");
 
   const userId = localStorage.getItem("userId");
-  console.log(userId);
 
   const { data: staff, refetch } = useInstanceData(`/auth/user/${userId}`);
-  console.log(staff);
   useEffect(() => {
     let objectUrl;
     if (newAvatar instanceof File) {
@@ -36,7 +34,6 @@ const AdminProfile = () => {
     const file = e.target.files[0];
     if (file) {
       setNewAvatar(file);
-      console.log("Avatar changed", file);
     }
   };
   useEffect(() => {
@@ -112,7 +109,6 @@ const AdminProfile = () => {
   };
   const handleFullNameStaff = (e) => {
     setFullNameStaff(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleEmailChange = (e) => {
@@ -191,7 +187,7 @@ const AdminProfile = () => {
             type="text"
             name="role"
             className="admin-profile-input admin-profile-disabled-input"
-            value={role}
+            value={role === "staff" ? "Nhân viên" : role}
             disabled
           />
         </div>

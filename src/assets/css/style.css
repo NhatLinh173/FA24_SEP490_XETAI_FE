@@ -4799,11 +4799,9 @@ textarea {
   flex-direction: column;
 }
 
-
 .vehicle-modal-dialog {
   max-width: 800px !important;
   width: 90% !important;
-
 }
 
 .vehicle-modal-content {
@@ -7946,7 +7944,7 @@ input[type="number"]::-webkit-inner-spin-button {
   top: 10px;
   right: 10px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 3;
 }
 
 /* Report icon styling */
