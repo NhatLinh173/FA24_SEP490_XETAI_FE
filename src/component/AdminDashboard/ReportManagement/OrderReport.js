@@ -52,6 +52,7 @@ const ReportManagement = () => {
       refetch();
       setShowDeleteModal(false);
       toast.success("Xóa báo cáo thành công");
+      refetch();
     } catch (error) {
       toast.error("có xảy ra lỗi!!");
     }

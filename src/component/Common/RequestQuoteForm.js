@@ -384,8 +384,8 @@ const RequestQuoteForm = () => {
                         imgs.length === 1
                           ? "justify-content-center"
                           : imgs.length === 2
-                            ? "justify-content-center w-100"
-                            : "justify-content-between w-100"
+                          ? "justify-content-center w-100"
+                          : "justify-content-between w-100"
                       }`}
                     >
                       {imgs.map((img, index) => (
@@ -800,8 +800,8 @@ const RequestQuoteForm = () => {
                             ? "Đang đăng ..."
                             : "Đang tạo ..."
                           : isDriverExist
-                            ? "Đăng bài"
-                            : "Tạo đơn"}
+                          ? "Đăng bài"
+                          : "Tạo đơn"}
                       </button>
                     </div>
                   </div>
