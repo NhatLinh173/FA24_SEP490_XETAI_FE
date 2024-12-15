@@ -34,7 +34,6 @@ const HistoryPost = () => {
   const { data: posts, refetch } = useInstanceData(`/posts/${userId}/users`);
 
   const { data: postdriver } = useInstanceData(`/posts/${driverId}/driver`);
-  console.log(postdriver);
 
   const { data: dealPriceDriver } = useInstanceData(
     `/dealPrice/driver/${driverId}`
@@ -46,6 +45,7 @@ const HistoryPost = () => {
       refetch();
       setIsShowModal(false);
       toast.success("Đơn hàng đã được xóa thành công");
+      refetch();
     } catch (error) {
       toast.error("Có lỗi xảy ra khi xóa đơn hàng!");
     }
@@ -153,7 +153,7 @@ const HistoryPost = () => {
             posts?.salePosts?.filter((post) =>
               allowedStatuses.includes(post.status)
             ) || [];
-        } 
+        }
     }
 
     setPageCount(Math.ceil(filteredPosts?.length / postsPerPage));

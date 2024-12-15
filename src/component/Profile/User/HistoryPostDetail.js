@@ -80,6 +80,7 @@ const HistoryPostDetail = () => {
   const driverId = localStorage.getItem("driverId");
 
   const { data: post } = useInstanceData(`/posts/${id}`, refreshData);
+  console.log(post);
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
 
   const isDealPriceAvailable = deals && deals.length > 0;
@@ -152,7 +153,10 @@ const HistoryPostDetail = () => {
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-
+    if (newImages.length === 0) {
+      toast.error("Vui lòng tải lên ít nhất một ảnh!");
+      return;
+    }
     const formData = new FormData();
     newImages.forEach((img) => {
       formData.append("newImages", img.file);
@@ -1522,7 +1526,7 @@ const HistoryPostDetail = () => {
                     </ul>
                     <div className="mt-2 d-flex flex-column align-items-center w-100">
                       <Link
-                        to={`/driver/${post.dealId.driverId.userId._id}`}
+                        to={`/driver/${post?.dealId.driverId.userId._id}`}
                         className="btn-success  rounded border-0 text-white w-50 mb-2 "
                       >
                         Xem chi tiết
