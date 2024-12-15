@@ -12,6 +12,27 @@ const useAuth = () => {
   const [avatar, setAvatar] = useState(localStorage.getItem("avatar") || null);
   const history = useHistory();
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    console.log("useAuth - Token Check:", {
+      token: token ? "exists" : "none",
+      isAuthenticated,
+    });
+
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        console.log("useAuth - Decoded Token:", {
+          exp: decodedToken.exp,
+          currentTime: Date.now(),
+          isValid: decodedToken.exp * 1000 > Date.now(),
+        });
+      } catch (error) {
+        console.error("useAuth - Token Decode Error:", error);
+      }
+    }
+  }, [isAuthenticated]);
+
   // Kiểm tra trạng thái authentication khi component mount
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -58,6 +79,7 @@ const useAuth = () => {
         } else {
           history.push("/");
         }
+        window.location.reload();
         return data;
       }
     } catch (error) {

@@ -58,7 +58,7 @@ import HistoryPostDriverDetail from "./component/Profile/User/HistoryPostDriverD
 const AppContent = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const location = useLocation();
-
+  const isAuthentication = localStorage.getItem("accessToken");
   const isDashboardPage =
     location.pathname === "/dashboard-admin" ||
     location.pathname.startsWith("/dashboard-admin/") ||
@@ -114,13 +114,13 @@ const AppContent = () => {
           path="/request_quote"
           exact
           component={RequestQuote}
-          allowedRoles={["customer", "personal", "business"]}
+          allowedRoles={["customer", "personal"]}
         />
         <ProtectedRoute
           path="/profile"
           exact
           component={Profile}
-          allowedRoles={["customer", "personal", "business  "]}
+          allowedRoles={["customer", "personal"]}
         />
 
         <ProtectedRoute
@@ -169,7 +169,7 @@ const AppContent = () => {
       {!isDashboardPage && <Footer />}
       {/* {!isDashboardPage && <CopyRight />} */}
       <CustomModal isOpen={isOpen} closeModal={closeModal} />
-      {!isDashboardPage && <ChatIcon />}
+      {!isDashboardPage && isAuthentication && <ChatIcon />}
     </>
   );
 };
