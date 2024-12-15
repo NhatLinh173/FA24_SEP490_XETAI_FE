@@ -50,6 +50,22 @@ const Navbar = ({ openModal }) => {
   }, []);
 
   useEffect(() => {
+    console.log("Navbar - Authentication Status:", {
+      isAuthenticated,
+      isLoggedIn,
+      userData,
+      avatar,
+      token: localStorage.getItem("accessToken"),
+    });
+  }, [isAuthenticated, isLoggedIn, userData, avatar]);
+
+  useEffect(() => {
+    if (userData) {
+      console.log("Navbar - User Data received:", userData);
+    }
+  }, [userData]);
+
+  useEffect(() => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
