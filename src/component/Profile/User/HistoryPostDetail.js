@@ -84,17 +84,6 @@ const HistoryPostDetail = () => {
 
   const isDealPriceAvailable = deals && deals.length > 0;
 
-  useEffect(() => {
-    if (deals && deals.length > 0) {
-      const deal = deals[0];
-      if (deal && deal.driverId && deal.driverId.userId) {
-        setReceiverId(deal.driverId.userId._id);
-      } else {
-        console.warn("Deal data not ready or structure is incorrect:", deal);
-      }
-    }
-  }, [deals]);
-
   const handleConfirmDriver = async () => {
     try {
       const res = await axiosInstance.patch(`/dealPrice/status/${id}`, {
@@ -152,7 +141,7 @@ const HistoryPostDetail = () => {
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-    if (newImages.length === 0) {
+    if (images.length === 0) {
       toast.error("Vui lòng tải lên ít nhất một ảnh!");
       return;
     }
