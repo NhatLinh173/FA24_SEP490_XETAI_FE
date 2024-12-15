@@ -147,6 +147,24 @@ const Navbar = ({ openModal }) => {
       if (notification.data && notification.data.postId) {
         history.push(`/order/${notification.data.postId}`);
       }
+    } else if (notification.title === "Đơn hàng hoàn tất") {
+      if (notification.data && notification.data.postId) {
+        history.push(`/trip/detail/${notification.data.postId}`);
+      }
+    } else if (notification.title === "Đăng ký xe") {
+      if (notification.data && notification.data.carRegistrationId) {
+        history.push(`/vehical/detail/${notification.data.carRegistrationId}`);
+      }
+    } else if (
+      notification.title === "Nạp tiền thành công" ||
+      notification.title === "Rút tiền thành công"
+    ) {
+      if (notification.data && notification.data.driverPostId) {
+        history.push({
+          pathname: "/profile",
+          state: { activeTab: "wallet" },
+        });
+      }
     }
   };
 
