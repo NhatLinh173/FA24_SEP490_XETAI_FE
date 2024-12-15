@@ -14,19 +14,10 @@ const useAuth = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    console.log("useAuth - Token Check:", {
-      token: token ? "exists" : "none",
-      isAuthenticated,
-    });
 
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        console.log("useAuth - Decoded Token:", {
-          exp: decodedToken.exp,
-          currentTime: Date.now(),
-          isValid: decodedToken.exp * 1000 > Date.now(),
-        });
       } catch (error) {
         console.error("useAuth - Token Decode Error:", error);
       }
@@ -35,22 +26,35 @@ const useAuth = () => {
 
   // Kiểm tra trạng thái authentication khi component mount
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-        // Kiểm tra token expiration
-        if (decodedToken.exp * 1000 > Date.now()) {
-          setIsAuthenticated(true);
-          setUserRole(decodedToken.role);
-        } else {
-          // Token đã hết hạn
-          handleLogout();
+    const checkAuth = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token);
+
+          if (decodedToken.exp * 1000 > Date.now()) {
+            setIsAuthenticated(true);
+            setUserRole(decodedToken.role || "customer");
+            localStorage.setItem("userRole", decodedToken.role || "customer");
+          } else {
+            // Token đã hết hạn
+            handleLogout();
+          }
+        } catch (error) {
+          console.error("Token decode error:", error);
+          // Kiểm tra nếu là Google token
+          if (token.includes("google")) {
+            setIsAuthenticated(true);
+            setUserRole("customer");
+            localStorage.setItem("userRole", "customer");
+          } else {
+            handleLogout();
+          }
         }
-      } catch (error) {
-        handleLogout();
       }
-    }
+    };
+
+    checkAuth();
   }, []);
 
   const handleLogin = async (identifier, password) => {

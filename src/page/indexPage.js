@@ -20,6 +20,7 @@ const IndexPage = () => {
         const decodedToken = jwtDecode(token);
         localStorage.setItem("accessToken", token);
         localStorage.setItem("userId", decodedToken.id);
+        localStorage.setItem("role", decodedToken.role);
         history.push("/");
         window.location.reload();
       } catch (error) {
