@@ -82,7 +82,7 @@ const HistoryPostDetail = () => {
   const { data: post } = useInstanceData(`/posts/${id}`, refreshData);
 
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
-
+  const { data: dealsStatus } = useInstanceData(`/dealPrice/status/${id}`);
   const isDealPriceAvailable = deals && deals.length > 0;
 
   const handleConfirmDriver = async () => {
@@ -177,10 +177,9 @@ const HistoryPostDetail = () => {
     } else {
       if (isDriverExist && status === "inprogress") {
         try {
-          const socket = io("ws://13.55.38.250:3005");
+          const socket = io("wss://xehang.site");
           socket.emit("authenticate", { userId: driverId });
 
-          // Lắng nghe phản hồi từ server
           socket.on("locationError", (error) => {
             console.error("Location tracking error:", error.message);
             toast.error("Không thể bắt đầu theo dõi vị trí");
@@ -233,7 +232,7 @@ const HistoryPostDetail = () => {
             const response = await axiosInstance.patch(
               `/dealPrice/status/${id}`,
               {
-                dealId: deals[0]._id,
+                dealId: dealsStatus[0]._id,
                 status: "cancel",
               }
             );
@@ -273,21 +272,6 @@ const HistoryPostDetail = () => {
             await axiosInstance.put(`/driver/statistics/${driverId}`, {
               earnings: Number(earnings),
               trips: Number(trips),
-            });
-          }
-          if (isDriverExist === true) {
-            const sendEmail = await axiosInstance.post("/send/email", {
-              to: post.email,
-              subject: "Hủy Đơn Hàng ",
-              templateName: "driverOrderCancelled",
-              templateArgs: [post?.dealId.driverId.userId.fullName, post._id],
-            });
-          } else {
-            const sendEmail = await axiosInstance.post("/send/email", {
-              to: post?.dealId.driverId.userId.email,
-              subject: "Hủy Đơn Hàng ",
-              templateName: "userOrderCancelled",
-              templateArgs: [post.fullname, post._id],
             });
           }
         } else {

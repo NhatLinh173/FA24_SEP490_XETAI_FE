@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
 import logo from "../../../assets/img/RFTMS_logo_12.png";
 import TopHeader from "../TopHeader";
@@ -27,7 +27,6 @@ const Navbar = ({ openModal }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const notificationRef = useRef(null);
   const history = useHistory();
-  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     const socket = io("https://xehang.site", { withCredentials: true });
@@ -140,33 +139,49 @@ const Navbar = ({ openModal }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  const handleNotificationClick = (notification) => {
-    if (notification.title === "Tin nhắn mới") {
-      history.push(`/chat`);
-    } else if (notification.title === "Đơn hàng") {
-      if (notification.data && notification.data.postId) {
-        history.push(`/order/${notification.data.postId}`);
+  const handleNotificationClick = useCallback(
+    (e, notification) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setShowNotifications(false);
+      if (notification.title === "Tin nhắn mới") {
+        history.push(`/chat`);
+      } else if (notification.title === "Đơn hàng") {
+        if (notification.data && notification.data.postId) {
+          history.push(`/order/${notification.data.postId}`);
+        }
+      } else if (notification.title === "Đơn hàng được tài xế thương lượng") {
+        if (notification.data && notification.data.postId) {
+          history.push(`/history-post/${notification.data.postId}`);
+        }
+      } else if (notification.title === "Thương lượng thành công") {
+        if (notification.data && notification.data.postId) {
+          history.push(`/history-post/${notification.data.postId}`);
+        }
+      } else if (notification.title === "Đơn hàng hoàn tất") {
+        if (notification.data && notification.data.postId) {
+          history.push(`/trip/detail/${notification.data.postId}`);
+        }
+      } else if (notification.title === "Đăng ký xe") {
+        if (notification.data && notification.data.carRegistrationId) {
+          history.push(
+            `/vehical/detail/${notification.data.carRegistrationId}`
+          );
+        }
+      } else if (
+        notification.title === "Nạp tiền thành công" ||
+        notification.title === "Rút tiền thành công"
+      ) {
+        if (notification.data && notification.data.driverPostId) {
+          history.push({
+            pathname: "/profile",
+            state: { activeTab: "wallet" },
+          });
+        }
       }
-    } else if (notification.title === "Đơn hàng hoàn tất") {
-      if (notification.data && notification.data.postId) {
-        history.push(`/trip/detail/${notification.data.postId}`);
-      }
-    } else if (notification.title === "Đăng ký xe") {
-      if (notification.data && notification.data.carRegistrationId) {
-        history.push(`/vehical/detail/${notification.data.carRegistrationId}`);
-      }
-    } else if (
-      notification.title === "Nạp tiền thành công" ||
-      notification.title === "Rút tiền thành công"
-    ) {
-      if (notification.data && notification.data.driverPostId) {
-        history.push({
-          pathname: "/profile",
-          state: { activeTab: "wallet" },
-        });
-      }
-    }
-  };
+    },
+    [history]
+  );
 
   const isSticky = () => {
     const header = document.querySelector(".navbar-area");
@@ -283,8 +298,8 @@ const Navbar = ({ openModal }) => {
                                   <li
                                     key={index}
                                     className="notification-item"
-                                    onClick={() =>
-                                      handleNotificationClick(notif)
+                                    onClick={(e) =>
+                                      handleNotificationClick(e, notif)
                                     }
                                   >
                                     <strong>{notif.title}</strong>:{" "}
