@@ -254,7 +254,6 @@ const DriverDetails = () => {
     const fetchInforUser = async () => {
       try {
         const response = await axiosInstance.get(`/auth/user/${userId}`);
-        console.log("Thông tin người dùng:", response.data);
         setUserInfor(response.data);
       } catch (error) {
         console.error("Lỗi khi lấy thông tin người dùng:", error);
@@ -269,7 +268,6 @@ const DriverDetails = () => {
       try {
         const response = await axiosInstance.get(`/auth/transaction/${userId}`);
         setTransactionsUser(response.data.transactions);
-        console.log(response.data);
       } catch (error) {
         console.error("Lỗi khi lấy thông tin người dùng:", error);
       }
