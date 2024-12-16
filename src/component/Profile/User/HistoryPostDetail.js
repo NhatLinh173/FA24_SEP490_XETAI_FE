@@ -178,12 +178,35 @@ const HistoryPostDetail = () => {
       if (isDriverExist && status === "inprogress") {
         try {
           const socket = io("wss://xehang.site");
+
           socket.emit("authenticate", { userId: driverId });
 
-          socket.on("locationError", (error) => {
-            console.error("Location tracking error:", error.message);
-            toast.error("Không thể bắt đầu theo dõi vị trí");
-          });
+          if ("geolocation" in navigator) {
+            navigator.geolocation.watchPosition(
+              (position) => {
+                socket.emit("sendLocation", {
+                  location: {
+                    type: "Point",
+                    coordinates: [
+                      position.coords.longitude,
+                      position.coords.latitude,
+                    ],
+                  },
+                });
+              },
+              (error) => {
+                console.error("Error getting location:", error);
+                toast.error("Không thể lấy vị trí hiện tại");
+              },
+              {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0,
+              }
+            );
+          } else {
+            toast.error("Trình duyệt không hỗ trợ định vị");
+          }
         } catch (error) {
           console.error("Socket connection error:", error);
           toast.error("Không thể kết nối đến server theo dõi vị trí");

@@ -90,16 +90,24 @@ const MapView = ({ startLocation, endLocation, orderCode }) => {
       console.error("Error fetching initial driver location:", error);
     }
   };
+  const updateRoute = async (newDriverCoords) => {
+    try {
+      if (startCoords && endCoords) {
+        const newRoute = await getRoute(newDriverCoords, endCoords);
+        setRouteCoordinates(newRoute);
+      }
+    } catch (error) {
+      console.error("Error updating route:", error);
+    }
+  };
 
-  // Thiết lập WebSocket và lấy vị trí ban đầu
   useEffect(() => {
     const socketInstance = io("wss://xehang.site");
     setSocket(socketInstance);
-    console.log("Socket connection initialized");
+
     // Lấy vị trí ban đầu
     fetchInitialDriverLocation();
 
-    // Lắng nghe sự kiện kết nối
     socketInstance.on("connect", () => {
       console.log("WebSocket connected");
     });
@@ -111,14 +119,18 @@ const MapView = ({ startLocation, endLocation, orderCode }) => {
           data.location.coordinates[1],
           data.location.coordinates[0],
         ]);
+
+        // Cập nhật đường đi nếu có tọa độ mới
+        if (startCoords && endCoords) {
+          updateRoute([
+            data.location.coordinates[1],
+            data.location.coordinates[0],
+          ]);
+        }
       }
     });
 
-    // Cập nhật vị trí mỗi 15 phút
-    const intervalId = setInterval(fetchInitialDriverLocation, 900000);
-
     return () => {
-      clearInterval(intervalId);
       socketInstance.disconnect();
     };
   }, [orderCode]);
