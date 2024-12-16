@@ -131,7 +131,7 @@ const TripDetail = () => {
     try {
       const response = await axiosInstance.get(`/posts/${id}`);
       setTripDetail(response.data);
-      console.log(response.data);
+
       setDriver(response.data.dealId.driverId.userId._id);
       setDriverId(response.data.dealId.driverId._id);
       await getRatingDetails(response.data.dealId.driverId.userId._id);
@@ -157,7 +157,7 @@ const TripDetail = () => {
       });
       if (response.status === 200) {
         toast.success("Xác nhận đã nhận hàng thành công");
-        getTripHistoryDetail();
+        await getTripHistoryDetail();
       }
     } catch (error) {
       if (error.response) {
