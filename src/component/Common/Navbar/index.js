@@ -39,7 +39,19 @@ const Navbar = ({ openModal }) => {
     socket.on("receiveNotification", (notification) => {
       const { title, message, data } = notification;
       const { postId, status } = data;
-      setNotifications((prev) => [{ title, message, postId, status }, ...prev]);
+      setNotifications((prev) => [
+        {
+          title,
+          message,
+          data: {
+            postId: data.postId,
+            status: data.status,
+            carRegistrationId: data.carRegistrationId,
+            driverPostId: data.driverPostId,
+          },
+        },
+        ...prev,
+      ]);
       setUnreadCount((prev) => prev + 1);
     });
 
@@ -47,22 +59,6 @@ const Navbar = ({ openModal }) => {
       socket.disconnect();
     };
   }, []);
-
-  useEffect(() => {
-    console.log("Navbar - Authentication Status:", {
-      isAuthenticated,
-      isLoggedIn,
-      userData,
-      avatar,
-      token: localStorage.getItem("accessToken"),
-    });
-  }, [isAuthenticated, isLoggedIn, userData, avatar]);
-
-  useEffect(() => {
-    if (userData) {
-      console.log("Navbar - User Data received:", userData);
-    }
-  }, [userData]);
 
   useEffect(() => {
     const fetchNotifications = async () => {
