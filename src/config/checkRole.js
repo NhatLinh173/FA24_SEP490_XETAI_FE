@@ -2,16 +2,20 @@ import React, { Component } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 const checkRole = (role, allowedRoles) => {
+  console.log("Checking role:", role);
+  console.log("Allowed roles:", allowedRoles);
   return allowedRoles.includes(role);
 };
 
 const getRoleFromToken = () => {
   try {
+    const userRole = localStorage.getItem("userRole");
+    if (userRole) return userRole;
+
     const token = localStorage.getItem("accessToken");
     if (!token) return null;
 
     const decodedToken = jwtDecode(token);
-    console.log("Decoded role:", decodedToken.role);
     return decodedToken.role;
   } catch (error) {
     console.error("Error decoding token:", error);
@@ -21,7 +25,8 @@ const getRoleFromToken = () => {
 
 const ProtectedRoute = ({ component: Component, allowedRoles, ...rest }) => {
   const userRole = getRoleFromToken();
-
+  console.log("Current user role:", userRole);
+  console.log("Required roles:", allowedRoles);
   return (
     <Route
       {...rest}
