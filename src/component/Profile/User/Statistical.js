@@ -68,10 +68,7 @@ const Statistical = ({ driverId }) => {
         switch (mappedRange) {
           case "yesterday":
           case "today":
-            newLabels = Array.from(
-              { length: 24 },
-              (_, i) => `${i.toString().padStart(2, "0")}:00`
-            );
+            newLabels = Array.from({ length: 24 }, (_, i) => `${i}:00`);
             newTripDataPoints = newLabels.map((hour) => {
               const hourData = selectedData.find((item) => item.hour === hour);
               return hourData ? hourData.trips : 0;
