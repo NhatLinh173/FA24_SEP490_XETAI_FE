@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../config/axiosConfig";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { toast } from "react-toastify";
 import LoadingSpinner from "../../Animation/LoadingSpinner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function VehicleManager() {
   const [registrations, setRegistrations] = useState([]);
@@ -23,7 +24,7 @@ function VehicleManager() {
     }
 
     const { _id } = selectedRegistration;
-    setLoading(true); // Bắt đầu loading
+    setLoading(true);
 
     try {
       const response = await axiosInstance.patch(`/car/update/status`, {
@@ -31,21 +32,14 @@ function VehicleManager() {
         status: "approve",
       });
       if (response.status === 200) {
-        const sendEmail = await axiosInstance.post("/send/email", {
-          to: selectedRegistration.driverId.userId.email,
-          subject: "Xe của bạn đã được chấp nhận",
-          templateName: "carApprovalNotification",
-          templateArgs: [selectedRegistration.driverId.userId.fullName, _id],
-        });
-
         setRegistrations((prevRegistrations) =>
           prevRegistrations.filter((registration) => registration._id !== _id)
         );
 
         toast.success("Đã xác nhận đăng ký xe thành công.");
-        setTimeout(() => {
-          handleCloseDetailModal();
-        }, 2000);
+        handleCloseDetailModal();
+
+        await fetchCar();
       }
     } catch (error) {
       console.error("Lỗi khi cập nhật trạng thái:", error);
@@ -61,7 +55,7 @@ function VehicleManager() {
   const handleConfirmDelete = async () => {
     if (selectedReason && selectedRegistration) {
       const { driverId, _id } = selectedRegistration;
-      setLoading(true); // Bắt đầu loading
+      setLoading(true);
 
       try {
         const response = await axiosInstance.patch(`/car/update/status`, {
@@ -69,32 +63,14 @@ function VehicleManager() {
           status: "cancel",
         });
         if (response.status === 200) {
-          if (driverId && driverId.userId) {
-            const sendEmail = await axiosInstance.post("/send/email", {
-              to: selectedRegistration.driverId.userId.email,
-              subject: "Chấp Nhận Đơn Hàng",
-              templateName: "invalidCarRegistration",
-              templateArgs: [
-                selectedRegistration.driverId.userId.fullName,
-                _id,
-                selectedReason,
-              ],
-            });
+          setRegistrations((prevRegistrations) =>
+            prevRegistrations.filter((registration) => registration._id !== _id)
+          );
 
-            setRegistrations((prevRegistrations) =>
-              prevRegistrations.filter(
-                (registration) => registration._id !== _id
-              )
-            );
-
-            toast.success("Đã xóa đăng ký xe thành công.");
-            setTimeout(() => {
-              handleCloseDetailModal();
-              handleCloseDeleteModal();
-            }, 2000);
-          } else {
-            toast.error("Thông tin lái xe không hợp lệ.");
-          }
+          toast.success("Đã xóa đăng ký xe thành công.");
+          handleCloseDetailModal();
+          handleCloseDeleteModal();
+          await fetchCar();
         } else {
           toast.warning("Vui lòng chọn một lý do để xóa.");
         }
@@ -107,8 +83,8 @@ function VehicleManager() {
   };
 
   const handleCloseDetailModal = () => {
-    console.log("aloo");
     setSelectedRegistration(null);
+    setShowDeleteModal(false);
   };
 
   const handleCloseDeleteModal = () => {
@@ -116,19 +92,19 @@ function VehicleManager() {
     setSelectedReason("");
   };
 
-  useEffect(() => {
-    const fetchCar = async () => {
-      setLoading(true); // Bắt đầu loading
-      try {
-        const response = await axiosInstance.get("/car/wait");
-        setRegistrations(response.data);
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu đăng ký xe:", error);
-      } finally {
-        setLoading(false); // Kết thúc loading
-      }
-    };
+  const fetchCar = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get("/car/wait");
+      setRegistrations(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy dữ liệu đăng ký xe:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCar();
   }, []);
 
@@ -324,6 +300,18 @@ function VehicleManager() {
           </div>
         </div>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }
