@@ -41,34 +41,36 @@ const Statistical = ({ driverId }) => {
     "Tuần này": "week",
     "Tháng này": "month",
     "Tháng trước": "lastMonth",
-    "Năm này": "year",
+    "Năm nay": "thisYear",
     "Năm trước": "lastYear",
   };
 
   const fetchStatistics = async (range) => {
     try {
-      const mappedRange = timeRangeMapping[range] || range;
+      const mappedRange = timeRangeMapping[range];
       const response = await axios.get(
         `https://xehang.site/driver/${driverId}/statistics?range=${range}`
       );
       const data = response.data;
+
       setStatistics({
         tripsThisWeek: data.tripsThisWeek || 0,
         tripsThisMonth: data.tripsThisMonth || 0,
         earnings: data.balance || 0,
       });
 
-      const selectedData = data[mappedRange];
+      let newLabels = [];
+      let newTripDataPoints = [];
+      let newLineDataPoints = [];
 
-      if (selectedData) {
-        let newLabels = [];
-        let newTripDataPoints = [];
-        let newLineDataPoints = [];
+      switch (mappedRange) {
+        case "yesterday":
+        case "today": {
+          newLabels = Array.from({ length: 24 }, (_, i) => `${i}:00`);
+          const selectedData =
+            mappedRange === "today" ? data.today : data.yesterday;
 
-        switch (mappedRange) {
-          case "yesterday":
-          case "today":
-            newLabels = Array.from({ length: 24 }, (_, i) => `${i}:00`);
+          if (selectedData && Array.isArray(selectedData)) {
             newTripDataPoints = newLabels.map((hour) => {
               const hourData = selectedData.find((item) => item.hour === hour);
               return hourData ? hourData.trips : 0;
@@ -78,200 +80,129 @@ const Statistical = ({ driverId }) => {
               const hourData = selectedData.find((item) => item.hour === hour);
               return hourData ? hourData.earnings : 0;
             });
-            break;
-
-          case "week":
-            const daysOfWeek = [
-              "Thứ 2",
-              "Thứ 3",
-              "Thứ 4",
-              "Thứ 5",
-              "Thứ 6",
-              "Thứ 7",
-              "CN",
-            ];
-            const currentDate = new Date();
-            const currentDay = currentDate.getDay();
-            const weekStartDate = new Date(currentDate);
-            weekStartDate.setDate(currentDate.getDate() - currentDay + 1);
-
-            newLabels = daysOfWeek;
-            newTripDataPoints = daysOfWeek.map((day, index) => {
-              const targetDate = new Date(weekStartDate);
-              targetDate.setDate(weekStartDate.getDate() + index);
-
-              const formattedDate = `${String(targetDate.getDate()).padStart(
-                2,
-                "0"
-              )}-${String(targetDate.getMonth() + 1).padStart(2, "0")}`;
-
-              const dayData = selectedData.find(
-                (item) =>
-                  item.day === formattedDate ||
-                  item.day ===
-                    targetDate.toLocaleDateString("en-US", { weekday: "long" })
-              );
-
-              return dayData ? dayData.trips : 0;
-            });
-
-            newLineDataPoints = daysOfWeek.map((day, index) => {
-              const targetDate = new Date(weekStartDate);
-              targetDate.setDate(weekStartDate.getDate() + index);
-
-              const formattedDate = `${String(targetDate.getDate()).padStart(
-                2,
-                "0"
-              )}-${String(targetDate.getMonth() + 1).padStart(2, "0")}`;
-
-              const dayData = selectedData.find(
-                (item) =>
-                  item.day === formattedDate ||
-                  item.day ===
-                    targetDate.toLocaleDateString("en-US", { weekday: "long" })
-              );
-
-              return dayData ? dayData.earnings : 0;
-            });
-            break;
-
-          case "month":
-            const now = new Date();
-            const currentMonth = now.getMonth() + 1;
-            const currentYear = now.getFullYear();
-            const totalDaysInMonth = new Date(
-              currentYear,
-              currentMonth,
-              0
-            ).getDate();
-
-            newLabels = Array.from({ length: totalDaysInMonth }, (_, i) =>
-              (i + 1).toString()
-            );
-
-            newTripDataPoints = Array(totalDaysInMonth).fill(0);
-            newLineDataPoints = Array(totalDaysInMonth).fill(0);
-
-            // Xử lý dữ liệu từ API
-            selectedData.forEach((item) => {
-              const itemDate = new Date(item.timestamp);
-              const day = itemDate.getDate();
-
-              // Kiểm tra nếu dữ liệu thuộc về tháng hiện tại
-              if (
-                itemDate.getMonth() + 1 === currentMonth &&
-                itemDate.getFullYear() === currentYear
-              ) {
-                newTripDataPoints[day - 1] = item.trips;
-                newLineDataPoints[day - 1] = item.earnings || 0;
-              }
-            });
-            break;
-
-          case "lastMonth": {
-            const dateForLastMonth = new Date();
-            let lastMonth = dateForLastMonth.getMonth() - 1; // tháng trước
-            let year = dateForLastMonth.getFullYear();
-
-            // Nếu tháng hiện tại là tháng 1, thì tháng trước là tháng 12 của năm trước
-            if (lastMonth < 0) {
-              lastMonth = 11;
-              year -= 1;
-            }
-
-            const totalDaysInLastMonth = new Date(
-              year,
-              lastMonth + 1,
-              0
-            ).getDate();
-
-            newLabels = Array.from({ length: totalDaysInLastMonth }, (_, i) =>
-              (i + 1).toString()
-            );
-
-            newTripDataPoints = Array(totalDaysInLastMonth).fill(0);
-            newLineDataPoints = Array(totalDaysInLastMonth).fill(0);
-
-            console.log("Selected Data:", selectedData);
-            console.log("Target Last Month:", lastMonth, "Target Year:", year);
-
-            selectedData.forEach((item) => {
-              // Lấy thông tin ngày từ timestamp
-              const itemDate = new Date(item.timestamp);
-              const day = itemDate.getDate();
-
-              // Trực tiếp set dữ liệu vào mảng tại vị trí ngày tương ứng
-              if (item.trips) {
-                newTripDataPoints[day - 1] = item.trips;
-              }
-              if (item.earnings) {
-                newLineDataPoints[day - 1] = item.earnings;
-              }
-
-              console.log("Setting data for day:", day);
-              console.log("Trips:", item.trips);
-              console.log("Earnings:", item.earnings);
-            });
-
-            console.log("Final Trip Data Points:", newTripDataPoints);
-            console.log("Final Line Data Points:", newLineDataPoints);
-            break;
           }
-          case "year":
-          case "lastYear": {
-            const monthNames = [
-              "Tháng 1",
-              "Tháng 2",
-              "Tháng 3",
-              "Tháng 4",
-              "Tháng 5",
-              "Tháng 6",
-              "Tháng 7",
-              "Tháng 8",
-              "Tháng 9",
-              "Tháng 10",
-              "Tháng 11",
-              "Tháng 12",
-            ];
-
-            newLabels = monthNames;
-            newTripDataPoints = Array(12).fill(0);
-            newLineDataPoints = Array(12).fill(0);
-
-            selectedData.forEach((item) => {
-              let monthIndex = -1;
-
-              // Kiểm tra định dạng "Tháng X"
-              if (item.month.startsWith("Tháng")) {
-                monthIndex = parseInt(item.month.split(" ")[1]) - 1;
-              } else {
-                // Kiểm tra định dạng "YYYY-MM"
-                const [year, month] = item.month.split("-");
-                monthIndex = parseInt(month) - 1;
-              }
-
-              if (monthIndex >= 0 && monthIndex < 12) {
-                newTripDataPoints[monthIndex] += item.trips;
-                newLineDataPoints[monthIndex] += item.earnings || 0;
-              }
-            });
-
-            break;
-          }
-
-          default:
-            console.warn(`Không có dữ liệu cho phạm vi: ${range}`);
+          break;
         }
 
-        setLabels(newLabels);
-        setTripDataPoints(newTripDataPoints);
-        setLineDataPoints(newLineDataPoints);
-      } else {
-        console.warn(`Không có dữ liệu cho phạm vi: ${range}`);
-        setLabels([]);
-        setTripDataPoints([]);
-        setLineDataPoints([]);
+        case "week": {
+          const daysOfWeek = [
+            "Thứ 2",
+            "Thứ 3",
+            "Thứ 4",
+            "Thứ 5",
+            "Thứ 6",
+            "Thứ 7",
+            "CN",
+          ];
+          const dayMapping = {
+            Monday: "Thứ 2",
+            Tuesday: "Thứ 3",
+            Wednesday: "Thứ 4",
+            Thursday: "Thứ 5",
+            Friday: "Thứ 6",
+            Saturday: "Thứ 7",
+            Sunday: "CN",
+          };
+
+          newLabels = daysOfWeek;
+          newTripDataPoints = Array(7).fill(0);
+          newLineDataPoints = Array(7).fill(0);
+
+          if (data.week && Array.isArray(data.week)) {
+            data.week.forEach((item) => {
+              if (item && item.day) {
+                // Chuyển đổi từ tiếng Anh sang tiếng Việt
+                const vietnameseDay = dayMapping[item.day];
+                const dayIndex = daysOfWeek.indexOf(vietnameseDay);
+
+                if (dayIndex !== -1) {
+                  newTripDataPoints[dayIndex] = item.trips;
+                  newLineDataPoints[dayIndex] = item.earnings;
+                }
+              }
+            });
+          }
+
+          break;
+        }
+
+        case "month":
+        case "lastMonth": {
+          const now = new Date();
+          const daysInMonth = new Date(
+            now.getFullYear(),
+            now.getMonth() + 1,
+            0
+          ).getDate();
+
+          newLabels = Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`);
+          const selectedData =
+            mappedRange === "month" ? data.month : data.lastMonth;
+
+          if (selectedData && Array.isArray(selectedData)) {
+            newTripDataPoints = Array(daysInMonth).fill(0);
+            newLineDataPoints = Array(daysInMonth).fill(0);
+
+            selectedData.forEach((item) => {
+              if (item.date) {
+                const day = new Date(item.timestamp).getDate();
+                if (day >= 1 && day <= daysInMonth) {
+                  newTripDataPoints[day - 1] = item.trips;
+                  newLineDataPoints[day - 1] = item.earnings;
+                }
+              }
+            });
+          }
+          break;
+        }
+
+        case "thisYear":
+        case "lastYear": {
+          const monthNames = [
+            "Tháng 1",
+            "Tháng 2",
+            "Tháng 3",
+            "Tháng 4",
+            "Tháng 5",
+            "Tháng 6",
+            "Tháng 7",
+            "Tháng 8",
+            "Tháng 9",
+            "Tháng 10",
+            "Tháng 11",
+            "Tháng 12",
+          ];
+
+          newLabels = monthNames;
+          newTripDataPoints = Array(12).fill(0);
+          newLineDataPoints = Array(12).fill(0);
+
+          const yearData =
+            mappedRange === "thisYear" ? data.thisYear : data.lastYear;
+
+          if (yearData && Array.isArray(yearData)) {
+            yearData.forEach((item) => {
+              if (item && item.month) {
+                const monthStr = item.month.split("-")[1];
+                const monthNumber = parseInt(monthStr) - 1;
+
+                if (monthNumber >= 0 && monthNumber < 12) {
+                  newTripDataPoints[monthNumber] = item.trips;
+                  newLineDataPoints[monthNumber] = item.earnings;
+                }
+              }
+            });
+          }
+          break;
+        }
+
+        default:
+          console.warn(`Không có dữ liệu cho phạm vi: ${range}`);
       }
+
+      setLabels(newLabels);
+      setTripDataPoints(newTripDataPoints);
+      setLineDataPoints(newLineDataPoints);
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu thống kê:", error);
     }
@@ -315,73 +246,18 @@ const Statistical = ({ driverId }) => {
     <div className="statistical-container">
       <h2>Thống Kê Tài Xế</h2>
       <div className="time-range-buttons">
-        <button
-          onClick={() => handleTimeRangeChange("Hôm qua")}
-          style={{
-            backgroundColor: setTimeRange === "Hôm qua" ? "#007bff" : "#f0f0f0",
-            color: setTimeRange === "Hôm qua" ? "#fff" : "#000",
-          }}
-        >
-          Hôm qua
-        </button>
-        <button
-          onClick={() => handleTimeRangeChange("Hôm nay")}
-          style={{
-            backgroundColor: setTimeRange === "Hôm nay" ? "#007bff" : "#f0f0f0",
-            color: setTimeRange === "Hôm nay" ? "#fff" : "#000",
-          }}
-        >
-          Hôm nay
-        </button>
-        <button
-          onClick={() => handleTimeRangeChange("Tuần này")}
-          style={{
-            backgroundColor:
-              setTimeRange === "Tuần này" ? "#007bff" : "#f0f0f0",
-            color: setTimeRange === "Tuần này" ? "#fff" : "#000",
-          }}
-        >
-          Tuần này
-        </button>
-        <button
-          onClick={() => handleTimeRangeChange("Tháng này")}
-          style={{
-            backgroundColor:
-              setTimeRange === "Tháng này" ? "#007bff" : "#f0f0f0",
-            color: setTimeRange === "Tháng này" ? "#fff" : "#000",
-          }}
-        >
-          Tháng này
-        </button>
-        <button
-          onClick={() => handleTimeRangeChange("Tháng trước")}
-          style={{
-            backgroundColor:
-              setTimeRange === "Tháng trước" ? "#007bff" : "#f0f0f0",
-            color: setTimeRange === "Tháng trước" ? "#fff" : "#000",
-          }}
-        >
-          Tháng trước
-        </button>
-        <button
-          onClick={() => handleTimeRangeChange("Năm nay")}
-          style={{
-            backgroundColor: setTimeRange === "Năm nay" ? "#007bff" : "#f0f0f0",
-            color: setTimeRange === "Năm nay" ? "#fff" : "#000",
-          }}
-        >
-          Năm nay
-        </button>
-        <button
-          onClick={() => handleTimeRangeChange("Năm trước")}
-          style={{
-            backgroundColor:
-              setTimeRange === "Năm trước" ? "#007bff" : "#f0f0f0",
-            color: setTimeRange === "Năm trước" ? "#fff" : "#000",
-          }}
-        >
-          Năm trước
-        </button>
+        {Object.keys(timeRangeMapping).map((range) => (
+          <button
+            key={range}
+            onClick={() => handleTimeRangeChange(range)}
+            style={{
+              backgroundColor: timeRange === range ? "#007bff" : "#f0f0f0",
+              color: timeRange === range ? "#fff" : "#000",
+            }}
+          >
+            {range}
+          </button>
+        ))}
       </div>
       <div className="chart-container">
         <h4 style={{ marginTop: "15px" }}>Số chuyến đi: {totalTrip}</h4>
