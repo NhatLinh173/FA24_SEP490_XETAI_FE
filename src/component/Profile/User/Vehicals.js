@@ -41,7 +41,7 @@ const Vehicals = () => {
     try {
       await axiosInstance.delete(`/car/${selectedId}`);
       setIsVisible(false);
-      toast.success(`Xóa thành công ${selectedName}`);
+      toast.success(`Xóa thành công xe  ${selectedName}`);
       getMyVehicals();
     } catch (error) {
       toast.error("Có lỗi xảy ra");
