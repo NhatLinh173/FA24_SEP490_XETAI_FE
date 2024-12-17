@@ -18,10 +18,8 @@ import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 import { io } from "socket.io-client";
 
 const HistoryPostDetail = () => {
-  const history = useHistory();
   const { id } = useParams();
   const userId = localStorage.getItem("userId");
-  const [receiverId, setReceiverId] = useState(null);
   const [cities, setCities] = useState([]);
   const [cityFrom, setCityFrom] = useState("");
   const [cityTo, setCityTo] = useState("");
@@ -82,7 +80,11 @@ const HistoryPostDetail = () => {
   const { data: post } = useInstanceData(`/posts/${id}`, refreshData);
 
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
+  console.log(deals);
+
   const { data: dealsStatus } = useInstanceData(`/dealPrice/status/${id}`);
+  console.log(dealsStatus);
+
   const isDealPriceAvailable = deals && deals.length > 0;
 
   const handleConfirmDriver = async () => {
@@ -236,6 +238,7 @@ const HistoryPostDetail = () => {
           if (response.status === 200 && res.status === 200) {
             toast.success("Cập nhật thành công!");
           }
+          setRefreshData((prev) => !prev);
         } catch (error) {
           toast.error(error.message);
         }
@@ -250,6 +253,7 @@ const HistoryPostDetail = () => {
 
             if (res.status === 200) {
               toast.success("Cập nhật thành công!");
+              setRefreshData((prev) => !prev);
             }
           } else {
             const response = await axiosInstance.patch(
@@ -267,6 +271,7 @@ const HistoryPostDetail = () => {
 
             if (response.status === 200 && res.status === 200) {
               toast.success("Cập nhật thành công!");
+              setRefreshData((prev) => !prev);
             }
           }
         } catch (error) {
@@ -281,7 +286,6 @@ const HistoryPostDetail = () => {
 
         if (res.status === 200) {
           toast.success("Cập nhật thành công!");
-
           const driverId = localStorage.getItem("driverId");
           if (driverId !== null && status === "finish") {
             const priceValue = formData
@@ -297,6 +301,7 @@ const HistoryPostDetail = () => {
               trips: Number(trips),
             });
           }
+          setRefreshData((prev) => !prev);
         } else {
           toast.error("Cập nhật không thành công!");
         }
@@ -478,7 +483,7 @@ const HistoryPostDetail = () => {
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     if (files.length + totalImage.length > 3) {
-      toast.error("You can only upload up to 3 images.");
+      toast.error("Bạn chỉ được chọn 3 ảnh!!");
       return;
     }
     const filePreviews = files.map((file) => ({
@@ -510,8 +515,8 @@ const HistoryPostDetail = () => {
                         totalImage.length === 1
                           ? "justify-content-center"
                           : totalImage.length === 2
-                            ? "justify-content-center w-100"
-                            : "justify-content-between w-100"
+                          ? "justify-content-center w-100"
+                          : "justify-content-between w-100"
                       }`}
                     >
                       {totalImage.map((image, index) => (
@@ -701,10 +706,10 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "hide"
-                              ? "bg-secondary text-white "
-                              : status === "wait"
-                                ? "bg-warning text-Black"
-                                : ""
+                            ? "bg-secondary text-white "
+                            : status === "wait"
+                            ? "bg-warning text-Black"
+                            : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -729,8 +734,8 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "wait"
-                              ? "bg-warning text-Black"
-                              : ""
+                            ? "bg-warning text-Black"
+                            : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -760,8 +765,8 @@ const HistoryPostDetail = () => {
                         status === "inprogress"
                           ? "bg-primary text-white "
                           : status === "finish"
-                            ? "bg-success text-white"
-                            : ""
+                          ? "bg-success text-white"
+                          : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -784,8 +789,8 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                            ? "bg-info text-white"
-                            : ""
+                          ? "bg-info text-white"
+                          : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -805,10 +810,10 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                            ? "bg-secondary text-white"
-                            : status === "inprogress"
-                              ? "bg-primary text-white "
-                              : ""
+                          ? "bg-secondary text-white"
+                          : status === "inprogress"
+                          ? "bg-primary text-white "
+                          : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
