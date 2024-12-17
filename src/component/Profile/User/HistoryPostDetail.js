@@ -300,6 +300,7 @@ const HistoryPostDetail = () => {
               earnings: Number(earnings),
               trips: Number(trips),
             });
+            window.location.href = `/trip/detail/${id}`;
           }
           setRefreshData((prev) => !prev);
         } else {

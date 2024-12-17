@@ -98,7 +98,7 @@ const VehicalAdd = () => {
         },
       });
       if (response.status === 200) {
-        toast.success("Thêm thành công xe mới");
+        toast.success("Gửi yêu cầu thêm xe thành công!!!");
         history.push(`/profile?tab=vehicals`);
       } else {
         toast.error("Bạn không phải tài xế !");
