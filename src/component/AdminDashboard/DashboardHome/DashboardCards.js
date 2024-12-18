@@ -19,7 +19,8 @@ const AdminDashboardCards = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [monthlyAmount, setMonthlyAmount] = useState(0);
   const [monthlyBreakdown, setMonthlyBreakdown] = useState([]);
-  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalOrdersInSystem, setTotalOrdersInSystem] = useState(0);
+  const [totalOrdersCompleted, setTotalOrdersCompleted] = useState(0);
   const [adminVisitorChartData, setAdminVisitorChartData] = useState(0);
   const [adminCustomerAnalyticsData, setAdminCustomerAnalyticsData] = useState(
     []
@@ -55,7 +56,8 @@ const AdminDashboardCards = () => {
           setTotalAmount(response.data.totalAmount);
           setMonthlyAmount(response.data.monthlyAmount);
           setMonthlyBreakdown(response.data.monthlyBreakdown);
-          setTotalOrders(response.data.totalOrders);
+          setTotalOrdersInSystem(response.data.totalOrdersInSystem);
+          setTotalOrdersCompleted(response.data.totalOrdersCompleted);
         } else {
           console.error("Dữ liệu không hợp lệ:", response.data);
         }
@@ -105,14 +107,24 @@ const AdminDashboardCards = () => {
           >
             <Card.Body>
               <div className="d-flex justify-content-center align-items-center">
-                <div className="text-center">
+                <div className="text-center me-5">
                   <h6 className="admin-stat-title mb-2">Tổng Đơn Hàng</h6>
-                  <h3 className="admin-stat-value mb-1">{totalOrders}</h3>
+                  <h3 className="admin-stat-value mb-1">
+                    {totalOrdersInSystem}
+                  </h3>
+                </div>
+                <div className="text-center ms-5">
+                  <h6 className="admin-stat-title mb-2">
+                    Đơn hàng đã hoàn thành
+                  </h6>
+                  <h3 className="admin-stat-value mb-1">
+                    {totalOrdersCompleted}
+                  </h3>
                 </div>
               </div>
               <div className="mt-3">
                 <div className="admin-stat-subtitle">
-                  <strong>Tổng Trong Tháng Này:</strong> {totalOrders}{" "}
+                  <strong>Tổng Trong Tháng Này:</strong> {totalOrdersInSystem}{" "}
                 </div>
               </div>
             </Card.Body>

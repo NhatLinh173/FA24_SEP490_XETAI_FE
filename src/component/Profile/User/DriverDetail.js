@@ -262,11 +262,21 @@ const DriverDetail = () => {
               <h6>Đánh giá trung bình</h6>
               <div className="statistics-item">
                 <p className="stat-label">Chuyến đi tuần này:</p>
-                <p className="stat-value">{driver.tripsThisWeek}</p>
+                <p className="stat-value">
+                  {driver?.statistics?.thisWeek?.reduce(
+                    (sum, day) => sum + day.trips,
+                    0
+                  ) || 0}
+                </p>
               </div>
               <div className="statistics-item">
                 <p className="stat-label">Chuyến đi tháng này:</p>
-                <p className="stat-value">{driver.tripsThisMonth}</p>
+                <p className="stat-value">
+                  {driver?.statistics?.thisMonth?.reduce(
+                    (sum, date) => sum + date.trips,
+                    0
+                  ) || 0}
+                </p>
               </div>
               <div className="statistics-item">
                 <p className="stat-label">Đánh giá trung bình:</p>
