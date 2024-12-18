@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axiosInstance from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
-
+import avatarDefault from "../../../assets/img/icon/avatarDefault.jpg";
 const DriverCard = () => {
   const history = useHistory();
   const [driver, setDriver] = useState(null);
@@ -60,7 +60,7 @@ const DriverCard = () => {
           <>
             <div className="col-md-3 d-flex align-items-center">
               <img
-                src={driver.userId.avatar}
+                src={driver.userId.avatar || avatarDefault}
                 className="img-fluid"
                 alt={driver.userId.fullName}
               />

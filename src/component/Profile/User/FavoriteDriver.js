@@ -55,7 +55,7 @@ const FavoriteDrivers = () => {
             id={driver.id}
             driverImage={driver.userId.avatar}
             driverName={driver.userId.fullName}
-            rating={driver.rating}
+            rating={Number(driver.rating).toFixed(1)}
             tripsCompleted={driver.tripsCompleted}
           />
         ))
