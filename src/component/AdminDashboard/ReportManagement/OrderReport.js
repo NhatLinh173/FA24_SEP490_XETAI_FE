@@ -35,8 +35,8 @@ const ReportManagement = () => {
     }
   }, [report]);
   const displayedReports = reports.slice(
-    currentPage * 5, // Thay reportsPerPage bằng 10
-    (currentPage + 1) * 5 // Thay reportsPerPage bằng 10
+    currentPage * 5,
+    (currentPage + 1) * 5
   );
 
   const handleViewDetails = (postId) => {
@@ -201,10 +201,8 @@ const ReportManagement = () => {
         <Modal.Body className="modal-body-scrollable" size="lg">
           {" "}
           <div className="row">
-            {/* Left Side: Service Details */}
             <div>
               <div className="border rounded p-3 shadow-sm">
-                {/* Service Information */}
                 <div className="w-100 border-bottom pb-3 mb-3">
                   <div
                     id="carouselExampleControls"
