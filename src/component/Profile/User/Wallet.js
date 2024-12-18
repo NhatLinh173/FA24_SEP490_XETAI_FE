@@ -333,15 +333,14 @@ const Wallet = ({ data }) => {
                         transaction.type === "POST_PAYMENT" ||
                         transaction.type === "CANCEL_ORDER" ||
                         transaction.type === "PAYING_FOR_ORDER" ||
-                        transaction.type === "WITHDRAW"
+                        transaction.type === "WITHDRAW" ||
+                        transaction.type === "PAY_SYSTEM_FEE"
                           ? "red"
-                          : transaction.type === "DEPOSIT"
+                          : transaction.type ===
+                                "RECEIVING_PAYMENT_FROM_ORDER" ||
+                              transaction.type === "RECEIVE_CANCELLATION_FEE"
                             ? "#00FF00"
-                            : transaction.type ===
-                                  "RECEIVING_PAYMENT_FROM_ORDER" ||
-                                transaction.type === "RECEIVE_CANCELLATION_FEE"
-                              ? "#00FF00"
-                              : "inherit",
+                            : "inherit",
                     }}
                   >
                     {transaction.type === "POST_PAYMENT" ||
@@ -349,7 +348,8 @@ const Wallet = ({ data }) => {
                     transaction.type === "PAYING_FOR_ORDER" ||
                     transaction.type === "WITHDRAW"
                       ? `-${(transaction.amount || 0).toLocaleString()} đ`
-                      : transaction.status === "PAID" ||
+                      : transaction.type === "DEPOSIT" ||
+                          transaction.status === "PAID" ||
                           transaction.status === "RECEIVE_CANCELLATION_FEE"
                         ? `+${(transaction.amount || 0).toLocaleString()} đ`
                         : `${(transaction.amount || 0).toLocaleString()} đ`}
