@@ -68,6 +68,14 @@ const TransactionList = ({ transactions = [], userInfor }) => {
         return "Nạp tiền";
       case "CANCEL_ORDER":
         return "Hủy Nhận chuyến";
+      case "PAY_SYSTEM_FEE":
+        return "Phí hệ thống";
+      case "PAYING_FOR_ORDER":
+        return "Thanh toán cho đơn hàng";
+      case "RECEIVING_PAYMENT_FROM_ORDER":
+        return "Nhận tiền từ đơn hàng";
+      case "WITHDRAW":
+        return "Rút tiền";
       default:
         return "Không xác định";
     }
@@ -226,6 +234,7 @@ const DriverDetails = () => {
     totalTripsWeek: 0,
     totalTripsMonth: 0,
   });
+  const [userData, setUserData] = useState("");
   const [userId, setUserId] = useState(null);
   const { driverId } = useParams();
 
@@ -237,7 +246,7 @@ const DriverDetails = () => {
         );
         setUserId(driverResponse.data.user._id);
         setDriverData(driverResponse.data.driver);
-
+        setUserData(driverResponse.data.user);
         const carResponse = await axiosInstance.get(
           `/car/driver/${driverId}/status`
         );
@@ -249,6 +258,10 @@ const DriverDetails = () => {
 
     fetchDriverAndCarData();
   }, [driverId]);
+
+  useEffect(() => {
+    console.log(userData.balance);
+  }, [userData]);
 
   useEffect(() => {
     const fetchInforUser = async () => {
@@ -283,21 +296,24 @@ const DriverDetails = () => {
       <DriverInfo userInfor={userInfor} />
 
       <section className="stats row g-3 mb-4">
+        <StatCard title="Tổng thu nhập" value={userData.balance} />
         <StatCard
-          title="Tổng thu nhập"
+          title="Chuyến trong tuần"
           value={
-            driverData.balance
-              ? driverData.balance.toLocaleString() + " VNĐ"
-              : "0 VNĐ"
+            driverData?.statistics?.thisWeek?.reduce(
+              (sum, day) => sum + day.trips,
+              0
+            ) || 0
           }
         />
         <StatCard
-          title="Chuyến trong tuần"
-          value={driverData.tripsThisWeek || 0}
-        />
-        <StatCard
           title="Chuyến trong tháng"
-          value={driverData.tripsThisMonth || 0}
+          value={
+            driverData?.statistics?.thisMonth?.reduce(
+              (sum, date) => sum + date.trips,
+              0
+            ) || 0
+          }
         />
         <StatCard
           title="Tổng số chuyến"
