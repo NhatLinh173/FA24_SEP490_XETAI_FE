@@ -483,7 +483,7 @@ const TripDetail = () => {
                     class="btn btn-primary"
                     onClick={handleSubmit}
                   >
-                    Gủi
+                    Gửi
                   </button>
                 </div>
               </div>
