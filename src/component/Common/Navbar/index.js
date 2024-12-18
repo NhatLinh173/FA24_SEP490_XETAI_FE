@@ -150,6 +150,10 @@ const Navbar = ({ openModal }) => {
         if (notification.data && notification.data.postId) {
           history.push(`/history-post/${notification.data.postId}`);
         }
+      } else if (notification.title === "Đơn hàng được tài xế chấp nhận") {
+        if (notification.data && notification.data.postId) {
+          history.push(`/history-post/${notification.data.postId}`);
+        }
       } else if (notification.title === "Thương lượng thành công") {
         if (notification.data && notification.data.postId) {
           history.push(`/history-post/${notification.data.postId}`);
