@@ -174,7 +174,7 @@ const HistoryPost = () => {
   };
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber - 1); // Cập nhật trang hiện tại
+    setCurrentPage(pageNumber - 1);
   };
 
   const getPaginationItems = () => {
@@ -182,7 +182,6 @@ const HistoryPost = () => {
     const totalPages = pageCount;
 
     if (totalPages <= 5) {
-      // Nếu tổng số trang nhỏ hơn hoặc bằng 5, hiển thị tất cả
       for (let i = 1; i <= totalPages; i++) {
         items.push(
           <Pagination.Item
@@ -195,11 +194,9 @@ const HistoryPost = () => {
         );
       }
     } else {
-      // Nếu tổng số trang lớn hơn 5, hiển thị theo kiểu "1234 ... 8910"
-      const startPage = Math.max(2, currentPage); // Trang bắt đầu
-      const endPage = Math.min(totalPages - 1, currentPage + 2); // Trang kết thúc
+      const startPage = Math.max(2, currentPage);
+      const endPage = Math.min(totalPages - 1, currentPage + 2);
 
-      // Hiển thị trang đầu tiên
       items.push(
         <Pagination.Item
           key={1}
@@ -210,12 +207,10 @@ const HistoryPost = () => {
         </Pagination.Item>
       );
 
-      // Hiển thị dấu ba chấm nếu cần
       if (startPage > 2) {
         items.push(<Pagination.Ellipsis key="ellipsis-start" />);
       }
 
-      // Hiển thị các trang giữa
       for (let i = startPage; i <= endPage; i++) {
         items.push(
           <Pagination.Item
@@ -228,12 +223,10 @@ const HistoryPost = () => {
         );
       }
 
-      // Hiển thị dấu ba chấm nếu cần
       if (endPage < totalPages - 1) {
         items.push(<Pagination.Ellipsis key="ellipsis-end" />);
       }
 
-      // Hiển thị trang cuối cùng
       items.push(
         <Pagination.Item
           key={totalPages}
@@ -249,7 +242,7 @@ const HistoryPost = () => {
   };
 
   useEffect(() => {
-    applyFilter(); // Gọi applyFilter khi currentPage hoặc currentFilter thay đổi
+    applyFilter();
   }, [currentPage, currentFilter, posts, postdriver, dealPriceDriver]);
 
   return (
