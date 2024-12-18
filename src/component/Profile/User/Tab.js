@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { CgProfile } from "react-icons/cg";
 import { FaRegHeart } from "react-icons/fa";
@@ -13,11 +14,19 @@ import { BsFileEarmarkPost } from "react-icons/bs";
 import useAuth from "../../../hooks/useAuth";
 
 const Tab = ({ tab1, setTab1 }) => {
+  const location = useLocation();
   const [role, setRole] = useState("");
   const { handleLogout } = useAuth();
   const handleLogoutClick = async () => {
     await handleLogout();
   };
+
+  useEffect(() => {
+    if (location.state && location.state.activeTab) {
+      setTab1(location.state.activeTab);
+      localStorage.setItem("tabHistory", location.state.activeTab);
+    }
+  }, [location]);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
