@@ -270,7 +270,9 @@ const DriverDetail = () => {
               </div>
               <div className="statistics-item">
                 <p className="stat-label">Đánh giá trung bình:</p>
-                <p className="stat-value">{driver.averageRating} sao</p>
+                <p className="stat-value">
+                  {Number(driver.averageRating).toFixed(1)} sao
+                </p>
               </div>
             </div>
           </div>

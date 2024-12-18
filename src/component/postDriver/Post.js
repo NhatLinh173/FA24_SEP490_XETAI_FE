@@ -5,8 +5,9 @@ import axiosInstance from "../../config/axiosConfig";
 import { toast } from "react-toastify";
 import SectionHeading from "../Common/SectionHeading";
 import PostItem from "./PostItem";
-
+import { useHistory } from "react-router-dom";
 const Post = ({ PostDriver }) => {
+  const history = useHistory();
   const [showReportButtons, setShowReportButtons] = useState({});
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState("");
@@ -91,6 +92,16 @@ const Post = ({ PostDriver }) => {
   };
   const handleCloseContactModal = () => setShowContactModal(false);
   const handleConfirmContact = () => {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      history.push("/signIn");
+    } else if (selectedDriver && selectedDriver._id) {
+      history.push(`/chat/${selectedDriver._id}`);
+    } else {
+      toast.error("Không thể xác định tài xế.");
+    }
+
     setShowContactModal(false);
   };
 
@@ -99,8 +110,8 @@ const Post = ({ PostDriver }) => {
       setFilteredData(query);
       setCurrentPage(0);
     } else {
+      setFilteredData([]);
       console.log("Query không hợp lệ hoặc rỗng");
-      setFilteredData(PostDriver);
     }
   };
 

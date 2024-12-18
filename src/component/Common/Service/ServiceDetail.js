@@ -137,8 +137,6 @@ const ServiceDetail = () => {
     const currentDate = new Date().toLocaleDateString("en-CA");
     const deliveryDate = new Date(deliveryTime).toLocaleDateString("en-CA");
 
-    console.log(currentDate + " " + deliveryDate);
-
     if (deliveryDate < currentDate) {
       toast.error("Thời gian giao hàng dự kiến không được ở quá khứ");
       return;
@@ -159,12 +157,28 @@ const ServiceDetail = () => {
         toast.success("Chấp nhận đơn hàng thành công", { autoClose: 2000 });
       }
     } catch (error) {
-      if (error.response && error.response.status === 402) {
-        toast.error("Thời gian giao hàng dự kiến không hợp lệ!");
-      } else if (error.response && error.response.status === 422) {
-        toast.error("Tài xế chưa đăng ký xe");
+      if (error.response) {
+        const { status, data } = error.response;
+
+        if (status === 402) {
+          toast.error("Thời gian giao hàng dự kiến không hợp lệ!");
+        } else if (status === 422) {
+          if (data.message.includes("Số dư không đủ")) {
+            toast.error(
+              `${data.message} Số dư hiện tại: ${data.currentBalance.toLocaleString(
+                "vi-VN"
+              )} VND. Số tiền cần thêm: ${(
+                data.requiredBalance - data.currentBalance
+              ).toLocaleString("vi-VN")} VND.`
+            );
+          } else {
+            toast.error("Tài xế chưa đăng ký xe");
+          }
+        } else {
+          toast.error("Đã xảy ra lỗi, vui lòng thử lại sau!");
+        }
       } else {
-        toast.error("Đã xảy ra lỗi, vui lòng thử lại sau!");
+        toast.error("Không thể kết nối tới server. Vui lòng kiểm tra kết nối!");
       }
     }
   };
@@ -202,10 +216,28 @@ const ServiceDetail = () => {
         toast.error("Thương lượng giá thất bại");
       }
     } catch (error) {
-      if (error.response && error.response.status === 402) {
-        toast.error("Thời gian giao hàng dự kiến không hợp lệ!");
+      if (error.response) {
+        const { status, data } = error.response;
+
+        if (status === 402) {
+          toast.error("Thời gian giao hàng dự kiến không hợp lệ!");
+        } else if (status === 422) {
+          if (data.message.includes("Số dư không đủ")) {
+            toast.error(
+              `${data.message} Số dư hiện tại: ${data.currentBalance.toLocaleString(
+                "vi-VN"
+              )} VND. Số tiền cần thêm: ${(
+                data.requiredBalance - data.currentBalance
+              ).toLocaleString("vi-VN")} VND.`
+            );
+          } else {
+            toast.error("Tài xế chưa đăng ký xe");
+          }
+        } else {
+          toast.error("Đã xảy ra lỗi, vui lòng thử lại sau!");
+        }
       } else {
-        console.error(error);
+        toast.error("Không thể kết nối tới server. Vui lòng kiểm tra kết nối!");
       }
     }
   };
