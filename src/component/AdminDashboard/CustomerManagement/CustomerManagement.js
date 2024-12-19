@@ -276,7 +276,7 @@ const CustomerManagement = () => {
         <Modal.Header closeButton>
           <Modal.Title>Lịch Sử Giao Dịch</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="modal-body-scrollable">
           {transaction.length > 0 ? (
             <Table striped bordered hover>
               <thead>

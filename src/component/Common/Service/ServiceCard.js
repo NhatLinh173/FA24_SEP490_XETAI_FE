@@ -92,21 +92,28 @@ const ServiceCard = ({
       )}
 
       {/* Report Modal */}
-      <Modal show={showReportModal} onHide={handleCloseModal} centered>
+      <Modal
+        show={showReportModal}
+        onHide={handleCloseModal}
+        dialogClassName="custom-report-modal"
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Báo cáo đơn hàng</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>
-            <textarea
-              id="reportReason"
-              className="custom-textarea text-decoration-none "
-              rows="4"
-              value={reportReason}
-              onChange={(e) => setReportReason(e.target.value)}
-              placeholder="Nhập lý do của bạn..."
-            />
+          <div className="text-danger fw-bold mb-3">
+            Lưu ý: Nếu bạn báo cáo sai nội dung, tài khoản của bạn có thể bị
+            khóa.
           </div>
+          <textarea
+            id="reportReason"
+            className="custom-textarea text-decoration-none "
+            rows="4"
+            value={reportReason}
+            onChange={(e) => setReportReason(e.target.value)}
+            placeholder="Nhập lý do của bạn..."
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

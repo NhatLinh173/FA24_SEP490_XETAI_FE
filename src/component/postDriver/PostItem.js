@@ -46,7 +46,7 @@ const PostItem = ({
       history.push(`/signin`);
       toast.error("Bạn cần đăng nhập để liên hệ.");
     } else {
-      handleContactClick(creatorId.userId); // Gọi lại hàm handleContactClick nếu đã đăng nhập
+      handleContactClick(creatorId.userId);
     }
   };
   const handleReportClickWithLoginCheck = (e) => {
@@ -55,7 +55,7 @@ const PostItem = ({
       history.push(`/signin`);
       toast.error("Bạn cần đăng nhập để báo cáo bài viết.");
     } else {
-      handleReportClick(); // Gọi lại hàm hiển thị popup
+      handleReportClick();
     }
   };
   return (

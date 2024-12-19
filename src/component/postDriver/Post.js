@@ -165,11 +165,20 @@ const Post = ({ PostDriver }) => {
         </div>
       </div>
 
-      <Modal show={showReportModal} onHide={handleCloseModal} animation={false}>
+      <Modal
+        show={showReportModal}
+        onHide={handleCloseModal}
+        dialogClassName="custom-report-modal"
+        animation={false}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Báo cáo bài đăng</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div className="text-danger fw-bold mb-3">
+            Lưu ý: Nếu bạn báo cáo sai nội dung, tài khoản của bạn có thể bị
+            khóa.
+          </div>
           <textarea
             className="form-control"
             value={reportReason}
