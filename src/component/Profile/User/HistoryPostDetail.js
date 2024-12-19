@@ -80,10 +80,8 @@ const HistoryPostDetail = () => {
   const { data: post } = useInstanceData(`/posts/${id}`, refreshData);
 
   const { data: deals } = useInstanceData(`/dealPrice/${id}`);
-  console.log(deals);
 
   const { data: dealsStatus } = useInstanceData(`/dealPrice/status/${id}`);
-  console.log(dealsStatus);
 
   const isDealPriceAvailable = deals && deals.length > 0;
 
@@ -221,6 +219,13 @@ const HistoryPostDetail = () => {
 
   const submitFormData = async (formData) => {
     try {
+      const token = localStorage.getItem("accessToken");
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      };
       if (post.status === "wait" && status === "cancel" && isDriverExist) {
         try {
           const response = await axiosInstance.patch(
@@ -228,11 +233,13 @@ const HistoryPostDetail = () => {
             {
               dealId: deals[0]._id,
               status: "cancel",
-            }
+            },
+            config
           );
           const res = await axiosInstance.patch(`/posts/${id}`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
+              config,
             },
           });
           if (response.status === 200 && res.status === 200) {
@@ -248,6 +255,7 @@ const HistoryPostDetail = () => {
             const res = await axiosInstance.patch(`/posts/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
+                config,
               },
             });
 
@@ -261,11 +269,13 @@ const HistoryPostDetail = () => {
               {
                 dealId: dealsStatus[0]._id,
                 status: "cancel",
-              }
+              },
+              config
             );
             const res = await axiosInstance.patch(`/posts/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
+                config,
               },
             });
 
@@ -281,6 +291,7 @@ const HistoryPostDetail = () => {
         const res = await axiosInstance.patch(`/posts/${id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            config,
           },
         });
 
@@ -313,6 +324,7 @@ const HistoryPostDetail = () => {
           "Bạn không đủ tiền để trả phí hủy đơn hàng! Vui lòng nạp tiền để hủy đơn"
         );
       }
+      return;
     }
   };
 
@@ -516,8 +528,8 @@ const HistoryPostDetail = () => {
                         totalImage.length === 1
                           ? "justify-content-center"
                           : totalImage.length === 2
-                          ? "justify-content-center w-100"
-                          : "justify-content-between w-100"
+                            ? "justify-content-center w-100"
+                            : "justify-content-between w-100"
                       }`}
                     >
                       {totalImage.map((image, index) => (
@@ -707,10 +719,10 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "hide"
-                            ? "bg-secondary text-white "
-                            : status === "wait"
-                            ? "bg-warning text-Black"
-                            : ""
+                              ? "bg-secondary text-white "
+                              : status === "wait"
+                                ? "bg-warning text-Black"
+                                : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -735,8 +747,8 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "wait"
-                            ? "bg-warning text-Black"
-                            : ""
+                              ? "bg-warning text-Black"
+                              : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -766,8 +778,8 @@ const HistoryPostDetail = () => {
                         status === "inprogress"
                           ? "bg-primary text-white "
                           : status === "finish"
-                          ? "bg-success text-white"
-                          : ""
+                            ? "bg-success text-white"
+                            : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -790,8 +802,8 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                          ? "bg-info text-white"
-                          : ""
+                            ? "bg-info text-white"
+                            : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -811,10 +823,10 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                          ? "bg-secondary text-white"
-                          : status === "inprogress"
-                          ? "bg-primary text-white "
-                          : ""
+                            ? "bg-secondary text-white"
+                            : status === "inprogress"
+                              ? "bg-primary text-white "
+                              : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
