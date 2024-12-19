@@ -219,6 +219,17 @@ const HistoryPostDetail = () => {
 
   const submitFormData = async (formData) => {
     try {
+      const role = localStorage.getItem("userRole");
+      formData.append("role", role);
+
+      const { data: currentPost } = await axiosInstance.get(`/posts/${id}`);
+      const currentStatus = currentPost.status;
+      console.log(currentStatus);
+      if (currentStatus === "approve") {
+        const statusCustomer = "approve";
+        formData.append("statusCustomer", statusCustomer);
+      }
+
       if (post.status === "wait" && status === "cancel" && isDriverExist) {
         try {
           const response = await axiosInstance.patch(
@@ -233,6 +244,7 @@ const HistoryPostDetail = () => {
               "Content-Type": "multipart/form-data",
             },
           });
+
           if (response.status === 200 && res.status === 200) {
             toast.success("Cập nhật thành công!");
           }
@@ -242,18 +254,7 @@ const HistoryPostDetail = () => {
         }
       } else if (status === "cancel" && !isDriverExist) {
         try {
-          if (!post.dealId) {
-            const res = await axiosInstance.patch(`/posts/${id}`, formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            });
-
-            if (res.status === 200) {
-              toast.success("Cập nhật thành công!");
-              setRefreshData((prev) => !prev);
-            }
-          } else {
+          if (post.dealId) {
             const response = await axiosInstance.patch(
               `/dealPrice/status/${id}`,
               {
@@ -261,6 +262,7 @@ const HistoryPostDetail = () => {
                 status: "cancel",
               }
             );
+
             const res = await axiosInstance.patch(`/posts/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
@@ -268,8 +270,25 @@ const HistoryPostDetail = () => {
             });
 
             if (response.status === 200 && res.status === 200) {
-              toast.success("Cập nhật thành công!");
+              toast.success("Cập nhật thành công!!!");
               setRefreshData((prev) => !prev);
+            } else {
+              toast.error("Cập nhật thất bại!");
+            }
+          } else {
+            if (!post.dealId) {
+              const res = await axiosInstance.patch(`/posts/${id}`, formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              });
+
+              if (res.status === 200) {
+                toast.success("Cập nhật thành công!");
+                setRefreshData((prev) => !prev);
+              } else {
+                toast.error("Cập nhật thất bại!");
+              }
             }
           }
         } catch (error) {
@@ -284,22 +303,6 @@ const HistoryPostDetail = () => {
 
         if (res.status === 200) {
           toast.success("Cập nhật thành công!");
-          const driverId = localStorage.getItem("driverId");
-          if (driverId !== null && status === "finish") {
-            const priceValue = formData
-              .get("price")
-              .replace(/\./g, "")
-              .replace(/\,/g, "");
-
-            const earnings = priceValue;
-            const trips = 1;
-
-            await axiosInstance.put(`/driver/statistics/${driverId}`, {
-              earnings: Number(earnings),
-              trips: Number(trips),
-            });
-            window.location.href = `/trip/detail/${id}`;
-          }
           setRefreshData((prev) => !prev);
         } else {
           toast.error("Cập nhật không thành công!");

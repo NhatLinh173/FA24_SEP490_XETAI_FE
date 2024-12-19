@@ -146,6 +146,10 @@ const Navbar = ({ openModal }) => {
         if (notification.data && notification.data.postId) {
           history.push(`/order/${notification.data.postId}`);
         }
+      } else if (notification.title === "Đơn hàng bị hủy") {
+        if (notification.data && notification.data.postId) {
+          history.push(`/history-post/${notification.data.postId}`);
+        }
       } else if (notification.title === "Đơn hàng được tài xế thương lượng") {
         if (notification.data && notification.data.postId) {
           history.push(`/history-post/${notification.data.postId}`);
