@@ -430,6 +430,7 @@ const TripDetail = () => {
             tabindex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
+            style={{ display: "block" }}
           >
             <div class="modal-dialog modal-lg">
               <div class="modal-content ">
