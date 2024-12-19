@@ -5918,6 +5918,10 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: #f1f1f1;
   /* Màu nền nhẹ hơn khi hover */
 }
+.modal-body-scrollable {
+  max-height: 400px;
+  overflow-y: auto;
+}
 
 /* Additional styles for modal */
 .driver-lock-modal {
@@ -8023,4 +8027,30 @@ input[type="number"]::-webkit-inner-spin-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.custom-report-modal .modal-content {
+  padding: 20px !important;
+  max-width: 800px !important;
+  max-height: 400px !important;
+}
+.custom-report-modal .modal-body {
+  display: flex;
+  flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+  gap: 10px; /* Tạo khoảng cách giữa các phần tử */
+}
+.transaction-table-container {
+  max-height: 400px; /* Chiều cao tối đa của bảng */
+  overflow-y: auto; /* Bật cuộn dọc */
+  border: 1px solid #ddd; /* Tùy chọn: Thêm viền để dễ nhìn */
+  border-radius: 4px; /* Góc bo tròn */
+}
+
+.transaction-table-container table {
+  margin-bottom: 0; /* Loại bỏ khoảng cách thừa dưới bảng */
+}
+.customer-transaction-modal .modal-content {
+  padding: 20px !important;
+  max-width: 800px !important;
+  max-height: 800px !important;
 }
