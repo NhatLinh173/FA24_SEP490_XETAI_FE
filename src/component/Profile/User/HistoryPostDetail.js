@@ -219,13 +219,6 @@ const HistoryPostDetail = () => {
 
   const submitFormData = async (formData) => {
     try {
-      const token = localStorage.getItem("accessToken");
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      };
       if (post.status === "wait" && status === "cancel" && isDriverExist) {
         try {
           const response = await axiosInstance.patch(
@@ -233,13 +226,11 @@ const HistoryPostDetail = () => {
             {
               dealId: deals[0]._id,
               status: "cancel",
-            },
-            config
+            }
           );
           const res = await axiosInstance.patch(`/posts/${id}`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
-              config,
             },
           });
           if (response.status === 200 && res.status === 200) {
@@ -255,7 +246,6 @@ const HistoryPostDetail = () => {
             const res = await axiosInstance.patch(`/posts/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
-                config,
               },
             });
 
@@ -269,13 +259,11 @@ const HistoryPostDetail = () => {
               {
                 dealId: dealsStatus[0]._id,
                 status: "cancel",
-              },
-              config
+              }
             );
             const res = await axiosInstance.patch(`/posts/${id}`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
-                config,
               },
             });
 
@@ -291,7 +279,6 @@ const HistoryPostDetail = () => {
         const res = await axiosInstance.patch(`/posts/${id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
-            config,
           },
         });
 
