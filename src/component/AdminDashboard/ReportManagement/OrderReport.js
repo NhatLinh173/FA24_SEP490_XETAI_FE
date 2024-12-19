@@ -10,6 +10,8 @@ import axios from "../../../config/axiosConfig";
 
 const ReportManagement = () => {
   const { data: report, refetch } = useInstanceData("/report/post");
+  console.log(report);
+
   const [reports, setReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -339,6 +341,27 @@ const ReportManagement = () => {
                           <input
                             id="price"
                             value={post?.price}
+                            type="text"
+                            className="form-control position-relative"
+                            disabled
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label
+                            htmlFor="dropoffLocation"
+                            className="font-weight-bold"
+                          >
+                            Phương thức thanh toán
+                          </label>
+                          <input
+                            id="dropoffLocation"
+                            defaultValue={
+                              post?.paymentMethod === "bank_transfer"
+                                ? "Chuyển khoản ngân hàng"
+                                : post?.paymentMethod === "cash"
+                                ? "Tiền mặt"
+                                : "Không xác định"
+                            }
                             type="text"
                             className="form-control position-relative"
                             disabled

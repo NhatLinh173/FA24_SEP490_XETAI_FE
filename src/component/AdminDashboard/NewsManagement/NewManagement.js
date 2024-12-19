@@ -14,6 +14,7 @@ const NewManagement = () => {
   const [modalAction, setModalAction] = useState("add");
   const [selectedNews, setSelectedNews] = useState(null);
   const [newsPerPage, setNewsPerPage] = useState(10);
+
   const [newItem, setNewItem] = useState({
     title: "",
     description: "",
@@ -266,7 +267,7 @@ const NewManagement = () => {
             {modalAction === "add" ? "Thêm Tin Tức" : "Cập Nhật Tin Tức"}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="news-modal-body">
           <Form className="news-form">
             <Row>
               <Col md={12}>
