@@ -24,7 +24,6 @@ const useAuth = () => {
     }
   }, [isAuthenticated]);
 
-  // Kiểm tra trạng thái authentication khi component mount
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem("accessToken");
