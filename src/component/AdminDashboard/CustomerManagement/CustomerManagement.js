@@ -120,6 +120,16 @@ const CustomerManagement = () => {
         return "Nạp tiền";
       case "CANCEL_ORDER":
         return "Hủy Nhận chuyến";
+      case "WITHDRAW":
+        return "Rút tiền";
+      case "PAYING_FOR_ORDER":
+        return "Thanh toán chuyến";
+      case "RECEIVING_PAYMENT_FROM_ORDER":
+        return "Nhận tiền từ chuyến";
+      case "PAY_SYSTEM_FEE":
+        return "Trừ phí hệ thống";
+      case "RECEIVE_CANCELLATION_FEE":
+        return "Nhận tiền phí hủy đơn";
       default:
         return "Không xác định";
     }
