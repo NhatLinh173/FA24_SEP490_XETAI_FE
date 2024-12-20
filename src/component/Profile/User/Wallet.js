@@ -314,10 +314,12 @@ const Wallet = ({ data }) => {
                               ? "Nhận tiền hàng từ khách hàng"
                               : transaction.type === "WITHDRAW"
                                 ? "Rút tiền"
-                                : transaction.type ===
-                                    "RECEIVE_CANCELLATION_FEE"
-                                  ? "Trả phí hủy đơn hàng"
-                                  : "Nạp Tiền"}
+                                : transaction.type === "PAY_SYSTEM_FEE"
+                                  ? "Trả phí dịch vụ"
+                                  : transaction.type ===
+                                      "RECEIVE_CANCELLATION_FEE"
+                                    ? "Trả phí hủy đơn hàng"
+                                    : "Nạp Tiền"}
                   </td>
                   <td>
                     {transaction.status === "PAID" ||
@@ -346,7 +348,8 @@ const Wallet = ({ data }) => {
                     {transaction.type === "POST_PAYMENT" ||
                     transaction.type === "CANCEL_ORDER" ||
                     transaction.type === "PAYING_FOR_ORDER" ||
-                    transaction.type === "WITHDRAW"
+                    transaction.type === "WITHDRAW" ||
+                    transaction.type === "PAY_SYSTEM_FEE"
                       ? `-${(transaction.amount || 0).toLocaleString()} đ`
                       : transaction.type === "DEPOSIT" ||
                           transaction.status === "PAID" ||
