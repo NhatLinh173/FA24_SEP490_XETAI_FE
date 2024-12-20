@@ -352,8 +352,8 @@ const Wallet = ({ data }) => {
                     transaction.type === "PAY_SYSTEM_FEE"
                       ? `-${(transaction.amount || 0).toLocaleString()} đ`
                       : transaction.type === "DEPOSIT" ||
-                          transaction.status === "PAID" ||
-                          transaction.status === "RECEIVE_CANCELLATION_FEE"
+                          transaction.type === "RECEIVING_PAYMENT_FROM_ORDER" ||
+                          transaction.type === "RECEIVE_CANCELLATION_FEE"
                         ? `+${(transaction.amount || 0).toLocaleString()} đ`
                         : `${(transaction.amount || 0).toLocaleString()} đ`}
                   </td>
