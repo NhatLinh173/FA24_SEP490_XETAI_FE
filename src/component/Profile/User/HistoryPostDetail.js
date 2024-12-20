@@ -303,6 +303,9 @@ const HistoryPostDetail = () => {
 
         if (res.status === 200) {
           toast.success("Cập nhật thành công!");
+          if (status === "finish") {
+            window.location.href = `/trip/detail/${id}`;
+          }
           setRefreshData((prev) => !prev);
         } else {
           toast.error("Cập nhật không thành công!");
@@ -518,8 +521,8 @@ const HistoryPostDetail = () => {
                         totalImage.length === 1
                           ? "justify-content-center"
                           : totalImage.length === 2
-                            ? "justify-content-center w-100"
-                            : "justify-content-between w-100"
+                          ? "justify-content-center w-100"
+                          : "justify-content-between w-100"
                       }`}
                     >
                       {totalImage.map((image, index) => (
@@ -709,10 +712,10 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "hide"
-                              ? "bg-secondary text-white "
-                              : status === "wait"
-                                ? "bg-warning text-Black"
-                                : ""
+                            ? "bg-secondary text-white "
+                            : status === "wait"
+                            ? "bg-warning text-Black"
+                            : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -737,8 +740,8 @@ const HistoryPostDetail = () => {
                           status === "cancel"
                             ? "bg-danger text-white "
                             : status === "wait"
-                              ? "bg-warning text-Black"
-                              : ""
+                            ? "bg-warning text-Black"
+                            : ""
                         } `}
                         value={status}
                         onChange={handleStatus}
@@ -768,8 +771,8 @@ const HistoryPostDetail = () => {
                         status === "inprogress"
                           ? "bg-primary text-white "
                           : status === "finish"
-                            ? "bg-success text-white"
-                            : ""
+                          ? "bg-success text-white"
+                          : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -792,8 +795,8 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                            ? "bg-info text-white"
-                            : ""
+                          ? "bg-info text-white"
+                          : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
@@ -813,10 +816,10 @@ const HistoryPostDetail = () => {
                         status === "cancel"
                           ? "bg-danger text-white "
                           : status === "approve"
-                            ? "bg-secondary text-white"
-                            : status === "inprogress"
-                              ? "bg-primary text-white "
-                              : ""
+                          ? "bg-secondary text-white"
+                          : status === "inprogress"
+                          ? "bg-primary text-white "
+                          : ""
                       } `}
                       value={status}
                       onChange={handleStatus}
